@@ -1,15 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../css/mapContainer.css'
 
+
+// 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleLeft} from '@fortawesome/free-solid-svg-icons'
 import {faHeart, faBookmark} from '@fortawesome/free-regular-svg-icons'
 
-
-
+// 카카오맵
 const { kakao } = window
 
+
 const Detail = ({ searchPlace }) => {
+
+  // 맵 담는 ref
   const myMap = useRef();
 
   // 검색결과 배열에 담아줌
@@ -17,7 +21,7 @@ const Detail = ({ searchPlace }) => {
   
   useEffect(() => {
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
-    var markers = []
+    // var markers = []
     // const container = document.getElementById('myMap')
     const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -116,7 +120,7 @@ const Detail = ({ searchPlace }) => {
         </div>
       </div>
       <div className='profile'>
-        <div className='pic'>
+        <div className='profilePic'>
           
         </div>
         <div className='txtWrap'>

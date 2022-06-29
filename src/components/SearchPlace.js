@@ -13,9 +13,14 @@ const SearchPlace = () => {
   };
 
   const handleSubmit = (e) => {
+    if(!inputText.replace(/^\s+|\s+$/g, '')){
+      alert('키워드를 입력해주세요')
+      return false;
+    }
     e.preventDefault();
     setPlace(inputText);
     setInputText("");
+    
   };
 
   return (
