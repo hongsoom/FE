@@ -9,7 +9,7 @@
   text-decoration: none;
 }
 .map_wrap {
-  position:fixed;
+  position: fixed;
   width:100vw;
   height:100vh;
   display:flex;
@@ -17,13 +17,13 @@
 }
 
 
-
+/* 헤더 */
 .detailHeader{
   z-index: 1;
   position:absolute;
   top: 0;
-  width:100vw;
-  height: 50px;
+  width: 100vw;
+  height: 40px;
   display:flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@
   padding: 10px 0;
 }
 .preIcon{
-  width: 40px;
+  width: 35px;
   /* position: absolute;
   left: 33.33%;
   right: 34.26%;
@@ -43,7 +43,9 @@
   font-size:18px;
   font-weight:400;
   width: 185px;
-  
+}
+.title input{
+  width: 150px;
 }
 
 .heart{
@@ -53,9 +55,10 @@
   margin-left: 15px;
 }
 
-
-
 .profile{
+  position:absolute;
+  top: 300px;
+  left: 20px;
   width: 335px;
   height: 80px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
@@ -65,7 +68,7 @@
   display:flex;
   align-items: center;
 }
-.profilePic{
+.pic{
   width: 52px;
   height: 52px;
   background: #d9d9d9;
@@ -73,7 +76,7 @@
   margin: 14px;
 }
 .txtWrap{
-  display:flex;
+  display: flex;
   flex-direction: column;
   flex-grow: 1;
   margin-right: 14px;
@@ -106,62 +109,139 @@
 }
 
 
+
+
+
 .contentWrap{
-  z-index: 1;
-  display:flex;
+  margin-top: 350px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  display: flex;
   flex-direction: column;
-  width: 335px;
-  height: 600px;
-  margin: 330px auto 0 auto;
   overflow-y: auto;
-}
-.selectNselected{
   width: 335px;
-  height: 220px;
-  /* z-index: 2; */
-  display:flex;
+  height: 400px;
+  z-index: 1;
+
 }
-.menu_wrap{
+.contentWrap .selectNselected{
+  display:flex;
+  width: 335px;
+  z-index: 1;
+}
+
+.searchList_wrap{
   width: 50%;
   height: 220px;
+  margin-bottom: 10px;
   overflow-y: auto;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   background:rgba(255, 255, 255, 0.85);
-  font-size: 12px;
+  
+  font-size:12px;
   border-radius: 8px;
-}
-#result-list{
-  margin: 0 15px;
-  line-height: 20px;
+  
 }
 
-#pagination{
-  display:flex;
-  width: 50%;
-  padding: 15px 0;
-  justify-content: space-around;
+#result-list{
+  margin-left: 15px;
+  line-height: 20px;
 }
 
 .selectedList{
   width: 50%;
-  line-height: 20px;
+  height: 220px;
   overflow-y: auto;
-  margin-left: 5px;
-  border-radius: 8px;
-} 
-.selected{
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  font-size: 12px;
-  border-radius: 8px;
-  padding: 5px 15px 10px 15px;
-  margin-bottom: 5px;
+  z-index: 1;
+  margin-left: 10px;
 }
-/* .uploadPics{
-  width: 335px;
-  height: 400px;
+.selectedList .selected{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   background:rgba(255, 255, 255, 0.85);
-  margin-top: 10px;
+  font-size:12px;
   border-radius: 8px;
-} */
+  line-height: 20px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.region,
+.theme,
+.price {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  font-size:12px;
+  border-radius: 8px;
+  line-height: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  row-gap: 5px;
+}
+.regionWrap,
+.themeWrap,
+.priceWrap{
+  display:flex;
+  flex-wrap: wrap;
+}
+
+.region input,
+.theme input,
+.price input{
+  display: none;
+}
+.region .regions{
+  width: 45px;
+  text-align: center;
+  padding: 5px;
+  border:1px solid #ccc;
+  border-radius: 100px;
+  margin-right: 3px;
+  margin-bottom:3px;
+}
+.theme .themes{
+  width: 55px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 100px;
+  box-sizing: border-box;
+  margin-right: 3px;
+}
+.price .prices{
+  width: 80px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 100px;
+  box-sizing: border-box;
+  margin-right: 3px;
+  margin-bottom:3px;
+}
+
+.txt{
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  font-size:12px;
+  border-radius: 8px;
+  line-height: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+.txt textarea{
+  width: 100%;
+  padding:10px;
+  resize:none;
+  outline: none;
+}
+
+.submit{
+  width: 335px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  font-size:12px;
+  border-radius: 8px;
+  line-height: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
