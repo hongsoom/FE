@@ -47,14 +47,14 @@ const logInDB = (username, password) => {
           password : password,
         });
         console.log(response)
-        if (response.status === 200) {
+        if (response.status === 201) {
           const token = response.headers.authorization;
           localStorage.setItem("token", token);
           dispatch(login(true));
         }
-        if (localStorage.getItem("token")) {
+/*         if (localStorage.getItem("token")) {
           window.location.assign("/");
-        }
+        }  */
     } catch (err) {
       console.log(err)
       }
@@ -64,17 +64,18 @@ const logInDB = (username, password) => {
   const idCheckDB = (username) => {
     console.log(username)
     return async function () {
-      try {
-        const response = await instance.get("api/user/idCheck", {
-          username : username,
-        });
-        console.log(response)
-        if (response.status === 200) {
-          window.alert("사용 가능한 ID입니다.");
-        }
-    } catch (err) {
-      console.log(err)
-      }
+        const _idCheck = await instance.post("api/user/idCheck", {
+          username : username
+        })
+        .then((response) => {
+          console.log(response)
+          if (response.status === 200) {
+            window.alert("사용 가능한 ID입니다.");
+          } 
+        })
+      .catch((err) => {
+        console.log(err)
+      })
     };
   };
 
@@ -82,8 +83,8 @@ const logInDB = (username, password) => {
     console.log(nickname)
     return async function () {
       try {
-        const response = await instance.get("api/user/nickCheck", {
-            nickname : nickname,
+        const response = await instance.post("api/user/nickCheck", {
+            nickname : nickname
         });
         console.log(response)
         if (response.status === 200) {  
@@ -103,13 +104,13 @@ const logInDB = (username, password) => {
           `api/user/kakaoLogin/callback?code=${code}`
         );
         console.log(response)
-        if (response.status === 200) {
-          const token = response.headers.authorization;
+        if (response.status === 201) {
+          const token = response.data.token;
           localStorage.setItem("token", token);
-          dispatch(setUser({
+/*           dispatch(setUser({
             username: response.data.username,
             nickname: response.data.nickname
-          }))
+          })) */
         }
         if (localStorage.getItem("token")) {
           window.location.assign("/");

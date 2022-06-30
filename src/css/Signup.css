@@ -1,78 +1,95 @@
-.Signup-container {
-    margin-top: 146px;
-    padding : 0 auto;
+.signup-container {
+    margin: 146px auto;
+    width: 100%;
+    max-width : 375px;
+    min-height: 100vh;
 }
 
-.Signup-content{
+.signup-content{
     width : 375px;
     height: 812px;
     align-items: center;
 }
 
-.Signup-content,
-.Signup-input  {
+.signup-content,
+.signup-input  {
     display: flex;
     flex-direction: column;
 }
 
-.Signup-logo {
-    margin-bottom: 60px;
-}
-
-.Signup-input > label {
+.signup-input > label {
     font-size : 16px;
     color : #828282;
     margin-bottom : 12px;
 }
 
-.Signup-input > input,
-.Signup-id > input,
-.Signup-nickname > input,
-.Signup-btn {
-   width : 281px;
+.signup-input > input,
+.signup-id > input,
+.signup-nickname > input {
+   width : 252px;
    height: 44px;
    border : 1px solid #D9D9D9;
    border-radius: 8px;
 }
 
-.Signup-input > input,
-.Signup-id > input,
-.Signup-nickname > input {
-    margin-bottom : 25px;
+.signup-password > input,
+.signup-btn {
+    width : 315px;
+    height: 44px;
+    border : 1px solid #D9D9D9;
+    border-radius: 8px;
 }
 
-.Signup-input > input::placeholder,
-.Signup-id > input::placeholder,
-.Signup-nickname > input::placeholder {
+.signup-id,
+.signup-nickname,
+.signup-password > input {
+    margin-bottom : 5px;
+}
+
+.signup-input > input::placeholder,
+.signup-id > input::placeholder,
+.signup-nickname > input::placeholder,
+.signup-password > input::placeholder {
     color : #D9D9D9;
     padding : 12px;
 }
 
-.Signup-input > input:focus,
-.Signup-id > input:focus,
-.Signup-nickname > input:focus {
+.signup-input > input:focus,
+.signup-id > input:focus,
+.signup-nickname > input:focus {
     outline: none;
 }
 
-.Signup-id,
-.Signup-nickname {
+.signup-id,
+.signup-nickname {
     position : relative;
 }
 
-.Signup-id > button,
-.Signup-nickname > button {
+.signup-id > button,
+.signup-nickname > button {
     position : absolute;
-    border-radius: 3px;
-    width: 70px;
+    border-radius: 8px;
+    width: 55px;
     height: 44px;
     top: 0;
-    right: 0;
     background-color: #EEEEEE;
     border: 2px solid #EEEEEE;
     cursor: pointer;
+    color : #828282;
+    font-size: 12px;
 }
 
-.Signup-btn {
+.error-message {
+    margin-bottom: 14px;
+}
+
+.error-message > p {
+    font-size: 12px;
+    color : #D25151;
+    margin-top: 0;
+}
+
+.signup-btn {
     border : 1px solid #EEEEEE;
     color : #828282;
     font-size: 16px;
@@ -81,11 +98,13 @@
     cursor: pointer;
 }
 
-.Signup-input > label,
-.Signup-input > input::placeholder,
-.Signup-id > input::placeholder,
-.Signup-nickname > input::placeholder,
-.Signup-btn {
+.signup-input > label,
+.signup-input > input::placeholder,
+.signup-id > input::placeholder,
+.signup-nickname > input::placeholder,
+.signup-password > input::placeholder,
+.error-message > p,
+.signup-btn {
     font-family : 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;

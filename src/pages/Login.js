@@ -3,14 +3,14 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/user";
 import { KAKAO_AUTH_URL } from "../shared/OAuth";
 import Kakao_login from "../assets/kakao_login.png";
-import "../css/Login.css";
+import "../css/login.css";
 
 const Login = () => {
   
     const dispatch = useDispatch();
 
-    const [username, setusername] = useState("");
-    const [password, setpassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const login = () => {
       if (username === "" || password === "") {
@@ -24,37 +24,36 @@ const Login = () => {
     }
 
     return (
-      <div className="Login-container">
-        <div className="Login-content">
-          <div className="Login-logo">
+      <>
+      <div className="login-container">
+        <div className="login-content">
+          <div className="login-logo">
               <img alt="Logo"/>
           </div>
-          <div className="Login-input">
-              <input type="text" label="이메일" placeholder="이메일을 입력해 주세요"  onChange={(e) => setusername(e.target.value)}/>
+          <div className="login-input">
+              <input type="text" label="이메일" placeholder="이메일을 입력해 주세요"  onChange={(e) => setUsername(e.target.value)}/>
 
-              <input type="password" label="비밀번호" placeholder="비밀번호를 입력해 주세요" onChange={(e) => setpassword(e.target.value)}/>
+              <input type="password" label="비밀번호" placeholder="비밀번호를 입력해 주세요" onChange={(e) => setPassword(e.target.value)}/>
 
-              <button onClick={login} className="Login-btn">로그인</button>
-
+              <button onClick={login} className="login-btn">로그인</button>
+          </div>
+          <div className="login-route">
               <p>아직 회원이 아니신가요? &nbsp;
-                  <a href={"/Signup"}>회원가입</a>
+                  <a href={"/signup"}>회원가입
+                    <span className="arrow"></span>
+                  </a>
               </p>
           </div>
-          <div className="Login-social">
-            <div className="kakao-line">
-              <hr></hr>
-              <p>OR</p>
-              <hr></hr>
-            </div>
-            <div className="Login-kakao">
+            <div className="kakao-line">OR</div>
+            <div className="login-kakao">
               <a href={KAKAO_AUTH_URL}>
                 <img src={Kakao_login} alt="kakao"/>
               </a>
             </div>
-          </div>
         </div>
-    </div>
-    );
-  };
+      </div>
+    </>
+  )
+}
 
 export default Login;
