@@ -6,9 +6,8 @@ const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
 
-export const getComment = createAction(GET_COMMENT, (commentList, paging) => ({
+export const getComment = createAction(GET_COMMENT, (commentList) => ({
     commentList,
-    paging,
 }));
 export const addComment = createAction(ADD_COMMENT, (commentList) => ({
     commentList,
@@ -25,15 +24,12 @@ export const deleteComment = createAction(DELETE_COMMENT, (commentId) => ({
         const response = await instance.get(
           `api/post/${postId}`
         );
-        let paging = {
-          start: 2,
-          lastPage: response.data.islastPage,
-        };
+        console.log(response);
         if (response.status === 200) {
-          dispatch(getComment(response.data.comments, paging));
+          dispatch(getComment(response.data.comments));
         }
       } catch (err) {
-        console.log("에러발생", err);
+        console.log(err);
       }
     };
   };
@@ -47,11 +43,12 @@ export const addCommentDB = (postId, comment) => {
         `/api/post/${postId}/comment`,
         comment
       );
+      console.log(response);
       if (response.status === 200) {
         dispatch(addComment(comment));
       }
     } catch (err) {
-      console.log("에러발생", err);
+      console.log(err);
     }
   };
 };
@@ -64,24 +61,24 @@ export const deleteCommentDB = (commentId) => {
         const response = await instance.delete(
           `api/comment/${commentId}`
         );
+        console.log(response);
         if (response.status === 200) {
           dispatch(deleteComment(commentId));
         }
       } catch (err) {
-        console.log("에러발생", err);
+        console.log(err);
       }
     };
   };  
 
   const initialComment = {
-    paging: { start: null, islastPage: true },
     commentLoading: false,
     comments: [
       {
         commentId: 1,
+        comment: "", 
         nickmame: "",
         userImgUrl : "",
-        comment: "", 
       },
     ],
   };
@@ -92,20 +89,19 @@ export const deleteCommentDB = (commentId) => {
       [GET_COMMENT]: (state, action) =>
         produce(state, (draft) => {
           draft.comments = action.payload.comments;
-          draft.paging = action.payload.paging;
           draft.commentLoading = false;
         }),
 
       [ADD_COMMENT]: (state, action) =>
         produce(state, (draft) => {
           const data = {
-            nickmame: action.payload.comments.user.nickmame,
-            userImgUrl: action.payload.comments.user.userImgUrl,
-            comment: action.payload.comments.comment,
             commentId: action.payload.comments.commentId,
+            comment: action.payload.comments.comment,
+            nickmame: action.payload.comments.nickmame,
+            userImgUrl: action.payload.comments.userImgUrl,
           };
           draft.comments.unshift(data);
-          draft.paging.lastPage = true;
+          draft.commentLoading = true;
         }),
 
       [DELETE_COMMENT]: (state, action) =>
@@ -114,6 +110,7 @@ export const deleteCommentDB = (commentId) => {
             (item) => item.commentId !== action.payload.commentId
           );
           draft.comments = newComment;
+          draft.commentLoading = true;
         }),
     },
     initialComment

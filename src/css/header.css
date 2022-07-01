@@ -1,0 +1,46 @@
+.header-container {
+    margin: 25px auto;
+    width: 100%;
+    max-width : 375px;
+}
+
+.header-content {
+    height: 181px;
+}
+
+.header-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header-image > img {
+    cursor: pointer;
+    margin : 25px;
+}
+
+.header-search {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position : relative;
+}
+
+.header-search > input {
+    width : 315px;
+    height : 40px;
+    border : 1px solid #D9D9D9;
+    border-radius: 8px;
+    margin : 0 30px;
+}
+
+.header-search > button {
+    border: none;
+    background-color: transparent;
+    width: 16px;
+    height: 16px;
+    position : absolute;
+    top: 9px;
+    right: 50px;
+    cursor: pointer;
+}
