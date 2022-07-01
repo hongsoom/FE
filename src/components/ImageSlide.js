@@ -12,37 +12,48 @@ const ImageSlide = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const uploadfile = useRef();
+
   console.log(img)
 
   // 이전 사진보기 버튼
-  const nextSlide = () => {
-    
+  const prevSlide = () => {
+    setCurrentSlide(currentSlide-1)
+   
   }
 
   // 다음 사진보기 버튼
-  const prevSlide = () => {
-
+  const nextSlide = () => {
+    setCurrentSlide(currentSlide+1)
   }
 
-
+  useEffect(()=>{
+    slideRef.current.style.transition = 'all 0.5s ease-in-out';
+    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+  },[currentSlide])
 
   const loadFile = () => {
     const file = uploadfile.current.files[0];
-    // const newImage = document.createElement("div");
 
     // 이미지 소스 가져와서 배경 이미지로 넣기
     const imgUrl = URL.createObjectURL(file)
-    console.log(imgUrl)
-    // newImage.style.backgroundImage = `url(${URL.createObjectURL(file)})`
-    // slideRef.current.appendChild(newImage);
 
-    // setImg(imgUrl)
     setImg((pre)=>{
       const imgList = [...pre]
-      imgList.push(imgUrl)
+      imgList.push({id:img.length, url: imgUrl})
       return imgList
     })
+
+    // setImg((pre)=>{
+    //   const imgList = [...pre]
+    //   imgList.push(file)
+    //   return imgList
+    // })
+
   }
+
+
+
+  
 
 
   return (
@@ -56,24 +67,29 @@ const ImageSlide = () => {
         style={{display:'none'}}
         />
       </div>
-      
-      <div className='slideContainer'>
-        <div className='prev' onClick={prevSlide}>
+
+    <div style={{display:'flex'}}>
+      <div className='prev' onClick={prevSlide}
+      style={currentSlide === 0 ? {display:'none'}:{display:'block'}}>
           <FontAwesomeIcon icon={faAngleLeft}/>
-        </div>
+      </div>
+      <div className='slideContainer'>
         
         <div className='imgContainer' ref={slideRef}>
           {img.map((v,i)=>{
             return(
-              <div className='img' style={{backgroundImage:`url(${v})`}} key={i}></div>
+              <div key={i} style={{backgroundImage:`url(${v.url})`, backgroundSize:'cover',backgroundPosition:'center', width:'280px', flexShrink:'0'}} />
+             
             )
           })}
-          
         </div>
-        <div className='prev' onClick={nextSlide}>
+        
+      </div>
+      <div className='prev' onClick={nextSlide}
+      style={currentSlide === img.length-1 ? {display:'none'}:{display:'block'}}>
           <FontAwesomeIcon icon={faAngleRight}/>
         </div>
-      </div>
+    </div>
     </div>
   )
 }

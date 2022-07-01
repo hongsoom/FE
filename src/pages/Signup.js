@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../redux/module/user";
-import "../css/signup.css";
+import "../css/Signup.css";
 
 const Signup = () => {
     const dispatch = useDispatch();

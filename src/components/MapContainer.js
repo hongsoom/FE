@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../css/mapContainer.css'
 import ImageSlide from './ImageSlide'
 
+import {useDispatch, useSelector} from 'react-redux'
+import {addPostDB} from '../redux/module/post'
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -14,6 +16,13 @@ const { kakao } = window
 
 
 const MapContainer = ({ searchPlace }) => {
+  const dispatch = useDispatch();
+
+  const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
+  const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
+  const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
+
+  const title = useRef();
 
   // 맵 담는 ref 
   const myMap = useRef();
@@ -24,9 +33,49 @@ const MapContainer = ({ searchPlace }) => {
   
   // 선택한 장소 배열에 담아줌
   const [select, setSelect] = useState([])  
-  // console.log(select)
+  console.log(select)
 
-  const [marker, setMarker] = useState([])
+ 
+  // 지역 선택
+  const [selectedRegion, setRegion] = useState();
+  // console.log(selectedRegion)
+  const isChecked = (e) =>{
+    if (e.target.checked){
+      setRegion(e.target.value)
+    }
+  }
+
+  // 테마 선택
+  const [selectedTheme, setTheme] = useState([]);
+  // console.log(selectedTheme)
+
+  // 비용 선택
+  const [selectedPrice, setPrice] = useState();
+  const isCheckedPrice = (e) =>{
+    if (e.target.checked){
+      setPrice(e.target.value)
+    }
+  }
+
+  // 텍스트 내용
+  const txt = useRef();
+
+
+  const onHandlerSubmit = () =>{
+
+    dispatch(addPostDB({
+      title : title.current.value,
+      content : txt.current.value,
+      regionCategory: selectedRegion,
+      themeCategory: selectedTheme,
+      priceCategory: selectedPrice,
+      // locationY: select.y, 
+      // locationX: select.x
+    }))
+    // 'imgUrl' :[imgUrl]
+      
+  }
+  
 
 
   
@@ -136,58 +185,49 @@ const MapContainer = ({ searchPlace }) => {
     // 선택된 장소만 마커 찍어주기
     // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
     const list = (positions) => {
-      const options = {
-        center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
-        level: 4,
-      }
-      const map = new kakao.maps.Map(myMap.current, options)
-
-      for (var i = 0; i < positions.length; i ++) {
-        // 마커를 생성
-        var marker = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
-            // position: positions[i].latlng, // 마커를 표시할 위치
-            title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-            place_name : positions[i].place_name
-        });
-        displayMarker(positions[i])
-        
-    }
-
-    // 마커찍기 함수
-    function displayMarker(place) {
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(place.y, place.x)
-      })
-      
-      kakao.maps.event.addListener(marker, 'click', function () {
-        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>')
-        infowindow.open(map, marker)
-      })
-    }
-    }
+      if (positions.length !==0 ){
+        const options = {
+          center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
+          level: 4,
+        }
+        const map = new kakao.maps.Map(myMap.current, options)
   
-
-    // const selec = (Places) => {
-    //     const options = {
-    //       center: new kakao.maps.LatLng(Places.y, Places.x),
-    //       level: 4,
-    //     }
-    //     const map = new kakao.maps.Map(myMap.current, options)
+        for (var i = 0; i < positions.length; i ++) {
+          // 마커를 생성
+          var marker = new kakao.maps.Marker({
+              map: map, // 마커를 표시할 지도
+              position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
+              // position: positions[i].latlng, // 마커를 표시할 위치
+              title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              place_name : positions[i].place_name
+          });
+          displayMarker(positions[i])
+          
+      }
+  
+      // 마커찍기 함수
+      function displayMarker(place) {
+        let marker = new kakao.maps.Marker({
+          map: map,
+          position: new kakao.maps.LatLng(place.y, place.x)
+        })
         
-    //     const marker = new kakao.maps.Marker({
-    //       map: map,
-    //       position: new kakao.maps.LatLng(Places.y, Places.x),
-    //     })
-    //     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
-    //     kakao.maps.event.addListener(marker, 'click', function () {
-    //       infowindow.setContent('<div style="padding:5px;font-size:12px;">' + Places.place_name + '</div>')
-    //       infowindow.open(map, marker)
-    //     })
-    // }
+        kakao.maps.event.addListener(marker, 'click', function () {
+          var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
+          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>')
+          infowindow.open(map, marker)
+        })
+      }
+      } else{
+        const options = {
+          center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+          level: 4,
+        }
+        const map = new kakao.maps.Map(myMap.current, options)
+
+      }
+      
+    }
 
   
 
@@ -210,7 +250,7 @@ const MapContainer = ({ searchPlace }) => {
           <FontAwesomeIcon icon={faAngleLeft}/>
         </div>
         <div className='title'>
-          제목
+          <input type="text" ref={title}/>
         </div>
         <div className='heart'>
           <FontAwesomeIcon icon={faHeart} style={{marginRight:'5px'}}/>
@@ -221,11 +261,13 @@ const MapContainer = ({ searchPlace }) => {
         </div>
       </div>
       
+
+
       <div className='contentWrap'>
         {/* 검색목록과 선택한 목록 */}
         <div className='selectNselected'>
         {/* 검색목록*/}
-          <div className='menu_wrap' style={Places.length !== 0 ? {display:'block'}: {display:'none'}}>
+          <div className='searchList_wrap' style={Places.length !== 0 ? {display:'block'}: {display:'none'}}>
             <div id="result-list">
               {Places.map((item, i) => (
                 <div key={i} style={{ marginTop: '20px' }}>
@@ -253,11 +295,23 @@ const MapContainer = ({ searchPlace }) => {
                           return selectList
                         })
                         // setPlaces([])
-                      } 
+                      } else{
+                        setSelect((pre)=>{
+                          const selectList = pre.filter((v,i)=>{
+                            return item.place_name !== v.place_name
+                          })
+                          list(selectList)
+                          return selectList
+                        })
+                      }
                     }} style={{display:'none'}}/>
                   </div>
                   <label htmlFor={item.id}>
+                  {select.includes(item)?  
+                  <div style={{width:'60px', background:'skyblue', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>취소하기</div>
+                  :
                   <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>선택하기</div>
+                  }
                   </label>
                 </div>
               ))}
@@ -310,7 +364,89 @@ const MapContainer = ({ searchPlace }) => {
 
 
         {/* 사진업로드 */}
-        <ImageSlide/>
+        <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <ImageSlide/>
+        </div>
+
+        {/* 지역선택 */}
+        <div className='region' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <div className='regionWrap'>
+          {region.map((v,i)=>{
+            return(
+              <div className='regions' key={i}
+              style={selectedRegion === v ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                <input type="radio" name="region" value={v} id={v}
+                onChange={isChecked}/>
+                <label htmlFor={v}>
+                  {v}
+                </label>
+              </div>
+            )
+          })}
+          </div>
+        </div>
+
+        {/* 테마선택 */}
+        <div className='theme' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <div className='themeWrap'>
+          {theme.map((v,i)=>{
+            return(
+              <div className='themes' key={i}
+              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+                <input type="checkbox" name="theme" value={v} id={v}
+                onChange={(e)=>{
+                  if (e.target.checked){
+                  setTheme((pre)=>{
+                    const newData=[...pre];
+                    newData.push(v)
+                    return newData
+                  })
+                   }else{
+                    console.log(e.target.checked)
+                    setTheme((pre)=>{
+                      const newData = pre.filter((l,i)=>{
+                        return l !== v
+                        })
+                        return newData
+                    })
+                   }
+                  }}
+                />
+                <label htmlFor={v}>
+                  {v}
+                </label>
+              </div>
+            )
+          })}
+         </div>
+        </div>
+
+        {/* 비용선택 */}
+        <div className='price' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <div className='priceWrap'>
+          {price.map((v,i)=>{
+            return(
+              <div className='prices' key={i}
+              style={selectedPrice === v ? {background:'skyblue',border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+                <input type="radio" name="price" value={v} id={v}
+                onChange={isCheckedPrice}/>
+                <label htmlFor={v}>
+                  {v}
+                </label>
+              </div>
+            )
+          })}
+          </div>
+        </div>
+
+        {/* 텍스트 입력 */}
+        <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <textarea placeholder='내용을 입력해주세요' ref={txt}/>
+        </div>
+
+        <button className='submit' onClick={onHandlerSubmit}
+        style={select.length !==0 && selectedRegion && selectedTheme ? {display:'block'}: {display:'none'}}
+        >작성완료</button>
       </div>
   </div>
   )
