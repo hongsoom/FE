@@ -16,29 +16,47 @@ const { kakao } = window
 
 
 const MapContainer = ({ searchPlace }) => {
+
   const dispatch = useDispatch();
 
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
   const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
   const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 
-  const title = useRef();
+
+  
 
   // 맵 담는 ref 
   const myMap = useRef();
+  // 제목 담는 ref
+  const title = useRef();
 
   // 검색결과 배열에 담아줌
   const [Places, setPlaces] = useState([])
-  // console.log(Places)
   
   // 선택한 장소 배열에 담아줌
   const [select, setSelect] = useState([])  
-  console.log(select)
 
+  // 선택한 베스트 화장실 선택
+  const[selectedRestroom, setRestroom] = useState();
+  const isCheckedRestroom = (e) =>{
+    if (e.target.checked){
+      setRestroom(e.target.value)
+    }
+  }
+
+  // 첨부이미지 파일들 담아줌 (파일 자체 배열)
+  const [imgFile, setImgFile] = useState([]);
+
+  // 첨부이미지 파일들 폼데이터로 담기
+  const formData = new FormData();
+  for(let i=0; i<imgFile.length; i++){
+    formData.append("imgUrl",imgFile[i]);
+  }
+  
  
   // 지역 선택
   const [selectedRegion, setRegion] = useState();
-  // console.log(selectedRegion)
   const isChecked = (e) =>{
     if (e.target.checked){
       setRegion(e.target.value)
@@ -47,7 +65,6 @@ const MapContainer = ({ searchPlace }) => {
 
   // 테마 선택
   const [selectedTheme, setTheme] = useState([]);
-  // console.log(selectedTheme)
 
   // 비용 선택
   const [selectedPrice, setPrice] = useState();
@@ -61,25 +78,28 @@ const MapContainer = ({ searchPlace }) => {
   const txt = useRef();
 
 
+  // 작성 완료 버튼
   const onHandlerSubmit = () =>{
 
     dispatch(addPostDB({
       title : title.current.value,
       content : txt.current.value,
+      restroom: selectedRestroom,
       regionCategory: selectedRegion,
       themeCategory: selectedTheme,
       priceCategory: selectedPrice,
-      // locationY: select.y, 
-      // locationX: select.x
+      imgUrl: formData
     }))
-    // 'imgUrl' :[imgUrl]
-      
   }
   
+
+    
 
 
   
   useEffect(() => {
+
+    
 
     // 1. 지도에 검색하고 결과 나오게 하기
     // infowindow: 장소별 세부사항 보여주는 말풍선
@@ -294,7 +314,6 @@ const MapContainer = ({ searchPlace }) => {
                           list(selectList)
                           return selectList
                         })
-                        // setPlaces([])
                       } else{
                         setSelect((pre)=>{
                           const selectList = pre.filter((v,i)=>{
@@ -338,35 +357,30 @@ const MapContainer = ({ searchPlace }) => {
                     <span>{item.phone}</span>
                   </div>
 
-                  {/* <div className='select'>
-                    <input type="checkbox" value={item.id} id={item.id}
-                    onChange={(e)=>{
-                      if(e.target.checked){
-                        setSelect((pre)=>{
-                          const selectList = [...pre]
-                          selectList.push(Places[i])
-                          list(selectList)
-                          return selectList
-                        })
-                        setPlaces([])
-                      } 
-                    }} style={{display:'none'}}/>
-                  </div>
-                  <label htmlFor={item.id}>
-                  <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>선택하기</div>
-                  </label> */}
-
                 </div>
               </div>
               ))}
           </div>
         </div> 
-
-
-        {/* 사진업로드 */}
-        <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <ImageSlide/>
+      
+        {/* 화장실 */}
+        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <div className='restroomWrap'>
+            {select.map((v,i)=>{
+              return(
+                <div className='selectBestRestroom' key={i}
+                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                  <input type="radio" name="restroom" value={v.place_name} id={v.place_name}
+                  onChange={isCheckedRestroom}/>
+                  <label htmlFor={v.place_name}>
+                  {v.place_name}
+                  </label>
+                </div>
+              )
+            })}
+          </div>            
         </div>
+
 
         {/* 지역선택 */}
         <div className='region' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
@@ -402,7 +416,6 @@ const MapContainer = ({ searchPlace }) => {
                     return newData
                   })
                    }else{
-                    console.log(e.target.checked)
                     setTheme((pre)=>{
                       const newData = pre.filter((l,i)=>{
                         return l !== v
@@ -437,6 +450,11 @@ const MapContainer = ({ searchPlace }) => {
             )
           })}
           </div>
+        </div>
+
+        {/* 사진업로드 */}
+        <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <ImageSlide setImgFile={setImgFile}/>
         </div>
 
         {/* 텍스트 입력 */}

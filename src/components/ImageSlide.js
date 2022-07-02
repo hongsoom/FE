@@ -7,18 +7,16 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = () => {
+const ImageSlide = ({setImgFile}) => {
   const [img, setImg] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const uploadfile = useRef();
 
-  console.log(img)
 
   // 이전 사진보기 버튼
   const prevSlide = () => {
     setCurrentSlide(currentSlide-1)
-   
   }
 
   // 다음 사진보기 버튼
@@ -31,6 +29,8 @@ const ImageSlide = () => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   },[currentSlide])
 
+
+  // 첨부한 이미지 blob url 상태 배열(img) / 파일자체 상태 배열(imgFile) 만들기
   const loadFile = () => {
     const file = uploadfile.current.files[0];
 
@@ -43,11 +43,11 @@ const ImageSlide = () => {
       return imgList
     })
 
-    // setImg((pre)=>{
-    //   const imgList = [...pre]
-    //   imgList.push(file)
-    //   return imgList
-    // })
+    setImgFile((pre)=>{
+      const imgList = [...pre]
+      imgList.push(file)
+      return imgList
+    })
 
   }
 

@@ -166,6 +166,7 @@
   margin-bottom: 10px;
 }
 
+.restroom,
 .region,
 .theme,
 .price {
@@ -178,6 +179,7 @@
   margin-top: 10px;
   row-gap: 5px;
 }
+.restroomWrap,
 .regionWrap,
 .themeWrap,
 .priceWrap{
@@ -185,10 +187,22 @@
   flex-wrap: wrap;
 }
 
+.restroom input,
 .region input,
 .theme input,
 .price input{
   display: none;
+}
+
+.restroom .selectBestRestroom{
+  width: auto;
+  text-align: center;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+
 }
 .region .regions{
   width: 45px;
