@@ -2,9 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/categoryMenu.css";
 import leftArrow from "../assets/leftArrow.png";
+import downArrow from "../assets/downArrow.png";
 
 const CategoryMenu = ({ onClick }) => {
+
   const navigate = useNavigate();
+
+  const area = ["서울", "경기", "인천", "강원도", "충청도", "전라도", "경상도", "대전", "세종", "대구", "울산", "광주", "부산", "제주도"];
+  const theme = ["힐링", "먹방", "애견동반", "액티비티", "호캉스"];
+
+  const [clickArea, setClickArea] = useState(false);
+  const [clickTheme, setClickTheme] = useState(false);
+
+  const areaCategory = () => {
+    setClickArea(!clickArea); 
+  };
+
+  const themeCategory = () => {
+    setClickTheme(!clickTheme); 
+  };
 
   return (
     <div className="categorymenu-container">
@@ -14,25 +30,26 @@ const CategoryMenu = ({ onClick }) => {
           <p>어디로 떠나볼까요?</p>
         </div>
         <div className="categorymenu-area">
-          <ul>지역
-            <li>서울</li>
-            <li>경기</li>
-            <li>인천</li>
-            <li>강원도</li>
-            <li>충청도</li>
-            <li>전라도</li>
-            <li>경상도</li>
-            <li>대전</li>
-            <li>세종</li>
-            <li>대구</li>
-            <li>울산</li>
-            <li>광주</li>
-            <li>부산</li>
-            <li>제주도</li>
-          </ul>
+          <p>지역</p>
+          <button onClick={areaCategory}><img src={downArrow} alt="downarrow"/></button>
+        </div>
+        <div className="area-list">
+              {clickArea ?
+                area.map((list) => 
+                    <p>{list}</p>
+                )  
+            : null }
         </div>
         <div className="categorymenu-theme">
-
+          <p>테마</p>
+          <button onClick={themeCategory}><img src={downArrow} alt="downarrow"/></button>
+        </div>
+        <div className="theme-list">  
+          {clickTheme ?
+            theme.map((list) => 
+              <p>{list}</p>
+          )    
+        : null }
         </div>
       </div>
     </div>

@@ -47,11 +47,12 @@
 
 .signup-id,
 .signup-nickname,
-.password {
+.password,
+.passwordCheck {
     margin-bottom : 5px;
 }
 
-.passwordCheck {
+.signup-message {
     margin-bottom : 170px;
 }
 
@@ -90,7 +91,8 @@
     margin-bottom: 14px;
 }
 
-.message > p {
+.message > p,
+.signup-message > p {
     font-size: 12px;
     margin-top: 0;
 }
