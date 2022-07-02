@@ -82,7 +82,6 @@ const Signup = () => {
           }) 
           .catch((err) => {
             const status = err.response.data.status;
-
             
             if(status === 500) {
                 setStateNickname(false);

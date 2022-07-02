@@ -27,7 +27,7 @@ const Header = () => {
                 <div className="header-search">
                     <input type="text" />
                     <button><img src={search} alt="search"/></button>
-                </div>  
+                </div> 
             </div>
         </div>
     </>
