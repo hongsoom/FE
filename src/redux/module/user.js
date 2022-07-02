@@ -5,22 +5,18 @@ import instance from "../../shared/Request";
 const SIGNUP = "signup";
 const LOGIN = "login";
 const LOGOUT = "logout";
-const IDCHECK = "idcheck";
-const NICKNAMECHECK = "nicknamecheck";
 
 const initialState  = {
     list : [],
-    status : "",
     isLogin : false,
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
 const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
-const idCheck = createAction(IDCHECK, (status) => ({ status }));
-const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
+  console.log(username, nickname, password, passwordCheck)
     return async function () {
       try {
         const response = await instance.post("api/user/signup", {
@@ -30,7 +26,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
           passwordCheck : passwordCheck,
         });
         console.log(response)
-        if (response.status === 200) {
+        if (response.status === 201) {
           window.location.assign("/login");
         }
       } catch (err) {
@@ -60,40 +56,6 @@ const logInDB = (username, password) => {
       }
     };
   };
-
-  const idCheckDB = (username) => {
-    return async function (dispatch) {
-      try {
-        const response = await instance.post("api/user/idCheck", {
-          username : username
-        });
-        console.log(response)
-        const status = response.status;
-        dispatch(idCheck(status))
-      } catch (err) {
-        console.log(err)
-        const status = err.response.status;
-        dispatch(idCheck(status))
-      }
-    };
-  };
-
-  const nicknameCheckDB = (nickname) => {
-    return async function (dispatch) {
-      try {
-        const response = await instance.post("api/user/nickCheck", {
-            nickname : nickname
-        });
-        console.log(response)
-        const status = response.status;
-        dispatch(nicknameCheck(status))
-    } catch (err) {
-      console.log(err)
-        const status = err.response.status;
-        dispatch(nicknameCheck(status))
-      }
-    };
-  };  
 
   const kakaoLoginDB = (code) => {
     return async function (dispatch) {
@@ -125,25 +87,15 @@ const logInDB = (username, password) => {
 
 export default handleActions(
     {  
-       [LOGIN]: (state, action) =>
-        produce(state, (draft) => {
-        draft.isLogin = true;
-        }),
+      [LOGIN]: (state, action) =>
+      produce(state, (draft) => {
+      draft.isLogin = true;
+      }),
 
-        [LOGOUT]: (state, action) =>
-        produce(state, (draft) => {
-        draft.isLogin = false;
-        }),
-
-        [IDCHECK]: (state, action) =>
-        produce(state, (draft) => {
-        draft.status = action.payload.status;
-        }),
-
-        [NICKNAMECHECK]: (state, action) =>
-        produce(state, (draft) => {
-        draft.status = action.payload.status;
-        }),
+      [LOGOUT]: (state, action) =>
+      produce(state, (draft) => {
+      draft.isLogin = false;
+      }),
     },
     initialState
     );
@@ -151,8 +103,6 @@ export default handleActions(
 const userAction = {
     signUpDB,
     logInDB,
-    idCheckDB,
-    nicknameCheckDB,
     kakaoLoginDB,
     logOutDB,
 };
