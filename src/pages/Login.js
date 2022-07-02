@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/user";
 import { KAKAO_AUTH_URL } from "../shared/OAuth";
 import Kakao_login from "../assets/kakao_login.png";
-import "../css/Login.css";
+import "../css/login.css";
 
 const Login = () => {
   

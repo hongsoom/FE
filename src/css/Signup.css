@@ -8,13 +8,13 @@
 .signup-content{
     width : 375px;
     height: 812px;
-    align-items: center;
 }
 
 .signup-content,
 .signup-input  {
     display: flex;
     flex-direction: column;
+    margin : 0 20px;
 }
 
 .signup-input > label {
@@ -32,6 +32,11 @@
    border-radius: 8px;
 }
 
+.signup-nickname > input,
+.signup-id > input {
+    margin-right: 5px;
+}
+
 .signup-password > input,
 .signup-btn {
     width : 315px;
@@ -42,8 +47,12 @@
 
 .signup-id,
 .signup-nickname,
-.signup-password > input {
+.password {
     margin-bottom : 5px;
+}
+
+.passwordCheck {
+    margin-bottom : 170px;
 }
 
 .signup-input > input::placeholder,
@@ -51,7 +60,6 @@
 .signup-nickname > input::placeholder,
 .signup-password > input::placeholder {
     color : #D9D9D9;
-    padding : 12px;
 }
 
 .signup-input > input:focus,
@@ -69,24 +77,30 @@
 .signup-nickname > button {
     position : absolute;
     border-radius: 8px;
-    width: 55px;
+    width: 60px;
     height: 44px;
-    top: 0;
     background-color: #EEEEEE;
     border: 2px solid #EEEEEE;
     cursor: pointer;
     color : #828282;
-    font-size: 12px;
+    font-size: 10px;
 }
 
-.error-message {
+.message {
     margin-bottom: 14px;
 }
 
-.error-message > p {
+.message > p {
     font-size: 12px;
-    color : #D25151;
     margin-top: 0;
+}
+
+.success {
+    color: #5BD251;
+}
+
+.error {
+    color: #D25151;
 }
 
 .signup-btn {

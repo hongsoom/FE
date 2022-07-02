@@ -1,0 +1,6 @@
+.main-container {
+    margin: 25px auto;
+    width: 100%;
+    max-width : 375px;
+    min-height: 100vh;
+}

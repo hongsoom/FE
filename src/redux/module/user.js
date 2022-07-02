@@ -5,20 +5,22 @@ import instance from "../../shared/Request";
 const SIGNUP = "signup";
 const LOGIN = "login";
 const LOGOUT = "logout";
-const SET_USER = "setuser";
+const IDCHECK = "idcheck";
+const NICKNAMECHECK = "nicknamecheck";
 
 const initialState  = {
-    list: [],
-    isLogin: false,
+    list : [],
+    status : "",
+    isLogin : false,
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
 const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
-const setUser = createAction(SET_USER, (user) => ({ user }));
+const idCheck = createAction(IDCHECK, (status) => ({ status }));
+const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
-  console.log(username, nickname, password, passwordCheck)
     return async function () {
       try {
         const response = await instance.post("api/user/signup", {
@@ -29,7 +31,6 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         });
         console.log(response)
         if (response.status === 200) {
-          window.alert("회원가입 완료! 로그인 해주세요:)");
           window.location.assign("/login");
         }
       } catch (err) {
@@ -39,7 +40,6 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
   };
 
 const logInDB = (username, password) => {
-  console.log(username, password)
     return async function (dispatch) {
       try {
         const response = await instance.post("api/user/login", {
@@ -52,9 +52,9 @@ const logInDB = (username, password) => {
           localStorage.setItem("token", token);
           dispatch(login(true));
         }
-/*         if (localStorage.getItem("token")) {
+        if (localStorage.getItem("token")) {
           window.location.assign("/");
-        }  */
+        }
     } catch (err) {
       console.log(err)
       }
@@ -62,59 +62,53 @@ const logInDB = (username, password) => {
   };
 
   const idCheckDB = (username) => {
-    console.log(username)
-    return async function () {
-        const _idCheck = await instance.post("api/user/idCheck", {
+    return async function (dispatch) {
+      try {
+        const response = await instance.post("api/user/idCheck", {
           username : username
-        })
-        .then((response) => {
-          console.log(response)
-          if (response.status === 200) {
-            window.alert("사용 가능한 ID입니다.");
-          } 
-        })
-      .catch((err) => {
+        });
+        console.log(response)
+        const status = response.status;
+        dispatch(idCheck(status))
+      } catch (err) {
         console.log(err)
-      })
+        const status = err.response.status;
+        dispatch(idCheck(status))
+      }
     };
   };
 
   const nicknameCheckDB = (nickname) => {
-    console.log(nickname)
-    return async function () {
+    return async function (dispatch) {
       try {
         const response = await instance.post("api/user/nickCheck", {
             nickname : nickname
         });
         console.log(response)
-        if (response.status === 200) {  
-          window.alert("사용 가능한 nickname입니다.");
-        }
+        const status = response.status;
+        dispatch(nicknameCheck(status))
     } catch (err) {
       console.log(err)
+        const status = err.response.status;
+        dispatch(nicknameCheck(status))
       }
     };
   };  
 
   const kakaoLoginDB = (code) => {
-    console.log(code)
     return async function (dispatch) {
       try {
         const response = await instance.get(
           `api/user/kakaoLogin/callback?code=${code}`
         );
-        console.log(response)
+        console.log(response);
         if (response.status === 201) {
-          const token = response.data.token;
+          const token = response.headers.authorization;
           localStorage.setItem("token", token);
-/*           dispatch(setUser({
-            username: response.data.username,
-            nickname: response.data.nickname
-          })) */
         }
         if (localStorage.getItem("token")) {
           window.location.assign("/");
-        }
+        } 
       } catch (err) {
         console.log(err)
       }
@@ -131,13 +125,7 @@ const logInDB = (username, password) => {
 
 export default handleActions(
     {  
-        [SET_USER]: (state, action) =>
-        produce(state, (draft) => {
-        draft.list = action.payload.user;
-        draft.isLogin = true;
-        }),
-
-        [LOGIN]: (state, action) =>
+       [LOGIN]: (state, action) =>
         produce(state, (draft) => {
         draft.isLogin = true;
         }),
@@ -145,6 +133,16 @@ export default handleActions(
         [LOGOUT]: (state, action) =>
         produce(state, (draft) => {
         draft.isLogin = false;
+        }),
+
+        [IDCHECK]: (state, action) =>
+        produce(state, (draft) => {
+        draft.status = action.payload.status;
+        }),
+
+        [NICKNAMECHECK]: (state, action) =>
+        produce(state, (draft) => {
+        draft.status = action.payload.status;
         }),
     },
     initialState
