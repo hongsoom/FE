@@ -1,11 +1,11 @@
 .header-container {
-    margin: 25px auto;
-    width: 100%;
-    max-width : 375px;
+    margin:  50px auto;
 }
 
 .header-content {
-    height: 181px;
+    width: 100%;
+    max-width : 375px;
+    margin : 50px auto;
 }
 
 .header-image {

@@ -26,8 +26,12 @@ const CategoryMenu = ({ onClick }) => {
     <div className="categorymenu-container">
       <div className="categorymenu-content">
         <div className="categorymenu-title">
-          <img src={leftArrow} alt="previous-page" onClick={onClick}/>
-          <p>어디로 떠나볼까요?</p>
+          <div className="categorymenu-a">
+            <img src={leftArrow} alt="previous-page" onClick={onClick}/>
+          </div>
+          <div className="categorymenu-b">
+            <p>어디로 떠나볼까요?</p>
+          </div>
         </div>
         <div className="categorymenu-area">
           <p>지역</p>
