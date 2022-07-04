@@ -1,4 +1,5 @@
 import instance from "../../shared/Request";
+import apiform  from "../../shared/api"
 
 const GET = "post/GET"
 const ADD = "post/ADD"
@@ -37,13 +38,15 @@ export const getPostDB = (id) => async (dispatch) => {
   }
 };
 
-export const addPostDB = (data) => {
-  console.log(data)
+export const addPostDB = (Data) => {
+  // console.log(data)
   return async function (dispatch, getState) {
-    await instance
-      .post("api/post", data, {
+    await apiform
+      .post("api/post",{
+        requestData: Data
+      }, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Authorization": localStorage.getItem("token") 
         },
       })
       .then((res) => {

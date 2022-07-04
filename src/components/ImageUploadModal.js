@@ -7,11 +7,12 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = ({setImgFile, select}) => {
+const ImageUploadModal = ({setImgFile}) => {
   const [img, setImg] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const uploadfile = useRef();
+
 
   // 이전 사진보기 버튼
   const prevSlide = () => {
@@ -57,11 +58,6 @@ const ImageSlide = ({setImgFile, select}) => {
 
   return (
     <div className='container'>
-      {select.map((v,i)=>{
-        <div key={i}>
-            <div className='placeName'>{v.place_name}</div>
-        </div>    
-          })}
       <div className='plusIcon'>
         <label htmlFor='uploadImg'>
           <FontAwesomeIcon icon={faPlus}/>
@@ -98,4 +94,4 @@ const ImageSlide = ({setImgFile, select}) => {
   )
 }
 
-export default ImageSlide
+export default ImageUploadModal

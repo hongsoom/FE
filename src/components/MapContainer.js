@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../css/mapContainer.css'
 import ImageSlide from './ImageSlide'
+import ImageUploadModal from './ImageUploadModal'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {addPostDB} from '../redux/module/post'
@@ -16,6 +17,9 @@ const { kakao } = window
 
 
 const MapContainer = ({ searchPlace }) => {
+  
+
+  const [grab, setGrab] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -29,13 +33,31 @@ const MapContainer = ({ searchPlace }) => {
   // 맵 담는 ref 
   const myMap = useRef();
   // 제목 담는 ref
-  const title = useRef();
+  // const title = useRef();
+  // const titleText = title.current.value
+  const [title, setTitle] = useState();
+
+  // 텍스트 내용
+  // const txt = useRef();
+  const [content, setConent] = useState();
+
+  // 적힌 음료 이름 가져오기
+  const onTitleHandler = (e) => {
+    setTitle(e.currentTarget.value);
+  };
+  // 적힌 텍스트 내용 가져오기
+  const onContentHandler = (e) => {
+    setConent(e.currentTarget.value);
+  };
+  
 
   // 검색결과 배열에 담아줌
   const [Places, setPlaces] = useState([])
   
   // 선택한 장소 배열에 담아줌
   const [select, setSelect] = useState([])  
+  // 선택한 장소 핀 클릭 포커스
+  const [focus, setFocus] = useState();
 
   // 선택한 베스트 화장실 선택
   const[selectedRestroom, setRestroom] = useState();
@@ -48,13 +70,7 @@ const MapContainer = ({ searchPlace }) => {
   // 첨부이미지 파일들 담아줌 (파일 자체 배열)
   const [imgFile, setImgFile] = useState([]);
 
-  // 첨부이미지 파일들 폼데이터로 담기
-  const formData = new FormData();
-  for(let i=0; i<imgFile.length; i++){
-    formData.append("imgUrl",imgFile[i]);
-  }
   
- 
   // 지역 선택
   const [selectedRegion, setRegion] = useState();
   const isChecked = (e) =>{
@@ -74,22 +90,59 @@ const MapContainer = ({ searchPlace }) => {
     }
   }
 
-  // 텍스트 내용
-  const txt = useRef();
+  
+
+  // 첨부이미지 파일들 폼데이터로 담기
+  const formData = new FormData();
+  for(let i=0; i<imgFile.length; i++){
+    formData.append("imgUrl",imgFile[i]);
+  }
+  formData.append("title", title)
+  formData.append("regionCategory", selectedRegion)
+  formData.append("content", content)
+  formData.append("priceCategory", selectedPrice)
+ 
 
 
   // 작성 완료 버튼
   const onHandlerSubmit = () =>{
 
-    dispatch(addPostDB({
-      title : title.current.value,
-      content : txt.current.value,
-      restroom: selectedRestroom,
-      regionCategory: selectedRegion,
-      themeCategory: selectedTheme,
-      priceCategory: selectedPrice,
-      imgUrl: formData
-    }))
+    dispatch(addPostDB(formData
+    //   {
+    //   title : title.current.value,
+    //   content : txt.current.value,
+    //   // restroom: selectedRestroom,
+    //   regionCategory: selectedRegion,
+    //   // themeCategory: selectedTheme,
+    //   priceCategory: selectedPrice
+    // }
+    ))
+  }
+
+
+  // 드래그앤드롭
+  const _onDragOver = e =>{
+    e.preventDefault();
+
+  }
+  const _onDragStart = e =>{
+    setGrab(e.target)
+
+    e.target.classList.add("grabbing");
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.target);
+  }
+  const _onDragEnd = e =>{
+    e.target.classList.remove("grabbing");
+    e.dataTransfer.dropEffect = "move";
+  }
+  const _onDrop = e =>{
+    let grabPosition = Number(grab.dataset.position);
+    let targetPostion = Number(e.target.dataset.position);
+
+    let _select =[...select];
+    _select[grabPosition] = _select.splice(targetPostion, 1, _select[grabPosition])[0];
+    setSelect(_select);
   }
   
 
@@ -197,6 +250,9 @@ const MapContainer = ({ searchPlace }) => {
 
   }, [searchPlace])
 
+ 
+  
+
 
 
   // 이하는 useEffect 바깥에 위치한 함수들
@@ -234,11 +290,12 @@ const MapContainer = ({ searchPlace }) => {
         
         kakao.maps.event.addListener(marker, 'click', function () {
           var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
-          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>')
+          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name +  '<br/>' + place.phone + '</div>')
           infowindow.open(map, marker)
+          setFocus(place.place_name)
         })
       }
-      } else{
+      } else {
         const options = {
           center: new kakao.maps.LatLng(37.5666805, 126.9784147),
           level: 4,
@@ -248,6 +305,14 @@ const MapContainer = ({ searchPlace }) => {
       }
       
     }
+
+    // const focusFin = ()=>{
+    //   const options = {
+    //     center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+    //     level: 4,
+    //   }
+    //   const map = new kakao.maps.Map(myMap.current, options)
+    // }
 
   
 
@@ -270,7 +335,7 @@ const MapContainer = ({ searchPlace }) => {
           <FontAwesomeIcon icon={faAngleLeft}/>
         </div>
         <div className='title'>
-          <input type="text" ref={title}/>
+          <input type="text" onChange={onTitleHandler}/>
         </div>
         <div className='heart'>
           <FontAwesomeIcon icon={faHeart} style={{marginRight:'5px'}}/>
@@ -341,8 +406,18 @@ const MapContainer = ({ searchPlace }) => {
           
           <div className='selectedList'>
             {select.map((item, i) => (
-              <div className='selected' key={i}>
-                <div style={{ marginTop: '10px' }}>
+              <div className='selected' key={i}
+                draggable
+                data-position={i}
+                onDragOver={_onDragOver}
+                onDragStart={_onDragStart}
+                onDragEnd={_onDragEnd}
+                onDrop={_onDrop}
+                style={focus === item.place_name ? {border:'2px solid skyblue'}:{border:'1px solid transparent'}}
+                
+              >
+                <div style={{ marginTop: '10px'}} 
+                >
                   <span>{i + 1}</span>
                   <div>
                     <h3>{item.place_name}</h3>
@@ -454,12 +529,13 @@ const MapContainer = ({ searchPlace }) => {
 
         {/* 사진업로드 */}
         <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <ImageSlide setImgFile={setImgFile}/>
+          
+          <ImageSlide setImgFile={setImgFile} select={select}/>
         </div>
 
         {/* 텍스트 입력 */}
         <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <textarea placeholder='내용을 입력해주세요' ref={txt}/>
+          <textarea placeholder='내용을 입력해주세요' onChange={onContentHandler}/>
         </div>
 
         <button className='submit' onClick={onHandlerSubmit}
