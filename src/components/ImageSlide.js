@@ -8,7 +8,13 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 
 
 const ImageSlide = ({setImgFile, select, setSelect}) => {
-  const [imgPerPlace, setImgPerPlace] = useState([])
+  const [imgPerPlace, setImgPerPlace] = useState([
+    {
+      place_name:'',
+      imgFile:[]
+    }
+  ])
+
   const [img, setImg] = useState([]);
   const [place, setPlace] = useState();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -30,7 +36,7 @@ const ImageSlide = ({setImgFile, select, setSelect}) => {
       slideRef.current.style.transition = 'all 0.5s ease-in-out';
       slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
     }
-  },[currentSlide])
+  },[currentSlide]);
 
 
   // 첨부한 이미지 blob url 상태 배열(img) / 파일자체 상태 배열(imgFile) 만들기
