@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../css/mapContainer.css'
 import ImageSlide from './ImageSlide'
-import ImageUploadModal from './ImageUploadModal'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {addPostDB} from '../redux/module/post'
@@ -530,7 +529,7 @@ const MapContainer = ({ searchPlace }) => {
         {/* 사진업로드 */}
         <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
           
-          <ImageSlide setImgFile={setImgFile} select={select}/>
+          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}/>
         </div>
 
         {/* 텍스트 입력 */}
