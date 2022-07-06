@@ -8,12 +8,6 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 
 
 const ImageSlide = ({setImgFile, select, setSelect}) => {
-  const [imgPerPlace, setImgPerPlace] = useState([
-    {
-      place_name:'',
-      imgFile:[]
-    }
-  ])
 
   const [img, setImg] = useState([]);
   const [place, setPlace] = useState();
@@ -119,32 +113,35 @@ const ImageSlide = ({setImgFile, select, setSelect}) => {
           </div>        
       </div>   
       {/* 사진 업로드 버튼 */}
-            <div className='addButtonWrap'>
-              {select.map((v,i)=>{
-                return(
-                  <div className='addButton' key={i}
-                  style={place === v.place_name ? {display:'block'}:{display:'none'}}
-                  >
-                    <label htmlFor='uploadImg'>
-                      {/* <FontAwesomeIcon icon={faPlus}/> */}
-                        <div><b>{v.place_name}</b> 사진 추가하기</div>
-                    </label>
-                    <input type="file" id="uploadImg" name="uploadImg" accept="image/*" 
-                    onChange={(e)=>{
-                      const file = e.target.files[0];
-                      const thisData = select.filter((l,m)=>
-                        l.place_name === v.place_name
-                      )
-                      
-                      // const imgUrl = URL.createObjectURL(file)
-                    }}
-                    style={{display:'none'}}
-                    />
-                  </div> 
-                )
-              })}
-              
-            </div>
+        <div className='addButtonWrap'>
+          {select.map((v,i)=>{
+            return(
+              <div className='addButton' key={i}
+              style={place === v.place_name ? {display:'block'}:{display:'none'}}
+              >
+                <label htmlFor={`place_name_${i}`}>
+                  {/* <FontAwesomeIcon icon={faPlus}/> */}
+                    <div><b>{v.place_name}</b> 사진 추가하기</div>
+                </label>
+                <input type="file" id={`place_name_${i}`} name="uploadImg" accept="image/*" 
+                onChange={(e)=>{
+                  const file = e.target.files[0];
+                  select[i].files.push(file)
+                  console.log(select[i].files)
+                  const imgUrl = URL.createObjectURL(file)
+                  setImg((pre)=>{
+                    const imgList = [...pre]
+                    imgList.push({id:img.length, url: imgUrl})
+                    return imgList
+                  })
+                }}
+                style={{display:'none'}}
+                />
+              </div> 
+            )
+          })}
+          
+        </div>
       
     </div>
   )

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../css/mapContainer.css'
 import ImageSlide from './ImageSlide'
+import RegionModal from './RegionModal'
+import PriceModal from './PriceModal'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {addPostDB} from '../redux/module/post'
@@ -15,8 +17,30 @@ import {faHeart, faBookmark} from '@fortawesome/free-regular-svg-icons'
 const { kakao } = window
 
 
+
+
 const MapContainer = ({ searchPlace }) => {
-  
+
+  // 지역 선택 모달
+  const [showRegionModal, setShowRegionModal] = useState(false);
+
+  const openRegionModal = () => {
+    setShowRegionModal(true)
+  }
+  const closeRegionModal = () => {
+    setShowRegionModal(false)
+  }
+
+  // 비용 선택 모달
+  const [showPriceModal, setShowPriceModal] = useState(false);
+
+  const openPriceModal = () => {
+    setShowPriceModal(true)
+  }
+  const closePriceModal = () => {
+    setShowPriceModal(false)
+  }
+
 
   const [grab, setGrab] = useState(null);
 
@@ -31,9 +55,8 @@ const MapContainer = ({ searchPlace }) => {
 
   // 맵 담는 ref 
   const myMap = useRef();
+
   // 제목 담는 ref
-  // const title = useRef();
-  // const titleText = title.current.value
   const [title, setTitle] = useState();
 
   // 텍스트 내용
@@ -55,6 +78,7 @@ const MapContainer = ({ searchPlace }) => {
   
   // 선택한 장소 배열에 담아줌
   const [select, setSelect] = useState([])  
+  
   // 선택한 장소 핀 클릭 포커스
   const [focus, setFocus] = useState();
 
@@ -69,14 +93,10 @@ const MapContainer = ({ searchPlace }) => {
   // 첨부이미지 파일들 담아줌 (파일 자체 배열)
   const [imgFile, setImgFile] = useState([]);
 
-  
+
   // 지역 선택
   const [selectedRegion, setRegion] = useState();
-  const isChecked = (e) =>{
-    if (e.target.checked){
-      setRegion(e.target.value)
-    }
-  }
+  
 
   // 테마 선택
   const [selectedTheme, setTheme] = useState([]);
@@ -89,33 +109,32 @@ const MapContainer = ({ searchPlace }) => {
     }
   }
 
-  
-
   // 첨부이미지 파일들 폼데이터로 담기
   const formData = new FormData();
-  for(let i=0; i<imgFile.length; i++){
-    formData.append("imgUrl",imgFile[i]);
-  }
   formData.append("title", title)
   formData.append("regionCategory", selectedRegion)
   formData.append("content", content)
   formData.append("priceCategory", selectedPrice)
- 
+  formData.append("places", select)
+  formData.append("restroom", selectedRestroom)
 
+  
+  useEffect(()=>{
+    console.log(
+      "title:"+ title,
+      "regionCategory:" +selectedRegion,
+      "content:" +content,
+      "priceCategory:" +selectedPrice,
+      "places:" +select,
+      "restroom:" + selectedRestroom,
+      select
+    )
+  },[content])
+  
 
   // 작성 완료 버튼
   const onHandlerSubmit = () =>{
-
-    dispatch(addPostDB(formData
-    //   {
-    //   title : title.current.value,
-    //   content : txt.current.value,
-    //   // restroom: selectedRestroom,
-    //   regionCategory: selectedRegion,
-    //   // themeCategory: selectedTheme,
-    //   priceCategory: selectedPrice
-    // }
-    ))
+    dispatch(addPostDB(formData))
   }
 
 
@@ -374,7 +393,8 @@ const MapContainer = ({ searchPlace }) => {
                       if(e.target.checked){
                         setSelect((pre)=>{
                           const selectList = [...pre]
-                          selectList.push(Places[i])
+                          const newData = {...Places[i], files:[]}
+                          selectList.push(newData)
                           list(selectList)
                           return selectList
                         })
@@ -437,42 +457,7 @@ const MapContainer = ({ searchPlace }) => {
           </div>
         </div> 
       
-        {/* 화장실 */}
-        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <div className='restroomWrap'>
-            {select.map((v,i)=>{
-              return(
-                <div className='selectBestRestroom' key={i}
-                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
-                  <input type="radio" name="restroom" value={v.place_name} id={v.place_name}
-                  onChange={isCheckedRestroom}/>
-                  <label htmlFor={v.place_name}>
-                  {v.place_name}
-                  </label>
-                </div>
-              )
-            })}
-          </div>            
-        </div>
-
-
-        {/* 지역선택 */}
-        <div className='region' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <div className='regionWrap'>
-          {region.map((v,i)=>{
-            return(
-              <div className='regions' key={i}
-              style={selectedRegion === v ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
-                <input type="radio" name="region" value={v} id={v}
-                onChange={isChecked}/>
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-            )
-          })}
-          </div>
-        </div>
+        
 
         {/* 테마선택 */}
         <div className='theme' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
@@ -508,28 +493,60 @@ const MapContainer = ({ searchPlace }) => {
          </div>
         </div>
 
-        {/* 비용선택 */}
-        <div className='price' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <div className='priceWrap'>
-          {price.map((v,i)=>{
-            return(
-              <div className='prices' key={i}
-              style={selectedPrice === v ? {background:'skyblue',border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
-                <input type="radio" name="price" value={v} id={v}
-                onChange={isCheckedPrice}/>
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-            )
-          })}
+        <div className='regionNprice'>
+          {/* 지역선택 */}
+          <div className='region'
+          onClick={openRegionModal}
+          >
+            <div className='choiceTitle'>지역 선택하기</div>
+            <div className='regions'
+            style={selectedRegion ? {display:'block'}: {display:'none'}}
+            >{selectedRegion}</div>
+              <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+              showRegionModal={showRegionModal}
+              closeRegionModal={closeRegionModal}
+              />
+          </div>
+
+          {/* 비용선택 */}
+          <div className='price'
+          onClick={openPriceModal}
+          >
+            <div className='choiceTitle'>비용 선택하기</div>
+            <div className='prices'
+            style={selectedPrice ? {display:'block'}: {display:'none'}}
+            >{selectedPrice}</div>
+            <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
+            showPriceModal={showPriceModal}
+            closePriceModal={closePriceModal}
+            />
           </div>
         </div>
 
+        {/* 화장실 */}
+        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        어디에서 화장실을 이용하셨나요?
+          <div className='restroomWrap'>
+            {select.map((v,i)=>{
+              return(
+                <div className='selectBestRestroom' key={i}
+                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                  <input type="radio" name="restroom" value={v.place_name} id={v.place_name}
+                  onChange={isCheckedRestroom}/>
+                  <label htmlFor={v.place_name}>
+                  {v.place_name}
+                  </label>
+                </div>
+              )
+            })}
+          </div>            
+        </div>
+
         {/* 사진업로드 */}
-        <div style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}
+          />
           
-          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}/>
         </div>
 
         {/* 텍스트 입력 */}

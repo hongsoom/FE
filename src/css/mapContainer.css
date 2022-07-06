@@ -33,11 +33,6 @@
 }
 .preIcon{
   width: 35px;
-  /* position: absolute;
-  left: 33.33%;
-  right: 34.26%;
-  top: 23.48%;
-  bottom: 23.48%; */
 }
 .title{
   font-size:18px;
@@ -105,11 +100,7 @@
   line-height: 17px;
   display: flex;
   align-items: center;
-  /* text-align: right; */
 }
-
-
-
 
 
 .contentWrap{
@@ -138,10 +129,8 @@
   overflow-y: auto;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   background:rgba(255, 255, 255, 0.85);
-  
   font-size:12px;
   border-radius: 8px;
-  
 }
 
 #result-list{
@@ -168,23 +157,60 @@
   margin-bottom: 10px;
 }
 
-.restroom,
+.regionNprice{
+  display: flex;
+}
+.choiceTitle{
+  font-size: 12px;
+  width: 100%;
+}
+
+.region{
+  margin-right: 15px;
+}
 .region,
-.theme,
-.price {
+.price{
+  width: 48%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   background:rgba(255, 255, 255, 0.85);
-  font-size:12px;
+  font-size: 12px;
   border-radius: 8px;
   line-height: 20px;
   padding: 10px 15px;
   margin-top: 10px;
-  row-gap: 5px;
+}
+
+
+.regions{
+  width: 45px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+.prices{
+  width: 85px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+.restroom,
+.theme{
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  border-radius: 8px;
+  line-height: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
 }
 .restroomWrap,
-.regionWrap,
-.themeWrap,
-.priceWrap{
+.themeWrap{
   display:flex;
   flex-wrap: wrap;
 }
@@ -206,15 +232,6 @@
   margin-bottom: 3px;
 
 }
-.region .regions{
-  width: 45px;
-  text-align: center;
-  padding: 5px;
-  border:1px solid #ccc;
-  border-radius: 100px;
-  margin-right: 3px;
-  margin-bottom:3px;
-}
 .theme .themes{
   width: 55px;
   text-align: center;
@@ -223,15 +240,7 @@
   box-sizing: border-box;
   margin-right: 3px;
 }
-.price .prices{
-  width: 80px;
-  text-align: center;
-  padding: 5px;
-  border-radius: 100px;
-  box-sizing: border-box;
-  margin-right: 3px;
-  margin-bottom:3px;
-}
+
 
 .txt{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);

@@ -42,9 +42,8 @@ export const addPostDB = (Data) => {
   // console.log(data)
   return async function (dispatch, getState) {
     await apiform
-      .post("api/post",{
-        requestData: Data
-      }, {
+      .post("api/post", Data,
+       {
         headers: {
           "Authorization": localStorage.getItem("token") 
         },

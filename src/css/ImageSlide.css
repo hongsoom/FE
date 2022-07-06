@@ -97,9 +97,10 @@
   position:relative;
   width: 300px;
   height: auto;
+  display:flex;
 }
 .addButton{
-  position:absolute;
+  /* position:absolute; */
   text-align: center;
   top:0;
   left:0;
