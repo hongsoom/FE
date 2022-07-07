@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CategoryMenu from "../components/CategoryMenu";
-import "../css/header.css";
-import categoryMenu from "../assets/categoryMenu.png"
-import mypage from "../assets/mypage.png"
-import search from "../assets/search.png";
+import CategoryMenu from "../category/CategoryMenu";
+import "../../css/header.css";
+import categoryMenu from "../../assets/categoryMenu.png"
+import mypage from "../../assets/mypage.png"
+import search from "../../assets/search.png";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -27,6 +27,11 @@ const Header = () => {
                 <div className="header-search">
                     <input type="text" />
                     <button><img src={search} alt="search"/></button>
+                </div>
+                <div className="header-category">
+                    <button>서울</button>
+                    <button>힐링</button>
+                    <button>대구</button>
                 </div> 
             </div>
         </div>

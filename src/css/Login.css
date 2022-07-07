@@ -1,8 +1,8 @@
 .login-container {
-    margin: 146px auto;
+    margin: 0 auto;
     width: 100%;
     max-width : 375px;
-    min-height: 100vh;
+    background-color: #F5F9FF;
 }
 
 .login-content {
@@ -20,6 +20,7 @@
 }
 
 .login-logo {
+    margin-top: 252px;
     margin-bottom: 40px;
 }
 
@@ -31,7 +32,7 @@
 }
 
 .login-input > input {
-    border : 1px solid #D9D9D9;
+    border : 1px solid #45A6FF;
     margin-bottom: 26px;
     margin-right: 0;
 }
@@ -47,7 +48,7 @@
 }
 
 .login-input > input::placeholder {
-    color:#D9D9D9;
+    color:#ECECEC;
     font-size : 14px;
     line-height: 20px;
 }
@@ -57,9 +58,9 @@
 }
 
 .login-btn {
-    background: #EEEEEE;
-    border: 1px solid #FFFFFF;
-    color : #828282;
+    background: #45A6FF;
+    border: 1px solid #45A6FF;
+    color : #F5F9FF;
     font-size: 16px;
     line-height: 23px;
     text-align: center;
@@ -74,7 +75,7 @@
 .login-route > p > a {
     font-size: 12px;
     line-height: 17px;
-    color: #D9D9D9;
+    color: #032558;
 }
 
 .login-route > p {
@@ -91,7 +92,7 @@
 
 .kakao-line {
     width : 100%;
-    color: #D9D9D9;
+    color: #ABCDFF;
     text-align: center;
     font-size: 14px;
     margin-bottom: 41px;
@@ -101,7 +102,7 @@
 .kakao-line::after {
     display : inline-block;
     content : "";
-    background-color : #D9D9D9;
+    background-color : #ABCDFF;
     height: 1px;
     width : 108px;
 }
@@ -112,6 +113,10 @@
 
 .kakao-line::after {
     margin : 0 0 5px 14px;
+}
+
+.login-kakao {
+    margin-bottom: 183px;
 }
 
 .login-kakao > button {
@@ -131,7 +136,7 @@
     height: 5px; 
     top : 7px;
     left : 7px;
-    border-top: 1px solid #D9D9D9;
-    border-right: 1px solid #D9D9D9;
+    border-top: 1px solid #032558;
+    border-right: 1px solid #032558;
     transform: rotate(45deg);
 }

@@ -1,14 +1,12 @@
 .comment-container {
     width: 100%;
     max-width : 375px;
-    min-height: 100vh;
     margin: 0 auto;
 }
 
 .comment-content {
     display: flex;
     flex-direction: column;
-    margin : 0 20px;
 }
 
 .comment-add {
@@ -36,10 +34,11 @@
     width : 35px;
     height: 36px;
     border-radius: 8px;
-    border : 1px solid #EEEEEE;
+    border : 1px solid #45A6FF;
+    background-color: #45A6FF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    font-size: 11px;
-    color : #999999;
+    font-size: 8px;
+    color : #F5F9FF;
     cursor: pointer;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -95,6 +94,10 @@
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    color: #999999;
+    color: #ABCDFF;
     margin-right: 6px;
+}
+
+.commentdelete {
+    cursor: pointer;
 }
