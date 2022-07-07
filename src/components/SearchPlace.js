@@ -5,6 +5,7 @@ import '../css/searchPlace.css'
 
 
 const SearchPlace = () => {
+  
   const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
 

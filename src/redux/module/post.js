@@ -8,12 +8,34 @@ const DELETE = "post/DELETE"
 
 
 const initialState ={
-
-}
+  title : 'title',
+  content : '게시글 내용 입니다',
+  regionCategory : '지역별',
+  themeCategory : ['힐링','맛집'],
+  priceCategory : '10만원대',
+  place: [
+    {
+     addressName:'',
+     categoryGroupCode:'',
+     categoryGroupName:'',
+     categoryName: '',
+     distance:'',
+     files: [],
+     id:'',
+     phone: '',
+     placeName: '',
+     placeUrl: '',
+     roadAddressName: '',
+     x: '',
+     y: '',
+    }
+  ],
+  restroom: '',
+  }
 
 // Action creator
-export function getPost(post_list){
-  return {type: GET, post_list}
+export function getPost(post){
+  return {type: GET, post}
 }
 export function addPost(post){
   return {type: ADD, post}
@@ -26,10 +48,9 @@ export function deletePost(postID){
 }
 
 // middleWare
-export const getPostDB = (id) => async (dispatch) => {
-  console.log(id)
+export const getPostDB = (postId) => async (dispatch) => {
   try {
-    const data = await instance.post(`hotels`);
+    const data = await instance.post(`api/post/${postId}`);
     dispatch(getPost(data.data));
     console.log(data.data);
   } catch (error) {
@@ -52,6 +73,7 @@ export const addPostDB = (Data) => {
         console.log(res);
         // window.location.assign(`/`);
         window.alert('작성 성공')
+        
       })
       .catch((error) => {
         console.log(error);

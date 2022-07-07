@@ -78,7 +78,8 @@ const MapContainer = ({ searchPlace }) => {
   
   // 선택한 장소 배열에 담아줌
   const [select, setSelect] = useState([])  
-  
+  console.log(select)
+
   // 선택한 장소 핀 클릭 포커스
   const [focus, setFocus] = useState();
 
@@ -170,9 +171,7 @@ const MapContainer = ({ searchPlace }) => {
   
   useEffect(() => {
 
-    
-
-    // 1. 지도에 검색하고 결과 나오게 하기
+    // 지도에 검색하고 결과 나오게 하기
     // infowindow: 장소별 세부사항 보여주는 말풍선
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
 

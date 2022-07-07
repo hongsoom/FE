@@ -1,9 +1,9 @@
 .searchWrap{
-  position: absolute;
+  position: relative;
 }
 .inputForm{
   position:absolute;
-  z-index: 2;
+  z-index: 1;
   top: 80px;
   width: 335px;
   padding: 10px 0;

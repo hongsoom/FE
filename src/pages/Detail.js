@@ -1,115 +1,201 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/mapContainer.css'
+import '../css/detail.css'
 
+import {useDispatch, useSelector} from 'react-redux'
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {addPostDB} from '../redux/module/post'
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleLeft} from '@fortawesome/free-solid-svg-icons'
 import {faHeart, faBookmark} from '@fortawesome/free-regular-svg-icons'
 
+
 // 카카오맵
 const { kakao } = window
 
 
-const Detail = ({ searchPlace }) => {
 
-  // 맵 담는 ref
-  const myMap = useRef();
 
-  // 검색결과 배열에 담아줌
-  const [Places, setPlaces] = useState([])
+const MapContainer = ({ searchPlace }) => {
+
+  // const postId = useParams().id;
+  // const data = useSelector((state) => state.post.posts);
+  // console.log(data);
+  // const nowPost = data && data.filter((v, i) => String(postId) === v._id);
+
+  const initialState = {
+    title : 'title',
+    content : '게시글 내용 입니다',
+    regionCategory : '서울',
+    themeCategory : ['힐링','맛집'],
+    priceCategory : '10만원대',
+    place: [
+      {
+       addressName:'서울 마포구 합정동 363-28',
+       categoryGroupCode:'CE7',
+       categoryGroupName:'카페',
+       categoryName: '음식점 > 카페',
+       distance:'',
+       files: [],
+       id:'447132083',
+       phone: '070-4192-0378',
+       placeName: '어반플랜트 합정',
+       placeUrl: 'http://place.map.kakao.com/447132083',
+       roadAddressName: '서울 마포구 독막로4길 3',
+       x: '126.91718810093374',
+       y: '37.547894169649254',
+      },
+      {
+        addressName:'서울 마포구 합정동 357-6',
+        categoryGroupCode:'CE7',
+        categoryGroupName:'카페',
+        categoryName: '음식점 > 카페 > 커피전문점',
+        distance:'',
+        files: [],
+        id:'12518512',
+        phone: '02-336-7850',
+        placeName: '앤트러사이트 합정점',
+        placeUrl: 'http://place.map.kakao.com/12518512',
+        roadAddressName: '서울 마포구 토정로5길 10',
+        x: '126.918435148767',
+        y: '37.5458137305902',
+       }
+    ],
+    restroom: '어반플랜트 합정',
+    }
+  
+
+  const dispatch = useDispatch();
+
+  const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
+  const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
+  const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
+
+  const myMapContainer = useRef();
+
+  
+
+ initialState.place.map((v,i)=>{
+    console.log(v.y, v.x)
+  })
   
   useEffect(() => {
-    var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
-    // var markers = []
-    // const container = document.getElementById('myMap')
-    const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3,
-    }
-    const map = new kakao.maps.Map(myMap.current, options)
 
-    const ps = new kakao.maps.services.Places()
 
-    ps.keywordSearch(searchPlace, placesSearchCB)
+    const mapOption = { 
+      center: new kakao.maps.LatLng(initialState.place[0].y, initialState.place[0].x), // 지도의 중심좌표
+      level: 3 // 지도의 확대 레벨
+    };
 
-    function placesSearchCB(data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {
-        let bounds = new kakao.maps.LatLngBounds()
-
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i])
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
-        }
-
-        map.setBounds(bounds)
-        // 페이지 목록 보여주는 displayPagination() 추가
-        displayPagination(pagination)
-        setPlaces(data)
-      }
-    }
-
-    // 검색결과 목록 하단에 페이지 번호 표시
-    function displayPagination(pagination) {
-      var paginationEl = document.getElementById('pagination'),
-        fragment = document.createDocumentFragment(),
-        i
-
-      // 기존에 추가된 페이지 번호 삭제
-      while (paginationEl.hasChildNodes()) {
-        paginationEl.removeChild(paginationEl.lastChild)
-      }
-
-      for (i = 1; i <= pagination.last; i++) {
-        var el = document.createElement('a')
-        el.href = '#'
-        el.innerHTML = i
-
-        if (i === pagination.current) {
-          el.className = 'on'
-        } else {
-          el.onclick = (function (i) {
-            return function () {
-              pagination.gotoPage(i)
-            }
-          })(i)
-        }
-
-        fragment.appendChild(el)
-      }
-      paginationEl.appendChild(fragment)
-    }
-
-    function displayMarker(place) {
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(place.y, place.x),
+    const map = new kakao.maps.Map(myMapContainer.current, mapOption); // 지도를 생성합니다
+ 
+    // // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다 
+    const points = [
+      initialState.place.map((v,i)=>{
+        return(
+          new kakao.maps.LatLng(v.y, v.x)
+        )
       })
+    ];
 
-      kakao.maps.event.addListener(marker, 'click', function () {
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>')
-        infowindow.open(map, marker)
-      })
+    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+    const bounds = new kakao.maps.LatLngBounds();    
+
+    function markerOn (){
+
+      for (let i = 0; i < points.length; i++) {
+        // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
+        const marker = new kakao.maps.Marker({
+          position: points[i]
+        });
+        
+    // marker.setMap(map);
+        
+    //     // LatLngBounds 객체에 좌표를 추가합니다
+    //     bounds.extend(points[i]);
     }
-  }, [searchPlace])
+
+    }
+    
+
+    // function setBounds() {
+    //     // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+    //     // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+    //     map.setBounds(bounds);
+    //  }
+
+
+  }, [])
+
+ 
+  
+
+
+
+  // 이하는 useEffect 바깥에 위치한 함수들
+
+
+    // 선택된 장소만 마커 찍어주기
+    // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
+    // const list = (positions) => {
+    //   if (positions.length !==0 ){
+    //     const options = {
+    //       center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
+    //       level: 4,
+    //     }
+    //     const map = new kakao.maps.Map(myMap.current, options)
+  
+    //     for (var i = 0; i < positions.length; i ++) {
+    //       // 마커를 생성
+    //       var marker = new kakao.maps.Marker({
+    //           map: map, // 마커를 표시할 지도
+    //           position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
+    //           // position: positions[i].latlng, // 마커를 표시할 위치
+    //           title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+    //           place_name : positions[i].place_name
+    //       });
+    //       displayMarker(positions[i])
+          
+    //   }
+  
+    //   // 마커찍기 함수
+    //   function displayMarker(place) {
+    //     let marker = new kakao.maps.Marker({
+    //       map: map,
+    //       position: new kakao.maps.LatLng(place.y, place.x)
+    //     })
+        
+    //     kakao.maps.event.addListener(marker, 'click', function () {
+    //       var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
+    //       infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name +  '<br/>' + place.phone + '</div>')
+    //       infowindow.open(map, marker)
+    //       // setFocus(place.place_name)
+    //     })
+    //   }
+    //   } else {
+    //     const options = {
+    //       center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+    //       level: 4,
+    //     }
+    //     const map = new kakao.maps.Map(myMap.current, options)
+
+    //   }
+      
+    // }
+
+  
+
 
   return (
-    <div className='map_wrap'>
-      <div
-        ref={myMap}
-        style={{
-          width:'100vw',
-          height: '100vh',
-          position: 'relative',
-          overflow:'hidden'
-        }}
-      ></div>
+    <>
+      {/* 헤더 */}
       <div className='detailHeader'>
         <div className='preIcon'>
           <FontAwesomeIcon icon={faAngleLeft}/>
         </div>
         <div className='title'>
-          제목
+          {initialState.title}
         </div>
         <div className='heart'>
           <FontAwesomeIcon icon={faHeart} style={{marginRight:'5px'}}/>
@@ -119,51 +205,88 @@ const Detail = ({ searchPlace }) => {
           <FontAwesomeIcon icon={faBookmark}/>
         </div>
       </div>
-      <div className='profile'>
-        <div className='profilePic'>
-          
-        </div>
-        <div className='txtWrap'>
-          <div className='nick'>
-            닉네임
-          </div>
-          <div className='themeNprice'>
-            <div className='tagList'>
-              <div className='tag'>
-                서울
-              </div>
-            </div>
-            <div className='price'>
-              30만원대
-            </div>
-          </div>
-        </div>
-      </div>  
 
-      <div className='menu_wrap'>
-        <div id="result-list">
-          {Places.map((item, i) => (
-            <div key={i} style={{ marginTop: '20px' }}>
-              <span>{i + 1}</span>
-              <div>
-                <h5>{item.place_name}</h5>
-                {item.road_address_name ? (
-                  <div>
-                    <span>{item.road_address_name}</span>
-                    <span>{item.address_name}</span>
-                  </div>
-                ) : (
-                  <span>{item.address_name}</span>
-                )}
-                <span>{item.phone}</span>
-              </div>
-            </div>
-          ))}
-          <div id="pagination"></div>
-        </div>
+
+      {/* 지도 */}
+      <div className='map_wrap'
+        ref={myMapContainer}
+        style={{
+          width:'100vw',
+          height: '40vh',
+          position: 'absolute'
+        }}
+      >
       </div>
-    </div>
+
+      {/* 프로필 / 장소목록 / 사진슬라이드 / 댓글 */}
+      <div className='contentWrap'>
+        <div className='profile'>
+          <div className='profilePic'>
+            
+          </div>
+          <div className='txtWrap'>
+            <div className='nick'>
+              닉네임
+            </div>
+            <div className='themeNprice'>
+                <div className='regionCategory'>
+                  {initialState.regionCategory}
+                </div>
+                  {initialState.themeCategory.map((v,i)=>{
+                    return(
+                      <div className='themeCategory' key={i}>
+                        {v}
+                      </div>
+                    )
+                  })}
+                <div className='priceCategory'>
+                  {initialState.priceCategory}
+                </div>
+              </div>
+          </div>
+        </div>  
+
+        {/* 검색목록과 선택한 목록 */}
+          <div className='placeList'>
+            {initialState.place.map((item, i) => (
+              <div className='selectedPlace' key={i}>
+                <div style={{ marginTop: '10px'}}>
+                  <h3>{i + 1}. {item.placeName}</h3>
+                  {item.roadAddressName ? (
+                    <div>
+                      <span>{item.roadAddressName}</span><br/>
+                      <span>{item.addressName}</span>
+                    </div>
+                  ) : (
+                    <span>{item.addressName}</span>
+                  )}
+                  <span>{item.phone}</span>
+                </div>
+              </div>
+              ))}
+          </div>
+
+          {/* 사진업로드 */}
+          <div className='imgSlide'>
+            
+          </div>
+
+        </div> 
+    
+        
+        {/* <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}
+          />
+        </div> */}
+
+        {/* 텍스트 입력 */}
+        {/* <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+          <textarea placeholder='내용을 입력해주세요' onChange={onContentHandler}/>
+        </div> */}
+
+        
+      </>
   )
 }
 
-export default Detail
+export default MapContainer
