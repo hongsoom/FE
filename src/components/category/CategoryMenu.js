@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/categoryMenu.css";
-import leftArrow from "../assets/leftArrow.png";
-import downArrow from "../assets/downArrow.png";
+import "../../css/categoryMenu.css";
+import leftArrow from "../../assets/leftArrow.png";
+import downArrow from "../../assets/downArrow.png";
+import topArrow from "../../assets/topArrow.png";
 
 const CategoryMenu = ({ onClick }) => {
 
@@ -35,7 +36,11 @@ const CategoryMenu = ({ onClick }) => {
         </div>
         <div className="categorymenu-area">
           <p>지역</p>
-          <button onClick={areaCategory}><img src={downArrow} alt="downarrow"/></button>
+          <button onClick={areaCategory}>
+            {clickArea === false ? 
+              <img src={downArrow} alt="downarrow"/> 
+              : <img src={topArrow} alt="toparrow"/>}  
+          </button>
         </div>
         <div className="area-list">
               {clickArea ?
@@ -46,7 +51,11 @@ const CategoryMenu = ({ onClick }) => {
         </div>
         <div className="categorymenu-theme">
           <p>테마</p>
-          <button onClick={themeCategory}><img src={downArrow} alt="downarrow"/></button>
+          <button onClick={themeCategory}>
+            {clickTheme === false ? 
+              <img src={downArrow} alt="downarrow"/> 
+              : <img src={topArrow} alt="toparrow"/>}  
+          </button>
         </div>
         <div className="theme-list">  
           {clickTheme ?

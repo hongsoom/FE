@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/common/Header";
 import  "../css/main.css";
-import CategoryPost from "../components/CategoryPost";
+import MainPost from "../components/post/MainPost";
+import CategoryPost from "../components/category/CategoryPost";
+import Comment from "../components/comment/Comment";
 
 const Main = () => {
 
@@ -9,18 +11,14 @@ const Main = () => {
       <>
       <Header />  
       <div className="main-container">   
-        <div className="header-category">
-          <button>서울</button>
-          <button>힐링</button>
-          <button>대구</button>
-        </div> 
         <div className="main-content">
           <div className="main-recommend">
-              <CategoryPost />
+            <MainPost />
           </div>
           <div className="main-category">
-              
+            <CategoryPost />
           </div>
+            <Comment />
         </div>
       </div>
     </>
