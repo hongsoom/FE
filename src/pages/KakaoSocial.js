@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/user";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/common/Spinner";
 
 const KakaoSocial = () => {
   const dispatch = useDispatch();

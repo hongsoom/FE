@@ -2,37 +2,15 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
 
-const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
 
-export const getComment = createAction(GET_COMMENT, (commentList) => ({
-    commentList,
-}));
 export const addComment = createAction(ADD_COMMENT, (commentList) => ({
     commentList,
 }));
 export const deleteComment = createAction(DELETE_COMMENT, (commentId) => ({
     commentId,
 }));
-
-  //리뷰조회
-  export const getCommentDB = (postId) => {
-    console.log(postId)
-    return async function (dispatch) {
-      try {
-        const response = await instance.get(
-          `api/post/${postId}`
-        );
-        console.log(response);
-        if (response.status === 200) {
-          dispatch(getComment(response.data.comments));
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-  };
 
   //리뷰등록
 export const addCommentDB = (postId, comment) => {
@@ -72,12 +50,36 @@ export const deleteCommentDB = (commentId) => {
   };  
 
   const initialComment = {
-    commentLoading: false,
+    message: '',
     comments: [
       {
         commentId: 1,
-        comment: "", 
-        nickmame: "",
+        comment: "1번째 댓글", 
+        nickname: "1번",
+        userImgUrl : "",
+      },
+      {
+        commentId: 2,
+        comment: "2번째 댓글", 
+        nickname: "2번",
+        userImgUrl : "",
+      },
+      {
+        commentId: 3,
+        comment: "3번째 댓글", 
+        nickname: "3번",
+        userImgUrl : "",
+      },
+      {
+        commentId: 4,
+        comment: "4번째 댓글", 
+        nickname: "4번",
+        userImgUrl : "",
+      },
+      {
+        commentId: 5,
+        comment: "5번째 댓글", 
+        nickname: "5번",
         userImgUrl : "",
       },
     ],
@@ -86,23 +88,12 @@ export const deleteCommentDB = (commentId) => {
   // Reducer
   export default handleActions(
     {
-      [GET_COMMENT]: (state, action) =>
-        produce(state, (draft) => {
-          draft.comments = action.payload.comments;
-          draft.commentLoading = false;
-        }),
-
-      [ADD_COMMENT]: (state, action) =>
-        produce(state, (draft) => {
-          const data = {
-            commentId: action.payload.comments.commentId,
-            comment: action.payload.comments.comment,
-            nickmame: action.payload.comments.nickmame,
-            userImgUrl: action.payload.comments.userImgUrl,
-          };
-          draft.comments.unshift(data);
-          draft.commentLoading = true;
-        }),
+      [ADD_COMMENT]: (state, action) => {
+        return {
+          ...state,
+          message: action.payload.comment.message,
+        };
+      },
 
       [DELETE_COMMENT]: (state, action) =>
         produce(state, (draft) => {
