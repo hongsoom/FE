@@ -9,7 +9,12 @@ const Main = () => {
 
     return (
       <>
-      <Header />  
+      <Header />
+      <div className="main-button">
+        <button>서울</button>
+        <button>힐링</button>
+        <button>대구</button>
+      </div> 
       <div className="main-container">   
         <div className="main-content">
           <div className="main-recommend">
