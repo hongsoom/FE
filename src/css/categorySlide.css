@@ -1,6 +1,4 @@
 .categoryslide-imagecontainer {
-    width : 100%;
-    height: 100%;
     overflow: hidden;
     position: relative;
     overflow-x: scroll;
@@ -11,8 +9,7 @@
 } 
 
 .categoryslide-imagecontent {
-    max-height: 142px;
-    width : 100%;
+    max-height: 221px;
     display : flex;
     user-select : none;
     transition-property: transform;
@@ -26,19 +23,22 @@
 .categoryslide-button > button {
     border: none;
     background-color: transparent;
-    width : 40px;
     z-index: 100;
     cursor: pointer;
+}
+
+.categoryslide-button > button > img {
+    width : 20px;
+    height : 20px;
 }
 
 .Prev {
     position: absolute;
     top : 50%;
-    right : 88%;
 }
 
 .Next {
     position: absolute;
-    left : 88%;
+    left : 92%;
     top : 50%;
 }

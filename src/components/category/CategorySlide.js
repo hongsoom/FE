@@ -6,12 +6,8 @@ import rightArrow from "../../assets/rightArrow.png"
 const CategorySlide = ({image}) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
 
-  const scrollRef = useRef(null);
   const slideRef = useRef(null);
-  const clickRef = useRef(null);
 
   const TOTAL_SLIDES = image.length -1;
 
@@ -36,88 +32,42 @@ const CategorySlide = ({image}) => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   }, [currentSlide]);
 
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+  const [tochedX, setTochedX] = useState(0);
+  const [tochedY, setTochedY] = useState(0);
+  console.log(tochedX)
   
-      scrollRef.current.scrollLeft = startX - e.pageX;
-  
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
+  const touchStart = (e) => {
+    setTochedX(e.changedTouches[0].pageX);
+    setTochedY(e.changedTouches[0].pageY);
+  } 
+
+  const touchEnd = (e) => {
+    const distanceX = tochedX - e.changedTouches[0].pageX;
+    const distanceY = tochedY - e.changedTouches[0].pageY;
+    const vector = Math.abs(distanceX / distanceY);
+    console.log(distanceX)
+
+    if (distanceX > 10 && vector > 2) {
+      NextSlide();
+    } 
+    if (tochedX < -20 && vector > 2) {
+      PrevSlide();
     }
-  };
-
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
-
-  const [mouseDownClientX, setMouseDownClientX] = useState(0);
-  const [mouseDownClientY, setMouseDownClientY] = useState(0);
-  const [mouseUpClientX, setMouseUpClientX] = useState(0);
-  const [mouseUpClientY, setMouseUpClientY] = useState(0);
-
-  const onMouseDown = (e) => {
-    setMouseDownClientX(e.clientX);
-    setMouseDownClientY(e.clientY);
-  };
-
-  const onMouseUp = (e) => {
-    setMouseUpClientX(e.clientX);
-    setMouseUpClientY(e.clientY);
-  };
-
-  useEffect(() => {
-    const dragSpaceX = Math.abs(mouseDownClientX - mouseUpClientX);
-    const dragSpaceY = Math.abs(mouseDownClientY - mouseUpClientY);
-    const vector = dragSpaceX / dragSpaceY;
-
-    if (mouseDownClientX !== 0 && dragSpaceX > 100 && vector > 2) {
-      if (mouseUpClientX < mouseDownClientX) {
-        NextSlide();
-      } else if (mouseUpClientX > mouseDownClientX) {
-        PrevSlide();
-      }
-    }
-  }, [mouseUpClientX]);
+    setTochedX(0);
+    setTochedY(0);
+  } 
 
   return (
-    <div className="categoryslide-imagecontainer" 
-    onMouseDown={onMouseDown}
-    onMouseMove={isDrag ? onThrottleDragMove : null}
-    onMouseUp={onMouseUp}
-    onMouseLeave={onDragEnd}
-    ref={scrollRef}>
-      <div className="categoryslide-imagecontent" ref={slideRef}>
+    <div className="categoryslide-imagecontainer">
+      <div className="categoryslide-imagecontent" 
+          onTouchStart={touchStart}
+          onTouchEnd={touchEnd}
+          ref={slideRef}>
         {image.map((list) => 
             <img src={list} alt="image" />
         )}
       </div>
-      <div className="categoryslide-button" ref={clickRef}>
+      <div className="categoryslide-button">
         <button onClick={PrevSlide} className="Prev"><img src={leftArrow} alt="Prev" /></button>
         <button onClick={NextSlide} className="Next"><img src={rightArrow} alt="Next" /></button>
       </div>

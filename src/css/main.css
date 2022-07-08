@@ -1,17 +1,79 @@
-.main-container {
+.main-container,
+.main-click {
     margin: 10px auto;
     width: 100%;
     max-width : 375px;
 }
 
+.main-click {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-latest-love-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-latest-love-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-button {
+    margin-right: 50px;
+}
+
+.main-button > button, 
+.main-latest-love-content > p {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.main-button > button {
+    width : 60px;
+    height: 28px;
+    background-color: #8ACEFF;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 1px solid #F5F9FF;
+    color : #F5F9FF;
+    cursor: pointer;
+}
+
+.main-latest-love-content > p {
+    color : #606773;
+    margin : 0;
+}
+
+.main-filter > button,
+.main-latest-love-content > button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.main-filter > button > img,
+.main-latest-love-content > button > img {
+    width : 20px;
+    height: 20px;
+}
+
 .main-content {
-    margin: 0 30px;
+    margin: 0 20px;
 }
 
-.main-recommend {
-
-}
-
+.main-recommend,
 .main-category {
-
+    width: 335px;
+    height: 325px;
+    margin-bottom: 20px;
 }

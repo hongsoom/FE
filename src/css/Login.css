@@ -1,54 +1,91 @@
+
 .login-container {
     margin: 0 auto;
     width: 100%;
     max-width : 375px;
-    background-color: #F5F9FF;
+    background-color: #FFFFFF;
 }
 
 .login-content {
-    width : 375px;
-    height: 812px;
+    max-width : 375px;
+    max-height: 812px;
 }
 
-.login-content,
+.login-logo,
 .login-input,
-.login-social,
-.login-route {
+.login-button,
+.login-kakao {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .login-logo {
-    margin-top: 252px;
+    margin-top: 122px;
     margin-bottom: 40px;
 }
 
+.login-logo > img {
+    width : 86px;
+    height: 131px;
+}
+
+.login-shadow {
+    background: #ECECEC;
+    filter: blur(10px);
+}
+
+.login-logo > p {
+    font-size: 24px;
+    line-height: 35px;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.19);
+}
+
+.login-input {
+    margin-bottom: 8px;
+}
+
 .login-input > input,
-.login-input > button {
+.login-button > button {
     width : 281px;
     height : 44px;
     border-radius: 8px;
 }
 
 .login-input > input {
-    border : 1px solid #45A6FF;
-    margin-bottom: 26px;
+    border : 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
     margin-right: 0;
 }
 
+.login-email {
+    margin-bottom: 10px;
+}
+
+.login-message {
+    margin: 0 50px 17px;
+}
+
+.login-message > p {
+    color : #E31B3F;
+    font-size: 12px;
+    line-height: 17px;
+    margin: 0;
+}
+
+.login-logo > p,
 .login-input > input::placeholder,
-.login-btn,
-.login-route > p,
-.login-route > p > a,
-.kakao-line > p {
-    font-family: 'Noto Sans KR';
+.login-route > a,
+.kakao-line > p,
+.login-message > p {
+    font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
     font-weight: 400;
 }
 
 .login-input > input::placeholder {
-    color:#ECECEC;
+    color:#E4EFFF;
     font-size : 14px;
     line-height: 20px;
 }
@@ -57,62 +94,35 @@
     outline: none;
 }
 
+.login-button {
+    margin-bottom: 24px;
+}
+
 .login-btn {
-    background: #45A6FF;
-    border: 1px solid #45A6FF;
+    background: #8ACEFF;
+    border: 1px solid #8ACEFF;
     color : #F5F9FF;
     font-size: 16px;
     line-height: 23px;
     text-align: center;
     cursor: pointer;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
 }
 
-.login-rout {
-    margin-bottom: 62px;
+.login-route {
+    display : flex;
+    justify-content: flex-end;
+    margin: 0 60px 66px 0;
 }
 
-.login-route > p,
-.login-route > p > a {
+.login-route > a {
+    text-decoration : none;
     font-size: 12px;
     line-height: 17px;
-    color: #032558;
-}
-
-.login-route > p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 62px;
-}
-
-.login-route > p > a {
-    margin-left: 71px;
-    text-decoration : none;
-    margin-right: 5px;
-}
-
-.kakao-line {
-    width : 100%;
-    color: #ABCDFF;
-    text-align: center;
-    font-size: 14px;
-    margin-bottom: 41px;
-}
-
-.kakao-line::before,
-.kakao-line::after {
-    display : inline-block;
-    content : "";
-    background-color : #ABCDFF;
-    height: 1px;
-    width : 108px;
-}
-
-.kakao-line::before {
-    margin : 0 14px 5px 0;
-}
-
-.kakao-line::after {
-    margin : 0 0 5px 14px;
+    color: #606773;
 }
 
 .login-kakao {
@@ -134,9 +144,9 @@
     content: '';
     width: 5px; 
     height: 5px; 
-    top : 7px;
+    top : 6px;
     left : 7px;
-    border-top: 1px solid #032558;
-    border-right: 1px solid #032558;
+    border-top: 1px solid #606773;
+    border-right: 1px solid #606773;
     transform: rotate(45deg);
 }
