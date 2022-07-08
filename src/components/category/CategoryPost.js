@@ -3,21 +3,16 @@ import CategorySlide from "./CategorySlide";
 import  "../../css/categoryPost.css";
 import profile from "../../assets/profile.png";
 import bookmark from "../../assets/bookmark.png";
+import share from "../../assets/share.png";
 import heart from "../../assets/heart.png";
-import test from "../../assets/test.jpg";
-import test2 from "../../assets/test2.jpg";
-import test3 from "../../assets/test3.jpg";
-import test4 from "../../assets/test4.jpg";
-import test5 from "../../assets/test5.jpg";
-import test7 from "../../assets/test7.png";
-
+import test1 from "../../assets/test1.png";
+import test2 from "../../assets/test2.png";
 
 const CategoryPost = () => {
     
-    const [image, setImage] = useState([test, test2, test3, test4, test5, test7]);
+    const [image, setImage] = useState([test1, test2, test1, test2]);
     const [page, setPage] = useState(0);
     const [data, setDate] = useState();
-
 
     const loadLatestPost = () => {
         /*  instance.get(`api/posts/?keyword={keyword}&page={page}`).then(({response}) => {
@@ -50,14 +45,15 @@ const CategoryPost = () => {
                     <p>제목을 입력해주세요</p>
                 </div>    
                 <div className="categorypost-click">
-                    <img src={bookmark} alt="bookmark" />
+                    <img src={share} alt="share" className="share-icon"/>
+                    <img src={bookmark} alt="bookmark" className="bookmark-icon"/>
                 </div>
             </div>
             <CategorySlide image={image} />
             <div className="categorypost-category">
                 <div className="categorypost-button">
-                    <button>서울</button>
-                    <button>먹방</button>
+                    <button className="area-button">서울</button>
+                    <button className="theme-button">먹방</button>
                 </div>    
                 <div className="categorypost-heart">
                     <img src={heart} alt="heart" />

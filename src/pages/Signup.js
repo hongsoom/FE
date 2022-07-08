@@ -55,6 +55,7 @@ const Signup = () => {
         });
       };
     }
+    
     const nicknameCheck = (nickname) => {
         return async function (dispatch) {
           await instance.post("api/user/nickCheck", {
