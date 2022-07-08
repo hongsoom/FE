@@ -28,11 +28,6 @@ const Header = () => {
                     <input type="text" />
                     <button><img src={search} alt="search"/></button>
                 </div>
-                <div className="header-category">
-                    <button>서울</button>
-                    <button>힐링</button>
-                    <button>대구</button>
-                </div> 
             </div>
         </div>
     </>

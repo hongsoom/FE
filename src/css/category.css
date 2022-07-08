@@ -1,8 +1,8 @@
-.main-button {
+.category-button {
     margin : 8px 30px;
 }
 
-.main-button > button {
+.category-button > button {
     width : 60px;
     height: 28px;
     background-color: #F5F9FF;
@@ -19,20 +19,16 @@
     cursor: pointer;
 }
 
-.main-container {
+.category-container {
     margin: 10px auto;
     width: 100%;
     max-width : 375px;
 }
 
-.main-content {
+.category-content {
     margin: 0 30px;
 }
 
-.main-recommend {
-
-}
-
-.main-category {
+.category-category {
 
 }
