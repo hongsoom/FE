@@ -9,6 +9,7 @@ const LOGOUT = "logout";
 const initialState  = {
     list : [],
     isLogin : false,
+    status : "",
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
@@ -25,7 +26,6 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
           password : password,
           passwordCheck : passwordCheck,
         });
-        console.log(response)
         if (response.status === 201) {
           window.location.assign("/login");
         }
@@ -42,17 +42,19 @@ const logInDB = (username, password) => {
           username : username,
           password : password,
         });
-        console.log(response)
         if (response.status === 201) {
           const token = response.headers.authorization;
           localStorage.setItem("token", token);
-          dispatch(login(true));
+          const status = response.data.statusCode;
+          dispatch(login(status));
         }
         if (localStorage.getItem("token")) {
           window.location.assign("/");
         }
     } catch (err) {
       console.log(err)
+      const status = err.response.data.statusCode;
+      dispatch(login(status))
       }
     };
   };
@@ -63,7 +65,6 @@ const logInDB = (username, password) => {
         const response = await instance.get(
           `api/user/kakaoLogin/callback?code=${code}`
         );
-        console.log(response);
         if (response.status === 201) {
           const token = response.headers.authorization;
           localStorage.setItem("token", token);
@@ -90,6 +91,7 @@ export default handleActions(
       [LOGIN]: (state, action) =>
       produce(state, (draft) => {
       draft.isLogin = true;
+      draft.status = action.payload.result;
       }),
 
       [LOGOUT]: (state, action) =>
