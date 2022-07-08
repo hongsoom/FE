@@ -6,6 +6,7 @@ import PriceModal from './PriceModal'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {addPostDB} from '../redux/module/post'
+import {addImg} from '../redux/module/uploadImg'
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -20,6 +21,8 @@ const { kakao } = window
 
 
 const MapContainer = ({ searchPlace }) => {
+
+  
 
   // 지역 선택 모달
   const [showRegionModal, setShowRegionModal] = useState(false);
@@ -80,6 +83,9 @@ const MapContainer = ({ searchPlace }) => {
   const [select, setSelect] = useState([])  
   console.log(select)
 
+  // 선택한 장소 이미지미리보기 url 넣을 배열
+  const [imgUrl, setImgUrl] = useState([])
+
   // 선택한 장소 핀 클릭 포커스
   const [focus, setFocus] = useState();
 
@@ -91,10 +97,6 @@ const MapContainer = ({ searchPlace }) => {
     }
   }
 
-  // 첨부이미지 파일들 담아줌 (파일 자체 배열)
-  const [imgFile, setImgFile] = useState([]);
-
-
   // 지역 선택
   const [selectedRegion, setRegion] = useState();
   
@@ -104,19 +106,15 @@ const MapContainer = ({ searchPlace }) => {
 
   // 비용 선택
   const [selectedPrice, setPrice] = useState();
-  const isCheckedPrice = (e) =>{
-    if (e.target.checked){
-      setPrice(e.target.value)
-    }
-  }
 
   // 첨부이미지 파일들 폼데이터로 담기
   const formData = new FormData();
   formData.append("title", title)
-  formData.append("regionCategory", selectedRegion)
   formData.append("content", content)
+  formData.append("regionCategory", selectedRegion)
+  formData.append("themeCategory", selectedTheme)
   formData.append("priceCategory", selectedPrice)
-  formData.append("places", select)
+  formData.append("place", select)
   formData.append("restroom", selectedRestroom)
 
   
@@ -126,9 +124,8 @@ const MapContainer = ({ searchPlace }) => {
       "regionCategory:" +selectedRegion,
       "content:" +content,
       "priceCategory:" +selectedPrice,
-      "places:" +select,
-      "restroom:" + selectedRestroom,
-      select
+      "place:" +select,
+      "restroom:" + selectedRestroom
     )
   },[content])
   
@@ -323,14 +320,6 @@ const MapContainer = ({ searchPlace }) => {
       
     }
 
-    // const focusFin = ()=>{
-    //   const options = {
-    //     center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-    //     level: 4,
-    //   }
-    //   const map = new kakao.maps.Map(myMap.current, options)
-    // }
-
   
 
 
@@ -372,7 +361,7 @@ const MapContainer = ({ searchPlace }) => {
           <div className='searchList_wrap' style={Places.length !== 0 ? {display:'block'}: {display:'none'}}>
             <div id="result-list">
               {Places.map((item, i) => (
-                <div key={i} style={{ marginTop: '20px' }}>
+                <div key={i} style={{ marginTop: '20px'}}>
                   <span>{i + 1}</span>
                   <div>
                     <h3>{item.place_name}</h3>
@@ -397,6 +386,13 @@ const MapContainer = ({ searchPlace }) => {
                           list(selectList)
                           return selectList
                         })
+                        setImgUrl((pre)=>{
+                          const imgUrlList = [...pre]
+                          const newData = {place_name:item.place_name, imgUrl:[]}
+                          imgUrlList.push(newData)
+                          dispatch(addImg(imgUrlList))
+                          return imgUrlList
+                        })
                       } else{
                         setSelect((pre)=>{
                           const selectList = pre.filter((v,i)=>{
@@ -404,6 +400,12 @@ const MapContainer = ({ searchPlace }) => {
                           })
                           list(selectList)
                           return selectList
+                        })
+                        setImgUrl((pre)=>{
+                          const imgUrlList = pre.filter((v,i)=>{
+                            return item.place_name !== v.place_name
+                          })
+                          return imgUrlList
                         })
                       }
                     }} style={{display:'none'}}/>
@@ -460,7 +462,8 @@ const MapContainer = ({ searchPlace }) => {
 
         {/* 테마선택 */}
         <div className='theme' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <div className='themeWrap'>
+        <div className='choiceTitle'>테마 선택하기</div>
+          <div className='themeWrap'> 
           {theme.map((v,i)=>{
             return(
               <div className='themes' key={i}
@@ -492,7 +495,9 @@ const MapContainer = ({ searchPlace }) => {
          </div>
         </div>
 
-        <div className='regionNprice'>
+        <div className='regionNprice'
+        style={select.length !==0 ? {display:'flex'}:{display:'none'}}
+        >
           {/* 지역선택 */}
           <div className='region'
           onClick={openRegionModal}
@@ -524,7 +529,7 @@ const MapContainer = ({ searchPlace }) => {
 
         {/* 화장실 */}
         <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-        어디에서 화장실을 이용하셨나요?
+        <div className='choiceTitle'>어디에서 화장실을 이용하셨나요?</div>
           <div className='restroomWrap'>
             {select.map((v,i)=>{
               return(
@@ -543,7 +548,8 @@ const MapContainer = ({ searchPlace }) => {
 
         {/* 사진업로드 */}
         <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}
+          
+          <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl}
           />
           
         </div>

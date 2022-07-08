@@ -7,10 +7,9 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 // import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
+const DetailImageSlide = ({initialState, imgUrl}) => {
 
   const [place, setPlace] = useState();
-  const [img, setImg] = useState(0)
 
   // 몇번째 슬라이드인지
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -36,13 +35,14 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
     
   }
 
+  
+
     // 업로드 이미지 url로 바꿔서 미리보기 띄우기
   const loadImg = (e, index) => {
     const file = e.target.files[0];
-    select[index].files.push(file)
+    initialState.place[index].files.push(file)
     const Url = URL.createObjectURL(file)
     imgUrl[index].imgUrl.push(Url)
-    setImg(Url)
   }
 
 
@@ -50,13 +50,11 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
 
 
   return (
-    <div className='container'
-    style={select.length !== 0 ? {display:'flex'}: {display:'none'}}
-    >
-      <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div>
+    <div className='container'>
+      
         {/* 선택 장소 이름들 */}
         <div className='placeNames'>
-          {select.map((v,i)=>{
+          {initialState.place.map((v,i)=>{
             return(
               <div className='placeName' key={i}
               onClick={()=>{setPlace(v.place_name); setCurrentSlide(0)}}
@@ -72,7 +70,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
             {imgUrl.map((l,j)=>{
               return(
                 <div className='imageContainerPerPlace' key={j}
-                style={place === l.place_name && l.imgUrl.length !== 0 ? {display:'flex'}: {display:'none'}}
+                style={place === l.place_name ? {display:'flex'}: {display:'none'}}
                 >
 
                     {/* 왼쪽 버튼 */}
@@ -84,9 +82,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
                     </div>
                 
                     {/* 이미지 들어가는 컨테이너 */}
-                    <div className='slideContainer'
-                    style={imgUrl.length !==0 ? {display:'flex'}: {display:'none'}}
-                    >
+                    <div className='slideContainer'>
                       <div className='imgContainer' id={`container${j}`}>
                       {l.imgUrl.map((v,i)=>{
                         return(
@@ -109,29 +105,10 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
             })}
           </div>        
       </div>   
-      {/* 사진 업로드 버튼 */}
-        <div className='addButtonWrap'>
-          {select.map((v,i)=>{
-            return(
-              <div className='addButton' key={i}
-              style={place === v.place_name ? {display:'block'}:{display:'none'}}
-              >
-                <label htmlFor={`place_name_${i}`}>
-                  {/* <FontAwesomeIcon icon={faPlus}/> */}
-                    <div><b>{v.place_name}</b> 사진 추가하기</div>
-                </label>
-                <input type="file" id={`place_name_${i}`} name="uploadImg" accept="image/*" 
-                onChange={(e)=>{loadImg(e, i)}}
-                style={{display:'none'}}
-                />
-              </div> 
-            )
-          })}
-          
-        </div>
+      
       
     </div>
   )
 }
 
-export default ImageSlide
+export default DetailImageSlide

@@ -3,10 +3,12 @@ import thunk from "redux-thunk";
 import user from "./module/user";
 import post from "./module/post";
 import comment from "./module/comment";
+import uploadImg from "./module/uploadImg"
 
 const rootReducer = combineReducers({
   user: user,
-  post: post,
+  post,
+  uploadImg,
   comment: comment,
 });
 

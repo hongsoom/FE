@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import '../css/detail.css'
 
+import DetailImageSlide from '../components/DetailImageSlide'
+
 import {useDispatch, useSelector} from 'react-redux'
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {addPostDB} from '../redux/module/post'
@@ -19,6 +21,10 @@ const { kakao } = window
 
 const Detail = () => {
 
+  // 선택한 장소 이미지미리보기 url 넣을 배열
+  const [imgUrl, setImgUrl] = useState([])
+  console.log(imgUrl)
+
   // const postId = useParams().id;
   // const data = useSelector((state) => state.post.posts);
   // console.log(data);
@@ -28,7 +34,7 @@ const Detail = () => {
     title : 'title',
     content : '게시글 내용 입니다',
     regionCategory : '서울',
-    themeCategory : ['힐링','맛집'],
+    themeCategory : ['힐링','맛집','애견동반'],
     priceCategory : '10만원대',
     place: [
       {
@@ -90,7 +96,7 @@ const Detail = () => {
 
 
     initialState.place.map((v,i)=>{
-      points.push({y:v.y, x: v.x, place_name:v.placeName, phone:v.phone})
+      points.push({y:v.y, x: v.x, place_name:v.placeName, phone:v.phone, files:v.files})
     })
     console.log(points)
 
@@ -240,7 +246,7 @@ const Detail = () => {
 
           {/* 사진업로드 */}
           <div className='imgSlide'>
-            
+            {/* <DetailImageSlide initialState={initialState}/> */}
           </div>
 
         </div> 
