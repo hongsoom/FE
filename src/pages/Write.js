@@ -1,12 +1,15 @@
-import React from 'react';
-import SearchPlace from '../components/SearchPlace'
+import React, {useState} from 'react';
+import DetailHeader from '../components/DetailHeader'
+import MapContainer from '../components/MapContainer';
+
 
 
 const Write = () => {
 
   return (
     <div>
-      <SearchPlace/>
+      <DetailHeader/>
+      <MapContainer/>
     </div>
   )
 }

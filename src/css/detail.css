@@ -32,8 +32,8 @@
 }
 
 
-.contentWrap{
-  margin-top: 300px;
+.contentsWrap{
+  margin-top: 280px;
   margin-left: 20px;
   margin-bottom: 30px;
   padding-bottom: 20px;
@@ -41,7 +41,7 @@
   flex-direction: column;
   overflow-y: auto;
   width: 335px;
-  height: 400px;
+  height: 350px;
   z-index: 1;
 }
 
@@ -119,6 +119,8 @@
   height: 30px;
 }
 
+
+
 /* 지도 */
 .map_wrap{
   position: absolute;
@@ -136,6 +138,7 @@
   border: 1px solid #45A6FF;
   border-radius: 8px;
   padding: 14px;
+  z-index: 1;
 }
 .selectedPlace{
   margin-bottom: 10px;
@@ -151,5 +154,18 @@
   border: 1px solid #45A6FF;
   border-radius: 8px;
   padding: 14px;
+  margin-bottom: 10px;
 }
 
+.txtPlace{
+  width: 335px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  border: 1px solid #45A6FF;
+  z-index: 1;
+  border-radius: 8px;
+  display:flex;
+  align-items: center;
+  padding: 14px;
+  font-size: 12px;
+}

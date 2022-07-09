@@ -63,8 +63,8 @@ const CategorySlide = ({image}) => {
           onTouchStart={touchStart}
           onTouchEnd={touchEnd}
           ref={slideRef}>
-        {image.map((list) => 
-            <img src={list} alt="image" />
+        {image.map((list, i) => 
+            <img src={list} alt="image" key={i} />
         )}
       </div>
       <div className="categoryslide-button">

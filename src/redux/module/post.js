@@ -50,7 +50,7 @@ export function deletePost(postID){
 // middleWare
 export const getPostDB = (postId) => async (dispatch) => {
   try {
-    const data = await instance.post(`api/post/${postId}`);
+    const data = await instance.get(`api/post/${postId}`);
     dispatch(getPost(data.data));
     console.log(data.data);
   } catch (error) {

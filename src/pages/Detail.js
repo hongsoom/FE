@@ -197,7 +197,7 @@ const Detail = () => {
       </div>
 
       {/* 프로필 / 장소목록 / 사진슬라이드 / 댓글 */}
-      <div className='contentWrap'>
+      <div className='contentsWrap'>
         <div className='profile'>
           <div className='profilePic'>
             
@@ -246,7 +246,12 @@ const Detail = () => {
 
           {/* 사진업로드 */}
           <div className='imgSlide'>
+            이미지 슬라이드 들어갈 공간입니다
             {/* <DetailImageSlide initialState={initialState}/> */}
+          </div>
+
+          <div className='txtPlace'>
+            {initialState.content}
           </div>
 
         </div> 
