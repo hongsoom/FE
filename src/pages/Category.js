@@ -1,26 +1,41 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import Header from "../components/common/Header";
-import  "../css/category.css";
 import CategoryPost from "../components/category/CategoryPost";
+import FilterModal from "../components/common/FilterModal";
+import  "../css/category.css";
+import filter from "../assets/filter.png";
 
 const Category = () => {
 
-    return (
-      <>
-      <Header />
+  const list = useParams().list;
+
+  const [modal, setModal] = useState(false);
+
+  const onClick = () => {
+    setModal(!modal); 
+    };
+  
+  return (
+    <>
+    {modal ? <FilterModal onClick={onClick} list={list} /> : null}
+    <Header />
+    <div className="category-click">
       <div className="category-button">
-        <button>서울</button>
-        <button>힐링</button>
-        <button>대구</button>
-      </div>  
-      <div className="category-container">   
-        <div className="category-content">
-          <div className="category-category">
-            <CategoryPost />
-          </div>
+        <button>{list}</button>
+      </div>
+      <div className="category-filter">
+        <button><img src={filter} alt="filter"/></button>
+      </div>
+    </div> 
+    <div className="category-container">   
+      <div className="category-content">
+        <div className="category-category">
+          <CategoryPost />
         </div>
       </div>
-    </>
+    </div>
+  </>
   )
 }
 

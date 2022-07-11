@@ -33,28 +33,39 @@ const CategorySlide = ({image}) => {
   }, [currentSlide]);
 
   const [tochedX, setTochedX] = useState(0);
-  const [tochedY, setTochedY] = useState(0);
-  console.log(tochedX)
-  
+
+  let curPos = 0;
+  let postion = 0;
+  const IMAGE_WIDTH = 375;
+
+  function prev(){
+    if(curPos > 0){
+      postion += IMAGE_WIDTH;
+      slideRef.style.transform = `translateX(${postion}px)`;
+      curPos = curPos - 1;
+    }
+  }
+  function next(){
+    if(curPos < 3){
+      postion -= IMAGE_WIDTH;
+      slideRef.style.transform = `translateX(${postion}px)`;
+      curPos = curPos + 1;
+    }
+  }
+
   const touchStart = (e) => {
-    setTochedX(e.changedTouches[0].pageX);
-    setTochedY(e.changedTouches[0].pageY);
+    setTochedX(e.touches[0].pageX);
   } 
 
   const touchEnd = (e) => {
-    const distanceX = tochedX - e.changedTouches[0].pageX;
-    const distanceY = tochedY - e.changedTouches[0].pageY;
-    const vector = Math.abs(distanceX / distanceY);
-    console.log(distanceX)
+    const distanceX = e.changedTouches[0].pageX;
 
-    if (distanceX > 10 && vector > 2) {
-      NextSlide();
+    if (tochedX > distanceX) {
+      next();
     } 
-    if (tochedX < -20 && vector > 2) {
-      PrevSlide();
+    else {
+      prev();
     }
-    setTochedX(0);
-    setTochedY(0);
   } 
 
   return (

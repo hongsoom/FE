@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/user";
 import instance from "../shared/Request";
 import "../css/signup.css";
+import logoSmail from "../assets/logo-smail.png";
 
 const Signup = () => {
     const dispatch = useDispatch();
@@ -20,76 +21,116 @@ const Signup = () => {
     const [stateUsername, setStateUsername] = useState(false);
     const [stateNickname, setStateNickname] = useState(false);
 
+    const [idState, setIdState] = useState(false);
+    const [nicknameState, setNicknameState] = useState(false);
+
+     useEffect(() => {
+        if(idState && !nicknameState) {
+            idcondition();
+        } 
+
+        if(nicknameState && !idState) {
+            nicknamecondition();
+        }
+        console.log("id", idState)
+        console.log("nick", nicknameState) 
+     },[dispatch, idState, nicknameState]) 
+
     const idCheck = (username) => {
+        console.log(username)
         return async function (dispatch) {
           await instance.post("api/user/idCheck", {
             username : username
           })
           .then((response) => {
-            if(username === "") {
-                setStateUsername(false);
-                setMessageUsername("공백은 사용할 수 없습니다.");
-            }
-    
-            let emailCheck = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-            
-            if(!emailCheck.test(username)) {
-                setStateUsername(false);
-                setMessageUsername("이메일 형식이 올바르지 않습니다.");
-            }
-
             const status = response.status;
+
+            console.log(response)
     
             if(status === 200) {
                 setStateUsername(true);
                 setMessageUsername("사용 가능한 ID 입니다.");
-            } 
+                setIdState(false);
+            }
           })
           .catch((err) => {
+            console.log(err)
             const status = err.response.data.status;
+
+            if(status === 400) {
+                setStateUsername(false);
+                setMessageUsername("이메일 형식이 올바르지 않습니다.");
+                setIdState(false);
+            }
 
             if(status === 500) {
                 setStateUsername(false);
                 setMessageUsername("이미 사용중인 ID 입니다.");
+                setIdState(false);
           }
         });
       };
     }
     
     const nicknameCheck = (nickname) => {
+        console.log(nickname)
         return async function (dispatch) {
           await instance.post("api/user/nickCheck", {
             nickname : nickname
           })
           .then((response) => {
-            let special_pattern = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
-
-            if(special_pattern.test(nickname) === true){
-                setStateNickname(false);
-                setMessageNickname("특수문자는 사용할 수 없습니다.");
-            }
-    
-            if (nickname.length < 2 || nickname.length > 8) {
-                setStateNickname(false);
-                setMessageNickname("닉네임은 2자리 이상, 8자리 미만입니다.");
-            } 
-
+            console.log(response)
             const status = response.status;
 
             if(status === 200) {
                 setStateNickname(true);
                 setMessageNickname("사용 가능한 nickname 입니다.");
+                setNicknameState(false);
             }
           }) 
           .catch((err) => {
+            console.log(err)
             const status = err.response.data.status;
             
             if(status === 500) {
                 setStateNickname(false);
                 setMessageNickname("이미 사용중인 nickname 입니다.");
+                setNicknameState(false);
             }
         });
       };  
+    }
+
+    const idcondition = () => {
+        if(username === "") {
+            setStateUsername(false);
+            setMessageUsername("공백은 사용할 수 없습니다.");
+            setIdState(false);
+        }
+
+        let emailCheck = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        
+        if(!emailCheck.test(username)) {
+            setStateUsername(false);
+            setMessageUsername("이메일 형식이 올바르지 않습니다.");
+            setIdState(false);
+        }
+    }
+
+    const nicknamecondition = () => {
+        let special_pattern = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+
+            if(special_pattern.test(nickname) === true){
+                setStateNickname(false);
+                setMessageNickname("특수문자는 사용할 수 없습니다.");
+                setNicknameState(false);
+            }
+    
+            if (nickname.length < 2 || nickname.length > 8) {
+                setStateNickname(false);
+                setMessageNickname("닉네임은 2자리 이상, 8자리 미만입니다.");
+                setNicknameState(false);
+            } 
     }
 
     const signup = () => {
@@ -123,6 +164,11 @@ const Signup = () => {
   return (
     <div className="signup-container">
         <div className="signup-content">
+            <div className="signup-logo">
+                <img src={logoSmail} alt="logo" />
+                <div className="signup-shadow"></div>
+                <p>야너갈에 가입할 계정을 입력해주세요</p>
+            </div>
             <div className="signup-input">
                 <label>이메일</label>
                     <div className="signup-id">

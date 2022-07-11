@@ -9,6 +9,7 @@
 .categorypost-content {
     width : 100%;
     height: 100%;
+    position: relative;
 }
 
 .categorypost-title,
@@ -75,11 +76,8 @@
     height: 17px;
 }
 
-.categorypost-button {
-    margin-right: 140px;
-}
-
-.categorypost-button > button {
+.area-button,
+.theme-button {
     width : 60px;
     height: 28px;
     background-color: #8ACEFF;
@@ -90,6 +88,7 @@
     line-height: 20px;
     cursor: pointer;
     color: #F5F9FF;
+    text-align: center;
 }
 
 .area-button {
@@ -97,10 +96,12 @@
 }
 
 .theme-button {
-    margin : 12px 0 12px 0;
+    margin : 12px 10px 12px 0;
 }
 
 .categorypost-heart > img {
+    position : absolute;
+    right : 30px;
     width: 15px;
     height : 13px;
     cursor: pointer;
@@ -108,6 +109,8 @@
 }
 
 .categorypost-heart > p {
+    position : absolute;
+    right : 10px;
     margin-top : 17px;
     width: 20px;
     height : 17px;

@@ -1,9 +1,8 @@
-
 .login-container {
     margin: 0 auto;
     width: 100%;
     max-width : 375px;
-    background-color: #FFFFFF;
+    background-image: linear-gradient(172.63deg, #A3CBFF -37.4%, #FFFFFF 60.51%);
 }
 
 .login-content {
@@ -21,25 +20,32 @@
 }
 
 .login-logo {
-    margin-top: 122px;
     margin-bottom: 40px;
 }
 
 .login-logo > img {
-    width : 86px;
-    height: 131px;
+    width : 100px;
+    height: 100px;
 }
 
-.login-shadow {
-    background: #ECECEC;
-    filter: blur(10px);
+.login-logo > h2 {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 29px;
+    color: #606773;
 }
 
 .login-logo > p {
-    font-size: 24px;
-    line-height: 35px;
-    color: #FFFFFF;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.19);
+    font-size: 16px;
+    line-height: 23px;
+    color: #8ACEFF;
+}
+
+.login-logo > h2, 
+.login-logo > p {
+    margin : 0;
 }
 
 .login-input {
