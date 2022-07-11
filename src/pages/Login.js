@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../redux/module/user";
 import { KAKAO_AUTH_URL } from "../shared/OAuth";
 import Kakao_login from "../assets/kakao_login.png";
-import logo from "../assets/logo.png";
+import logoSmail from "../assets/logo-smail.png";
 import "../css/login.css";
 
 const Login = () => {
@@ -11,40 +11,37 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const status = useSelector((state) => state.user.status);
-    console.log(status)
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const [state, setState] = useState(false);
+    const [state, setState] = useState(false)
 
     const login = () => {
       if (username === "" ||  password === "" ) {
         setMessage("모든 칸을 입력해 주세요.");
       }
 
-      dispatch(userAction.logInDB(
-        username, password
-      ))
-      setState(!state);
-    }
-
-    useEffect(() => {
       if (status === 500) {
         setMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
+        setState(false)
       }
-   },[state])
-
-   console.log(state)
+    }
+    
+    useEffect(() => {
+      if(state) {
+        login();
+      }
+   },[status])
 
     return (
       <>
       <div className="login-container">
         <div className="login-content">
           <div className="login-logo">
-              <img src={logo} alt="Logo"/>
-              <div className="login-shadow"></div>
-              <p>야너갈</p>
+              <img src={logoSmail} alt="logoSmail"/>
+              <h2>Welcome!</h2>
+              <p>여행 경로가 궁금할땐 야너갈</p>
           </div>
           <div className="login-input">
               <input type="text" className="login-email" placeholder="이메일을 입력해 주세요" onChange={(e) => setUsername(e.target.value)}/>
@@ -54,7 +51,9 @@ const Login = () => {
               <p>{message}</p>
           </div>
           <div className="login-button">
-              <button onClick={login} className="login-btn">로그인</button>
+              <button onClick={() => { dispatch(userAction.logInDB(
+        username, password
+      )); setState(true);}} className="login-btn">로그인</button>
           </div>
           <div className="login-route">
                   <a href={"/signup"}>회원가입

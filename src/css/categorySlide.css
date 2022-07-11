@@ -1,6 +1,5 @@
 .categoryslide-imagecontainer {
     overflow: hidden;
-    position: relative;
     overflow-x: scroll;
 }
 
@@ -10,9 +9,9 @@
 
 .categoryslide-imagecontent {
     max-height: 221px;
+    position: relative;
     display : flex;
-    user-select : none;
-    transition-property: transform;
+    transition: transform 0.5s;
 }
 
 .categoryslide-imagecontent > img {  

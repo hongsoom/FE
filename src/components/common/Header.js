@@ -6,6 +6,7 @@ import categoryMenu from "../../assets/categoryMenu.png"
 import mypage from "../../assets/mypage.png"
 import search from "../../assets/search.png";
 import logoSmail from "../../assets/logo-smail.png";
+import topArrow from "../../assets/topArrow.png";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -22,7 +23,8 @@ const Header = () => {
         <div className="header-container">
             <div className="header-content">
                 <div className="header-image">
-                    <img src={categoryMenu} alt="categoryMenu" className="categoryMenu-icon" onClick={onClick}/>
+                    { viewCategory ? <img src={topArrow} alt="topArrow" className="topArrow-icon" onClick={onClick}/> 
+                     : <img src={categoryMenu} alt="categoryMenu" className="categoryMenu-icon" onClick={onClick}/> }
                     <div className="header-title">
                         <img src={logoSmail} alt="logoSmail" className="logoSmail-icon"/>
                         <p>야너갈</p>
