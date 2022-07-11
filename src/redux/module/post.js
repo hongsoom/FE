@@ -52,22 +52,23 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 
 
 // middleWare
-export const getPostListDB = () => async (dispatch) => {
-  try {
-    const data = await instance.get('api/posts');
-    dispatch(getPostList(data.data));
-    // console.log(data.data.postslist);
-  } catch (error) {
-    alert("오류가 발생했습니다. 다시 시도해주세요.");
-    console.log(error);
-  }
-};
+// export const getPostListDB = () => async (dispatch) => {
+//   try {
+//     const data = await instance.get('api/posts');
+//     dispatch(getPostList(data.data));
+//     // console.log(data.data.postslist);
+//   } catch (error) {
+//     alert("오류가 발생했습니다. 다시 시도해주세요.");
+//     console.log(error);
+//   }
+// };
 
 
 const getPostDB = (postId) => {
   return async function (dispatch) {
   try {
     const response = await instance.get(`api/post/${postId}`);
+    console.log(response)
     dispatch(getPost(response.data));
     console.log(response.data);
   } catch (error) {
@@ -184,7 +185,7 @@ export default handleActions(
 // }
 
 const userAction ={
-  getPostListDB,
+  // getPostListDB,
   getPostDB,
   addPostDB,
   deletePostDB
