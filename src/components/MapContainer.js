@@ -12,11 +12,14 @@ import ImageSlide from './ImageSlide'
 import RegionModal from './RegionModal'
 import PriceModal from './PriceModal'
 
+// 라우터
+import {useNavigate} from 'react-router-dom'
+
 // 리덕스
 import {useDispatch, useSelector} from 'react-redux'
 
 // 리덕스 모듈
-import { getPostDB, addPostDB} from '../redux/module/post'
+import { getPostListDB, getPostDB, addPostDB} from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
 
 
@@ -24,8 +27,8 @@ import { addImg } from '../redux/module/uploadImg'
 const { kakao } = window
 
 const MapContainer = () => {
-  const is_login = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
   const [place, setPlace] = useState(""); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
@@ -51,12 +54,31 @@ const MapContainer = () => {
   const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
 
 
+  // ---------------------------- 게시글 수정하기
+  // const param = useParams().id;
+
   // ---------------------------- 게시글 데이터 가져오기
   // React.useEffect(() => {
 
-  //   dispatch(getPostDB());
+  //   dispatch(getPostDB(param));
 
-  // }, []);
+  // }, [dispatch]);
+
+  
+  // const data = useSelector((state) => state.post.post);
+  // const is_edit = param ? true : false;
+  // const edit_post = is_edit ? dataList && dataList.find(p=> p.postId === param) : null;
+  // const is_login = localStorage.getItem("token");
+  
+  // console.log(data);
+
+
+  // 수정 중 새로고침하면 데이터가 날아가므로 새로고침하면 강제 홈으로 이동
+  // React.useEffect(()=> {
+  //   if(is_edit && !edit_post){
+  //     navigate(`/`)
+  //   }
+  // },[])
 
   
   // ---------------------------- 제목 가져오기
@@ -164,12 +186,13 @@ const MapContainer = () => {
     console.log(
       "title:"+ title,
       "regionCategory:" +selectedRegion,
+      "themeCategory:" +selectedTheme,
       "content:" +content,
       "priceCategory:" +selectedPrice,
       "place:" +select,
       "restroom:" + selectedRestroom
     )
-  },[content])
+  },[content, select])
 
 
 

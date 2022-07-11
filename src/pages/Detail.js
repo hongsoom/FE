@@ -25,10 +25,7 @@ const Detail = () => {
   const [imgUrl, setImgUrl] = useState([])
   console.log(imgUrl)
 
-  // const postId = useParams().id;
-  // const data = useSelector((state) => state.post.posts);
-  // console.log(data);
-  // const nowPost = data && data.filter((v, i) => String(postId) === v._id);
+  
 
   const initialState = {
     title : 'title',

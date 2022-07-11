@@ -18,7 +18,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/write" element={<Write />}/>
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/write/:id" element={<Write/>}/>
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/" element={<Main />} />
         {/* <Route path="/mypage" element={<MyPage />} /> */}
         {/* <Route path="/category" element={<Category />} /> */}

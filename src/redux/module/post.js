@@ -1,10 +1,10 @@
+import { createAction, handleActions } from "redux-actions";
+import { produce } from "immer";
+
 import instance from "../../shared/Request";
 import apiform  from "../../shared/api"
 
-const GET = "post/GET"
-const ADD = "post/ADD"
-const MODIFY = "post/MODIFY"
-const DELETE = "post/DELETE"
+
 
 
 const initialState ={
@@ -33,37 +33,55 @@ const initialState ={
   restroom: '',
   }
 
+
+
+const GETLIST = "post/GETLIST"
+const GET = "post/GET"
+const ADD = "post/ADD"
+const MODIFY = "post/MODIFY"
+const DELETE = "post/DELETE"
+
+
 // Action creator
-export function getPost(post){
-  return {type: GET, post}
-}
-export function addPost(post){
-  return {type: ADD, post}
-}
-export function modifyPost(post){
-  return {type: MODIFY, post}
-}
-export function deletePost(postID){
-  return {type: DELETE, postID}
-}
+const getPostList = createAction(GET, (postList) => ({postList}))
+const getPost = createAction(GET, (post) => ({post}));
+const addPost = createAction(ADD, (post) => ({post}));
+const modifyPost = createAction(MODIFY, (post) => ({post}));
+const deletePost = createAction(DELETE, (id) => ({id}));
+  
+
 
 // middleWare
-export const getPostDB = (postId) => async (dispatch) => {
+export const getPostListDB = () => async (dispatch) => {
   try {
-    const data = await instance.get(`api/post/${postId}`);
-    dispatch(getPost(data.data));
-    console.log(data.data);
+    const data = await instance.get('api/posts');
+    dispatch(getPostList(data.data));
+    // console.log(data.data.postslist);
+  } catch (error) {
+    alert("오류가 발생했습니다. 다시 시도해주세요.");
+    console.log(error);
+  }
+};
+
+
+const getPostDB = (postId) => {
+  return async function (dispatch) {
+  try {
+    const response = await instance.get(`api/post/${postId}`);
+    dispatch(getPost(response.data));
+    console.log(response.data);
   } catch (error) {
     // alert("오류가 발생했습니다. 다시 시도해주세요.");
     console.log(error);
   }
 };
+}
 
-export const addPostDB = (Data) => {
+export const addPostDB = (data) => {
   // console.log(data)
   return async function (dispatch, getState) {
     await apiform
-      .post("api/post", Data,
+      .post("api/post", data,
        {
         headers: {
           "Authorization": localStorage.getItem("token") 
@@ -85,7 +103,7 @@ export const deletePostDB = (Id) => {
   
   return function (dispatch) {
     instance
-      .delete(`hotel/${Id}`,
+      .delete(`api/post/${Id}`,
       {
       }
       )
@@ -100,38 +118,75 @@ export const deletePostDB = (Id) => {
 };
 
 //reducer
-
-export default function reducer(state = initialState, action={}){
-  switch(action.type){
-
-    case "post/GET":{
-      return {posts: action.post}
-    }
+export default handleActions(
+  {
+    [GETLIST]:(state, action) => {
+      return {
+        posts: action.payload
+      };
+    },
     
-    case "post/ADD":{
-      const new_post_list = [ action.post_list, ...state.posts];
-      return {posts: new_post_list}
+    [GET]:(state, action) => {
+      return {
+        post: action.payload
+      };
+    },
 
-    }
-    case "post/MODIFY": {
-      
-      const modify_post = [ ...action.post ];
-      console.log(modify_post)
-      return { posts: modify_post };
-    }
+    [ADD]: (state, action) => {
+      return {
+        ...state,
+        posts: action.payload.post
+      };
+    },
 
-    case "post/DELETE":{
-      console.log(state.posts)
-      const new_post_list= state.posts.filter((l,i)=>{
-        console.log(action)
-        // window.alert('보자')
-        return action.postID !== l.id
+    [DELETE]: (state, action) =>
+      produce(state, (draft) => {
+        const newPost = draft.posts.filter((post) => post.id !== action.payload.id)
+        draft.posts = newPost;
       })
-      return {posts: new_post_list}
+  },
+  initialState
+);
 
-    }
+// export default function reducer(state = initialState, action={}){
+//   switch(action.type){
 
-    default:
-      return state;
-  }
+//     case "post/GET":{
+//       return {posts: action.post}
+//     }
+    
+//     case "post/ADD":{
+//       const new_post_list = [ action.post_list, ...state.posts];
+//       return {posts: new_post_list}
+
+//     }
+//     case "post/MODIFY": {
+      
+//       const modify_post = [ ...action.post ];
+//       console.log(modify_post)
+//       return { posts: modify_post };
+//     }
+
+//     case "post/DELETE":{
+//       console.log(state.posts)
+//       const new_post_list= state.posts.filter((l,i)=>{
+//         console.log(action)
+//         // window.alert('보자')
+//         return action.postID !== l.id
+//       })
+//       return {posts: new_post_list}
+
+//     }
+
+//     default:
+//       return state;
+//   }
+// }
+
+const userAction ={
+  getPostListDB,
+  getPostDB,
+  addPostDB,
+  deletePostDB
 }
+export {userAction}
