@@ -74,18 +74,21 @@ const getPostDB = (postId) => {
   } catch (error) {
     // alert("오류가 발생했습니다. 다시 시도해주세요.");
     console.log(error);
+    
   }
 };
 }
 
 export const addPostDB = (data) => {
-  // console.log(data)
+  console.log(data)
   return async function (dispatch, getState) {
-    await apiform
+    console.log(data)
+    await instance
       .post("api/post", data,
        {
         headers: {
-          "Authorization": localStorage.getItem("token") 
+          // "Content-Type": "multipart/form-data",
+          authorization: localStorage.getItem("token") 
         },
       })
       .then((res) => {

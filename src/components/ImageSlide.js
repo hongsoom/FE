@@ -7,7 +7,7 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 // import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
+const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, imgs}) => {
 
   const [place, setPlace] = useState();
   const [img, setImg] = useState(0)
@@ -39,13 +39,25 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl}) => {
     // 업로드 이미지 url로 바꿔서 미리보기 띄우기
   const loadImg = (e, index) => {
     const file = e.target.files[0];
-    select[index].files.push(file)
+    imgs.push(file)
+    // select[index].files.push(file)
     const Url = URL.createObjectURL(file)
     imgUrl[index].imgUrl.push(Url)
     setImg(Url)
+      select[index].imgCount = imgUrl[index].imgUrl.length
+
+      // setSelect((pre)=>{
+      //   const selectList = [...pre]
+      //   const newData = {...Places[i], imgCount:""}
+      //   selectList.push(newData)
+      //   return selectList
+      // })
+    
+    console.log(select)
+    console.log(imgUrl[index].imgUrl.length)
   }
-
-
+  
+  console.log(imgs)
   
 
 

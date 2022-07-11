@@ -47,6 +47,8 @@ const MapContainer = () => {
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
   const [grab, setGrab] = useState(null); // 드래그앤드롭
 
+  const [imgs, setImgs] = useState([]); // 이미지 모두 파일
+
  
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
   const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
@@ -136,16 +138,36 @@ const MapContainer = () => {
   
 
   // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
+  const json = JSON.stringify(select)
+  const blob = new Blob([json], { type: "application/json" })
+
+  
+
   const formData = new FormData();
   formData.append("title", title)
   formData.append("content", content)
   formData.append("regionCategory", selectedRegion)
   formData.append("themeCategory", selectedTheme)
   formData.append("priceCategory", selectedPrice)
-  formData.append("place", select)
-  formData.append("restroom", selectedRestroom)
-  formData.append("restroomOption", restroomOption)
+  formData.append("places", blob)
+  imgs.forEach((v,i)=>{
+    formData.append("imgUrl",v)
+  })
 
+
+  // formData.append(`${imgUrl[0]}`,)
+  // localStorage.setItem('"token"') 
+  // formData.append("imgUrl",imgs)
+
+  // formData.append("restroom", selectedRestroom)
+  // formData.append("restroomOption", restroomOption)
+
+  console.log(select)
+  for (let key of formData.keys()) {
+    console.log(key, ":", formData.get(key));
+  }
+  console.log(imgs)
+  console.log(imgUrl)
   
 
   // ---------------------------- 작성 완료 버튼
@@ -190,11 +212,13 @@ const MapContainer = () => {
       "content:" +content,
       "priceCategory:" +selectedPrice,
       "place:" +select,
-      "restroom:" + selectedRestroom
+      "imgUrl" +imgs
+      // "restroom:" + selectedRestroom
+      
     )
   },[content, select])
 
-
+console.log(select)
 
   
   // ---------------------------- 카카오맵 불러오기
@@ -457,7 +481,7 @@ const MapContainer = () => {
                       if(e.target.checked){
                         setSelect((pre)=>{
                           const selectList = [...pre]
-                          const newData = {...Places[i], files:[]}
+                          const newData = {...Places[i], imgCount:""}
                           selectList.push(newData)
                           list(selectList)
                           return selectList
@@ -663,7 +687,7 @@ const MapContainer = () => {
         {/* 사진업로드 */}
         <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
           
-          <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl}
+          <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
           />
           
         </div>
