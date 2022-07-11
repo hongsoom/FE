@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import Header from "../components/common/Header";
 import MainPost from "../components/post/MainPost";
 import CategoryPost from "../components/category/CategoryPost";
+import FilterModal from "../components/common/FilterModal";
 import  "../css/main.css";
 import filter from "../assets/filter.png";
 
 const Main = () => {
+    const [modal, setModal] = useState(false);
+
+    const onClick = () => {
+      setModal(!modal); 
+      };
 
     return (
       <>
+      {modal ? <FilterModal onClick={onClick} /> : null}
       <Header />
       <div className="main-click">
         <div className="main-button">
@@ -17,7 +24,7 @@ const Main = () => {
           <button>대구</button>
         </div>
         <div className="main-filter">
-         <button><img src={filter} alt="filter"/></button>
+         <button onClick={onClick}><img src={filter} alt="filter"/></button>
         </div>
       </div> 
       <div className="main-container">   

@@ -1,68 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/categoryMenu.css";
-import leftArrow from "../../assets/leftArrow.png";
-import downArrow from "../../assets/downArrow.png";
-import topArrow from "../../assets/topArrow.png";
 
 const CategoryMenu = ({ onClick }) => {
 
   const navigate = useNavigate();
 
   const area = ["서울", "경기", "인천", "강원도", "충청도", "전라도", "경상도", "대전", "세종", "대구", "울산", "광주", "부산", "제주도"];
-  const theme = ["힐링", "먹방", "애견동반", "액티비티", "호캉스"];
-
-  const [clickArea, setClickArea] = useState(false);
-  const [clickTheme, setClickTheme] = useState(false);
-
-  const areaCategory = () => {
-    setClickArea(!clickArea); 
-  };
-
-  const themeCategory = () => {
-    setClickTheme(!clickTheme); 
-  };
 
   return (
     <div className="categorymenu-container">
       <div className="categorymenu-content">
         <div className="categorymenu-title">
-          <div className="categorymenu-a">
-            <img src={leftArrow} alt="previous-page" onClick={onClick}/>
-          </div>
-          <div className="categorymenu-b">
             <p>어디로 떠나볼까요?</p>
-          </div>
-        </div>
-        <div className="categorymenu-area">
-          <p>지역</p>
-          <button onClick={areaCategory}>
-            {clickArea === false ? 
-              <img src={downArrow} alt="downarrow"/> 
-              : <img src={topArrow} alt="toparrow"/>}  
-          </button>
         </div>
         <div className="area-list">
-              {clickArea ?
-                area.map((list) => 
-                    <p>{list}</p>
-                )  
-            : null }
-        </div>
-        <div className="categorymenu-theme">
-          <p>테마</p>
-          <button onClick={themeCategory}>
-            {clickTheme === false ? 
-              <img src={downArrow} alt="downarrow"/> 
-              : <img src={topArrow} alt="toparrow"/>}  
-          </button>
-        </div>
-        <div className="theme-list">  
-          {clickTheme ?
-            theme.map((list) => 
-              <p>{list}</p>
-          )    
-        : null }
+                {area.map((list) => 
+                    <p onClick={() => {navigate("/category/" + list); onClick();}}>{list}</p>
+                )}  
         </div>
       </div>
     </div>
