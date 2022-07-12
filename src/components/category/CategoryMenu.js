@@ -15,8 +15,8 @@ const CategoryMenu = ({ onClick }) => {
             <p>어디로 떠나볼까요?</p>
         </div>
         <div className="area-list">
-                {area.map((list,i) => 
-                    <p onClick={() => {navigate("/category/" + list); onClick();}} key={i}>{list}</p>
+                {area.map((region,i) => 
+                    <p onClick={() => { navigate("/category/" + region); onClick();}} key={i}>{region}</p>
                 )}  
         </div>
       </div>

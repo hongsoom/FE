@@ -12,29 +12,8 @@
     align-items: center;
 }
 
-.main-latest-love-content{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.main-latest-love-container {
-    display: flex;
-    flex-direction: column;
-}
-
 .main-button {
     margin-right: 50px;
-}
-
-.main-button > button, 
-.main-latest-love-content > p {
-    font-family: 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
 }
 
 .main-button > button {
@@ -49,20 +28,7 @@
     cursor: pointer;
 }
 
-.main-latest-love-content > p {
-    color : #606773;
-    margin : 0;
-}
-
-.main-filter > button,
-.main-latest-love-content > button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.main-filter > button > img,
-.main-latest-love-content > button > img {
+.main-filter > button > img {
     width : 20px;
     height: 20px;
 }
@@ -76,4 +42,44 @@
     width: 335px;
     height: 325px;
     margin-bottom: 20px;
+}
+
+.main-latest-love-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-latest-love-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-button > button, 
+.main-latest-love-content > p,
+.main-latest-love-content > button > p {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.main-latest-love-content > p {
+    color : #606773;
+    margin : 0;
+}
+
+.main-filter > button,
+.main-latest-love-content > button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.main-latest-love-content > button > p > img {
+    width : 10px;
+    height: 6px;
+    margin: 3px;
 }

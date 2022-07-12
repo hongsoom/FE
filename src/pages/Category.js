@@ -8,30 +8,32 @@ import filter from "../assets/filter.png";
 
 const Category = () => {
 
-  const list = useParams().list;
+  const region = useParams().region;
+  const theme = useParams().theme;
+  const price = useParams().price;
 
   const [modal, setModal] = useState(false);
 
   const onClick = () => {
     setModal(!modal); 
-    };
+  };
   
   return (
     <>
-    {modal ? <FilterModal onClick={onClick} list={list} /> : null}
+    {modal ? <FilterModal onClick={onClick} region={region} /> : null}
     <Header />
     <div className="category-click">
       <div className="category-button">
-        <button>{list}</button>
+        <button>{region}</button>
       </div>
       <div className="category-filter">
-        <button><img src={filter} alt="filter"/></button>
+        <button onClick={onClick}><img src={filter} alt="filter"/></button>
       </div>
     </div> 
     <div className="category-container">   
       <div className="category-content">
         <div className="category-category">
-          <CategoryPost />
+          <CategoryPost region={region} theme={theme} price={price}/>
         </div>
       </div>
     </div>
