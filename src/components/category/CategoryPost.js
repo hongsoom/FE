@@ -1,12 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
-import  "../../css/categoryPost.css";
+import instance from "../../shared/Request";
 import "swiper/css";
+import  "../../css/categoryPost.css";
 import profile from "../../assets/profile.png";
-import bookmark from "../../assets/bookmark.png";
+import bookmarkEmpty from "../../assets/bookmark.png";
+import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
-import heart from "../../assets/heart.png";
+import heartEmpty from "../../assets/heart.png";
+import heartBlue from "../../assets/heart-blue.png";
 import test1 from "../../assets/test1.png";
 import test2 from "../../assets/test2.png";
 
@@ -44,17 +47,30 @@ const CategoryPost = () => {
         isLove : false
         },
     ]
+
+    const [bookmark, setBookmark] = useState(false);
+    const [heart, setHeart] = useState(false);
+
+    const onClickBookmark = () => {
+      setBookmark(!bookmark);
+    }
+
+    const onClickHeart = () => {
+      setHeart(!heart);
+    }
     
     const [page, setPage] = useState(0);
     const [data, setDate] = useState(initialState);
+    const [image, setImage] = useState([]);
 
-    const loadLatestPost = () => {
-        /*  instance.get(`api/posts/?keyword={keyword}&page={page}`).then(({response}) => {
+    const loadLatestPost = (page) => {
+        console.log(page)
+        instance.get(`api/posts/?keyword={keyword}&page=${page}`).then(({response}) => {
              const newList = response.data;
              const image = response.data.imgUrl;
              setDate((prev) => [...prev, ...newList]);
              setImage((prev) => [...prev, ...image]);
-         }); */
+         });
         const newList = data;
         setDate((prev) => [...prev, ...newList]);
     };
@@ -72,12 +88,6 @@ const CategoryPost = () => {
         window.addEventListener('scroll', handleScroll);
     },[page])
 
-    const areabutton = {
-        width : "60px" , 
-        height: "28px",
-        marginRight: "15px"
-    }
-
     return (
       <div className="categorypost-container">   
       {data.map((list, index) => {
@@ -90,32 +100,29 @@ const CategoryPost = () => {
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
-                    <img src={bookmark} alt="bookmark" className="bookmark-icon"/>
+                    {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
             </div>
-            <CategorySlide image={list.imgUrl} />
+            <CategorySlide image={image} />
             <div className="categorypost-category">
-                <Swiper
-                    className="categorypost-button"
+                <Swiper className="categorypost-categorybutton"
                     slidesPerView={3}
                     breakpoints={{
                     300: {
-                        slidesPerView: 3,
-                        spaceBetween: 5,
-                        centeredSlides: false,
+                        slidesPerView: 3
                     }}}>
-                    <SwiperSlide style={areabutton }>
-                        <button className="area-button">{list.regionCategory}</button>
-                    </SwiperSlide>
-                    {list.themeCategories.map((value, index) => {
-                      return (
-                        <SwiperSlide>
-                            <button className="theme-button">{value.themeCategory}</button>
-                        </SwiperSlide> 
-                    )})}
-                </Swiper>    
+                        <SwiperSlide className="area-button-content">
+                            <button className="area-button">{list.regionCategory}</button>
+                        </SwiperSlide>
+                        {list.themeCategories.map((value, index) => {
+                        return (
+                            <SwiperSlide className="theme-button-content">
+                                <button className="theme-button">{value.themeCategory}</button>
+                            </SwiperSlide> 
+                        )})}   
+                </Swiper>
                 <div className="categorypost-heart">
-                    <img src={heart} alt="heart" />
+                    {heart ? <img onClick={onClickHeart} src={heartBlue} alt="heartBlue" /> : <img onClick={onClickHeart} src={heartEmpty} alt="heartEmpty" /> }
                     <p>{list.loveCount}</p>
                 </div>
             </div>

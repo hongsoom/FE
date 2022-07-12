@@ -32,7 +32,7 @@ const Header = () => {
                     <img src={mypage} alt="mypage" className="mypage-icon" onClick={ () => navigate("/mypage") }/>
                 </div>
                 <div className="header-search">
-                    <input type="text" />
+                    <input type="text" placeholder="지역이나 테마를 검색해보세요" />
                     <button><img src={search} alt="search"/></button>
                 </div>
             </div>

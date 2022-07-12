@@ -98,12 +98,9 @@
     color: #F5F9FF;
 }
 
-.area-button {
-    margin : 12px 10px 12px 8px;
-}
-
+.area-button,
 .theme-button {
-    margin : 12px 10px 12px 0;
+    margin : 12px 0 12px 8px;
 }
 
 .mainpost-heart > img {
