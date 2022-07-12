@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import '../css/detail.css'
 
-import DetailImageSlide from '../components/DetailImageSlide'
 import Comment from "../components/comment/Comment"
 
 import {useDispatch, useSelector} from 'react-redux'
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {getPostDB} from '../redux/module/post'
 
 // 아이콘
@@ -20,68 +19,22 @@ const { kakao } = window
 const Detail = () => {
   const dispatch = useDispatch();
   const param = useParams().id;
-  console.log(param)
   const [points, setPoints] = useState([])
   const myMap = useRef();
 
   
   // 선택한 장소 이미지미리보기 url 넣을 배열
   const [imgUrl, setImgUrl] = useState([])
-  console.log(imgUrl)
 
   // 게시글 아이디로 내용 불러오기
   useEffect(()=>{
     dispatch(getPostDB(param))
-  },[])
+  },[dispatch])
   
   const data = useSelector(state=>state.post.post)
+  console.log(data&&data)
 
-  console.log(data)
-
-  const initialState = {
-    title : 'title',
-    content : '게시글 내용 입니다',
-    regionCategory : '서울',
-    themeCategory : ['힐링','맛집','애견동반'],
-    priceCategory : '10만원대',
-    imgUrl:[],
-    place: [
-      {
-       addressName:'서울 마포구 합정동 363-28',
-       categoryGroupCode:'CE7',
-       categoryGroupName:'카페',
-       categoryName: '음식점 > 카페',
-       distance:'',
-       imgCount:'',
-       id:'447132083',
-       phone: '070-4192-0378',
-       placeName: '어반플랜트 합정',
-       placeUrl: 'http://place.map.kakao.com/447132083',
-       roadAddressName: '서울 마포구 독막로4길 3',
-       x: '126.91718810093374',
-       y: '37.547894169649254',
-      },
-      {
-        addressName:'서울 마포구 합정동 357-6',
-        categoryGroupCode:'CE7',
-        categoryGroupName:'카페',
-        categoryName: '음식점 > 카페 > 커피전문점',
-        distance:'',
-        imgCount:'',
-        id:'12518512',
-        phone: '02-336-7850',
-        placeName: '앤트러사이트 합정점',
-        placeUrl: 'http://place.map.kakao.com/12518512',
-        roadAddressName: '서울 마포구 토정로5길 10',
-        x: '126.918435148767',
-        y: '37.5458137305902',
-       }
-    ],
-    // restroom: '어반플랜트 합정',
-    }
   
-
-  console.log(initialState.place)
 
 
   
@@ -89,21 +42,22 @@ const Detail = () => {
   useEffect(() => {
 
     const mapOption = { 
-      center: new kakao.maps.LatLng(initialState.place[0].y, initialState.place[0].x), // 지도의 중심좌표
-      level: 3 // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(data && toString(data.post.body.place[0].y), data && toString(data.post.body.place[0].x)), // 지도의 중심좌표
+      level: 6 // 지도의 확대 레벨
     };
 
     const map = new kakao.maps.Map(myMap.current, mapOption); // 지도를 생성합니다
 
 
-    initialState.place.map((v,i)=>{
-      points.push({y:v.y, x: v.x, place_name:v.placeName, phone:v.phone})
+    data && data.post.body.place.map((v,i)=>{
+      return(
+        points.push({y:v.y, x: v.x, place_name:v.place_name, phone:v.phone})
+      )
     })
-    console.log(points)
 
     list(points)
 
-  }, [])
+  }, [dispatch])
 
 
   // ----------------------- 카카오맵에 장소 핀 꽂아 보여주기
@@ -149,7 +103,8 @@ const Detail = () => {
           infowindow.open(map, marker)
         })
       }
-      } else {
+      }
+        else {
         const options = {
           center: new kakao.maps.LatLng(37.5666805, 126.9784147),
           level: 4,
@@ -174,7 +129,7 @@ const Detail = () => {
           <FontAwesomeIcon icon={faAngleLeft}/>
         </div>
         <div className='title'>
-          {initialState.title}
+          {data && data.post.body.title}
         </div>
         <div className='heart'>
           <FontAwesomeIcon icon={faHeart} style={{marginRight:'5px'}}/>
@@ -209,17 +164,17 @@ const Detail = () => {
             </div>
             <div className='themeNprice'>
                 <div className='regionCategory'>
-                  {initialState.regionCategory}
+                  {data && data.post.body.regionCategory}
                 </div>
-                  {initialState.themeCategory.map((v,i)=>{
+                  {data && data.post.body.themeCategory.map((v,i)=>{
                     return(
                       <div className='themeCategory' key={i}>
-                        {v}
+                        {v.themeCategory}
                       </div>
                     )
                   })}
                 <div className='priceCategory'>
-                  {initialState.priceCategory}
+                  {data && data.post.body.priceCategory}
                 </div>
               </div>
           </div>
@@ -227,17 +182,17 @@ const Detail = () => {
 
         {/* 검색목록과 선택한 목록 */}
           <div className='placeList'>
-            {initialState.place.map((item, i) => (
+            {data && data.post.body.place.map((item, i) => (
               <div className='selectedPlace' key={i}>
                 <div style={{ marginTop: '10px'}}>
-                  <h3>{i + 1}. {item.placeName}</h3>
-                  {item.roadAddressName ? (
+                  <h3>{i + 1}. {item.place_name}</h3>
+                  {item.road_address_name ? (
                     <div>
-                      <span>{item.roadAddressName}</span><br/>
-                      <span>{item.addressName}</span>
+                      <span>{item.road_address_name}</span><br/>
+                      {/* <span>{item.address_name}</span> */}
                     </div>
                   ) : (
-                    <span>{item.addressName}</span>
+                    <span>{item.address_name}</span>
                   )}
                   <span>{item.phone}</span>
                 </div>
@@ -247,11 +202,11 @@ const Detail = () => {
 
           {/* 사진업로드 */}
           <div className='imgSlide'>
-            <DetailImageSlide initialState={initialState}/>
+            {/* <DetailImageSlide data={data}/> */}
           </div>
 
           <div className='txtPlace'>
-            {initialState.content}
+            {data && data.post.body.content}
           </div>
 
           <div className='commentPlace'>
@@ -259,20 +214,6 @@ const Detail = () => {
           </div>
           
         </div> 
-
-        
-    
-        
-        {/* <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <ImageSlide setImgFile={setImgFile} select={select} setSelect={setSelect}
-          />
-        </div> */}
-
-        {/* 텍스트 입력 */}
-        {/* <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <textarea placeholder='내용을 입력해주세요' onChange={onContentHandler}/>
-        </div> */}
-
         
       </>
   )

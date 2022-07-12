@@ -64,11 +64,11 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 //   }
 // };
 
-const allGetDB = (page, size) => {
-  console.log(page, size)
+const allGetDB = (page, size, keyword) => {
+  console.log(page, size, keyword)
     return async function (dispatch) {
       try {
-        const response = await instance.get(`api/posts?page=${page}&size=${size}`
+        const response = await instance.get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`
         );
         console.log(response)
 
@@ -87,7 +87,6 @@ export const getPostDB = (postId) => {
   return async function (dispatch) {
   try {
     const response = await instance.get(`api/post/${postId}`);
-    console.log(response)
     dispatch(getPost(response.data));
     console.log(response.data);
   } catch (error) {

@@ -6,35 +6,26 @@ import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
 import  "../../css/categoryPost.css";
-import profile from "../../assets/profile.png";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
 import heartBlue from "../../assets/heart-blue.png";
 
-const size = 2;
+const size = 5;
 
 const OptionPost = () => {
     const [page, setPage] = useState(0);
     const dispatch = useDispatch();
 
-    const loadLatestPost = () => {
-        dispatch(userAction.allGetDB(
-            page, size
-        ))
-        setPage(page + 1);
-    };
-
+ 
     const posts = useSelector((state) => state.post.contents);
-
-    console.log(posts)
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
 
     const [keyword, setKeyword] = useState("");
-    
+
     const onClickBookmark = () => {
       setBookmark(!bookmark);
     }
@@ -44,8 +35,12 @@ const OptionPost = () => {
     }
     
 
-
-    
+    const loadLatestPost = () => {
+        dispatch(userAction.allGetDB(
+            page, size, keyword
+        ))
+        setPage(page + 1);
+    };
 
     const handleScroll = (e) => {
         if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
@@ -67,7 +62,7 @@ const OptionPost = () => {
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile" />
+                    <img src={list.userImgUrl} alt="profile" />
                     <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
                 </div>    
                 <div className="categorypost-click">
@@ -75,7 +70,9 @@ const OptionPost = () => {
                     {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
             </div>
-            <CategorySlide image={list.imgUrl} />
+            <Link to ={`detail/${list.postId}`}>
+                <CategorySlide image={list.imgUrl} />
+            </Link>
             <div className="categorypost-category">
                 <Swiper className="categorypost-categorybutton"
                     slidesPerView={1}
