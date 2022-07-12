@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
-import instance from "../../shared/Request";
 import "swiper/css";
 import  "../../css/categoryPost.css";
 import profile from "../../assets/profile.png";
@@ -13,20 +14,13 @@ import heartBlue from "../../assets/heart-blue.png";
 
 const size = 2;
 
-const CategoryPost = ({region, theme, price}) => {
+const OptionPost = () => {
 
-    console.log(region, theme, price)
+    const dispatch = useDispatch();
+    const posts = useSelector((state) => state.post.contents);
+    console.log(posts.length)
 
-    const checkHasIncode = (keyword) => {
-        const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-      
-        if (keyword.match(check_kor)) {
-          const encodeKeyword = encodeURI(keyword); 
-          return encodeKeyword;
-        } else {
-          return keyword;
-        }
-      };
+    //const [data, setDate] = useState(posts)
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
@@ -40,39 +34,31 @@ const CategoryPost = ({region, theme, price}) => {
     }
     
     const [page, setPage] = useState(0);
-    const [data, setDate] = useState([]);
 
     const loadLatestPost = () => {
-        instance.get(`api/post/filter?region=${checkHasIncode(region)}&price=${checkHasIncode(price)}&theme=${checkHasIncode(theme)}$page=${page}&size=${size}`)
-        .then((response) => {
-
-            const newList = [];
-            response.data.content.forEach((p) => newList.push(p))
-
-            console.log(newList)
-            
-            setDate((prev) => [...prev, ...newList]);
-            console.log(data)
-         });
+        dispatch(userAction.allGetDB(
+            page, size
+        ))
+        setPage(page + 1);
     };
 
     const handleScroll = (e) => {
         if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
              e.target.documentElement.scrollHeight
         ) {
-             setPage(page + 1);
+            loadLatestPost();
         }
     } 
  
     useEffect(() => {
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
-    },[page])
-
+    },[])
+    
     return (
       <div className="categorypost-container">   
-      {data && data.map((list, index) => {
-        return (
+      {posts.length !== 0 && posts.map((list, index) => {
+         return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
@@ -113,4 +99,4 @@ const CategoryPost = ({region, theme, price}) => {
     )
 }
 
-export default CategoryPost;
+export default OptionPost;

@@ -31,10 +31,11 @@ const initialState ={
     }
   ],
   restroom: '',
+  contents : [],
   }
 
 
-
+const ALLGET = "post/ALLGET"
 const GETLIST = "post/GETLIST"
 const GET = "post/GET"
 const ADD = "post/ADD"
@@ -43,6 +44,7 @@ const DELETE = "post/DELETE"
 
 
 // Action creator
+const allGet = createAction(ALLGET, (newList) => ({newList}))
 const getPostList = createAction(GET, (postList) => ({postList}))
 const getPost = createAction(GET, (post) => ({post}));
 const addPost = createAction(ADD, (post) => ({post}));
@@ -62,6 +64,24 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 //     console.log(error);
 //   }
 // };
+
+const allGetDB = (page, size) => {
+  console.log(page, size)
+    return async function (dispatch) {
+      try {
+        const response = await instance.get(`api/posts?page=${page}&size=${size}`
+        );
+        console.log(response)
+
+        const newList = response.data.content;
+        dispatch(allGet(newList))
+
+        console.log(newList)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+  };
 
 
 const getPostDB = (postId) => {
@@ -88,7 +108,7 @@ export const addPostDB = (data) => {
        {
         headers: {
           // "Content-Type": "multipart/form-data",
-          authorization: localStorage.getItem("token") 
+          Authorization: localStorage.getItem("token") 
         },
       })
       .then((res) => {
@@ -124,6 +144,12 @@ export const deletePostDB = (Id) => {
 //reducer
 export default handleActions(
   {
+    [ALLGET]: (state, action) => {
+      return {
+      contents : action.payload.newList
+      };
+    },
+    
     [GETLIST]:(state, action) => {
       return {
         posts: action.payload
@@ -189,6 +215,7 @@ export default handleActions(
 
 const userAction ={
   // getPostListDB,
+  allGetDB,
   getPostDB,
   addPostDB,
   deletePostDB

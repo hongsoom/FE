@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  "../../css/filterModal.css";
 
-const FilterModal = ({onClick, list}) => {
+const FilterModal = ({onClick, region}) => {
 
     const navigate = useNavigate();
 
-    console.log(list)
-
     const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
+
+    const [colorchange, setColorChange] = useState(false);
+    const [checkedItems, setCheckedItems] = useState([]);
+
+    const colorChange = () => {
+        setColorChange(!colorchange);
+    }
 
     return (
     <div className="test">  
@@ -20,8 +25,8 @@ const FilterModal = ({onClick, list}) => {
                         <p>테마</p>
                     </div>
                     <div className="filtermodal-themebutton">
-                        {theme.map((value) => 
-                            <button >{value}</button>
+                        {theme.map((theme) => 
+                            <button onClick={() => { navigate("/category/" + region + "/" + theme ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"}>{theme}</button>
                         )}
                     </div>
                 </div>
@@ -30,8 +35,8 @@ const FilterModal = ({onClick, list}) => {
                         <p>가격</p>
                     </div>
                     <div className="filtermodal-pricebutton">
-                        {price.map((value) => 
-                            <button>{value}</button>
+                        {price.map((price) => 
+                            <button onClick={() => { navigate("/category/" + region + "/" + price ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"}>{price}</button>
                         )}
                     </div>
                 </div>

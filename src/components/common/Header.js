@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryMenu from "../category/CategoryMenu";
+import CategoryPost from "../category/CategoryPost";
 import "../../css/header.css";
 import categoryMenu from "../../assets/categoryMenu.png"
 import mypage from "../../assets/mypage.png"
@@ -9,13 +10,20 @@ import logoSmail from "../../assets/logo-smail.png";
 import topArrow from "../../assets/topArrow.png";
 
 const Header = () => {
+
     const navigate = useNavigate();
 
     const [viewCategory, setViewCategory] = useState(false);
+    const [keyword, setKeyword] = useState();
 
     const onClick = () => {
         setViewCategory(!viewCategory); 
-      };
+    };
+
+    const onKeywordClick = () => {
+        <CategoryPost keyword={keyword} />
+        console.log(keyword)
+    };
 
     return (
         <>
@@ -32,8 +40,8 @@ const Header = () => {
                     <img src={mypage} alt="mypage" className="mypage-icon" onClick={ () => navigate("/mypage") }/>
                 </div>
                 <div className="header-search">
-                    <input type="text" placeholder="지역이나 테마를 검색해보세요" />
-                    <button><img src={search} alt="search"/></button>
+                    <input type="text" placeholder="지역이나 테마를 검색해보세요" onChange={(e) => { setKeyword(e.target.value)}}/>
+                    <button onClick={onKeywordClick}><img src={search} alt="search"/></button>
                 </div>
             </div>
         </div>
