@@ -38,7 +38,7 @@ const Setup = () => {
           <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요'>
           </textarea>
 
-          <button>저장</button>
+          <button className='setUpbutton'>저장</button>
         </div>
       </div>
     </>

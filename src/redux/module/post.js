@@ -66,13 +66,10 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 // };
 
 const allGetDB = (page, size, keyword) => {
-  console.log(page, size, keyword)
     return async function (dispatch) {
       try {
         const response = await instance.get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`
         );
-        console.log(response)
-
         const newList = response.data.content;
         dispatch(allGet(newList))
 
