@@ -1,20 +1,29 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import  "../../css/filterModal.css";
 
-const FilterModal = ({onClick, region}) => {
+const FilterModal = ({onClick}) => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    const region = useParams().region;
 
     const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 
     const [colorchange, setColorChange] = useState(false);
-    const [checkedItems, setCheckedItems] = useState([]);
+    
+    const [checkedRegion, setCheckedRegion] = useState();
 
     const colorChange = () => {
         setColorChange(!colorchange);
     }
+
+    const choiceRegion = (e) => {
+        setCheckedRegion(e);
+      };
 
     return (
     <div className="test">  
@@ -25,8 +34,14 @@ const FilterModal = ({onClick, region}) => {
                         <p>테마</p>
                     </div>
                     <div className="filtermodal-themebutton">
-                        {theme.map((theme) => 
-                            <button onClick={() => { navigate("/category/" + region + "/" + theme ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"}>{theme}</button>
+                        {theme.map((theme, i) => 
+                            <input onChange={() => { choiceRegion(theme, i);
+                                }}
+                                type="radio"
+                                name="theme"
+                                value={theme}
+                                checked={checkedRegion === theme ? theme : ""}>
+                            </input>
                         )}
                     </div>
                 </div>

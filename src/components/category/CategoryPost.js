@@ -11,11 +11,9 @@ import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
 import heartBlue from "../../assets/heart-blue.png";
 
-const size = 2;
+const size = 5;
 
 const CategoryPost = ({region, theme, price}) => {
-
-    console.log(region, theme, price)
 
     const checkHasIncode = keyword => {
         if(keyword === undefined) {
@@ -49,7 +47,7 @@ const CategoryPost = ({region, theme, price}) => {
     const loadLatestPost = () => {
         instance.get(`api/posts/filter?region=${checkHasIncode(region)}&price=${checkHasIncode(price)}&theme=${checkHasIncode(theme)}&size=${size}$page=${page}`)
         .then((response) => {
-
+            console.log(response)
             const newList = [];
             response.data.content.forEach((p) => newList.push(p))
 

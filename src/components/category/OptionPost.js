@@ -20,8 +20,24 @@ const OptionPost = () => {
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
+    const [page, setPage] = useState(0);
+    const [keywordChange, setKeyword] = useState("");
 
-    const [keyword, setKeyword] = useState("");
+    const checkHasIncode = keywordChange => {
+        if(keywordChange === undefined) {
+            setKeyword("")
+            return keywordChange;
+        }
+        
+        const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      
+        if (keywordChange.match(check_kor)) {
+          const encodeKeyword = encodeURI(keywordChange); 
+          return encodeKeyword;
+        } else {
+          return keywordChange;
+        }
+      };
 
     const onClickBookmark = () => {
       setBookmark(!bookmark);
@@ -30,10 +46,11 @@ const OptionPost = () => {
     const onClickHeart = () => {
       setHeart(!heart);
     }
-    
-    const [page, setPage] = useState(0);
 
     const loadLatestPost = () => {
+        const keyword = checkHasIncode(keywordChange)
+        console.log(keyword)
+
         dispatch(userAction.allGetDB(
             page, size, keyword
         ))
