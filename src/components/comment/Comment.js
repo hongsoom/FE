@@ -9,6 +9,8 @@ const Comment = ({postId}) => {
 
     const dispatch = useDispatch();
 
+    const id = 32;
+
     const [comment, setComment] = useState("");
     const [page, setPage] = useState(0);
 
@@ -17,12 +19,10 @@ const Comment = ({postId}) => {
     const [data, setDate] = useState(list);
 
     const loadCommnet = () => {
-       /*  instance.get(`api/post/${postId}`).then(({response}) => {
+        instance.get(`api/post/${id}`).then(({response}) => {
             const newList = response.data.comments;
             setDate((prev) => [...prev, ...newList]);
-        }); */
-        const newList = data;
-        setDate((prev) => [...prev, ...newList]);
+        });
     };
 
     const handleScroll = (e) => {
@@ -41,7 +41,7 @@ const Comment = ({postId}) => {
 
     const addcomment = () => {
         dispatch(addCommentDB(
-            postId, comment));
+            id, comment));
             setComment("")
     }
 

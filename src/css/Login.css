@@ -57,6 +57,7 @@
     width : 281px;
     height : 44px;
     border-radius: 8px;
+    padding : 10px;
 }
 
 .login-input > input {

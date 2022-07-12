@@ -18,11 +18,13 @@ const Login = () => {
     const [state, setState] = useState(false)
 
     const login = () => {
-      if (username === "" ||  password === "" ) {
-        setMessage("모든 칸을 입력해 주세요.");
+      if (status === 500) {
+        if (username === "" ||  password === "" ) {
+          setMessage("모든 칸을 입력해 주세요.");
+        }
       }
 
-      if (status === 500) {
+      if (status === 400) {
         setMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
         setState(false)
       }

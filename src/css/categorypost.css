@@ -1,3 +1,20 @@
+.swiper {
+    margin-left: 0;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    position: relative;
+    height: auto;
+    transition-property: transform;
+}
+
 .categorypost-container {
     width: 335px;
     height: 325px;
@@ -31,7 +48,6 @@
 }
 
 .categorypost-user,
-.categorypost-button,
 .categorypost-heart {
     display: flex;
     flex-direction: row;
@@ -45,7 +61,8 @@
 }
 
 .categorypost-user > p,
-.categorypost-button > button,
+.area-button-content > button,
+.theme-button-content > button
 .categorypost-heart > p {
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -76,9 +93,20 @@
     height: 17px;
 }
 
+.categorypost-categorybutton {
+    width : 255px ;
+}
+
+.area-button-content, 
+.theme-button-content {
+    width : 70px !important;
+    height: 28px !important;
+    margin-right: 15px !important;
+}
+
 .area-button,
 .theme-button {
-    width : 60px;
+    width : 70px;
     height: 28px;
     background-color: #8ACEFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -91,12 +119,9 @@
     text-align: center;
 }
 
-.area-button {
-    margin : 12px 10px 12px 8px;
-}
-
+.area-button,
 .theme-button {
-    margin : 12px 10px 12px 0;
+    margin : 12px 0 12px 8px;
 }
 
 .categorypost-heart > img {
