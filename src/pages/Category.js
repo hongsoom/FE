@@ -9,8 +9,6 @@ import filter from "../assets/filter.png";
 const Category = () => {
 
   const region = useParams().region;
-  const theme = useParams().theme;
-  const price = useParams().price;
 
   const [modal, setModal] = useState(false);
 
@@ -33,7 +31,7 @@ const Category = () => {
     <div className="category-container">   
       <div className="category-content">
         <div className="category-category">
-          <CategoryPost region={region} theme={theme} price={price}/>
+          <CategoryPost region={region} />
         </div>
       </div>
     </div>

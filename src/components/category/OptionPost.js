@@ -15,7 +15,6 @@ import heartBlue from "../../assets/heart-blue.png";
 const size = 5;
 
 const OptionPost = () => {
-    const [page, setPage] = useState(0);
     const dispatch = useDispatch();
 
  
@@ -23,8 +22,24 @@ const OptionPost = () => {
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
+    const [page, setPage] = useState(0);
+    const [keywordChange, setKeyword] = useState("");
 
-    const [keyword, setKeyword] = useState("");
+    const checkHasIncode = keywordChange => {
+        if(keywordChange === undefined) {
+            setKeyword("")
+            return keywordChange;
+        }
+        
+        const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      
+        if (keywordChange.match(check_kor)) {
+          const encodeKeyword = encodeURI(keywordChange); 
+          return encodeKeyword;
+        } else {
+          return keywordChange;
+        }
+      };
 
     const onClickBookmark = () => {
       setBookmark(!bookmark);
@@ -33,9 +48,11 @@ const OptionPost = () => {
     const onClickHeart = () => {
       setHeart(!heart);
     }
-    
 
     const loadLatestPost = () => {
+        const keyword = checkHasIncode(keywordChange)
+        console.log(keyword)
+
         dispatch(userAction.allGetDB(
             page, size, keyword
         ))
