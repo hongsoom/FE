@@ -8,29 +8,29 @@ import apiform  from "../../shared/api"
 
 
 const initialState ={
-  // title : 'title',
-  // content : '게시글 내용 입니다',
-  // regionCategory : '지역별',
-  // themeCategory : ['힐링','맛집'],
-  // priceCategory : '10만원대',
-  // place: [
-  //   {
-  //    addressName:'',
-  //    categoryGroupCode:'',
-  //    categoryGroupName:'',
-  //    categoryName: '',
-  //    distance:'',
-  //    files: [],
-  //    id:'',
-  //    phone: '',
-  //    placeName: '',
-  //    placeUrl: '',
-  //    roadAddressName: '',
-  //    x: '',
-  //    y: '',
-  //   }
-  // ],
-  // restroom: '',
+  title : 'title',
+  content : '게시글 내용 입니다',
+  regionCategory : '지역별',
+  themeCategory : ['힐링','맛집'],
+  priceCategory : '10만원대',
+  place: [
+    {
+     addressName:'',
+     categoryGroupCode:'',
+     categoryGroupName:'',
+     categoryName: '',
+     distance:'',
+     files: [],
+     id:'',
+     phone: '',
+     placeName: '',
+     placeUrl: '',
+     roadAddressName: '',
+     x: '',
+     y: '',
+    }
+  ],
+  restroom: '',
   }
 
 

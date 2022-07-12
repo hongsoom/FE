@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import '../css/detail.css'
 
 import DetailImageSlide from '../components/DetailImageSlide'
+import Comment from "../components/comment/Comment"
 
 import {useDispatch, useSelector} from 'react-redux'
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -193,7 +194,7 @@ const Detail = () => {
         ref={myMap}
         style={{
           width:'100vw',
-          height: '55vh',
+          height: '50vh',
           position: 'absolute'
         }}
       >
@@ -249,15 +250,20 @@ const Detail = () => {
 
           {/* 사진업로드 */}
           <div className='imgSlide'>
-            이미지 슬라이드 들어갈 공간입니다
-            {/* <DetailImageSlide initialState={initialState}/> */}
+            <DetailImageSlide initialState={initialState}/>
           </div>
 
           <div className='txtPlace'>
             {initialState.content}
           </div>
 
+          <div className='commentPlace'>
+            <Comment/>
+          </div>
+          
         </div> 
+
+        
     
         
         {/* <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>

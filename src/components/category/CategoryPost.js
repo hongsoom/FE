@@ -92,7 +92,7 @@ const CategoryPost = () => {
       <div className="categorypost-container">   
       {data.map((list, index) => {
         return (
-        <div className="categorypost-content">
+        <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
                     <img src={profile} alt="profile" />
@@ -116,7 +116,7 @@ const CategoryPost = () => {
                         </SwiperSlide>
                         {list.themeCategories.map((value, index) => {
                         return (
-                            <SwiperSlide className="theme-button-content">
+                            <SwiperSlide className="theme-button-content" key={index}>
                                 <button className="theme-button">{value.themeCategory}</button>
                             </SwiperSlide> 
                         )})}   

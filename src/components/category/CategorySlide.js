@@ -20,7 +20,7 @@ const CategorySlide = ({image}) => {
             slidesPerView: 1
         }}}>
       {image.map((list, i) => 
-      <SwiperSlide className="categoryslide-imagecontent">
+      <SwiperSlide className="categoryslide-imagecontent" key={i}>
             <img src={list} alt="image" key={i} />
       </SwiperSlide>
     )}
