@@ -28,8 +28,8 @@ const Main = () => {
       <Header />
       <div className="main-click">
         <div className="main-button">
-          {recommendList.map((list) =>
-              <button>#{list}</button>
+          {recommendList.map((list,i) =>
+              <button key={i}>#{list}</button>
           )}
         </div>
         <div className="main-filter">

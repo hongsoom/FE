@@ -25,8 +25,8 @@ const FilterModal = ({onClick, region}) => {
                         <p>테마</p>
                     </div>
                     <div className="filtermodal-themebutton">
-                        {theme.map((theme) => 
-                            <button onClick={() => { navigate("/category/" + region + "/" + theme ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"}>{theme}</button>
+                        {theme.map((theme,i) => 
+                            <button onClick={() => { navigate("/category/" + region + "/" + theme ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"} key={i}>{theme}</button>
                         )}
                     </div>
                 </div>
@@ -35,8 +35,8 @@ const FilterModal = ({onClick, region}) => {
                         <p>가격</p>
                     </div>
                     <div className="filtermodal-pricebutton">
-                        {price.map((price) => 
-                            <button onClick={() => { navigate("/category/" + region + "/" + price ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"}>{price}</button>
+                        {price.map((price,i) => 
+                            <button onClick={() => { navigate("/category/" + region + "/" + price ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"} key={i}>{price}</button>
                         )}
                     </div>
                 </div>

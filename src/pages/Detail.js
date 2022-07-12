@@ -17,9 +17,6 @@ import {faHeart, faBookmark} from '@fortawesome/free-regular-svg-icons'
 // 카카오맵
 const { kakao } = window
 
-
-
-
 const Detail = () => {
   const dispatch = useDispatch();
   const param = useParams().id;
@@ -35,7 +32,7 @@ const Detail = () => {
   // 게시글 아이디로 내용 불러오기
   useEffect(()=>{
     dispatch(getPostDB(param))
-  },[dispatch])
+  },[])
   
   const data = useSelector(state=>state.post.post)
 
@@ -100,7 +97,7 @@ const Detail = () => {
 
 
     initialState.place.map((v,i)=>{
-      points.push({y:v.y, x: v.x, place_name:v.placeName, phone:v.phone, files:v.files})
+      points.push({y:v.y, x: v.x, place_name:v.placeName, phone:v.phone})
     })
     console.log(points)
 

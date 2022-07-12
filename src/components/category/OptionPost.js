@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
@@ -15,16 +16,25 @@ import heartBlue from "../../assets/heart-blue.png";
 const size = 2;
 
 const OptionPost = () => {
-
+    const [page, setPage] = useState(0);
     const dispatch = useDispatch();
-    const posts = useSelector((state) => state.post.contents);
-    console.log(posts.length)
 
-    //const [data, setDate] = useState(posts)
+    const loadLatestPost = () => {
+        dispatch(userAction.allGetDB(
+            page, size
+        ))
+        setPage(page + 1);
+    };
+
+    const posts = useSelector((state) => state.post.contents);
+
+    console.log(posts)
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
 
+    const [keyword, setKeyword] = useState("");
+    
     const onClickBookmark = () => {
       setBookmark(!bookmark);
     }
@@ -33,14 +43,9 @@ const OptionPost = () => {
       setHeart(!heart);
     }
     
-    const [page, setPage] = useState(0);
 
-    const loadLatestPost = () => {
-        dispatch(userAction.allGetDB(
-            page, size
-        ))
-        setPage(page + 1);
-    };
+
+    
 
     const handleScroll = (e) => {
         if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
@@ -54,16 +59,16 @@ const OptionPost = () => {
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
     },[])
-    
+
     return (
       <div className="categorypost-container">   
-      {posts.length !== 0 && posts.map((list, index) => {
+      {posts && posts.map((list, index) => {
          return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
                     <img src={profile} alt="profile" />
-                    <p>{list.title}</p>
+                    <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>

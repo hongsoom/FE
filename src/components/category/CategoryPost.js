@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
 import instance from "../../shared/Request";
@@ -76,7 +77,7 @@ const CategoryPost = ({region, theme, price}) => {
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile" />
+                    <img src={profile} alt="profile"/>
                     <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">
