@@ -19,9 +19,9 @@ const Main = () => {
       <Header />
       <div className="main-click">
         <div className="main-button">
-          <button>서울</button>
-          <button>힐링</button>
-          <button>대구</button>
+          <button>#서울</button>
+          <button>#호캉스</button>
+          <button>#힐링</button>
         </div>
         <div className="main-filter">
          <button onClick={onClick}><img src={filter} alt="filter"/></button>

@@ -11,7 +11,6 @@
     max-height: 221px;
     position: relative;
     display : flex;
-    transition: transform 0.5s;
 }
 
 .categoryslide-imagecontent > img {  
@@ -19,25 +18,21 @@
     max-width: 100%;
 }
 
-.categoryslide-button > button {
-    border: none;
-    background-color: transparent;
-    z-index: 100;
-    cursor: pointer;
-}
-
-.categoryslide-button > button > img {
+.swiper-button-prev,
+.swiper-button-next {
+    color: #E4EFFF;
     width : 20px;
     height : 20px;
+    top : 60%;
 }
 
-.Prev {
-    position: absolute;
-    top : 50%;
-}
-
-.Next {
-    position: absolute;
-    left : 92%;
-    top : 50%;
+.swiper-button-next:after, 
+.swiper-button-prev:after {
+    font-family: swiper-icons;
+    font-size: 15px;
+    text-transform: none!important;
+    letter-spacing: 0;
+    font-variant: initial;
+    line-height: 1;
+    font-weight: 700;
 }

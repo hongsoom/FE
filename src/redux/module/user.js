@@ -22,7 +22,7 @@ const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   console.log(username, nickname, password, passwordCheck)
-    return async function () {
+    return async function (dispatch) {
       try {
         const response = await instance.post("api/user/signup", {
           username: username,
@@ -30,11 +30,14 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
           password : password,
           passwordCheck : passwordCheck,
         });
+        const status = response.status;
+        dispatch(signUp(status))
         if (response.status === 201) {
           window.location.assign("/login");
         }
       } catch (err) {
-        console.log(err)
+        const status = err.response.data.status;
+        dispatch(signUp(status))
       }
     };
   };
@@ -49,7 +52,7 @@ const logInDB = (username, password) => {
         if (response.status === 201) {
           const token = response.headers.authorization;
           localStorage.setItem("token", token);
-          console.log(token)
+
           const status = response.data.statusCode;
           dispatch(login(status));
         }
@@ -57,7 +60,6 @@ const logInDB = (username, password) => {
           window.location.assign("/");
         }
     } catch (err) {
-      console.log(err)
       const status = err.response.data.statusCode;
       dispatch(login(status))
       }
@@ -89,11 +91,9 @@ const logInDB = (username, password) => {
         const response = await instance.post("api/user/idCheck", {
           username : username
         });
-        console.log(response)
         const status = response.status;
         dispatch(idCheck(status))
       } catch (err) {
-        console.log(err)
         const status = err.response.status;
         dispatch(idCheck(status))
       }
@@ -127,6 +127,11 @@ const logInDB = (username, password) => {
 
 export default handleActions(
     {  
+      [SIGNUP]: (state, action) =>
+      produce(state, (draft) => {
+      draft.status = action.payload.result;
+      }),
+      
       [LOGIN]: (state, action) =>
       produce(state, (draft) => {
       draft.isLogin = true;

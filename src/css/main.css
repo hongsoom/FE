@@ -40,12 +40,12 @@
 .main-button > button {
     width : 60px;
     height: 28px;
-    background-color: #8ACEFF;
+    background-color: #E4EFFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin-right: 10px;
-    border: 1px solid #F5F9FF;
-    color : #F5F9FF;
+    border: 1px solid #E4EFFF;
+    color : #333333;
     cursor: pointer;
 }
 
