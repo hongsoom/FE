@@ -5,25 +5,23 @@ import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
 import  "../../css/categoryPost.css";
-import profile from "../../assets/profile.png";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
 import heartBlue from "../../assets/heart-blue.png";
 
-const size = 2;
+const size = 5;
 
 const OptionPost = () => {
 
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.post.contents);
-    console.log(posts.length)
-
-    //const [data, setDate] = useState(posts)
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
+
+    const [keyword, setKeyword] = useState("");
 
     const onClickBookmark = () => {
       setBookmark(!bookmark);
@@ -37,7 +35,7 @@ const OptionPost = () => {
 
     const loadLatestPost = () => {
         dispatch(userAction.allGetDB(
-            page, size
+            page, size, keyword
         ))
         setPage(page + 1);
     };
@@ -62,7 +60,7 @@ const OptionPost = () => {
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile" />
+                    <img src={list.userImgUrl} alt="profile" />
                     <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">

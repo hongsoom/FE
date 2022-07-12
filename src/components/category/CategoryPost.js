@@ -17,7 +17,11 @@ const CategoryPost = ({region, theme, price}) => {
 
     console.log(region, theme, price)
 
-    const checkHasIncode = (keyword) => {
+    const checkHasIncode = keyword => {
+        if(keyword === undefined) {
+            return keyword;
+        }
+        
         const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       
         if (keyword.match(check_kor)) {
@@ -40,19 +44,16 @@ const CategoryPost = ({region, theme, price}) => {
     }
     
     const [page, setPage] = useState(0);
-    const [data, setDate] = useState([]);
+    const [data, setDate] = useState();
 
     const loadLatestPost = () => {
-        instance.get(`api/post/filter?region=${checkHasIncode(region)}&price=${checkHasIncode(price)}&theme=${checkHasIncode(theme)}$page=${page}&size=${size}`)
+        instance.get(`api/posts/filter?region=${checkHasIncode(region)}&price=${checkHasIncode(price)}&theme=${checkHasIncode(theme)}&size=${size}$page=${page}`)
         .then((response) => {
 
             const newList = [];
             response.data.content.forEach((p) => newList.push(p))
 
             console.log(newList)
-            
-            setDate((prev) => [...prev, ...newList]);
-            console.log(data)
          });
     };
 
