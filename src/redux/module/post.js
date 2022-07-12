@@ -8,29 +8,29 @@ import apiform  from "../../shared/api"
 
 
 const initialState ={
-  title : 'title',
-  content : '게시글 내용 입니다',
-  regionCategory : '지역별',
-  themeCategory : ['힐링','맛집'],
-  priceCategory : '10만원대',
-  place: [
-    {
-     addressName:'',
-     categoryGroupCode:'',
-     categoryGroupName:'',
-     categoryName: '',
-     distance:'',
-     files: [],
-     id:'',
-     phone: '',
-     placeName: '',
-     placeUrl: '',
-     roadAddressName: '',
-     x: '',
-     y: '',
-    }
-  ],
-  restroom: '',
+  // title : 'title',
+  // content : '게시글 내용 입니다',
+  // regionCategory : '지역별',
+  // themeCategory : ['힐링','맛집'],
+  // priceCategory : '10만원대',
+  // place: [
+  //   {
+  //    addressName:'',
+  //    categoryGroupCode:'',
+  //    categoryGroupName:'',
+  //    categoryName: '',
+  //    distance:'',
+  //    files: [],
+  //    id:'',
+  //    phone: '',
+  //    placeName: '',
+  //    placeUrl: '',
+  //    roadAddressName: '',
+  //    x: '',
+  //    y: '',
+  //   }
+  // ],
+  // restroom: '',
   }
 
 
@@ -64,7 +64,7 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 // };
 
 
-const getPostDB = (postId) => {
+export const getPostDB = (postId) => {
   return async function (dispatch) {
   try {
     const response = await instance.get(`api/post/${postId}`);
@@ -187,8 +187,7 @@ export default handleActions(
 //   }
 // }
 
-const userAction ={
-  // getPostListDB,
+const userAction = {
   getPostDB,
   addPostDB,
   deletePostDB

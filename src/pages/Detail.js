@@ -5,7 +5,7 @@ import DetailImageSlide from '../components/DetailImageSlide'
 
 import {useDispatch, useSelector} from 'react-redux'
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {addPostDB} from '../redux/module/post'
+import {getPostDB} from '../redux/module/post'
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -20,12 +20,25 @@ const { kakao } = window
 
 
 const Detail = () => {
+  const dispatch = useDispatch();
+  const param = useParams().id;
+  console.log(param)
+  const [points, setPoints] = useState([])
+  const myMap = useRef();
 
+  
   // 선택한 장소 이미지미리보기 url 넣을 배열
   const [imgUrl, setImgUrl] = useState([])
   console.log(imgUrl)
 
+  // 게시글 아이디로 내용 불러오기
+  useEffect(()=>{
+    dispatch(getPostDB(param))
+  },[dispatch])
   
+  const data = useSelector(state=>state.post.post)
+
+  console.log(data)
 
   const initialState = {
     title : 'title',
@@ -33,6 +46,7 @@ const Detail = () => {
     regionCategory : '서울',
     themeCategory : ['힐링','맛집','애견동반'],
     priceCategory : '10만원대',
+    imgUrl:[],
     place: [
       {
        addressName:'서울 마포구 합정동 363-28',
@@ -40,7 +54,7 @@ const Detail = () => {
        categoryGroupName:'카페',
        categoryName: '음식점 > 카페',
        distance:'',
-       files: [],
+       imgCount:'',
        id:'447132083',
        phone: '070-4192-0378',
        placeName: '어반플랜트 합정',
@@ -55,7 +69,7 @@ const Detail = () => {
         categoryGroupName:'카페',
         categoryName: '음식점 > 카페 > 커피전문점',
         distance:'',
-        files: [],
+        imgCount:'',
         id:'12518512',
         phone: '02-336-7850',
         placeName: '앤트러사이트 합정점',
@@ -65,23 +79,15 @@ const Detail = () => {
         y: '37.5458137305902',
        }
     ],
-    restroom: '어반플랜트 합정',
+    // restroom: '어반플랜트 합정',
     }
   
-
-  const [points, setPoints] = useState([])
-
-  const dispatch = useDispatch();
-
-
-  const myMap = useRef();
 
   console.log(initialState.place)
 
 
   
-
-  
+  // ----------------------- 첫 로딩 카카오맵 초기 상태
   useEffect(() => {
 
     const mapOption = { 
@@ -102,7 +108,7 @@ const Detail = () => {
   }, [])
 
 
-
+  // ----------------------- 카카오맵에 장소 핀 꽂아 보여주기
   const list = (positions) => {
     if (positions.length !==0 ){
       const options = {

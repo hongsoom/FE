@@ -1,0 +1,9 @@
+# pack-refs with: peeled fully-peeled sorted 
+ecb6f3b175345d2560d702454b54d5c01082f92e refs/heads/checkout
+8b944ecd7eb0723a371198b6c90ad159c8316e09 refs/heads/merge-test
+a7dd57e90281593076874c1780f56bb10685f81d refs/heads/soojeong
+f421c063d1781fa40a01b3644de6c91faf776ad7 refs/remotes/origin/HEAD
+f421c063d1781fa40a01b3644de6c91faf776ad7 refs/remotes/origin/master
+8b944ecd7eb0723a371198b6c90ad159c8316e09 refs/remotes/origin/merge-test
+a7dd57e90281593076874c1780f56bb10685f81d refs/remotes/origin/soojeong
+858eb72f44348a1418139c960fcbc63b61639c7d refs/remotes/origin/sumin
