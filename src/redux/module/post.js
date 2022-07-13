@@ -44,8 +44,8 @@ const DELETE = "post/DELETE"
 
 // Action creator
 const allGet = createAction(ALLGET, (newList) => ({newList}))
-const getPostList = createAction(GET, (postList) => ({postList}))
-const getPost = createAction(GET, (post) => ({post}));
+// const getPostList = createAction(GETLIST, (postList) => ({postList}))
+const getPost = createAction(GET, (postOne) => ({postOne}));
 const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
@@ -83,9 +83,10 @@ const allGetDB = (page, size, keyword) => {
 export const getPostDB = (postId) => {
   return async function (dispatch) {
   try {
-    const response = await instance.get(`api/post/${postId}`);
-    dispatch(getPost(response.data));
-    console.log(response.data);
+    const data = await instance.get(`api/post/${postId}`);
+    const newData = data.data.body;
+    dispatch(getPost(newData));
+    console.log(newData);
   } catch (error) {
     // alert("오류가 발생했습니다. 다시 시도해주세요.");
     console.log(error);
@@ -118,16 +119,20 @@ export const addPostDB = (data) => {
   };
 };
 
-export const deletePostDB = (Id) => {
-  
+export const deletePostDB = (postId) => {
+  console.log(postId)
   return function (dispatch) {
     instance
-      .delete(`api/post/${Id}`,
+      .delete(`api/post/${postId}`,
       {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token") 
+        },
       }
       )
       .then((res) => {
-        dispatch(deletePost(Id));
+        dispatch(deletePost(postId));
         window.location.assign("/")
       })
       .catch((error) => {
@@ -151,11 +156,11 @@ export default handleActions(
       };
     },
     
-    [GET]:(state, action) => {
-      return {
-        post: action.payload
-      };
-    },
+    [GET]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.postOne = payload.postOne;
+      }),
+    
 
     [ADD]: (state, action) => {
       return {
@@ -166,8 +171,10 @@ export default handleActions(
 
     [DELETE]: (state, action) =>
       produce(state, (draft) => {
-        const newPost = draft.posts.filter((post) => post.id !== action.payload.id)
-        draft.posts = newPost;
+        console.log(draft)
+        draft.newList = draft.newList.filter(
+          (p) => p.postId !== action.payload.postId
+        );
       })
   },
   initialState

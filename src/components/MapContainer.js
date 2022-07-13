@@ -13,7 +13,7 @@ import RegionModal from './RegionModal'
 import PriceModal from './PriceModal'
 
 // 라우터
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 
 // 리덕스
 import {useDispatch, useSelector} from 'react-redux'
@@ -57,14 +57,14 @@ const MapContainer = () => {
 
 
   // ---------------------------- 게시글 수정하기
-  // const param = useParams().id;
+  const param = useParams().id;
 
   // ---------------------------- 게시글 데이터 가져오기
-  // React.useEffect(() => {
+  React.useEffect(() => {
 
-  //   dispatch(getPostDB(param));
+    dispatch(getPostDB(param));
 
-  // }, [dispatch]);
+  }, [dispatch]);
 
   
   // const data = useSelector((state) => state.post.post);
@@ -153,14 +153,15 @@ const MapContainer = () => {
   imgs.forEach((v,i)=>{
     formData.append("imgUrl",v)
   })
+  formData.append("restroom", selectedRestroom)
+  formData.append("restroomOption", restroomOption)
 
 
   // formData.append(`${imgUrl[0]}`,)
   // localStorage.setItem('"token"') 
   // formData.append("imgUrl",imgs)
 
-  // formData.append("restroom", selectedRestroom)
-  // formData.append("restroomOption", restroomOption)
+  
 
   console.log(select)
   for (let key of formData.keys()) {

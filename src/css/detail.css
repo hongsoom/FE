@@ -4,24 +4,47 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  height: 40px;
-  display:flex;
+  height: auto;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: #222;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 10px 0;
+  background: #fff;
+  padding-top: 40px;
+  padding-bottom: 10px;
 }
 .preIcon{
-  width: 35px;
+  width: 8.43px;
+  margin-left: 28.67px;
+}
+.preIcon>img{
+  width: 8.43px;
 }
 .title{
   font-size:18px;
   font-weight:400;
-  width: 185px;
+  width: 240px;
+  height: 26px;
+  text-align: center;
 }
-.title input{
-  width: 150px;
+
+.editIcon{
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  background: red;
+  border-radius: 100px;
+  text-align: center;
+
+}
+.editIcon>img{
+  width: 16.67px;
+}
+.trashIcon{
+  width: 16.67px;
+}
+.trashIcon>img{
+  width: 16.67px;
 }
 
 .heart{
@@ -33,36 +56,39 @@
 
 
 .contentsWrap{
-  margin-top: 280px;
-  margin-left: 20px;
+  margin-top: 82px;
   margin-bottom: 30px;
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow-y: auto;
-  width: 335px;
-  height: 350px;
-  z-index: 1;
+  width: 100vw;
 }
 
 .profile{
   width: 335px;
   height: 80px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  border: 1px solid #45A6FF;
-  z-index: 1;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.12));
+  background: #fff;
+  border: 1px solid #E4EFFF;
   border-radius: 8px;
   display:flex;
   align-items: center;
 }
 
 .profilePic{
+  position:relative;
   width: 52px;
   height: 52px;
-  background: #d9d9d9;
+  background: #E4EFFF;
   border-radius: 100px;
   margin: 14px;
+  overflow: hidden;
+}
+.profilePic>img{
+  position:absolute;
+  width: 100%;
 }
 .txtWrap{
   display: flex;
@@ -88,11 +114,10 @@
 }
 .regionCategory{
   width: auto;
-  background: #F5F5F5;
-  border-radius: 100px;
+  background: #F5F9FF;
+  border-radius: 10px;
   padding: 2px 10px;
   text-align: center;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
   height: 30px;
   margin-right: 5px;
 }
@@ -101,75 +126,112 @@
 }
 .themeCategory{
   width: auto;
-  background: #F5F5F5;
-  border-radius: 100px;
+  background: #F5F9FF;
+  border-radius: 10px;
   padding: 2px 10px;
   text-align: center;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
   height: 30px;
   margin-right: 5px;
 }
 .priceCategory{
   width: auto;
-  background: #F5F5F5;
-  border-radius: 100px;
+  background: #F5F9FF;
+  border-radius: 10px;
   padding: 2px 10px;
   text-align: center;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
   height: 30px;
 }
 
 
 
 /* 지도 */
-.map_wrap{
-  position: absolute;
-  top:0;
+.detail_map_wrap{
+  width: 100vw;
+  height: 375px;
+  margin-top: 16px;  
+  background: red;
   z-index: 0;
+  /* position: absolute; */
 }
+
+
 
 .placeList{
   font-size: 12px;
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  border: 1px solid #45A6FF;
-  border-radius: 8px;
-  padding: 14px;
-  z-index: 1;
+  width: 100vw;
+  padding: 14px 24px;
+  color: #fff;
+  /* background: #333333; */
 }
 .selectedPlace{
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .imgSlide{
+  width: 333px;
   font-size: 12px;
-  display: flex;
-  flex-direction: column;
   margin-top: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  border: 1px solid #45A6FF;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.12));
+  background:#fff;
+  border: 1px solid #E4EFFF;
   border-radius: 8px;
-  padding: 14px;
   margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.heartNbookmarkIcon{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 100vw;
+  padding: 18px 24.5px;
+}
+.heartIcon{
+  width: 16.67px;
+  margin-right: 4px;
+}
+.heartIcon>img{
+  width: 16.67px;
+}
+.heartNum{
+  font-weight: 400;
+  font-size: 16px;
+  color: #606773;
+  height: 23px;
+  margin-right: 10px;
+}
+.bookmarkIcon{
+  width: 13.33px;
+  margin-right: 10px;
+}
+.bookmarkIcon>img{
+  width: 13.33px;
+}
+.shareIcon{
+  width: 15.83px;
+}
+.shareIcon>img{
+  width: 15.83px;
 }
 
 .txtPlace{
   width: 335px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  border: 1px solid #45A6FF;
-  z-index: 1;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.12));
+  background:#fff;
+  border: 1px solid #E4EFFF;
   border-radius: 8px;
   display:flex;
   align-items: center;
   padding: 14px;
   font-size: 12px;
 }
-
+.txtPlace>img{
+  width: 16px;
+  margin-right: 10px;
+}
 
 
 
@@ -177,5 +239,4 @@
 
 .commentPlace{
   margin-top: 30px;
-  z-index: 1;
 }

@@ -1,100 +1,106 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../css/detail.css'
+import instance from '../shared/Request'
 
+import DetailImageSlide from '../components/DetailImageSlide'
+import Spinner from '../components/common/Spinner'
 import Comment from "../components/comment/Comment"
 
-import {useDispatch, useSelector} from 'react-redux'
-import { useParams } from "react-router-dom";
-import {getPostDB} from '../redux/module/post'
+import { useDispatch, useSelector} from 'react-redux'
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { deletePostDB } from "../redux/module/post"
 
 // 아이콘
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faAngleLeft} from '@fortawesome/free-solid-svg-icons'
-import {faHeart, faBookmark} from '@fortawesome/free-regular-svg-icons'
-
+import leftArrowBlack from '../assets/leftArrowBlack.png'
+import edit from '../assets/edit.png'
+import trash from '../assets/trash.png'
+import heartpink from '../assets/heartpink.png'
+import bookmark from '../assets/bookmark.png'
+import shareblack from '../assets/shareblack.png'
+import talk from '../assets/talk.png'
 
 // 카카오맵
 const { kakao } = window
 
 const Detail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const param = useParams().id;
   const [points, setPoints] = useState([])
   const myMap = useRef();
-
-  
-  // 선택한 장소 이미지미리보기 url 넣을 배열
-  const [imgUrl, setImgUrl] = useState([])
-
-  // 게시글 아이디로 내용 불러오기
-  useEffect(()=>{
-    dispatch(getPostDB(param))
-  },[dispatch])
-  
-  const data = useSelector(state=>state.post.post)
-  console.log(data&&data)
-
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
   
 
-
+  // -------------- 게시글 데이터 가져오기
+  const getData = async (postId)=>{
+    try {
+      setData(null)
+      setLoading(true)
+      const response = await instance.get(`api/post/${postId}`);
+      const newData = response.data.body
+      setData(newData);
+    } catch (error) {
+      console.error(error.message);
+    }
+    setLoading(false)
+  }
   
-  // ----------------------- 첫 로딩 카카오맵 초기 상태
+  useEffect(() => {
+    getData(param); 
+  }, [param]);
+
+ // ------------------------------------
+
+ // -------------- 게시글 데이터 삭제하기
+  const onDeleteHandler = () => {
+    dispatch(deletePostDB(param))
+  }
+
+
+    
+
+  // ----------------------- 카카오맵 
   useEffect(() => {
 
+    // ------------------ 맨 처음 지도 초기화
     const mapOption = { 
-      center: new kakao.maps.LatLng(data && toString(data.post.body.place[0].y), data && toString(data.post.body.place[0].x)), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(data&&data.place[0].y, data && data.place[0].x), // 지도의 중심좌표
       level: 6 // 지도의 확대 레벨
     };
 
     const map = new kakao.maps.Map(myMap.current, mapOption); // 지도를 생성합니다
+    // const bounds = new kakao.maps.LatLngBounds(); // 핀 위치 재조정 변수
 
 
-    data && data.post.body.place.map((v,i)=>{
-      return(
-        points.push({y:v.y, x: v.x, place_name:v.place_name, phone:v.phone})
-      )
-    })
+    // // ------------------ 장소마다 위도,경도,이름,전화번호 points에 저장
+    // data && data.post.body.place.map((v,i)=>{
+    //   return(
+    //     points.push({y:v.y, x:v.x, place_name:v.place_name, phone:v.phone})
+    //   )
+    // })
 
-    list(points)
+    // // ------------------ points에 있는 위도,경도를 핀에 꽂음
+    // points.forEach(point => {
+    //   bounds.extend(new kakao.maps.LatLng(point.lat, point.lng))
+    // });
 
-  }, [dispatch])
-
-
-  // ----------------------- 카카오맵에 장소 핀 꽂아 보여주기
-  const list = (positions) => {
-    if (positions.length !==0 ){
-      const options = {
-        center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
-        level: 5,
-      }
-      const map = new kakao.maps.Map(myMap.current, options)
-
-      
-      const bounds = new kakao.maps.LatLngBounds();
-  
-      points.forEach(point => {
-        bounds.extend(new kakao.maps.LatLng(point.lat, point.lng))
+    // ------------------ 모든 위도,경도를 핀에 꽂음
+    for (var i = 0; i < data&& data.place.length; i ++) {
+      // 마커를 생성
+      var marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: new kakao.maps.LatLng(toString(data.place[i].y), toString(data.place[i].x)),
+          // position: positions[i].latlng, // 마커를 표시할 위치
+          title :  data.place[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          place_name : data.place[i].place_name
       });
-
-
-      for (var i = 0; i < positions.length; i ++) {
-        // 마커를 생성
-        var marker = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
-            // position: positions[i].latlng, // 마커를 표시할 위치
-            title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-            place_name : positions[i].place_name
-        });
-        displayMarker(positions[i])
-        marker.setMap(map);
-    }
 
       // 마커찍기 함수
       function displayMarker(place) {
         let marker = new kakao.maps.Marker({
           map: map,
-          position: new kakao.maps.LatLng(place.y, place.x)
+          position: new kakao.maps.LatLng(toString(place.y), toString(place.x))
         })
         
         kakao.maps.event.addListener(marker, 'click', function () {
@@ -103,70 +109,85 @@ const Detail = () => {
           infowindow.open(map, marker)
         })
       }
-      }
-        else {
-        const options = {
-          center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-          level: 4,
-        }
-        const map = new kakao.maps.Map(myMap.current, options)
 
-      }
+      displayMarker(data.place[i])
+      marker.setMap(map);
+  }
+
+    // list(points)
+
+  }, [data])
+
+
+  // ----------------------- 카카오맵에 장소 핀 꽂아 보여주기
+  // const list = (positions) => {
+  //   if (positions.length !==0 ){
+  //     const options = {
+  //       center: new kakao.maps.LatLng(toString(positions[positions.length-1].y), toString(positions[positions.length-1].x)),
+  //       level: 5,
+  //     }
+  //     const map = new kakao.maps.Map(myMap.current, options)
+
+  //     }
+  //       else {
+  //       const options = {
+  //         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+  //         level: 4,
+  //       }
+  //       const map = new kakao.maps.Map(myMap.current, options)
+
+  //     }
       
-    }
+  //   }
 
 
   
  
-  
+  const onClickLeftArrow = () => {
+    navigate('/')
+  }
 
 
   return (
     <>
       {/* 헤더 */}
       <div className='detailHeader'>
-        <div className='preIcon'>
-          <FontAwesomeIcon icon={faAngleLeft}/>
+        <div className='preIcon' onClick={onClickLeftArrow}>
+          <img src={leftArrowBlack} alt="홈으로 이동"/>
         </div>
         <div className='title'>
-          {data && data.post.body.title}
+          {data && data.title}
         </div>
-        <div className='heart'>
-          <FontAwesomeIcon icon={faHeart} style={{marginRight:'5px'}}/>
-          777
+
+        <div className='editIcon'>
+          <img src={edit} alt="수정하기"/>
         </div>
-        <div className='bookmark'>
-          <FontAwesomeIcon icon={faBookmark}/>
+        <div className='trashIcon'>
+          <img src={trash} alt="삭제하기" onClick={onDeleteHandler}/>
         </div>
+
       </div>
 
-
-      {/* 지도 */}
-      <div className='map_wrap'
-        ref={myMap}
-        style={{
-          width:'100vw',
-          height: '50vh',
-          position: 'absolute'
-        }}
-      >
-      </div>
+      
 
       {/* 프로필 / 장소목록 / 사진슬라이드 / 댓글 */}
       <div className='contentsWrap'>
         <div className='profile'>
           <div className='profilePic'>
-            
+            {data&&data.userImgUrl ?
+              <img src={`${data.userImgUrl}`} alt="프로필 이미지"/>:
+              null
+            }
           </div>
           <div className='txtWrap'>
             <div className='nick'>
-              닉네임
+              {data&&data.nickname&& data.nickname}
             </div>
             <div className='themeNprice'>
                 <div className='regionCategory'>
-                  {data && data.post.body.regionCategory}
+                  {data && data.regionCategory}
                 </div>
-                  {data && data.post.body.themeCategory.map((v,i)=>{
+                  {data && data.themeCategory.map((v,i)=>{
                     return(
                       <div className='themeCategory' key={i}>
                         {v.themeCategory}
@@ -174,17 +195,22 @@ const Detail = () => {
                     )
                   })}
                 <div className='priceCategory'>
-                  {data && data.post.body.priceCategory}
+                  {data && data.priceCategory}
                 </div>
               </div>
           </div>
         </div>  
 
+        {/* 지도 */}
+          <div className='detail_map_wrap' ref={myMap}
+          >
+          </div>
+
         {/* 검색목록과 선택한 목록 */}
           <div className='placeList'>
-            {data && data.post.body.place.map((item, i) => (
+            {data && data.place.map((item, i) => (
               <div className='selectedPlace' key={i}>
-                <div style={{ marginTop: '10px'}}>
+                <div>
                   <h3>{i + 1}. {item.place_name}</h3>
                   {item.road_address_name ? (
                     <div>
@@ -202,20 +228,37 @@ const Detail = () => {
 
           {/* 사진업로드 */}
           <div className='imgSlide'>
-            {/* <DetailImageSlide data={data}/> */}
+            <DetailImageSlide data={data}/>
           </div>
 
+          {/* 좋아요 즐겨찾기 버튼 */}
+          <div className='heartNbookmarkIcon'>
+            <div className='heartIcon'>
+              <img src={heartpink} alt="좋아요 버튼"/>
+            </div>
+            <div className='heartNum'>
+              1004
+            </div>
+            <div className='bookmarkIcon'>
+              <img src={bookmark} alt="즐겨찾기 버튼"/>
+            </div>
+            <div className='shareIcon'>
+              <img src={shareblack} alt="즐겨찾기 버튼"/>
+            </div>
+          </div>
+
+          {/* 콘텐츠 */}
           <div className='txtPlace'>
-            {data && data.post.body.content}
+            <img src={talk} alt="말풍선"/>
+            {data && data.content}
           </div>
 
           <div className='commentPlace'>
             <Comment/>
           </div>
-          
         </div> 
-        
-      </>
+      
+    </>
   )
 }
 
