@@ -16,6 +16,7 @@ const size = 5;
 const OptionPost = () => {
 
     const dispatch = useDispatch();
+
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
@@ -23,8 +24,8 @@ const OptionPost = () => {
     const [page, setPage] = useState(0);
     const [keywordChange, setKeyword] = useState("");
 
-    const checkHasIncode = keywordChange => {
-        if(keywordChange === undefined) {
+    const checkHasIncode = keyword => {
+        if(keywordChange.length === 0) {
             setKeyword("")
             return keywordChange;
         }
@@ -47,28 +48,32 @@ const OptionPost = () => {
       setHeart(!heart);
     }
 
-    const loadLatestPost = () => {
-        const keyword = checkHasIncode(keywordChange)
-        console.log(keyword)
+     const loadLatestPost = () => {
+        const keyword_ = checkHasIncode(keywordChange)
 
         dispatch(userAction.allGetDB(
-            page, size, keyword
+            page, size, keyword_
         ))
-        setPage(page + 1);
+        setPage(page + 1)
     };
 
     const handleScroll = (e) => {
-        if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
+        if (window.innerHeight + window.scrollY + 1 >  
              e.target.documentElement.scrollHeight
         ) {
             loadLatestPost();
         }
-    } 
+    }  
  
     useEffect(() => {
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
-    },[])
+        window.addEventListener('touchmove', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('touchmove', handleScroll);
+        } 
+    },[]) 
     
     return (
       <div className="categorypost-container">   

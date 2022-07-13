@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { userAction } from "../redux/module/post";
 import Header from "../components/common/Header";
-import CategoryPost from "../components/category/CategoryPost";
+import KeywordPost from "../components/post/KeywordPost";
 import FilterModal from "../components/common/FilterModal";
 import  "../css/category.css";
 import filter from "../assets/filter.png";
 
-const Category = (props) => {
+const Filter = (props) => {
 
-    const dispatch = useDispatch();
-
-    const region = useParams().region;
+    const keyword_ = useParams().keyword;
+    const [keyword, setKeyword] = useState(keyword_)
 
     const [themeSelect, setThemeSelect] = useState([]);
     const [priceSelect, setPriceSelect] = useState("");
@@ -37,10 +34,15 @@ const Category = (props) => {
           setTheme(themeSelect.toString())
           console.log(theme)
       }
-      return () => {
-        dispatch(userAction.clearDB());
-    }
-  },[themeSelect, region])
+  },[themeSelect])
+
+    useEffect(() => {
+        setKeyword(keyword_)
+
+        if(keyword_ === undefined) {
+        setKeyword("")
+        }
+    },[keyword_]) 
     
     return (
       <>
@@ -48,11 +50,7 @@ const Category = (props) => {
       <Header />
       <div className="category-click">
         <div className="category-button">
-          <button>{region}</button>
-          {themeSelect.map((list) => 
-            <button>{list}</button>
-          )} 
-          {priceSelect ? <button>{priceSelect}</button> : null}
+          <button>{keyword}</button>
         </div>
         <div className="category-filter">
           <button onClick={onClick}><img src={filter} alt="filter"/></button>
@@ -61,7 +59,9 @@ const Category = (props) => {
       <div className="category-container">   
         <div className="category-content">
           <div className="category-category">
-            <CategoryPost region={region} theme={theme} price={priceSelect} />
+          {keyword !== undefined && keyword ?      
+            <KeywordPost keyword={keyword}/> :
+            null }
           </div>
         </div>
       </div>
@@ -69,4 +69,4 @@ const Category = (props) => {
     )
 }
 
-export default Category;
+export default Filter;

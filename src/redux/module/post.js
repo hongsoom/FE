@@ -7,6 +7,7 @@ import apiform  from "../../shared/api"
 
 
 
+
 const initialState ={
   title : 'title',
   content : '게시글 내용 입니다',
@@ -36,21 +37,24 @@ const initialState ={
 
 
 const ALLGET = "post/ALLGET"
+const FILTERGET = "post/FILTERGET"
 const GETLIST = "post/GETLIST"
 const GET = "post/GET"
 const ADD = "post/ADD"
 const MODIFY = "post/MODIFY"
 const DELETE = "post/DELETE"
+const CLEAR = 'post/CLEAR'
 
 
 // Action creator
 const allGet = createAction(ALLGET, (newList) => ({newList}))
+const filterGET = createAction(FILTERGET, (newList) => ({newList}))
 const getPostList = createAction(GET, (postList) => ({postList}))
 const getPost = createAction(GET, (post) => ({post}));
 const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
-  
+const clearPost = createAction(CLEAR);
 
 
 // middleWare
@@ -66,19 +70,34 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 // };
 
 const allGetDB = (page, size, keyword) => {
+  console.log(page, size, keyword)
     return async function (dispatch) {
       try {
         const response = await instance.get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`
         );
         const newList = response.data.content;
-        dispatch(allGet(newList))
+        dispatch(allGet(newList));
 
-        console.log(newList)
       } catch (err) {
         console.log(err)
       }
     };
   };
+
+  const filterGETDB = (region, price, theme, size, page) => {
+    console.log(region, price, theme, size, page)
+      return async function (dispatch) {
+        try {
+          const response = await instance.get(`http://sparta-hj.site/api/posts/filter?region=${region}&price=${price}&theme=${theme}&size=${size}$page=${page}`)
+          const newList = response.data.content;
+          dispatch(filterGET(newList));
+          console.log(response)
+  
+        } catch (err) {
+          console.log(err)
+        }
+      };
+    };
 
 
 export const getPostDB = (postId) => {
@@ -138,12 +157,25 @@ export const deletePostDB = (Id) => {
   };
 };
 
+const clearDB = () => {
+  return function (dispatch) {
+        dispatch(clearPost());
+  }
+};
+
+
 //reducer
 export default handleActions(
   {
     [ALLGET]: (state, action) => {
       return {
-      contents : action.payload.newList
+      contents : [...state.contents, ...action.payload.newList]
+      };
+    },
+
+    [FILTERGET]: (state, action) => {
+      return {
+      contents : [...state.contents, ...action.payload.newList]
       };
     },
     
@@ -170,7 +202,14 @@ export default handleActions(
       produce(state, (draft) => {
         const newPost = draft.posts.filter((post) => post.id !== action.payload.id)
         draft.posts = newPost;
-      })
+      }),
+
+      [CLEAR]: (state, action) => {
+        return {
+          ...state,
+          contents: []
+        };
+      },
   },
   initialState
 );
@@ -213,6 +252,8 @@ export default handleActions(
 
 const userAction ={
   // getPostListDB,
+  clearDB,
+  filterGETDB,
   allGetDB,
   getPostDB,
   addPostDB,

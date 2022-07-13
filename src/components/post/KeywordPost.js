@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userAction } from "../../redux/module/post";
 import { Swiper, SwiperSlide } from "swiper/react";
-import CategorySlide from "./CategorySlide";
+import { userAction } from "../../redux/module/post";
+import CategorySlide from "../category/CategorySlide";
 import "swiper/css";
 import  "../../css/categoryPost.css";
-import profile from "../../assets/profile.png";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
@@ -14,29 +13,33 @@ import heartBlue from "../../assets/heart-blue.png";
 
 const size = 5;
 
-const CategoryPost = (props) => {
+const KeywordPost = (props) => {
 
     const dispatch = useDispatch();
 
-    const { region, price, theme } = props;
+    const { keyword } = props;
+    console.log(keyword)
 
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
     const [page, setPage] = useState(0);
-
-    console.log(region, price, theme)
+    const [keywordChange, setKeyword] = useState(keyword);
 
     const checkHasIncode = keyword => {
-  
+        if(keyword === undefined) {
+            setKeyword("")
+            return keywordChange;
+        }
+        
         const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       
-        if (keyword.match(check_kor)) {
-          const encodeKeyword = encodeURI(keyword); 
+        if (keywordChange.match(check_kor)) {
+          const encodeKeyword = encodeURI(keywordChange); 
           return encodeKeyword;
         } else {
-          return keyword;
+          return keywordChange;
         }
       };
 
@@ -47,15 +50,17 @@ const CategoryPost = (props) => {
     const onClickHeart = () => {
       setHeart(!heart);
     }
- 
+
     const loadLatestPost = () => {
-        dispatch(userAction.filterGETDB(
-            checkHasIncode(region), checkHasIncode(price), checkHasIncode(theme), size, page
+        const keyword_ = checkHasIncode(keyword)
+
+        dispatch(userAction.allGetDB(
+            page, size, keyword_
         ))
-    }; 
+    };
 
     const handleScroll = (e) => {
-        if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
+        if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
              e.target.documentElement.scrollHeight
         ) {
             setPage(page + 1)
@@ -63,6 +68,7 @@ const CategoryPost = (props) => {
     } 
  
     useEffect(() => {
+        setKeyword(keyword);
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('touchmove', handleScroll);
@@ -70,23 +76,23 @@ const CategoryPost = (props) => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchmove', handleScroll);
         }
-    },[page, price, theme, region])
+    },[page])
 
     useEffect(() => {
         return () => {
             dispatch(userAction.clearDB());
             setPage(0);
         }
-    },[region])
-
+    },[keyword])
+    
     return (
       <div className="categorypost-container">   
-      {posts && posts.map((list, index) => {
-        return (
+      {posts.length !== 0 && posts.map((list, index) => {
+         return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile" />
+                    <img src={list.userImgUrl} alt="profile" />
                     <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">
@@ -123,4 +129,4 @@ const CategoryPost = (props) => {
     )
 }
 
-export default CategoryPost;
+export default KeywordPost;

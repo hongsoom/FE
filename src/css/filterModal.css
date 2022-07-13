@@ -49,8 +49,8 @@
     cursor: pointer;
 }
 
-.noclick-btn {
-    background-color : #F5F9FF;
+.table_btn_s {
+    background-color : #ABCDFF;
     width : 82px;
     height: 28px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -61,8 +61,8 @@
     margin : 7px;;
 }
 
-.click-btn  {
-    background-color : #ABCDFF;
+.table_btn_ns {
+    background-color : #F5F9FF;
     width : 82px;
     height: 28px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
