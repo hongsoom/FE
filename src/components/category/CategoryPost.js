@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../redux/module/post";
 import {Link} from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
-import instance from "../../shared/Request";
 import "swiper/css";
 import  "../../css/categoryPost.css";
 import profile from "../../assets/profile.png";
@@ -14,13 +15,22 @@ import heartBlue from "../../assets/heart-blue.png";
 
 const size = 5;
 
-const CategoryPost = ({region, theme, price}) => {
+const CategoryPost = (props) => {
+
+    const dispatch = useDispatch();
+
+    const { region, price, theme } = props;
+
+    const posts = useSelector((state) => state.post.contents);
+
+    const [bookmark, setBookmark] = useState(false);
+    const [heart, setHeart] = useState(false);
+    const [page, setPage] = useState(0);
+
+    console.log(region, price, theme)
 
     const checkHasIncode = keyword => {
-        if(keyword === undefined) {
-            return keyword;
-        }
-        
+  
         const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       
         if (keyword.match(check_kor)) {
@@ -31,9 +41,6 @@ const CategoryPost = ({region, theme, price}) => {
         }
       };
 
-    const [bookmark, setBookmark] = useState(false);
-    const [heart, setHeart] = useState(false);
-
     const onClickBookmark = () => {
       setBookmark(!bookmark);
     }
@@ -41,37 +48,41 @@ const CategoryPost = ({region, theme, price}) => {
     const onClickHeart = () => {
       setHeart(!heart);
     }
-    
-    const [page, setPage] = useState(0);
-    const [data, setDate] = useState();
-
+ 
     const loadLatestPost = () => {
-        instance.get(`api/posts/filter?region=${checkHasIncode(region)}&price=${checkHasIncode(price)}&theme=${checkHasIncode(theme)}&size=${size}$page=${page}`)
-        .then((response) => {
-            console.log(response)
-            const newList = [];
-            response.data.content.forEach((p) => newList.push(p))
-
-            console.log(newList)
-         });
-    };
+        dispatch(userAction.filterGETDB(
+            checkHasIncode(region), checkHasIncode(price), checkHasIncode(theme), size, page
+        ))
+    }; 
 
     const handleScroll = (e) => {
         if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
              e.target.documentElement.scrollHeight
         ) {
-             setPage(page + 1);
+            setPage(page + 1)
         }
     } 
  
     useEffect(() => {
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
-    },[page])
+        window.addEventListener('touchmove', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('touchmove', handleScroll);
+        }
+    },[page, price, theme, region])
+
+    useEffect(() => {
+        return () => {
+            dispatch(userAction.clearDB());
+            setPage(0);
+        }
+    },[region])
 
     return (
       <div className="categorypost-container">   
-      {data && data.map((list, index) => {
+      {posts && posts.map((list, index) => {
         return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">

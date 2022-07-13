@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
-import CategorySlide from "./CategorySlide";
+import CategorySlide from "../category/CategorySlide";
 import "swiper/css";
 import  "../../css/categoryPost.css";
 import bookmarkEmpty from "../../assets/bookmark.png";
@@ -14,17 +13,22 @@ import heartBlue from "../../assets/heart-blue.png";
 
 const size = 5;
 
-const OptionPost = () => {
+const KeywordPost = (props) => {
+
     const dispatch = useDispatch();
+
+    const { keyword } = props;
+    console.log(keyword)
+
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
     const [heart, setHeart] = useState(false);
     const [page, setPage] = useState(0);
-    const [keywordChange, setKeyword] = useState("");
+    const [keywordChange, setKeyword] = useState(keyword);
 
     const checkHasIncode = keyword => {
-        if(keywordChange.length === 0) {
+        if(keyword === undefined) {
             setKeyword("")
             return keywordChange;
         }
@@ -47,51 +51,56 @@ const OptionPost = () => {
       setHeart(!heart);
     }
 
-     const loadLatestPost = () => {
-        const keyword_ = checkHasIncode(keywordChange)
+    const loadLatestPost = () => {
+        const keyword_ = checkHasIncode(keyword)
 
         dispatch(userAction.allGetDB(
             page, size, keyword_
         ))
-        setPage(page + 1)
     };
 
     const handleScroll = (e) => {
-        if (window.innerHeight + window.scrollY + 1 >  
+        if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
              e.target.documentElement.scrollHeight
         ) {
-            loadLatestPost();
+            setPage(page + 1)
         }
-    }  
+    } 
  
     useEffect(() => {
+        setKeyword(keyword);
         loadLatestPost();
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('touchmove', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchmove', handleScroll);
-        } 
-    },[]) 
+        }
+    },[page])
 
+    useEffect(() => {
+        return () => {
+            dispatch(userAction.clearDB());
+            setPage(0);
+        }
+    },[keyword])
+    
     return (
       <div className="categorypost-container">   
-      {posts && posts.map((list, index) => {
+      {posts.length !== 0 && posts.map((list, index) => {
          return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
                     <img src={list.userImgUrl} alt="profile" />
-                    <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
+                    <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
             </div>
-            <Link to ={`detail/${list.postId}`}>
-                <CategorySlide image={list.imgUrl} />
-            </Link>
+            <CategorySlide image={list.imgUrl} />
             <div className="categorypost-category">
                 <Swiper className="categorypost-categorybutton"
                     slidesPerView={1}
@@ -120,4 +129,4 @@ const OptionPost = () => {
     )
 }
 
-export default OptionPost;
+export default KeywordPost;
