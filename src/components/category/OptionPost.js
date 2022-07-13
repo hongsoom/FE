@@ -55,7 +55,7 @@ const OptionPost = () => {
         ))
         setPage(page + 1)
     };
-
+/* 
     const handleScroll = (e) => {
         if (window.innerHeight + window.scrollY + 1 >  
              e.target.documentElement.scrollHeight
@@ -63,15 +63,15 @@ const OptionPost = () => {
             loadLatestPost();
         }
     }  
- 
+  */
     useEffect(() => {
         loadLatestPost();
-        window.addEventListener('scroll', handleScroll);
+/*         window.addEventListener('scroll', handleScroll);
         window.addEventListener('touchmove', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchmove', handleScroll);
-        } 
+        }  */
     },[]) 
 
     return (
