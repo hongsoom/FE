@@ -52,6 +52,15 @@ const FilterModal = (props) => {
                     <div className="filtermodal-filterbutton">
                         <button onClick={onClick}>검색</button>
                     </div>
+                    <div className="filtermodal-pricebutton">
+                        {price.map((price,i) => 
+                            <button onClick={() => { navigate("/category/" + region + "/" + price ); colorChange();}} className={colorchange ? "click-btn" : "noclick-btn"} key={i}>{price}</button>
+                        )}
+                    </div>
+                </div>
+                <div className="filtermodal-filterbutton">
+                    <button onClick={onClick}>검색</button>
+
                 </div>
             </div>
         </div>  

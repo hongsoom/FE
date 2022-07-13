@@ -7,7 +7,9 @@ import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
 // import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const DetailImageSlide = ({initialState, imgUrl}) => {
+const DetailImageSlide = (props) => {
+  const {data} = props
+  console.log(data)
 
   const [place, setPlace] = useState();
 
@@ -18,10 +20,10 @@ const DetailImageSlide = ({initialState, imgUrl}) => {
   // 이미지 슬라이드 움직이기
  const handleSlide = (currentSlide, direction, j) =>{
 
-    if (currentSlide === imgUrl[j].imgUrl.length) {
+    if (currentSlide === data && data.post.body.place[j].imgUrl.length) {
       setCurrentSlide(0)
     } else if (currentSlide < 0) {
-      setCurrentSlide(imgUrl[j].imgUrl.length - 1)
+      setCurrentSlide(data && data.post.body.place[j].imgUrl.length - 1)
     }
     setCurrentSlide(currentSlide);
 
@@ -32,29 +34,16 @@ const DetailImageSlide = ({initialState, imgUrl}) => {
 
   const handleSwipe = (direction, j) => {
     handleSlide(currentSlide + direction, direction, j);
-    
   }
 
   
-
-    // 업로드 이미지 url로 바꿔서 미리보기 띄우기
-  const loadImg = (e, index) => {
-    const file = e.target.files[0];
-    initialState.place[index].files.push(file)
-    const Url = URL.createObjectURL(file)
-    imgUrl[index].imgUrl.push(Url)
-  }
-
-
-  
-
 
   return (
     <div className='detailContainer'>
       
         {/* 선택 장소 이름들 */}
         <div className='detailPlaceNames'>
-          {initialState.place.map((v,i)=>{
+          {data && data.post.body.place.map((v,i)=>{
             return(
               <div className='detailPlaceName' key={i}
               onClick={()=>{setPlace(v.place_name); setCurrentSlide(0)}}
@@ -67,7 +56,7 @@ const DetailImageSlide = ({initialState, imgUrl}) => {
           
         <div className='detailImgWrap'>
           <div className='detailImageContainerPerPlaceWrap'>
-            {imgUrl&& imgUrl.map((l,j)=>{
+            {data && data.post.body.place.map((l,j)=>{
               return(
                 <div className='detailImageContainerPerPlace' key={j}
                 style={place === l.place_name ? {display:'flex'}: {display:'none'}}
@@ -76,7 +65,7 @@ const DetailImageSlide = ({initialState, imgUrl}) => {
                     {/* 왼쪽 버튼 */}
                     <div className='detailPrev'
                     onClick={() => handleSwipe(-1, j)}
-                    // style={currentSlide === 0 ? {display:'none'}:{display:'block'}}
+                    style={currentSlide === 0 ? {display:'none'}:{display:'block'}}
                     >
                     <FontAwesomeIcon icon={faAngleLeft} />
                     </div>
@@ -84,10 +73,14 @@ const DetailImageSlide = ({initialState, imgUrl}) => {
                     {/* 이미지 들어가는 컨테이너 */}
                     <div className='detailSlideContainer'>
                       <div className='detailImgContainer' id={`container${j}`}>
-                      {imgUrl && l.imgUrl.map((v,i)=>{
+                      {l.imgUrl && l.imgUrl.map((v,i)=>{
                         return(
-                      <div className='_detailImg' key={i} style={{backgroundImage:`url(${v})`, backgroundSize:'cover', backgroundPosition:'center'}} />
-                      )
+                          <>
+                          <div className='_detailImg' key={i} style={{backgroundImage:`url(${v})`, backgroundSize:'cover', backgroundPosition:'center'}}>
+                            {i}
+                          </div>
+                          </>
+                        )
                       })}
                       </div>
                     </div>

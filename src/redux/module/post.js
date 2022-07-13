@@ -2,37 +2,36 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
 import instance from "../../shared/Request";
-import apiform  from "../../shared/api"
 
 
 
 
 
 const initialState ={
-  title : 'title',
-  content : '게시글 내용 입니다',
-  regionCategory : '지역별',
-  themeCategory : ['힐링','맛집'],
-  priceCategory : '10만원대',
-  place: [
-    {
-     addressName:'',
-     categoryGroupCode:'',
-     categoryGroupName:'',
-     categoryName: '',
-     distance:'',
-     files: [],
-     id:'',
-     phone: '',
-     placeName: '',
-     placeUrl: '',
-     roadAddressName: '',
-     x: '',
-     y: '',
-    }
-  ],
-  restroom: '',
-  contents : [],
+  // title : 'title',
+  // content : '게시글 내용 입니다',
+  // regionCategory : '지역별',
+  // themeCategory : ['힐링','맛집'],
+  // priceCategory : '10만원대',
+  // place: [
+  //   {
+  //    addressName:'',
+  //    categoryGroupCode:'',
+  //    categoryGroupName:'',
+  //    categoryName: '',
+  //    distance:'',
+  //    files: [],
+  //    id:'',
+  //    phone: '',
+  //    placeName: '',
+  //    placeUrl: '',
+  //    roadAddressName: '',
+  //    x: '',
+  //    y: '',
+  //   }
+  // ],
+  // restroom: '',
+  // contents : [],
   }
 
 
@@ -104,7 +103,6 @@ export const getPostDB = (postId) => {
   return async function (dispatch) {
   try {
     const response = await instance.get(`api/post/${postId}`);
-    console.log(response)
     dispatch(getPost(response.data));
     console.log(response.data);
   } catch (error) {

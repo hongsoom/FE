@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
@@ -14,9 +15,7 @@ import heartBlue from "../../assets/heart-blue.png";
 const size = 5;
 
 const OptionPost = () => {
-
     const dispatch = useDispatch();
-
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
@@ -74,23 +73,25 @@ const OptionPost = () => {
             window.removeEventListener('touchmove', handleScroll);
         } 
     },[]) 
-    
+
     return (
       <div className="categorypost-container">   
-      {posts.length !== 0 && posts.map((list, index) => {
+      {posts && posts.map((list, index) => {
          return (
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
                     <img src={list.userImgUrl} alt="profile" />
-                    <p>{list.title}</p>
+                    <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
             </div>
-            <CategorySlide image={list.imgUrl} />
+            <Link to ={`detail/${list.postId}`}>
+                <CategorySlide image={list.imgUrl} />
+            </Link>
             <div className="categorypost-category">
                 <Swiper className="categorypost-categorybutton"
                     slidesPerView={1}

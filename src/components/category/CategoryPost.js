@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
+import {Link} from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
@@ -86,7 +87,7 @@ const CategoryPost = (props) => {
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile" />
+                    <img src={profile} alt="profile"/>
                     <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">
