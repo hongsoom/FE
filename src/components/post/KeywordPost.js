@@ -59,23 +59,23 @@ const KeywordPost = (props) => {
         ))
     };
 
-    const handleScroll = (e) => {
+/*     const handleScroll = (e) => {
         if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
              e.target.documentElement.scrollHeight
         ) {
             setPage(page + 1)
         }
-    } 
+    }  */
  
     useEffect(() => {
         setKeyword(keyword);
         loadLatestPost();
-        window.addEventListener('scroll', handleScroll);
+/*         window.addEventListener('scroll', handleScroll);
         window.addEventListener('touchmove', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchmove', handleScroll);
-        }
+        } */
     },[page])
 
     useEffect(() => {
