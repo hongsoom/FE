@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import  "../../css/filterModal.css";
 
 const FilterModal = (props) => {
+    const navigate = useNavigate();
 
     const { onClick, themeSelect, priceSelect, setThemeSelect, setPriceSelect  } = props;
 
+    const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
     const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 
