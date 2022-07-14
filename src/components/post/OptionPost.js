@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
-import CategorySlide from "./CategorySlide";
+import CategorySlide from "../category/CategorySlide";
 import "swiper/css";
 import  "../../css/optionPost.css";
 import bookmarkEmpty from "../../assets/bookmark.png";
@@ -14,42 +14,71 @@ import heartFull from "../../assets/heartpaint.png";
 
 const size = 5;
 
-const OptionPost = () => {
+const OptionPost = (props) => {
     const dispatch = useDispatch();
-    const posts = useSelector((state) => state.post.contents);
 
-    const [bookmark, setBookmark] = useState(false);
+    const posts = useSelector((state) => state.post.contents);
+    const last = useSelector((state) => state.post.last);
+    const loveckecked = useSelector((state) => state.post.loveckecked);
+    const bookmarkckecked = useSelector((state) => state.post.bookmarkckecked);
+
     const [page, setPage] = useState(0);
     const [keyword, setKeyword] = useState("");
+    const [direction, setDirection] = useState("desc");
+    const [id, setId] = useState("id");
+    const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");
 
-    const onClickBookmark = () => {
-      setBookmark(!bookmark);
+    const { loveCount } = props;
+    const is_loveCount = loveCount ? true : false;
+
+     const loadPost = () => {
+        if( is_loveCount ) {
+            dispatch(userAction.arrayGetDB(
+                keyword, page, size, loveCount, direction, bookmarkCount
+            ))
+        } else {
+            dispatch(userAction.arrayGetDB(
+                keyword, page, size, id, direction, bookmarkCount
+            ))
+        }
     }
 
-     const loadLatestPost = () => {
-
-        dispatch(userAction.allGetDB(
-            page, size, keyword
+    const loadfirstPost = () => {
+        dispatch(userAction.firstGetDB(
+            keyword, page, size, id, direction, bookmarkCount
         ))
-    };
-/* 
+    }
+
     const handleScroll = (e) => {
         if (window.innerHeight + window.scrollY + 1 >  
              e.target.documentElement.scrollHeight
         ) {
-            setPage(page + 1)
+            if(last === false) {
+                setPage(page + 1)
+            } else {
+                alert("마지막 페이지입니다!")
+            }
         }
     }  
-  */
     useEffect(() => {
-        loadLatestPost();
-/*         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('touchmove', handleScroll);
+        loadfirstPost();
+     },[]) 
+
+    useEffect(() => {
+        loadPost();
+        window.addEventListener('scroll', handleScroll);
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('touchmove', handleScroll);
-        }  */
-    },[page]) 
+        }  
+    },[page, is_loveCount])
+
+    useEffect(() => {
+        return () => {
+            dispatch(userAction.clearDB());
+            setPage(0);
+        }  
+    },[is_loveCount])
 
     return (
       <div className="optionpost-container">   
@@ -63,7 +92,9 @@ const OptionPost = () => {
                 </div>    
                 <div className="optionpost-click">
                     <img src={share} alt="share" className="share-icon"/>
-                    {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
+                    <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
+                        {bookmarkckecked ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
+                    </button>
                 </div>
             </div>
             <Link to ={`detail/${list.postId}`}>
@@ -88,7 +119,7 @@ const OptionPost = () => {
                 </Swiper>
                 <div className="optionpost-heart">
                     <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
-                        {list.isLove ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                        {loveckecked ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
                     </button>
                     <p>{list.loveCount}</p>
                 </div>

@@ -51,8 +51,6 @@ const Signup = () => {
           .then((response) => {
             setIdState(true)
             const status = response.status;
-
-            console.log(response)
     
             if(status === 200) {
                 setStateUsername(true);
@@ -62,6 +60,7 @@ const Signup = () => {
           })
           .catch((err) => {
             setIdState(true)
+
             const status = err.response.data.status;
 
             if(status === 400) {
@@ -115,6 +114,7 @@ const Signup = () => {
                     setNicknameState(false);
                 }
             }
+            
             if(status === 500) {
                 setStateNickname(false);
                 setMessageNickname("이미 사용중인 nickname 입니다.");
