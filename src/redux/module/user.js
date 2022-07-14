@@ -60,6 +60,7 @@ const logInDB = (username, password) => {
           window.location.assign("/");
         }
     } catch (err) {
+      console.log(err)
       const status = err.response.data.statusCode;
       dispatch(login(status))
       }

@@ -9,7 +9,6 @@ const Signup = () => {
     const dispatch = useDispatch();
 
     const status = useSelector((state) => state.user.status);
-    console.log(status)
 
     const [username, setUsername] = useState("");
     const [nickname, setNickname] = useState("");
@@ -36,15 +35,12 @@ const Signup = () => {
         if(nicknameState && !idState) {
             nicknamecondition();
         }
-        console.log("id", idState)
-        console.log("nick", nicknameState) 
      },[dispatch, idState, nicknameState]) 
 
      useEffect(() => {
         if(signupState) {
             signupCheck();
         }
-        console.log("signupState", signupState)
      },[status])
 
     const idCheck = (username) => {
@@ -208,7 +204,6 @@ const Signup = () => {
                 setMessage("비밀번호가 일치합니다.");
             }
         }
-
     }
 
     const signup = () => {

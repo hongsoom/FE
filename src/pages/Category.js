@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/post";
 import Header from "../components/common/Header";
+import Sharing from "../components/common/Sharing";
 import CategoryPost from "../components/category/CategoryPost";
-import FilterModal from "../components/common/FilterModal";
 import  "../css/category.css";
-import filter from "../assets/filter.png";
 
-const Category = (props) => {
+const Category = () => {
 
     const dispatch = useDispatch();
 
@@ -17,15 +16,6 @@ const Category = (props) => {
     const [themeSelect, setThemeSelect] = useState([]);
     const [priceSelect, setPriceSelect] = useState("");
     const [theme, setTheme] = useState("");
-
-    console.log(themeSelect)
-    console.log(priceSelect)
-
-    const [modal, setModal] = useState(false);
-
-    const onClick = () => {
-      setModal(!modal); 
-    };
 
     useEffect(() => {
       if(themeSelect.length > 0 ) {
@@ -37,27 +27,19 @@ const Category = (props) => {
           setTheme(themeSelect.toString())
           console.log(theme)
       }
+  },[themeSelect])
+
+  
+    useEffect(() => {
       return () => {
         dispatch(userAction.clearDB());
     }
-  },[themeSelect, region])
+  },[region])
     
     return (
       <>
-      {modal ? <FilterModal onClick={onClick} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} /> : null}
       <Header />
-      <div className="category-click">
-        <div className="category-button">
-          <button>{region}</button>
-          {themeSelect.map((list) => 
-            <button>{list}</button>
-          )} 
-          {priceSelect ? <button>{priceSelect}</button> : null}
-        </div>
-        <div className="category-filter">
-          <button onClick={onClick}><img src={filter} alt="filter"/></button>
-        </div>
-      </div> 
+      <Sharing region={region} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} />
       <div className="category-container">   
         <div className="category-content">
           <div className="category-category">

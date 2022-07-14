@@ -11,7 +11,7 @@ import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
-import heartBlue from "../../assets/heart-blue.png";
+import heartFull from "../../assets/heartpaint.png";
 
 const size = 5;
 
@@ -23,11 +23,7 @@ const CategoryPost = (props) => {
 
     const posts = useSelector((state) => state.post.contents);
 
-    const [bookmark, setBookmark] = useState(false);
-    const [heart, setHeart] = useState(false);
     const [page, setPage] = useState(0);
-
-    console.log(region, price, theme)
 
     const checkHasIncode = keyword => {
   
@@ -40,14 +36,6 @@ const CategoryPost = (props) => {
           return keyword;
         }
       };
-
-    const onClickBookmark = () => {
-      setBookmark(!bookmark);
-    }
-
-    const onClickHeart = () => {
-      setHeart(!heart);
-    }
  
     const loadLatestPost = () => {
         dispatch(userAction.filterGETDB(
@@ -55,27 +43,34 @@ const CategoryPost = (props) => {
         ))
     }; 
 
-/*     const handleScroll = (e) => {
-        if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
-             e.target.documentElement.scrollHeight
+/*    const handleScroll = (e) => {
+    if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
+        e.target.documentElement.scrollHeight
         ) {
             setPage(page + 1)
         }
-    }  */
- 
+    }   
+
+   const touchScroll = (e) => {
+    if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
+        e.target.documentElement.scrollHeight
+        ) {
+            setPage(page + 1)
+        }
+    }   */
+
     useEffect(() => {
         loadLatestPost();
 /*         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('touchmove', handleScroll);
+        window.addEventListener('touchmove', touchScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('touchmove', handleScroll);
-        } */
+            window.removeEventListener('touchmove', touchScroll);
+        }   */
     },[page, price, theme, region])
 
     useEffect(() => {
         return () => {
-            dispatch(userAction.clearDB());
             setPage(0);
         }
     },[region])
@@ -92,7 +87,9 @@ const CategoryPost = (props) => {
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
-                    {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
+                    <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
+                        {list.isBookmark ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
+                    </button>
                 </div>
             </div>
             <CategorySlide image={list.imgUrl} />
@@ -114,7 +111,9 @@ const CategoryPost = (props) => {
                         )})}   
                 </Swiper>
                 <div className="categorypost-heart">
-                    {heart ? <img onClick={onClickHeart} src={heartBlue} alt="heartBlue" /> : <img onClick={onClickHeart} src={heartEmpty} alt="heartEmpty" /> }
+                    <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
+                        {list.isLove ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                    </button>
                     <p>{list.loveCount}</p>
                 </div>
             </div>
