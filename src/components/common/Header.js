@@ -13,6 +13,8 @@ const Header = () => {
 
     const navigate = useNavigate();
 
+    const is_login = localStorage.getItem("token") ? true : false;
+
     const [viewCategory, setViewCategory] = useState(false);
     const [keyword, setKeyword] = useState("");
 
@@ -21,10 +23,12 @@ const Header = () => {
     };
 
     const handleClick = () => {
-         if (keyword === "서울" || keyword ===  "경기" || keyword === "인천" || keyword === "강원도" || keyword === "충청도" || keyword === "전라도" || keyword === "경상도" || keyword === "대전" || keyword === "세종" || keyword === "대구" || keyword === "울산" || keyword === "광주" || keyword === "부산" || keyword === "제주도") {
+        if(keyword === "") {
+            alert("지역이나 테마를 검색해주세요!");
+        }
+        
+        if (keyword) {
             navigate("/category/" + keyword);   
-        }  else {
-            navigate("/" + keyword)
         }
     }
 
@@ -41,7 +45,7 @@ const Header = () => {
                         <p>야너갈</p>
                     </div>
                     <div className="header-icon">
-                        <img src={write} alt="write" className="write-icon" onClick={ () => navigate("/write") } />
+                      {is_login ? <img src={write} alt="write" className="write-icon" onClick={ () => navigate("/write") } /> : null}  
                         <img src={mypage} alt="mypage" className="mypage-icon" onClick={ () => navigate("/mypage") }/>
                     </div>
                 </div>

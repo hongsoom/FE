@@ -21,7 +21,6 @@ const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
-  console.log(username, nickname, password, passwordCheck)
     return async function (dispatch) {
       try {
         const response = await instance.post("api/user/signup", {
@@ -60,7 +59,6 @@ const logInDB = (username, password) => {
           window.location.assign("/");
         }
     } catch (err) {
-      console.log(err)
       const status = err.response.data.statusCode;
       dispatch(login(status))
       }
@@ -81,7 +79,6 @@ const logInDB = (username, password) => {
           window.location.assign("/");
         } 
       } catch (err) {
-        console.log(err)
       }
     };
   };
@@ -107,11 +104,9 @@ const logInDB = (username, password) => {
         const response = await instance.post("api/user/nickCheck", {
             nickname : nickname
         });
-        console.log(response)
         const status = response.status;
         dispatch(nicknameCheck(status))
     } catch (err) {
-      console.log(err)
         const status = err.response.status;
         dispatch(nicknameCheck(status))
       }
