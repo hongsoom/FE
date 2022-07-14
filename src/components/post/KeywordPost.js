@@ -4,12 +4,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
 import CategorySlide from "../category/CategorySlide";
 import "swiper/css";
-import  "../../css/categoryPost.css";
+import  "../../css/keywordPost.css";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
-import heartBlue from "../../assets/heart-blue.png";
+import heartFull from "../../assets/heartpaint.png";
 
 const size = 5;
 
@@ -23,8 +23,7 @@ const KeywordPost = (props) => {
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
-    const [heart, setHeart] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [keywordChange, setKeyword] = useState(keyword);
 
     const checkHasIncode = keyword => {
@@ -45,10 +44,6 @@ const KeywordPost = (props) => {
 
     const onClickBookmark = () => {
       setBookmark(!bookmark);
-    }
-
-    const onClickHeart = () => {
-      setHeart(!heart);
     }
 
     const loadLatestPost = () => {
@@ -86,23 +81,23 @@ const KeywordPost = (props) => {
     },[keyword])
     
     return (
-      <div className="categorypost-container">   
+      <div className="keywordpost-container">   
       {posts.length !== 0 && posts.map((list, index) => {
          return (
-        <div className="categorypost-content" key={index}>
-            <div className="categorypost-title">
-                <div className="categorypost-user">
+        <div className="keywordpost-content" key={index}>
+            <div className="keywordpost-title">
+                <div className="keywordpost-user">
                     <img src={list.userImgUrl} alt="profile" />
                     <p>{list.title}</p>
                 </div>    
-                <div className="categorypost-click">
+                <div className="keywordpost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
             </div>
             <CategorySlide image={list.imgUrl} />
-            <div className="categorypost-category">
-                <Swiper className="categorypost-categorybutton"
+            <div className="keywordpost-category">
+                <Swiper className="keywordpost-categorybutton"
                     slidesPerView={1}
                     breakpoints={{
                     300: {
@@ -118,8 +113,10 @@ const KeywordPost = (props) => {
                             </SwiperSlide> 
                         )})}   
                 </Swiper>
-                <div className="categorypost-heart">
-                    {heart ? <img onClick={onClickHeart} src={heartBlue} alt="heartBlue" /> : <img onClick={onClickHeart} src={heartEmpty} alt="heartEmpty" /> }
+                <div className="keywordpost-heart">
+                    <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
+                        {list.isLove ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                    </button>
                     <p>{list.loveCount}</p>
                 </div>
             </div>

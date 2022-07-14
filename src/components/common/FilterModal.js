@@ -5,14 +5,11 @@ import  "../../css/filterModal.css";
 const FilterModal = (props) => {
     const navigate = useNavigate();
 
-    const { onClick, themeSelect, priceSelect, setThemeSelect, setPriceSelect  } = props;
+    const { onClick, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
 
     const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
     const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
-
-    console.log(themeSelect)
-    console.log(priceSelect)
 
     return (
         <>
@@ -43,7 +40,7 @@ const FilterModal = (props) => {
                         <div className="filtermodal-pricebutton">
                             {price.map((price, i) => 
                                 <button key={i}  onClick={() => { !priceSelect.includes(price) ? setPriceSelect(price) 
-                                    : setPriceSelect(priceSelect.filter((button) => button !== price)) }}
+                                    : setPriceSelect("") }}
                                     className={
                                         priceSelect.includes(price)
                                         ? "table_btn_s"
@@ -55,9 +52,7 @@ const FilterModal = (props) => {
                     <div className="filtermodal-filterbutton">
                         <button onClick={onClick}>검색</button>
                     </div>
-                   
-                </div>
-                
+                </div>            
             </div>
         </div>  
     </>    

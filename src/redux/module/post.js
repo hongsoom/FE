@@ -35,18 +35,22 @@ const initialState ={
 
 const ALLGET = "post/ALLGET"
 const FILTERGET = "post/FILTERGET"
+const BOOKMARK = "post/BOOKMARK"
+const LOVE = "post/LOVE"
 const GETLIST = "post/GETLIST"
 const GET = "post/GET"
 const ADD = "post/ADD"
 const MODIFY = "post/MODIFY"
 const DELETE = "post/DELETE"
-const CLEAR = 'post/CLEAR'
+const CLEAR = "post/CLEAR"
 
 
 // Action creator
-const allGet = createAction(ALLGET, (newList) => ({newList}))
-const filterGET = createAction(FILTERGET, (newList) => ({newList}))
-const getPostList = createAction(GET, (postList) => ({postList}))
+const allGet = createAction(ALLGET, (newList) => ({newList}));
+const filterGET = createAction(FILTERGET, (newList) => ({newList}));
+const clickLove = createAction(LOVE);
+const clickBookmark = createAction(BOOKMARK);
+const getPostList = createAction(GET, (postList) => ({postList}));
 const getPost = createAction(GET, (postOne) => ({postOne}));
 const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
@@ -55,7 +59,7 @@ const clearPost = createAction(CLEAR);
 
 
 
-const allGetDB = (page, size, keyword) => {
+const allGetDB = (page, size, keyword, sort, direction) => {
   console.log(page, size, keyword)
     return async function (dispatch) {
       try {
@@ -63,27 +67,53 @@ const allGetDB = (page, size, keyword) => {
         );
         const newList = response.data.content;
         dispatch(allGet(newList));
-
+        console.log(response)
       } catch (err) {
         console.log(err)
       }
     };
   };
 
-  const filterGETDB = (region, price, theme, size, page) => {
-    console.log(region, price, theme, size, page)
+  const filterGETDB = (region, price, theme, page) => {
+    console.log(region, price, theme, page)
+    const size = 5;
       return async function (dispatch) {
         try {
-          const response = await instance.get(`http://sparta-hj.site/api/posts/filter?region=${region}&price=${price}&theme=${theme}&size=${size}$page=${page}`)
+          const response = await instance.get(`api/posts/filter?region=${region}&price=${price}&theme=${theme}&size=${size}$page=${page}`)
           const newList = response.data.content;
           dispatch(filterGET(newList));
           console.log(response)
   
         } catch (err) {
+          console.log("실패")
           console.log(err)
         }
       };
     };
+
+  const clickLoveDB = (postId) => {
+    console.log(postId)
+    return async function () {
+      try {
+        const response = await instance.post(`api/love/${postId}`)
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+  };
+
+  const clickBookmarkDB = (postId) => {
+    console.log(postId)
+    return async function () {
+      try {
+        const response = await instance.post(`api/bookmark/${postId}`)
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+  };
 
 
 export const getPostDB = (postId) => {
@@ -153,7 +183,6 @@ const clearDB = () => {
   }
 };
 
-
 //reducer
 export default handleActions(
   {
@@ -195,13 +224,12 @@ export default handleActions(
       }),
 
 
-      [CLEAR]: (state, action) => {
-        return {
-          ...state,
-          contents: []
-        };
-      },
-
+    [CLEAR]: (state, action) => {
+      return {
+        ...state,
+        contents: []
+      };
+    },
   },
   initialState
 );
@@ -244,6 +272,8 @@ export default handleActions(
 
 const userAction ={
   // getPostListDB,
+  clickLoveDB,
+  clickBookmarkDB,
   clearDB,
   filterGETDB,
   allGetDB,
