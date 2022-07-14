@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import Header from "../components/common/Header";
+import Sharing from "../components/common/Sharing";
 import MainPost from "../components/post/MainPost";
-import FilterModal from "../components/common/FilterModal";
 import OptionPost from "../components/category/OptionPost";
 import  "../css/main.css";
-import filter from "../assets/filter.png";
 import downArrow from "../assets/downArrow.png";
 
 const Main = () => {
 
   const recommendList = ["서울", "호캉스", "힐링"];
 
-  const [modal, setModal] = useState(false);
   const [filterClick, setFilterClick] = useState(false);
-
-  const onClick = () => {
-    setModal(!modal); 
-  };
 
   const onFilterClick = () => {
     setFilterClick(!filterClick); 
@@ -24,18 +18,8 @@ const Main = () => {
 
   return (
       <>
-      {modal ? <FilterModal onClick={onClick} /> : null} 
       <Header />
-      <div className="main-click">
-        <div className="main-button">
-          {recommendList.map((list,i) =>
-              <button key={i}>#{list}</button>
-          )}
-        </div>
- {/*        <div className="main-filter">
-         <button onClick={onClick}><img src={filter} alt="filter"/></button>
-        </div> */}
-      </div>
+      <Sharing recommendList={recommendList} />
         <div className="main-container">   
         <div className="main-content">
           <div className="main-recommend">

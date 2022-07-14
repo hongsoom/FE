@@ -125,13 +125,18 @@
     margin : 12px 0 12px 8px;
 }
 
-.categorypost-heart > img {
+.categorypost-heart > button {
+    border: none;
+    background-color: transparent;
+}
+
+.categorypost-heart > button > img {
     position : absolute;
-    right : 30px;
+    right : 40px;
+    bottom: 19px;
     width: 15px;
     height : 13px;
     cursor: pointer;
-    margin : 20px 5px 16px 0;
 }
 
 .categorypost-heart > p {

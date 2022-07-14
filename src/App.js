@@ -27,13 +27,6 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
         <Route path="/category/:region" element={<Category />} />
-       {/*  <Route path="/category/:region/:theme" element={<Category />} />
-        <Route path="/category/:region/:theme/:theme" element={<Category />} />
-        <Route path="/category/:region/:theme/:theme/:theme" element={<Category />} />
-        <Route path="/category/:region/:theme/:theme/:theme/:theme" element={<Category />} />
-        <Route path="/category/:region/:theme/:theme/:theme/:theme/:theme" element={<Category />} />
-        <Route path="/category/:region/:theme/:price" element={<Category />} />
-        <Route path="/category/:region/:price" element={<Category />} /> */}
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>

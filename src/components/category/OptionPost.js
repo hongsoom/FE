@@ -5,12 +5,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { userAction } from "../../redux/module/post";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
-import  "../../css/categoryPost.css";
+import  "../../css/optionPost.css";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
-import heartBlue from "../../assets/heart-blue.png";
+import heartFull from "../../assets/heartpaint.png";
 
 const size = 5;
 
@@ -19,48 +19,25 @@ const OptionPost = () => {
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
-    const [heart, setHeart] = useState(false);
     const [page, setPage] = useState(0);
-    const [keywordChange, setKeyword] = useState("");
-
-    const checkHasIncode = keyword => {
-        if(keywordChange.length === 0) {
-            setKeyword("")
-            return keywordChange;
-        }
-        
-        const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-      
-        if (keywordChange.match(check_kor)) {
-          const encodeKeyword = encodeURI(keywordChange); 
-          return encodeKeyword;
-        } else {
-          return keywordChange;
-        }
-      };
+    const [keyword, setKeyword] = useState("");
 
     const onClickBookmark = () => {
       setBookmark(!bookmark);
     }
 
-    const onClickHeart = () => {
-      setHeart(!heart);
-    }
-
      const loadLatestPost = () => {
-        const keyword_ = checkHasIncode(keywordChange)
 
         dispatch(userAction.allGetDB(
-            page, size, keyword_
+            page, size, keyword
         ))
-        setPage(page + 1)
     };
 /* 
     const handleScroll = (e) => {
         if (window.innerHeight + window.scrollY + 1 >  
              e.target.documentElement.scrollHeight
         ) {
-            loadLatestPost();
+            setPage(page + 1)
         }
     }  
   */
@@ -72,19 +49,19 @@ const OptionPost = () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchmove', handleScroll);
         }  */
-    },[]) 
+    },[page]) 
 
     return (
-      <div className="categorypost-container">   
+      <div className="optionpost-container">   
       {posts && posts.map((list, index) => {
          return (
-        <div className="categorypost-content" key={index}>
-            <div className="categorypost-title">
-                <div className="categorypost-user">
+        <div className="optionpost-content" key={index}>
+            <div className="optionpost-title">
+                <div className="optionpost-user">
                     <img src={list.userImgUrl} alt="profile" />
                     <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
                 </div>    
-                <div className="categorypost-click">
+                <div className="optionpost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     {bookmark ? <img onClick={onClickBookmark} src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img onClick={onClickBookmark} src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" />}
                 </div>
@@ -92,8 +69,8 @@ const OptionPost = () => {
             <Link to ={`detail/${list.postId}`}>
                 <CategorySlide image={list.imgUrl} />
             </Link>
-            <div className="categorypost-category">
-                <Swiper className="categorypost-categorybutton"
+            <div className="optionpost-category">
+                <Swiper className="optionpost-categorybutton"
                     slidesPerView={1}
                     breakpoints={{
                     300: {
@@ -109,8 +86,10 @@ const OptionPost = () => {
                             </SwiperSlide> 
                         )})}   
                 </Swiper>
-                <div className="categorypost-heart">
-                    {heart ? <img onClick={onClickHeart} src={heartBlue} alt="heartBlue" /> : <img onClick={onClickHeart} src={heartEmpty} alt="heartEmpty" /> }
+                <div className="optionpost-heart">
+                    <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
+                        {list.isLove ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                    </button>
                     <p>{list.loveCount}</p>
                 </div>
             </div>
