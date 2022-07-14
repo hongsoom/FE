@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/mypage.css";
 
 import {useNavigate} from 'react-router-dom'
+import { useDispatch } from "react-redux";
+
+import { userAction } from '../redux/module/user'
+import { myInfoDB } from '../redux/module/user'
 
 import leftArrowBlack from "../assets/leftArrowBlack.png"
 import setup from "../assets/setup.png"
 
+
 const Mypage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState('myPosts');
+
+  useEffect(()=>{
+    dispatch(userAction.myInfoDB())
+  },[])
 
 
   const onClickLeftArrow = () => {

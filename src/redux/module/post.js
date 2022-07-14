@@ -5,33 +5,31 @@ import instance from "../../shared/Request";
 
 
 
-
-
 const initialState ={
-  // title : 'title',
-  // content : '게시글 내용 입니다',
-  // regionCategory : '지역별',
-  // themeCategory : ['힐링','맛집'],
-  // priceCategory : '10만원대',
-  // place: [
-  //   {
-  //    addressName:'',
-  //    categoryGroupCode:'',
-  //    categoryGroupName:'',
-  //    categoryName: '',
-  //    distance:'',
-  //    files: [],
-  //    id:'',
-  //    phone: '',
-  //    placeName: '',
-  //    placeUrl: '',
-  //    roadAddressName: '',
-  //    x: '',
-  //    y: '',
-  //   }
-  // ],
-  // restroom: '',
-  // contents : [],
+  title : 'title',
+  content : '게시글 내용 입니다',
+  regionCategory : '지역별',
+  themeCategory : ['힐링','맛집'],
+  priceCategory : '10만원대',
+  place: [
+    {
+     addressName:'',
+     categoryGroupCode:'',
+     categoryGroupName:'',
+     categoryName: '',
+     distance:'',
+     files: [],
+     id:'',
+     phone: '',
+     placeName: '',
+     placeUrl: '',
+     roadAddressName: '',
+     x: '',
+     y: '',
+    }
+  ],
+  restroom: '',
+  contents : [],
   }
 
 
@@ -56,17 +54,6 @@ const deletePost = createAction(DELETE, (id) => ({id}));
 const clearPost = createAction(CLEAR);
 
 
-// middleWare
-// export const getPostListDB = () => async (dispatch) => {
-//   try {
-//     const data = await instance.get('api/posts');
-//     dispatch(getPostList(data.data));
-//     // console.log(data.data.postslist);
-//   } catch (error) {
-//     alert("오류가 발생했습니다. 다시 시도해주세요.");
-//     console.log(error);
-//   }
-// };
 
 const allGetDB = (page, size, keyword) => {
   console.log(page, size, keyword)
@@ -203,11 +190,8 @@ export default handleActions(
 
     [DELETE]: (state, action) =>
       produce(state, (draft) => {
-
-        console.log(draft)
-        draft.newList = draft.newList.filter(
-          (p) => p.postId !== action.payload.postId
-        );
+        draft.contents = draft.contents.filter((p) =>
+        p.postId !== action.payload.postId );
       }),
 
 

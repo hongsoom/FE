@@ -7,6 +7,7 @@ const LOGIN = "login";
 const LOGOUT = "logout";
 const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
+const MYINFO = "myinfo";
 
 const initialState  = {
     list : [],
@@ -19,6 +20,8 @@ const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
+const myInfo = createAction(MYINFO, (myinfo) => ({myinfo}));
+
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   console.log(username, nickname, password, passwordCheck)
@@ -125,6 +128,19 @@ const logInDB = (username, password) => {
     };
   };  
 
+  const myInfoDB = (userId) => {
+    return async function (dispatch) {
+      try {
+        const response = await instance.post(`api/user`);
+        const myData = response.status;
+        dispatch(myInfo(myData))
+      } catch (err) {
+        console.log(err.response)
+      }
+    };
+
+  }
+
 export default handleActions(
     {  
       [SIGNUP]: (state, action) =>
@@ -152,6 +168,11 @@ export default handleActions(
       produce(state, (draft) => {
       draft.isLogin = false;
       }),
+
+      [MYINFO]: (state, action) =>
+      produce(state, (draft) => {
+      draft.myinfo = action.payload
+      }),
     },
     initialState
     );
@@ -163,6 +184,7 @@ const userAction = {
     nicknameCheckDB,
     kakaoLoginDB,
     logOutDB,
+    myInfoDB,
 };
       
 export { userAction };    
