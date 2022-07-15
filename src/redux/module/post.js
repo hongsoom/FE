@@ -43,7 +43,8 @@ const ADD = "post/ADD"
 const MODIFY = "post/MODIFY"
 const DELETE = "post/DELETE"
 const CLEAR = "post/CLEAR"
-
+const GETMYPOST = "post/GETMYPOST"
+const GETMYBOOKMARK = "post/GETMYBOOKMARK"
 
 // Action creator
 const allGet = createAction(ALLGET, (newList) => ({newList}));
@@ -56,8 +57,8 @@ const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
 const clearPost = createAction(CLEAR);
-
-
+const getmypost = createAction(GETMYPOST, (myposts)=> ({myposts}));
+const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({mybookmarks}));
 
 const allGetDB = (page, size, keyword, sort, direction) => {
   console.log(page, size, keyword)
@@ -145,9 +146,29 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        // window.location.assign(`/`);
         window.alert('작성 성공')
-        
+        window.location.assign("/")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const modifyPostDB = (data, postId) => {
+  return async function (dispatch, getState) {
+    await instance
+      .post(`api/post/${postId}`, data,
+       {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token") 
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.alert('수정 완료')
+        window.location.assign("/")
       })
       .catch((error) => {
         console.log(error);
@@ -183,6 +204,53 @@ const clearDB = () => {
   }
 };
 
+
+export const getMypostDB = () => {
+  return async function (dispatch) {
+  try {
+    const data = await instance.get('api/user/mypost',
+    {
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("token") 
+      },
+    }
+    );
+    console.log(data)
+    const newData = data.data;
+    dispatch(getmypost(newData));
+    console.log(newData);
+  } catch (error) {
+    // alert("오류가 발생했습니다. 다시 시도해주세요.");
+    console.log(error);
+    
+  }
+};
+}
+
+export const getMybookmarkDB = () => {
+  return async function (dispatch) {
+  try {
+    const data = await instance.get('api/user/mybookmark',
+    {
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("token") 
+      },
+    }
+    );
+    const newData = data.data;
+    dispatch(getmybookmark(newData));
+    console.log(newData);
+  } catch (error) {
+    // alert("오류가 발생했습니다. 다시 시도해주세요.");
+    console.log(error);
+    
+  }
+};
+}
+
+
 //reducer
 export default handleActions(
   {
@@ -217,6 +285,18 @@ export default handleActions(
       };
     },
 
+    [MODIFY]: (state, action) => {
+      produce(state, (draft) => {
+        const index = draft.contents.findIndex(
+          (p) => p.postId === action.payload.postId
+        );
+        draft.contents[index] = {
+          ...draft.contents[index],
+          ...action.payload.post,
+        };
+      });
+    },
+
     [DELETE]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = draft.contents.filter((p) =>
@@ -230,44 +310,23 @@ export default handleActions(
         contents: []
       };
     },
+
+    [GETMYPOST]:(state, action) => {
+      return {
+        myposts: action.payload
+      };
+    },
+
+    [GETMYBOOKMARK]:(state, action) => {
+      return {
+        mybookmarks: action.payload
+      };
+    },
   },
   initialState
 );
 
-// export default function reducer(state = initialState, action={}){
-//   switch(action.type){
 
-//     case "post/GET":{
-//       return {posts: action.post}
-//     }
-    
-//     case "post/ADD":{
-//       const new_post_list = [ action.post_list, ...state.posts];
-//       return {posts: new_post_list}
-
-//     }
-//     case "post/MODIFY": {
-      
-//       const modify_post = [ ...action.post ];
-//       console.log(modify_post)
-//       return { posts: modify_post };
-//     }
-
-//     case "post/DELETE":{
-//       console.log(state.posts)
-//       const new_post_list= state.posts.filter((l,i)=>{
-//         console.log(action)
-//         // window.alert('보자')
-//         return action.postID !== l.id
-//       })
-//       return {posts: new_post_list}
-
-//     }
-
-//     default:
-//       return state;
-//   }
-// }
 
 
 const userAction ={
@@ -279,6 +338,9 @@ const userAction ={
   allGetDB,
   getPostDB,
   addPostDB,
-  deletePostDB
+  modifyPostDB,
+  deletePostDB,
+  getMypostDB,
+  getMybookmarkDB
 }
 export {userAction}

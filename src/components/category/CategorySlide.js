@@ -21,7 +21,7 @@ const CategorySlide = ({image}) => {
         }}}>
       {image.map((list, i) => 
       <SwiperSlide className="categoryslide-imagecontent" key={i}>
-            <img src={list} alt="image" key={i} />
+        <img src={list} alt="image" key={i} />
       </SwiperSlide>
     )}
    </Swiper>

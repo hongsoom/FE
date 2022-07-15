@@ -19,7 +19,7 @@ const OptionPost = () => {
     const posts = useSelector((state) => state.post.contents);
 
     const [bookmark, setBookmark] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState("");
 
     const onClickBookmark = () => {

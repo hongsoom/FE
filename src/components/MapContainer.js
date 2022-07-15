@@ -426,7 +426,7 @@ console.log(select)
         ref={myMap}
         style={{
           width:'100vw',
-          height: '100vh',
+          height: '50vh',
           position: 'absolute'
         }}
         >

@@ -263,3 +263,28 @@
   border: 1px solid transparent;
   cursor: pointer;
 }
+
+
+.inputForm{
+  position:absolute;
+  z-index: 1;
+  top: 130px;
+  width: 335px;
+  padding: 10px;
+  border-radius: 8px;
+  left: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  background:rgba(255, 255, 255, 0.85);
+  display:flex;
+  justify-content: center;
+}
+
+input{
+  width: 200px;
+  height: 30px;
+  margin-right: 10px;
+  outline: none;
+}
+.inputForm > button{
+  width: 60px;
+}

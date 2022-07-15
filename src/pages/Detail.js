@@ -3,12 +3,13 @@ import '../css/detail.css'
 import instance from '../shared/Request'
 
 import DetailImageSlide from '../components/DetailImageSlide'
-import Spinner from '../components/common/Spinner'
 import Comment from "../components/comment/Comment"
 
 import { useDispatch, useSelector} from 'react-redux'
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { deletePostDB } from "../redux/module/post"
+import { userAction} from '../redux/module/user'
+
 
 // 아이콘
 import leftArrowBlack from '../assets/leftArrowBlack.png'
@@ -52,11 +53,25 @@ const Detail = () => {
 
  // ------------------------------------
 
+ // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
+
+ useEffect(() => {
+  dispatch(userAction.myInfoDB()); 
+  }, []);
+
+  const userInfo = useSelector(state=> state.user.myinfo)
+  
+
  // -------------- 게시글 데이터 삭제하기
   const onDeleteHandler = () => {
     dispatch(deletePostDB(param))
   }
 
+  // ------------- 수정하기
+  const onModifyHandler = () => {
+    navigate(`/write/${param}`)
+  }
+  
 
     
 
@@ -158,13 +173,17 @@ const Detail = () => {
         <div className='title'>
           {data && data.title}
         </div>
-
-        <div className='editIcon'>
-          <img src={edit} alt="수정하기"/>
-        </div>
-        <div className='trashIcon'>
-          <img src={trash} alt="삭제하기" onClick={onDeleteHandler}/>
-        </div>
+        {userInfo&&data&& (userInfo.nickname === data.nickname) ? (
+          <>
+          <div className='editIcon'>
+            <img src={edit} alt="수정하기" onClick={onModifyHandler}/>
+          </div>
+          <div className='trashIcon'>
+            <img src={trash} alt="삭제하기" onClick={onDeleteHandler}/>
+          </div>
+        </>
+        ):null}
+        
 
       </div>
 

@@ -8,6 +8,7 @@ const LOGOUT = "logout";
 const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
+const EDITMYINFO = 'editinfo'
 
 const initialState  = {
     list : [],
@@ -21,7 +22,7 @@ const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({myinfo}));
-
+const editinfo = createAction(EDITMYINFO, (myinfo)=> ({myinfo}))
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   console.log(username, nickname, password, passwordCheck)
@@ -129,17 +130,45 @@ const logInDB = (username, password) => {
     };
   };  
 
-  const myInfoDB = (userId) => {
+  const myInfoDB = () => {
     return async function (dispatch) {
-      try {
-        const response = await instance.post(`api/user`);
-        const myData = response.status;
-        dispatch(myInfo(myData))
-      } catch (err) {
-        console.log(err.response)
-      }
+      await instance
+        .get("api/user/",
+         {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token") 
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data
+          dispatch(myInfo(data))
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
+  }
 
+  const editInfoDB = (data) => {
+    console.log(data)
+    return async function (dispatch) {
+      await instance
+        .put("api/user",data,
+         {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token") 
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
   }
 
 export default handleActions(
@@ -172,7 +201,15 @@ export default handleActions(
 
       [MYINFO]: (state, action) =>
       produce(state, (draft) => {
-      draft.myinfo = action.payload
+      draft.myinfo = action.payload.myinfo
+      }),
+
+      [EDITMYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = {
+          ...draft.myinfo,
+          ...action.payload.myinfo
+        }
       }),
     },
     initialState
@@ -186,6 +223,7 @@ const userAction = {
     kakaoLoginDB,
     logOutDB,
     myInfoDB,
+    editInfoDB
 };
       
 export { userAction };    
