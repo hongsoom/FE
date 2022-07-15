@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Write from "./pages/Write";
 import Detail from "./pages/Detail";
 import Signup from "./pages/Signup";
@@ -11,6 +12,12 @@ import KakaoSocial from "./pages/KakaoSocial";
 import Main from "./pages/Main";
 
 function App() {
+
+/*   useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []); */
 
   return (
     <div className="App">
@@ -24,6 +31,12 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
         <Route path="/category/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword/:keyword/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword/:keyword/:keyword/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword/:keyword/:keyword/:keyword/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/:keyword/:keyword/:keyword/:keyword/:keyword/:keyword" element={<Category />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>

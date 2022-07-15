@@ -31,8 +31,8 @@ const initialState ={
   loveckecked : false,
   bookmarkckecked : false,
   last : false,
+  postId : '',
   }
-
 
 const ALLGET = "post/ALLGET"
 const ARRAYGET = "post/ARRAYGET"
@@ -48,14 +48,12 @@ const MODIFY = "post/MODIFY"
 const DELETE = "post/DELETE"
 const CLEAR = "post/CLEAR"
 
-
-// Action creator
 const allGet = createAction(ALLGET, (newList) => ({newList}));
 const arrayGet = createAction(ARRAYGET, (newList) => ({newList}));
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkList) => ({bookmarkList}));
 const filterGET = createAction(FILTERGET, (newList) => ({newList}));
-const clickLove = createAction(LOVE, (loveckecked) => ({loveckecked}));
-const clickBookmark = createAction(BOOKMARK, (bookmarkckecked) => ({bookmarkckecked}));
+const clickLove = createAction(LOVE, (loveckecked, Id) => ({loveckecked, Id}));
+const clickBookmark = createAction(BOOKMARK, (bookmarkckecked, Id) => ({bookmarkckecked, Id}));
 const lastGet = createAction(LASTPAGE, (last) => ({last}));
 const getPostList = createAction(GET, (postList) => ({postList}));
 const getPost = createAction(GET, (postOne) => ({postOne}));
@@ -63,7 +61,6 @@ const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
 const clearPost = createAction(CLEAR);
-
 
 // middleWare
 // export const getPostListDB = () => async (dispatch) => {
@@ -78,116 +75,114 @@ const clearPost = createAction(CLEAR);
 // };
 
 const allGetDB = (page, size, keyword) => {
-  console.log(page, size, keyword)
-    return async function (dispatch) {
-      try {
-        const response = await instance.get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
+  return async function (dispatch) {
+    try {
+      const response = await instance.get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
+      
+      const newList = response.data.content;
+      const lastInfo = response.data.last;
+      console.log(response)
+      dispatch(allGet(newList));
+      dispatch(lastGet(lastInfo));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
+const filterGETDB = (region, price, theme, size, page) => {
+  return async function (dispatch) {
+    try {
+      const response = await instance.get(`api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`)
+      console.log(response)
+      const newList = response.data.content;
+      const lastInfo = response.data.last;
+
+      dispatch(filterGET(newList));
+      dispatch(lastGet(lastInfo));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+const firstGetDB = (keyword, page, size, sort, desc, bookmarkCount) => {
+  return async function (dispatch) {
+    await instance
+      .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`)
+      .then((response) => {
+    
+      instance
+        .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${bookmarkCount},${desc}`)
+        .then((response) => {
+          const bookmarkList = response.data.content;
+          dispatch(bookmarkGet(bookmarkList));
+          console.log(response)
+        })
+        .catch((error) => {
+          console.error(error)
+        }) 
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+  }
+    
+const arrayGetDB = (keyword, page, size, sort, desc) => {
+  return async function (dispatch) {
+    await instance
+      .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`)
+      .then((response) => {
+        console.log(response)
         const newList = response.data.content;
         const lastInfo = response.data.last;
 
-        dispatch(allGet(newList));
+        dispatch(arrayGet(newList));
         dispatch(lastGet(lastInfo));
 
-      } catch (err) {
-        console.log(err)
-      }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
   }
 
-  const filterGETDB = (region, price, theme, size, page) => {
-    console.log(region, price, theme, size, page)
-      return async function (dispatch) {
-        try {
-          const response = await instance.get(`api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`)
+const clickLoveDB = (postId) => {
+  return async function (dispatch) {
+    try {
+      const response = await instance.post(`api/love/${postId}`)
 
-          const newList = response.data.content;
-          const lastInfo = response.data.last;
+      const loveckecked = response.data.trueOrFalse;
+      const Id = response.data.postId;
 
-          dispatch(filterGET(newList));
-          dispatch(lastGet(lastInfo));
-        } catch (err) {
-          console.log(err)
-        }
-      }
-    }
-
-    const firstGetDB = (keyword, page, size, sort, desc, bookmarkCount) => {
-      console.log(page, size, keyword, sort, desc)
-        return async function (dispatch) {
-          await instance
-          .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`)
-          .then((response) => {
-            console.log(response);
-            
-            instance
-            .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${bookmarkCount},${desc}`)
-            .then((response) => {
-              console.log(response);
-    
-              const bookmarkList = response.data.content;
-              dispatch(bookmarkGet(bookmarkList));
-              })
-              .catch((error) => {
-                console.error(error)
-              }) 
-          }).catch((error) => {
-            console.log(error)
-          })
-        }
-      }
-    
-      const arrayGetDB = (keyword, page, size, sort, desc) => {
-        console.log(page, size, keyword, sort, desc)
-          return async function (dispatch) {
-            await instance
-            .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`)
-            .then((response) => {
-              const newList = response.data.content;
-              const lastInfo = response.data.last;
-    
-              dispatch(arrayGet(newList));
-              dispatch(lastGet(lastInfo));
-
-            }).catch((error) => {
-              console.log(error)
-            })
-          }
-        }
-
-  const clickLoveDB = (postId) => {
-    console.log(postId)
-    return async function (dispatch) {
-      try {
-        const response = await instance.post(`api/love/${postId}`)
-
-        const loveckecked = response.data.trueOrFalse;
-        dispatch(clickLove(loveckecked))
-      } catch (err) {
-        console.log(err)
-      }
+      dispatch(clickLove(loveckecked, Id))
+    } catch (error) {
+      console.log(error)
     }
   }
+}
 
-  const clickBookmarkDB = (postId) => {
-    console.log(postId)
-    return async function (dispatch) {
-      try {
-        const response = await instance.post(`api/bookmark/${postId}`)
+const clickBookmarkDB = (postId) => {
+  return async function (dispatch) {
+    try {
+      const response = await instance.post(`api/bookmark/${postId}`)
 
-        const bookmarkckecked = response.data.trueOrFalse;
-        dispatch(clickBookmark(bookmarkckecked))
-      } catch (err) {
-        console.log(err)
-      }
+      const bookmarkckecked = response.data.trueOrFalse;
+      const Id = response.data.postId;
+
+      dispatch(clickBookmark(bookmarkckecked, Id))
+    } catch (error) {
+      console.log(error)
     }
   }
+}
   
 const clearDB = () => {
   return function (dispatch) {
-        dispatch(clearPost());
+    dispatch(clearPost());
   }
-};
+}
 
 export const getPostDB = (postId) => {
   return async function (dispatch) {
@@ -253,27 +248,27 @@ export default handleActions(
   {
     [ALLGET]: (state, action) => 
     produce(state, (draft) => {
-      draft.contents = [...state.contents, ...action.payload.newList]
+    draft.contents = [...state.contents, ...action.payload.newList]
     }),
 
     [ARRAYGET]: (state, action) => 
     produce(state, (draft) => {
-      draft.contents = [...state.contents, ...action.payload.newList]
+    draft.contents = [...state.contents, ...action.payload.newList]
     }),
 
     [BOOKMARKGET]: (state, action) => 
     produce(state, (draft) => {
-      draft.bookmarkcontents = action.payload.bookmarkList
+    draft.bookmarkcontents = action.payload.bookmarkList
     }), 
 
     [FILTERGET]: (state, action) => 
     produce(state, (draft) => {
-      draft.contents = [...state.contents, ...action.payload.newList]
+    draft.contents = [...state.contents, ...action.payload.newList]
     }),
     
     [LASTPAGE]: (state, action) => 
     produce(state, (draft) => {
-      draft.last = action.payload.last
+    draft.last = action.payload.last
     }),
     
     [GETLIST]:(state, action) => {
@@ -296,65 +291,30 @@ export default handleActions(
     },
 
     [DELETE]: (state, action) =>
-      produce(state, (draft) => {
-      draft.newList = draft.newList.filter(
-        (p) => p.postId !== action.payload.postId
-      );
+    produce(state, (draft) => {
+    draft.newList = draft.newList.filter(
+      (p) => p.postId !== action.payload.postId)
     }),
 
     [LOVE]: (state, action) =>
     produce(state, (draft) => {
     draft.loveckecked = action.payload.loveckecked;
+    draft.postId = action.payload.Id;
     }),
 
     [BOOKMARK]: (state, action) =>
     produce(state, (draft) => {
     draft.bookmarkckecked = action.payload.bookmarkckecked;
+    draft.postId = action.payload.Id;
     }),
 
     [CLEAR]: (state, action) => 
     produce(state, (draft) => {
-      draft.contents = []
+    draft.contents = []
     }),
   },
   initialState
 );
-
-// export default function reducer(state = initialState, action={}){
-//   switch(action.type){
-
-//     case "post/GET":{
-//       return {posts: action.post}
-//     }
-    
-//     case "post/ADD":{
-//       const new_post_list = [ action.post_list, ...state.posts];
-//       return {posts: new_post_list}
-
-//     }
-//     case "post/MODIFY": {
-      
-//       const modify_post = [ ...action.post ];
-//       console.log(modify_post)
-//       return { posts: modify_post };
-//     }
-
-//     case "post/DELETE":{
-//       console.log(state.posts)
-//       const new_post_list= state.posts.filter((l,i)=>{
-//         console.log(action)
-//         // window.alert('보자')
-//         return action.postID !== l.id
-//       })
-//       return {posts: new_post_list}
-
-//     }
-
-//     default:
-//       return state;
-//   }
-// }
-
 
 const userAction ={
   firstGetDB,

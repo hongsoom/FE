@@ -13,9 +13,18 @@ const FilterModal = (props) => {
     const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 
+
+/*     const themeRoute = (themeSelect) => {
+        navigate("/category/" + `${themeSelect}`)
+    }
+
+    const priceRoute = (priceSelect) => {
+        navigate("/category/" + `${priceSelect}`)
+    } */
+
     return (
         <>
-        <div className="test">  
+        <div className="filtermodal-box">  
             <div className="filtermodal-container">
                 <div className="filtermodal-content">
                     <div className="filtermodal-theme">

@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
 import  "../../css/categoryPost.css";
-import profile from "../../assets/profile.png";
 import bookmarkEmpty from "../../assets/bookmark.png";
 import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
@@ -23,9 +22,7 @@ const CategoryPost = (props) => {
     const last = useSelector((state) => state.post.last);
     const loveckecked = useSelector((state) => state.post.loveckecked);
     const bookmarkckecked = useSelector((state) => state.post.bookmarkckecked);
-
-    console.log(loveckecked)
-    console.log(bookmarkckecked)
+    const postId = useSelector((state) => state.post.postId);
 
     const [page, setPage] = useState(0);
 
@@ -81,13 +78,14 @@ const CategoryPost = (props) => {
         <div className="categorypost-content" key={index}>
             <div className="categorypost-title">
                 <div className="categorypost-user">
-                    <img src={profile} alt="profile"/>
+                    <img src={list.imgUrl} alt="profile"/>
                     <p>{list.title}</p>
                 </div>    
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
-                        {bookmarkckecked ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
+                    {list.postId === postId  ? ( bookmarkckecked === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />) :
+                        <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />}
                     </button>
                 </div>
             </div>
@@ -111,7 +109,8 @@ const CategoryPost = (props) => {
                 </Swiper>
                 <div className="categorypost-heart">
                     <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
-                        {loveckecked ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                    {list.postId === postId ? ( loveckecked === true ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> ) :
+                          <img src={heartEmpty} alt="heartEmpty" /> }
                     </button>
                     <p>{list.loveCount}</p>
                 </div>

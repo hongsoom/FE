@@ -19,9 +19,9 @@ const Sharing = (props) => {
 
     return (
         <>
+        { modal ? <FilterModal onClick={onClick} region={region} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} /> : null} 
         {is_List === true ? 
-            <>
-            { modal ? <FilterModal onClick={onClick} /> : null} 
+            <> 
             <div className="main-click">
                 <div className="main-button">
                 {recommendList.map((list,i) =>
@@ -35,7 +35,6 @@ const Sharing = (props) => {
             </>
             :
             <>
-            { modal ? <FilterModal onClick={onClick} region={region} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} /> : null} 
             <div className="category-click">
                 <div className="category-button">
                     <button>#{list}</button>
