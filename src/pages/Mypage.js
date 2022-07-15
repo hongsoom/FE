@@ -23,7 +23,7 @@ const Mypage = () => {
   },[dispatch])
   useEffect(()=>{
     dispatch(getMypostDB())
-    dispatch(getMybookmarkDB())
+    //dispatch(getMybookmarkDB())
   },[])
   
   const myInfo = useSelector(state=>state.user.myinfo)

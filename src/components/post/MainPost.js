@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { userAction } from "../../redux/module/post";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "../category/CategorySlide";
@@ -22,11 +23,6 @@ const MainPost = () => {
     const [bookmark, setBookmark] =  useState(bookmarkckecked)
   
     console.log(bookmarkckecked)
-    console.log(bookmark)
-
-    console.log(loveckecked)
-    console.log(love)
-
     console.log(posts)
     
     useEffect(() => {
@@ -55,17 +51,19 @@ const MainPost = () => {
                 <div className="mainpost-title">
                   <div className="mainpost-user">
                     <img src={list.userImgUrl} alt="profile" />
-                    <p>{list.title}</p>
+                    <Link to ={`detail/${list.postId}`}><p>{list.title}</p></Link>
                   </div>    
                   <div className="mainpost-click">
                     <img src={share} alt="share" className="mainpost-shareicon"/>
                     <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
-                      {list.postId === postId  ? ( bookmark === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />) :
-                       ( bookmark === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />)}
+                      {list.postId === postId  ? ( list.bookmarkStatus === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />) :
+                       ( list.bookmarkStatus === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />)}
                     </button> 
                   </div>
                 </div>
-                <CategorySlide image={list.imgUrl} />
+                <Link to ={`detail/${list.postId}`}>
+                  <CategorySlide image={list.imgUrl} />
+                </Link>
                 <div className="mainpost-category">
                   <Swiper className="mainpost-categorybutton"
                       slidesPerView={1}

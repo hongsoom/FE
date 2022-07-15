@@ -1,32 +1,36 @@
 .category-click {
     margin: 10px auto;
-    width: 100%;
-    max-width : 375px;
+    width : 335px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     align-items: center;
+    position: relative;
 }
 
 .category-button {
-    margin-right: 50px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .category-button > button {
-    width : 60px;
+    width : 70px;
     height: 28px;
     background-color: #FFFFFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: 1px solid #FFFFFF;
     color : #333333;
-    margin-right: 10px;
+    margin: 0 10px 10px 0;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
-    line-height: 20px;
     cursor: pointer;
+}
+
+.category-filter {
+    position: absolute;
+    right: 0;
 }
 
 .category-filter > button {
