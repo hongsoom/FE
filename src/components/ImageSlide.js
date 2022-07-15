@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
-import '../css/ImageSlide.css';
+import '../css/imageSlide.css';
+
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'

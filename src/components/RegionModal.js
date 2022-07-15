@@ -1,10 +1,10 @@
-import React, { useState }  from "react";
+import React, { useEffect, useState }  from "react";
 import '../css/regionModal.css'
 
 
 const RegionModal = (props) => {
 
-  const { region, selectedRegion, setRegion, showRegionModal, closeRegionModal, data, is_edit} = props;
+  const { region, selectedRegion, setRegion, showRegionModal, closeRegionModal, editdata, is_edit} = props;
   
   const isChecked = (e) =>{
     if (e.target.checked){
@@ -12,6 +12,12 @@ const RegionModal = (props) => {
       // setRegion(data&&data.regionCategry)
     }
   }
+
+  // useEffect(()=>{
+  //   setRegion(editdata&&editdata.regionCategory)
+  // },editdata)
+   
+  
   console.log(selectedRegion)
 
   return (
@@ -27,7 +33,7 @@ const RegionModal = (props) => {
               {is_edit ?
               <div className='regions' key={i}
               style={selectedRegion === v ? {background:'skyblue'}: {background:'#fff'}}>
-                <input type="radio" name="region" defaultValue={data&&data.regionCategry} value={v} id={v} 
+                <input type="radio" name="region" value={v} id={v} 
                 onChange={isChecked}/>
                 <label htmlFor={v}>
                   {v}

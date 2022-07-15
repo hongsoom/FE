@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../css/searchPlace.css'
 import '../css/mapContainer.css'
 
-
 import instance from '../shared/Request'
 
 // 컴포넌트
@@ -14,19 +13,18 @@ import PriceModal from './PriceModal'
 import {useNavigate, useParams} from 'react-router-dom'
 
 // 리덕스
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch } from 'react-redux'
 
 // 리덕스 모듈
-import { getPostListDB, getPostDB, addPostDB} from '../redux/module/post'
+import { addPostDB} from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
 
 
 // 카카오맵
 const { kakao } = window
 
-const MapContainer = () => {
+const Edit = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
   const [place, setPlace] = useState(""); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
@@ -43,7 +41,6 @@ const MapContainer = () => {
   const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
-  const [grab, setGrab] = useState(null); // 드래그앤드롭
 
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [loading, setLoading] = useState(false)
@@ -649,4 +646,4 @@ console.log(select)
   )
 }
 
-export default MapContainer
+export default Edit

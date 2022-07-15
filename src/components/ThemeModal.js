@@ -1,17 +1,22 @@
-import React, { useState }  from "react";
+import React, { useState, useEffect }  from "react";
 import '../css/themeModal.css'
 
 
 const ThemeModal = (props) => {
 
-  const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal, data, is_edit} = props;
+  const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal, editdata, is_edit} = props;
   
-  const isChecked = (e) =>{
-    if (data||e.target.checked){
-      setTheme(e.target.value)
-      setTheme(data&&data.themeCategry)
-    }
-  }
+  // const isChecked = (e) =>{
+  //   if (data||e.target.checked){
+  //     setTheme(e.target.value)
+  //     setTheme(data&&data.themeCategry)
+  //   }
+  // }
+
+  // useEffect(()=>{
+  //   setTheme(editdata&&editdata.themeCategory)
+  // },editdata)
+
   console.log(selectedTheme)
 
   return (
@@ -23,26 +28,29 @@ const ThemeModal = (props) => {
           <div style={{display:'flex', flexWrap: 'wrap'}}>
           {theme.map((v,i)=>{
             return(
-              <div key={i}>
-              {is_edit ?
               <div className='themes' key={i}
-              style={selectedTheme === v ? {background:'skyblue'}: {background:'#fff'}}>
-                <input type="radio" name="theme" defaultValue={data&&data.themeCategry} value={v} id={v} 
-                onChange={isChecked}/>
+              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+                <input type="checkbox" name="theme" value={v} id={v}
+                onChange={(e)=>{
+                  if (e.target.checked){
+                  setTheme((pre)=>{
+                    const newData=[...pre];
+                    newData.push(v)
+                    return newData
+                  })
+                   }else{
+                    setTheme((pre)=>{
+                      const newData = pre.filter((l,i)=>{
+                        return l !== v
+                        })
+                        return newData
+                    })
+                   }
+                  }}
+                />
                 <label htmlFor={v}>
                   {v}
                 </label>
-              </div>
-              :
-              <div className='themes' key={i}
-              style={selectedTheme === v ? {background:'skyblue'}: {background:'#fff'}}>
-                <input type="radio" name="theme" value={v} id={v} 
-                onChange={isChecked}/>
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-              }
               </div>
             )
           })}

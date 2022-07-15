@@ -159,6 +159,7 @@ const logInDB = (username, password) => {
         })
         .then((res) => {
           console.log(res);
+          window.location.assign("/mypage");
         })
         .catch((error) => {
           console.log(error);

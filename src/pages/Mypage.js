@@ -9,25 +9,36 @@ import { getMypostDB, getMybookmarkDB } from '../redux/module/post';
 
 import leftArrowBlack from "../assets/leftArrowBlack.png"
 import setup from "../assets/setup.png"
-
+import talkwhite from "../assets/talkwhite.png"
+import heartwhite from "../assets/heartwhite.png"
 
 const Mypage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState('myPosts');
 
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(0);
+  const [direction, setDirection] = useState("desc");
+  const [id, setId] = useState("id");
+
   // ----------------- 나의 정보 / 나의 게시글 가져오기
   useEffect(()=>{
     dispatch(userAction.myInfoDB())
     
   },[dispatch])
+
   useEffect(()=>{
-    dispatch(getMypostDB())
-    //dispatch(getMybookmarkDB())
+    dispatch(getMypostDB(
+      size, page, id, direction
+    ))
+    dispatch(getMybookmarkDB())
   },[])
+
+ 
   
   const myInfo = useSelector(state=>state.user.myinfo)
-  const myPosts = useSelector(state=>state.post)
+  const myPosts = useSelector(state=>state.post.myposts)
   console.log(myPosts)
   console.log(myInfo)
   // ---------------------------------------------------
@@ -113,32 +124,57 @@ const Mypage = () => {
 
           <div className="myPosts">
             <div className="postboxs">
-              <div className="postbox">
-
-              </div>
-              <div className="postbox">
-                
-              </div>
-              <div className="postbox">
-                
-              </div>
-              <div className="postbox">
-                
-              </div>
-              <div className="postbox">
-
-              </div>
-              <div className="postbox">
-                
-              </div>
-              <div className="postbox">
-                
-              </div>
-              <div className="postbox">
-                
-              </div>
+              {myPosts&&myPosts.myposts.map((v,i)=>{
+                return(
+                  <div className="postbox" key={i}
+                  style={{backgroundImage:`url(${v.imgUrl})`, backgroundPosition:'center' , backgroundSize:'cover'}}
+                  >
+                    <div className="txtArea">
+                      <div className="postBoxTitle">{v.title}</div>
+                      <div className="myPostDetail">
+                        <div className="myPostTag">
+                          <div>
+                          #{v.regionCategory}
+                          </div>
+                          {v.themeCategory.map((v,i)=>{
+                            return (
+                              <div key={i}>
+                              #{v.themeCategory}
+                              </div>
+                            )
+                          })}
+                          
+                        </div>
+                        <div className="myPostIcons">
+                          <img src={talkwhite} alt='댓글 갯수'/>
+                          {v.commentCount}
+                          <img src={heartwhite} alt='댓글 갯수'/>
+                          {v.loveCount}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+              
+              
             </div>
           </div>
+          {/* <div className="myBookmark">
+            <div className="postboxs">
+              {myPosts.myposts.map((v,i)=>{
+                return(
+                  <div className="postbox"
+                  style={{backgroundImage:`url(${v.imgUrl})`, backgroundPosition:'center' , backgroundSize:'cover'}}
+                  >
+                    
+                  </div>
+                )
+              })}
+              
+              
+            </div>
+          </div> */}
         </div>
 
       </div>
