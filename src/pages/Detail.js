@@ -273,7 +273,7 @@ const Detail = () => {
           </div>
 
           <div className='commentPlace'>
-            <Comment/>
+            <Comment param={param}/>
           </div>
         </div> 
       

@@ -5,10 +5,11 @@ import  "../../css/filterModal.css";
 const FilterModal = (props) => {
     const navigate = useNavigate();
 
-    const { onClick, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
+    const { onClick, region, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
 
-    const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
-    const theme = ['힐링','먹방','애견동반','액티비티','호캉스']
+
+    const is_region = region ? true : false;
+    const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 
     return (
@@ -23,13 +24,16 @@ const FilterModal = (props) => {
                         <div className="filtermodal-themebutton">
                             {theme.map((theme, i) => {
                             return (
+                                <div className="filtermodal-main-category-theme" key={i}>
+                             {is_region ?                             
                                 <button key={i} onClick={() => { !themeSelect.includes(theme) ? setThemeSelect((themeSelect) => [...themeSelect, theme]) 
-                                    : setThemeSelect(themeSelect.filter((button) => button !== theme)) }}
-                                    className={
-                                        themeSelect.includes(theme)
-                                        ? "table_btn_s"
-                                        : "table_btn_ns"
-                                    }>{theme}</button>
+                                : setThemeSelect(themeSelect.filter((button) => button !== theme)) }}
+                                className={
+                                    themeSelect.includes(theme)
+                                    ? "table_btn_s"
+                                    : "table_btn_ns"
+                                }>{theme}</button> : <button key={i} onClick={() => navigate("/category/" + `${theme}`)}> {theme} </button> }   
+                                </div>
                             )})}
                         </div>
                     </div>
@@ -38,15 +42,19 @@ const FilterModal = (props) => {
                             <p>가격</p>
                         </div>
                         <div className="filtermodal-pricebutton">
-                            {price.map((price, i) => 
-                                <button key={i}  onClick={() => { !priceSelect.includes(price) ? setPriceSelect(price) 
-                                    : setPriceSelect("") }}
-                                    className={
-                                        priceSelect.includes(price)
-                                        ? "table_btn_s"
-                                        : "table_btn_ns"
-                                    }>{price}</button>
-                            )}
+                            {price.map((price, i) => {
+                                return(
+                                    <div className="filtermodal-main-category-price" key={i}>
+                                    {is_region ?    
+                                        <button key={i}  onClick={() => { !priceSelect.includes(price) ? setPriceSelect(price) 
+                                        : setPriceSelect("") }}
+                                        className={
+                                            priceSelect.includes(price)
+                                            ? "table_btn_s"
+                                            : "table_btn_ns"
+                                        }>{price}</button> : <button key={i} onClick={() => navigate("/category/" + `${price}`)}> {price} </button> }
+                                     </div>
+                                )})}
                         </div>
                     </div>
                     <div className="filtermodal-filterbutton">

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
-import {Link} from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CategorySlide from "./CategorySlide";
 import "swiper/css";
@@ -16,12 +15,17 @@ import heartFull from "../../assets/heartpaint.png";
 const size = 5;
 
 const CategoryPost = (props) => {
-
     const dispatch = useDispatch();
 
     const { region, price, theme } = props;
 
     const posts = useSelector((state) => state.post.contents);
+    const last = useSelector((state) => state.post.last);
+    const loveckecked = useSelector((state) => state.post.loveckecked);
+    const bookmarkckecked = useSelector((state) => state.post.bookmarkckecked);
+
+    console.log(loveckecked)
+    console.log(bookmarkckecked)
 
     const [page, setPage] = useState(0);
 
@@ -42,38 +46,33 @@ const CategoryPost = (props) => {
             checkHasIncode(region), checkHasIncode(price), checkHasIncode(theme), size, page
         ))
     }; 
-
-/*    const handleScroll = (e) => {
+    
+   const handleScroll = (e) => {
     if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
         e.target.documentElement.scrollHeight
         ) {
-            setPage(page + 1)
+            if(last === false) {
+                setPage(page + 1)
+            } else {
+                alert("마지막 페이지입니다!")
+            }
         }
     }   
 
-   const touchScroll = (e) => {
-    if (window.innerHeight + e.target.documentElement.scrollTop +1 >  
-        e.target.documentElement.scrollHeight
-        ) {
-            setPage(page + 1)
-        }
-    }   */
-
     useEffect(() => {
         loadLatestPost();
-/*         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('touchmove', touchScroll);
+         window.addEventListener('scroll', handleScroll);
+         
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('touchmove', touchScroll);
-        }   */
-    },[page, price, theme, region])
+        }   
+    },[page, price, theme])
 
     useEffect(() => {
         return () => {
             setPage(0);
         }
-    },[region])
+    },[price, theme])
 
     return (
       <div className="categorypost-container">   
@@ -88,7 +87,7 @@ const CategoryPost = (props) => {
                 <div className="categorypost-click">
                     <img src={share} alt="share" className="share-icon"/>
                     <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
-                        {list.isBookmark ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
+                        {bookmarkckecked ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
                     </button>
                 </div>
             </div>
@@ -112,7 +111,7 @@ const CategoryPost = (props) => {
                 </Swiper>
                 <div className="categorypost-heart">
                     <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
-                        {list.isLove ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                        {loveckecked ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
                     </button>
                     <p>{list.loveCount}</p>
                 </div>

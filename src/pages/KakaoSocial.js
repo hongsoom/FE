@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../redux/module/user";
 import Spinner from "../components/common/Spinner";
@@ -9,7 +9,7 @@ const KakaoSocial = () => {
   let code = new URL(window.location.href).searchParams.get("code");
   console.log(code)
 
-  React.useEffect(async () => {
+  useEffect(async () => {
     await dispatch(userAction.kakaoLoginDB(code));
   }, []);
 

@@ -1,47 +1,34 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; 
-import { addCommentDB, deleteCommentDB } from "../../redux/module/comment";
+import { getCommentDB, addCommentDB, deleteCommentDB } from "../../redux/module/comment";
 import "../../css/comment.css";
-import profile from "../../assets/profile.png";
-import instance from "../../shared/Request";
 
-const Comment = ({postId}) => {
+const Comment = ({param}) => {
 
     const dispatch = useDispatch();
-
-    const id = 32;
-
-    const [comment, setComment] = useState("");
-    const [page, setPage] = useState(0);
+    const postId = parseInt(param)
 
     const list = useSelector((state) => state.comment.comments);
 
+    const [comment, setComment] = useState("");
     const [data, setDate] = useState(list);
+    
+    console.log(list)
+    console.log(data)
 
     const loadCommnet = () => {
-        instance.get(`api/post/${id}`).then(({response}) => {
-            const newList = response.data.comments;
-            setDate((prev) => [...prev, ...newList]);
-        });
+        dispatch(getCommentDB(
+            postId));
     };
 
-    const handleScroll = (e) => {
-        if (window.innerHeight +  e.target.documentElement.scrollTop +1 >  
-            e.target.documentElement.scrollHeight
-        ) {
-            setPage(page + 1);
-        }
-    } 
-
     useEffect(() => {
+        setDate(list)
         loadCommnet();
-        window.addEventListener('scroll', handleScroll);
-    },[dispatch, page])
-
+    },[data])
 
     const addcomment = () => {
         dispatch(addCommentDB(
-            id, comment));
+            postId, comment));
             setComment("")
     }
 
@@ -52,12 +39,12 @@ const Comment = ({postId}) => {
                     <input type="text" placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)}></input>
                     <button onClick={addcomment}>등록</button>
                 </div> 
-                {data.map((list, index) => {
+                {list.map((list, index) => {
                     return (
                         <div className="comment-list" key={index}>
                             <>
                             <div className="comment-user">
-                                <img src={profile} alt='profile'/>
+                                <img src={list.imgUrl} alt='profile'/>
                                 <p>{list.nickname}</p>
                             </div>
                             <div className="comment">

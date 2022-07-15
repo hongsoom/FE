@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import filter from "../../assets/filter.png";
 
 const Sharing = (props) => {
 
-    const {recommendList, region, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
+    const navigate = useNavigate();
 
-    const is_List = recommendList ? true : false
+    const {recommendList, list, region, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
+
+    const is_List = recommendList ? true : false;
     
     const [modal, setModal] = useState(false);
 
@@ -18,11 +21,11 @@ const Sharing = (props) => {
         <>
         {is_List === true ? 
             <>
-            {modal ? <FilterModal onClick={onClick} /> : null} 
+            { modal ? <FilterModal onClick={onClick} /> : null} 
             <div className="main-click">
                 <div className="main-button">
                 {recommendList.map((list,i) =>
-                    <button key={i}>#{list}</button>
+                    <button key={i} onClick={ () => navigate("/category/" + `${list}`)}>#{list}</button>
                 )}
                 </div>
                 <div className="main-filter">
@@ -32,12 +35,12 @@ const Sharing = (props) => {
             </>
             :
             <>
-            { modal ? <FilterModal onClick={onClick} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} /> : null} 
+            { modal ? <FilterModal onClick={onClick} region={region} themeSelect={themeSelect} priceSelect={priceSelect} setThemeSelect={setThemeSelect} setPriceSelect={setPriceSelect} /> : null} 
             <div className="category-click">
                 <div className="category-button">
-                    <button>{region}</button>
-                        {themeSelect.map((list) => 
-                            <button>{list}</button>
+                    <button>#{list}</button>
+                        {themeSelect.map((list, i) => 
+                            <button key={i}>#{list}</button>
                         )} 
                     {priceSelect ? <button>{priceSelect}</button> : null}
                 </div>

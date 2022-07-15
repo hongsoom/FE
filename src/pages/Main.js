@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/common/Header";
 import Sharing from "../components/common/Sharing";
 import MainPost from "../components/post/MainPost";
-import OptionPost from "../components/category/OptionPost";
+import OptionPost from "../components/post/OptionPost";
 import  "../css/main.css";
 import downArrow from "../assets/downArrow.png";
 
@@ -11,6 +11,7 @@ const Main = () => {
   const recommendList = ["서울", "호캉스", "힐링"];
 
   const [filterClick, setFilterClick] = useState(false);
+  const [loveCount, setLoveCount] = useState("loveCount");
 
   const onFilterClick = () => {
     setFilterClick(!filterClick); 
@@ -33,7 +34,8 @@ const Main = () => {
                 </button>
             </div>  
               <div className="main-latest-love">
-                <OptionPost />
+              {filterClick ? <OptionPost loveCount={loveCount}/> 
+                : <OptionPost />}
               </div> 
           </div>
         </div>

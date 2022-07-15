@@ -1,4 +1,6 @@
 .swiper {
+    width : 335px;
+    height: 300px;
     margin-left: 0;
     margin-right: auto;
     position: relative;
@@ -87,6 +89,7 @@
 .share-icon {
     width : 15px;
     height: 16px;
+    margin-top: 19px;
 }
 
 .bookmark-icon {
