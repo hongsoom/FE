@@ -54,23 +54,25 @@ const Main = () => {
                 )}
               </button>
             </div>
-            {filterClick ? (
-              <OptionPost
-                loveCount={loveCount}
-                keyword={keyword}
-                direction={direction}
-                page={page}
-                setPage={setPage}
-              />
-            ) : (
-              <OptionPost
-                id={id}
-                keyword={keyword}
-                direction={direction}
-                page={page}
-                setPage={setPage}
-              />
-            )}
+            <div className="main-latest-love-component">
+              {filterClick ? (
+                <OptionPost
+                  loveCount={loveCount}
+                  keyword={keyword}
+                  direction={direction}
+                  page={page}
+                  setPage={setPage}
+                />
+              ) : (
+                <OptionPost
+                  id={id}
+                  keyword={keyword}
+                  direction={direction}
+                  page={page}
+                  setPage={setPage}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

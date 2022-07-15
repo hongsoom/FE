@@ -84,7 +84,7 @@ export default handleActions(
 
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.comments = [...state.comments, ...action.payload.commentList];
+        draft.comments = [...action.payload.commentList];
       }),
 
     [DELETE_COMMENT]: (state, action) =>

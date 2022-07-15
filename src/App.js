@@ -23,6 +23,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
         <Route path="/category/:keyword" element={<Category />} />
+        <Route path="/category/:keyword/detail/:id" element={<Detail />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>

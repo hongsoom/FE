@@ -1,6 +1,7 @@
 .categoryslide-imagecontainer {
     overflow: hidden;
     overflow-x: scroll;
+    object-fit: contain;
 }
 
 .categoryslide-imagecontainer::-webkit-scrollbar {
@@ -9,15 +10,14 @@
 
 .categoryslide-imagecontent {
     width: 335px !important;
-    height: 200px !important;
+    height: 210px !important;
     position: relative;
-    display : flex;
-    justify-content: center;
 }
 
 .categoryslide-imagecontent > img {  
-    max-height: 100%;
-    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 .swiper-button-prev,
