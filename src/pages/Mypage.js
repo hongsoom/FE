@@ -1,15 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/mypage.css";
 
 import {useNavigate} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+
+import { userAction } from '../redux/module/user';
+import { getMypostDB, getMybookmarkDB } from '../redux/module/post';
 
 import leftArrowBlack from "../assets/leftArrowBlack.png"
 import setup from "../assets/setup.png"
 
+
 const Mypage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState('myPosts');
 
+  // ----------------- 나의 정보 / 나의 게시글 가져오기
+  useEffect(()=>{
+    dispatch(userAction.myInfoDB())
+    
+  },[dispatch])
+  useEffect(()=>{
+    dispatch(getMypostDB())
+    dispatch(getMybookmarkDB())
+  },[])
+  
+  const myInfo = useSelector(state=>state.user.myinfo)
+  const myPosts = useSelector(state=>state.post)
+  console.log(myPosts)
+  console.log(myInfo)
+  // ---------------------------------------------------
 
   const onClickLeftArrow = () => {
     navigate('/')
@@ -48,21 +69,21 @@ const Mypage = () => {
         <div className="myProfile">
           <div className="myProfilePic">
             <div className="myProfilePicCircle">
-
+              <img src={myInfo&&myInfo.userImgUrl} alt=""/>
             </div>
           </div>
 
           <div className="myProfileTxt">
             <div className="myProfileTxtTitle">
               <div className="myProfileName">
-                여행천재
+                {myInfo&&myInfo.nickname}
               </div>
               <div className="myProfileLogout">
                 로그아웃
               </div>
             </div>
             <div className="myProfileTxtDetail">
-                여행계획 알차게 짜는 여행쟁이
+              {myInfo&&myInfo.userInfo}
             </div>
           </div>
         </div>

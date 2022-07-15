@@ -7,6 +7,8 @@ const LOGIN = "login";
 const LOGOUT = "logout";
 const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
+const MYINFO = "myinfo";
+const EDITMYINFO = 'editinfo'
 
 const initialState  = {
     list : [],
@@ -19,6 +21,8 @@ const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
+const myInfo = createAction(MYINFO, (myinfo) => ({myinfo}));
+const editinfo = createAction(EDITMYINFO, (myinfo)=> ({myinfo}))
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
     return async function (dispatch) {
@@ -121,6 +125,47 @@ const logInDB = (username, password) => {
     };
   };  
 
+  const myInfoDB = () => {
+    return async function (dispatch) {
+      await instance
+        .get("api/user/",
+         {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token") 
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data
+          dispatch(myInfo(data))
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  }
+
+  const editInfoDB = (data) => {
+    console.log(data)
+    return async function (dispatch) {
+      await instance
+        .put("api/user",data,
+         {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token") 
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  }
+
 export default handleActions(
     {  
       [SIGNUP]: (state, action) =>
@@ -148,6 +193,19 @@ export default handleActions(
       produce(state, (draft) => {
       draft.isLogin = false;
       }),
+
+      [MYINFO]: (state, action) =>
+      produce(state, (draft) => {
+      draft.myinfo = action.payload.myinfo
+      }),
+
+      [EDITMYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = {
+          ...draft.myinfo,
+          ...action.payload.myinfo
+        }
+      }),
     },
     initialState
     );
@@ -159,6 +217,8 @@ const userAction = {
     nicknameCheckDB,
     kakaoLoginDB,
     logOutDB,
+    myInfoDB,
+    editInfoDB
 };
       
 export { userAction };    

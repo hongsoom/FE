@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import  "../../css/filterModal.css";
 
 const FilterModal = (props) => {
+    const navigate = useNavigate();
 
     const { onClick, region, themeSelect, priceSelect, setThemeSelect, setPriceSelect } = props;
 
-    const navigate = useNavigate();
 
     const is_region = region ? true : false;
-    
     const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
     const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
 

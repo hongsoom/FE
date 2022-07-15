@@ -48,6 +48,8 @@ const MODIFY = "post/MODIFY"
 const DELETE = "post/DELETE"
 const CLEAR = "post/CLEAR"
 
+const GETMYPOST = "post/GETMYPOST"
+const GETMYBOOKMARK = "post/GETMYBOOKMARK"
 const allGet = createAction(ALLGET, (newList) => ({newList}));
 const arrayGet = createAction(ARRAYGET, (newList) => ({newList}));
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkList) => ({bookmarkList}));
@@ -61,18 +63,9 @@ const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
 const clearPost = createAction(CLEAR);
+const getmypost = createAction(GETMYPOST, (myposts)=> ({myposts}));
+const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({mybookmarks}));
 
-// middleWare
-// export const getPostListDB = () => async (dispatch) => {
-//   try {
-//     const data = await instance.get('api/posts');
-//     dispatch(getPostList(data.data));
-//     // console.log(data.data.postslist);
-//   } catch (error) {
-//     alert("오류가 발생했습니다. 다시 시도해주세요.");
-//     console.log(error);
-//   }
-// };
 
 const allGetDB = (page, size, keyword) => {
   return async function (dispatch) {
@@ -180,9 +173,9 @@ const clickBookmarkDB = (postId) => {
   
 const clearDB = () => {
   return function (dispatch) {
-    dispatch(clearPost());
+        dispatch(clearPost());
   }
-}
+};
 
 export const getPostDB = (postId) => {
   return async function (dispatch) {
@@ -212,9 +205,29 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        // window.location.assign(`/`);
         window.alert('작성 성공')
-        
+        window.location.assign("/")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const modifyPostDB = (data, postId) => {
+  return async function (dispatch, getState) {
+    await instance
+      .post(`api/post/${postId}`, data,
+       {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token") 
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.alert('수정 완료')
+        window.location.assign("/")
       })
       .catch((error) => {
         console.log(error);
@@ -243,6 +256,54 @@ export const deletePostDB = (postId) => {
       });
   };
 };
+
+export const getMypostDB = () => {
+  return async function (dispatch) {
+  try {
+    const data = await instance.get('api/user/mypost',
+    {
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("token") 
+      },
+    }
+    );
+    console.log(data)
+    const newData = data.data;
+    dispatch(getmypost(newData));
+    console.log(newData);
+  } catch (error) {
+    // alert("오류가 발생했습니다. 다시 시도해주세요.");
+    console.log(error);
+    
+  }
+};
+}
+
+export const getMybookmarkDB = () => {
+  return async function (dispatch) {
+  try {
+    const data = await instance.get('api/user/mybookmark',
+    {
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("token") 
+      },
+    }
+    );
+    const newData = data.data;
+    dispatch(getmybookmark(newData));
+    console.log(newData);
+  } catch (error) {
+    // alert("오류가 발생했습니다. 다시 시도해주세요.");
+    console.log(error);
+    
+  }
+};
+}
+
+
+//reducer
 
 export default handleActions(
   {
@@ -290,11 +351,43 @@ export default handleActions(
       };
     },
 
+    [MODIFY]: (state, action) => {
+      produce(state, (draft) => {
+        const index = draft.contents.findIndex(
+          (p) => p.postId === action.payload.postId
+        );
+        draft.contents[index] = {
+          ...draft.contents[index],
+          ...action.payload.post,
+        };
+      });
+    },
+
     [DELETE]: (state, action) =>
-    produce(state, (draft) => {
+
+  /*  produce(state, (draft) => {
     draft.newList = draft.newList.filter(
       (p) => p.postId !== action.payload.postId)
     }),
+
+      produce(state, (draft) => {
+        draft.contents = draft.contents.filter((p) =>
+        p.postId !== action.payload.postId );
+      }),
+      */
+
+
+    [GETMYPOST]:(state, action) => {
+      return {
+        myposts: action.payload
+      };
+    },
+
+    [GETMYBOOKMARK]:(state, action) => {
+      return {
+        mybookmarks: action.payload
+      };
+    },
 
     [LOVE]: (state, action) =>
     produce(state, (draft) => {
@@ -312,6 +405,7 @@ export default handleActions(
     produce(state, (draft) => {
     draft.contents = []
     }),
+
   },
   initialState
 );
@@ -326,6 +420,9 @@ const userAction ={
   allGetDB,
   getPostDB,
   addPostDB,
-  deletePostDB
+  modifyPostDB,
+  deletePostDB,
+  getMypostDB,
+  getMybookmarkDB
 }
 export {userAction}

@@ -24,6 +24,7 @@ const CategorySlide = ({image}) => {
             slidesPerView: 1
         }}}>
       {image.map((list, i) => 
+
       <SwiperSlide 
         styele={{
           width : "335px",
