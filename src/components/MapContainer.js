@@ -576,7 +576,7 @@ console.log(select)
         </div>
 
         {/* 화장실 */}
-        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='restroom' >
         <div className='choiceTitle'>어디에서 화장실을 이용하셨나요?<br/> 여러 화장실을 가보셨다면 베스트 화장실을 추천해주세요!</div>
           <div className='restroomWrap'>
             {select.map((v,i)=>{
@@ -603,7 +603,7 @@ console.log(select)
                 style={restroomOption.includes(v) ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
                   <input type="checkbox" name="restroomOtion" value={v} id={v}
                   onChange={(e)=>{
-                    if(e.target.checked){
+                    if(e.taget.checked){
                       setRestroomOption((pre)=>{
                         const restroomList = [...pre]
                         restroomList.push(v)
@@ -629,7 +629,7 @@ console.log(select)
           </div> 
 
         {/* 사진업로드 */}
-        <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='imgUpload'>
           
           <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
           />
@@ -637,7 +637,7 @@ console.log(select)
         </div>
 
         {/* 텍스트 입력 */}
-        <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='txt'>
           <textarea placeholder="코스에 대한 설명을 입력해주세요" onChange={onContentHandler}/>
         </div>
 

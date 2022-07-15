@@ -22,6 +22,11 @@ const Mypage = () => {
   const [direction, setDirection] = useState("desc");
   const [id, setId] = useState("id");
 
+  const [tabState, setTabState] = useState({
+    tabHome: true,
+    tabBookmark: false
+  })
+
   // ----------------- 나의 정보 / 나의 게시글 가져오기
   useEffect(()=>{
     dispatch(userAction.myInfoDB())
@@ -32,7 +37,9 @@ const Mypage = () => {
     dispatch(getMypostDB(
       size, page, id, direction
     ))
-    dispatch(getMybookmarkDB())
+    dispatch(getMybookmarkDB(
+      size, page, id, direction
+    ))
   },[])
 
  

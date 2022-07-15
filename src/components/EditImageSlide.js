@@ -1,19 +1,21 @@
 import React, {useState, useRef, useEffect} from 'react';
-
-import '../css/imageSlide.css';
+import '../css/editImageSlide.css';
 
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
-// import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, imgs}) => {
+
+
+const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, imgs}) => {
 
   const [place, setPlace] = useState();
   const [img, setImg] = useState(0)
 
+
+  console.log(imgUrl)
   // 몇번째 슬라이드인지
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -44,9 +46,9 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
     imgs.push(file)
     // select[index].files.push(file)
     const Url = URL.createObjectURL(file)
-    imgUrl[index].imgUrl.push(Url)
+    imgUrl[0].imgUrl.push(Url)
     setImg(Url)
-      select[index].imgCount = imgUrl[index].imgUrl.length
+      select[select.length-1].imgCount = imgUrl[index].imgUrl.length
 
       // setSelect((pre)=>{
       //   const selectList = [...pre]
@@ -64,8 +66,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
 
 
   return (
-    <div className='container'
-    style={select.length !== 0 ? {display:'flex'}: {display:'none'}}
+    <div className='editContainer'
     >
       <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div>
         {/* 선택 장소 이름들 */}
@@ -143,9 +144,8 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
           })}
           
         </div>
-      
     </div>
   )
 }
 
-export default ImageSlide
+export default EditImageSlide
