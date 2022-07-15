@@ -48,7 +48,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
     const Url = URL.createObjectURL(file)
     imgUrl[0].imgUrl.push(Url)
     setImg(Url)
-      select[select.length-1].imgCount = imgUrl[index].imgUrl.length
+    select[select.length-1].imgCount = imgUrl[index].imgUrl.length
 
       // setSelect((pre)=>{
       //   const selectList = [...pre]
