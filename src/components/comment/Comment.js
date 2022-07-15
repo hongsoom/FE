@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; 
 import { getCommentDB, addCommentDB, deleteCommentDB } from "../../redux/module/comment";
 import "../../css/comment.css";
@@ -11,29 +11,27 @@ const Comment = ({param}) => {
     const list = useSelector((state) => state.comment.comments);
 
     const [comment, setComment] = useState("");
-    const testcomment = useRef(null)
 
     const loadCommnet = () => {
         dispatch(getCommentDB(
             postId));
     };
 
+    const addcomment = () => {
+        dispatch(addCommentDB(
+            postId, comment));
+            setComment("")
+    }
+
     useEffect(() => {
         loadCommnet();
     },[])
-
-    const addcomment = () => {
-        dispatch(addCommentDB(
-            postId, 
-            comment));
-            setComment("")
-    }
 
     return (
         <div className="comment-container">
             <div className="comment-content">
                 <div className="comment-add">
-                    <input type="text" placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)} ref={testcomment}></input>
+                    <input type="text" placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)}></input>
                     <button onClick={addcomment}>등록</button>
                 </div> 
                 {list.map((list, index) => {

@@ -363,9 +363,9 @@ export default handleActions(
       });
     },
 
+      /* 
     [DELETE]: (state, action) =>
-
-  /*  produce(state, (draft) => {
+     produce(state, (draft) => {
     draft.newList = draft.newList.filter(
       (p) => p.postId !== action.payload.postId)
     }),
