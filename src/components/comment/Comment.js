@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; 
 import { getCommentDB, addCommentDB, deleteCommentDB } from "../../redux/module/comment";
 import "../../css/comment.css";
@@ -11,10 +11,7 @@ const Comment = ({param}) => {
     const list = useSelector((state) => state.comment.comments);
 
     const [comment, setComment] = useState("");
-    const [data, setDate] = useState(list);
-    
-    console.log(list)
-    console.log(data)
+    const testcomment = useRef(null)
 
     const loadCommnet = () => {
         dispatch(getCommentDB(
@@ -22,13 +19,13 @@ const Comment = ({param}) => {
     };
 
     useEffect(() => {
-        setDate(list)
         loadCommnet();
-    },[data])
+    },[])
 
     const addcomment = () => {
         dispatch(addCommentDB(
-            postId, comment));
+            postId, 
+            comment));
             setComment("")
     }
 
@@ -36,7 +33,7 @@ const Comment = ({param}) => {
         <div className="comment-container">
             <div className="comment-content">
                 <div className="comment-add">
-                    <input type="text" placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)}></input>
+                    <input type="text" placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)} ref={testcomment}></input>
                     <button onClick={addcomment}>등록</button>
                 </div> 
                 {list.map((list, index) => {
@@ -47,12 +44,12 @@ const Comment = ({param}) => {
                                 <img src={list.imgUrl} alt='profile'/>
                                 <p>{list.nickname}</p>
                             </div>
-                            <div className="comment">
+                            <div className="comment-content">
                                 <p>{list.comment}</p>
                             </div>
                             <div className="comment-info">
-                                <span>2시간 전</span>
-                                <span className="commentdelete"onClick={() => dispatch(deleteCommentDB(list.commentId))}>삭제</span>
+                                <span>{list.createdAt}</span>
+                                <span className="comment-delete" onClick={() => dispatch(deleteCommentDB(list.commentId))}>삭제</span>
                             </div>
                             </>
                         </div>

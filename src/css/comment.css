@@ -50,7 +50,7 @@
 }
 
 .comment-user,
-.comment,
+.comment-contnet,
 .comment-info {
     display: flex;
     flex-direction: row;
@@ -72,16 +72,16 @@
 }
 
 .comment-user > p,
-.comment {
+.comment-content {
     margin-bottom: 6px;
 }
 
-.comment,
+.comment-content,
 .comment-info {
     margin-left: 38px;
 }
 
-.comment > p {
+.comment-content > p {
     font-size: 14px;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -98,6 +98,6 @@
     margin-right: 6px;
 }
 
-.commentdelete {
+.comment-delete {
     cursor: pointer;
 }

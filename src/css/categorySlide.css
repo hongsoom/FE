@@ -8,7 +8,7 @@
 } 
 
 .categoryslide-imagecontent {
-    max-height: 221px;
+    max-height: 200px;
     position: relative;
     display : flex;
 }

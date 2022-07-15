@@ -15,11 +15,11 @@
 .category-button > button {
     width : 60px;
     height: 28px;
-    background-color: #8ACEFF;
+    background-color: #FFFFFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    border: 1px solid #8ACEFF;
-    color : #F5F9FF;
+    border: 1px solid #FFFFFF;
+    color : #333333;
     margin-right: 10px;
     font-family: 'Noto Sans KR';
     font-style: normal;

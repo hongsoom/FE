@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,15 +14,32 @@ const MainPost = () => {
     const dispatch = useDispatch();
     
     const posts = useSelector((state) => state.post.bookmarkcontents);
+    const postId = useSelector((state) => state.post.postId);
     const loveckecked = useSelector((state) => state.post.loveckecked);
     const bookmarkckecked = useSelector((state) => state.post.bookmarkckecked);
+  
+    const [love, setLove] = useState(loveckecked)
+    const [bookmark, setBookmark] =  useState(bookmarkckecked)
+  
+    console.log(bookmarkckecked)
+    console.log(bookmark)
+
+    console.log(loveckecked)
+    console.log(love)
 
     console.log(posts)
-    console.log(loveckecked)
-    console.log(bookmarkckecked)
+    
+    useEffect(() => {
+      setLove(loveckecked)
+      setBookmark(bookmarkckecked)
+   },[loveckecked, bookmarkckecked]) 
 
     return (
-      <Swiper className="swiper-container"
+      <Swiper className="mainpost-container"
+      style={{
+            width : "335px",
+            height: "300px" 
+        }}
         spaceBetween={50}
         slidesPerView={1}
         breakpoints={{
@@ -41,33 +58,35 @@ const MainPost = () => {
                     <p>{list.title}</p>
                   </div>    
                   <div className="mainpost-click">
-                    <img src={share} alt="share" className="share-icon"/>
+                    <img src={share} alt="share" className="mainpost-shareicon"/>
                     <button onClick={() => dispatch(userAction.clickBookmarkDB(list.postId))}>
-                        {bookmarkckecked ? <img src={bookmarkBlue} alt="bookmarkBlue" className="bookmark-icon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="bookmark-icon" /> }
+                      {list.postId === postId  ? ( bookmark === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />) :
+                       ( bookmark === true ? <img src={bookmarkBlue} alt="bookmarkBlue" className="mainpost-bookmarkicon" /> : <img src={bookmarkEmpty} alt="bookmarkEmpty" className="mainpost-bookmarkicon" />)}
                     </button> 
                   </div>
                 </div>
                 <CategorySlide image={list.imgUrl} />
                 <div className="mainpost-category">
-                <Swiper className="mainpost-categorybutton"
-                    slidesPerView={1}
-                    breakpoints={{
-                    300: {
-                        slidesPerView: 1
-                    }}}>
-                        <SwiperSlide className="area-button-content">
-                            <button className="area-button">{list.regionCategory}</button>
-                        </SwiperSlide>
-                        {list.themeCategory.map((value, index) => {
-                        return (
-                            <SwiperSlide className="theme-button-content" key={index}>
-                                <button className="theme-button">{value.themeCategory}</button>
-                            </SwiperSlide> 
-                        )})}   
-                </Swiper>
+                  <Swiper className="mainpost-categorybutton"
+                      slidesPerView={1}
+                      breakpoints={{
+                      300: {
+                          slidesPerView: 1
+                      }}}>
+                          <SwiperSlide className="mainpost-area-button-content">
+                              <button className="mainpost-area-button">{list.regionCategory}</button>
+                          </SwiperSlide>
+                          {list.themeCategory.map((value, index) => {
+                          return (
+                              <SwiperSlide className="mainpost-theme-button-content" key={index}>
+                                  <button className="mainpost-theme-button">{value.themeCategory}</button>
+                              </SwiperSlide> 
+                          )})}   
+                  </Swiper>
                   <div className="mainpost-heart">
                     <button onClick={() => dispatch(userAction.clickLoveDB(list.postId))}>
-                        {loveckecked ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> }
+                        {list.postId === postId ? ( love === true ? <img src={heartFull} alt="heartFull" /> : <img src={heartEmpty} alt="heartEmpty" /> ) :
+                          <img src={heartEmpty} alt="heartEmpty" /> }
                       </button>
                     <p>{list.loveCount}</p>
                   </div>
