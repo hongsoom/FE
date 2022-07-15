@@ -1,6 +1,5 @@
 .keywordpost-container {
     width: 335px;
-    height: 325px;
     margin : 12px auto;
 }
 
@@ -45,7 +44,7 @@
     margin: 7px;
 }
 
-.keywordpost-user > p,
+.keywordpost-user > a > p,
 .area-button-content > button,
 .theme-button-content > button
 .keywordpost-heart > p {
@@ -54,7 +53,7 @@
     font-weight: 400;
 }
 
-.keywordpost-user > p {
+.keywordpost-user > a > p {
     width : 200px;
     height : 20px;
     font-size: 14px;
@@ -122,20 +121,19 @@
 
 .keywordpost-heart > button > img {
     position : absolute;
-    right : 40px;
+    right : 30px;
     bottom: 19px;
-    width: 15px;
     height : 13px;
     cursor: pointer;
 }
 
 .keywordpost-heart > p {
     position : absolute;
-    right : 10px;
+    right : 5px;
     margin-top : 17px;
     width: 20px;
     height : 17px;
     font-size: 12px;
     line-height: 17px;
-    color: #8ACEFF;
+    color: #333333;
 }

@@ -41,7 +41,6 @@ const MainPost = (props) => {
       className="mainpost-container"
       style={{
         width: "335px",
-        height: "300px",
       }}
       spaceBetween={50}
       slidesPerView={1}

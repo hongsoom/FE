@@ -81,7 +81,7 @@ const KeywordPost = (props) => {
             <div className="keywordpost-title">
               <div className="keywordpost-user">
                 <img src={list.userImgUrl} alt="profile" />
-                <Link to={`detail/${list.postId}`}>
+                <Link to={`/category/${keyword}/detail/${list.postId}`}>
                   <p>{list.title}</p>
                 </Link>
               </div>
@@ -126,7 +126,7 @@ const KeywordPost = (props) => {
                 </button>
               </div>
             </div>
-            <Link to={`detail/${list.postId}`}>
+            <Link to={`/category/${keyword}/detail/${list.postId}`}>
               <CategorySlide image={list.imgUrl} />
             </Link>
             <div className="keywordpost-category">

@@ -18,7 +18,7 @@ const size = 5;
 const CategoryPost = (props) => {
   const dispatch = useDispatch();
 
-  const { region, price, theme } = props;
+  const { keyword, region, price, theme } = props;
 
   const posts = useSelector((state) => state.post.contents);
   const last = useSelector((state) => state.post.last);
@@ -92,7 +92,7 @@ const CategoryPost = (props) => {
                   ) : (
                     <img src={user} alt="default-profile" />
                   )}
-                  <Link to={`detail/${list.postId}`}>
+                  <Link to={`/category/${keyword}/detail/${list.postId}`}>
                     <p>{list.title}</p>
                   </Link>
                 </div>
@@ -133,7 +133,7 @@ const CategoryPost = (props) => {
                   </button>
                 </div>
               </div>
-              <Link to={`detail/${list.postId}`}>
+              <Link to={`/category/${keyword}/detail/${list.postId}`}>
                 <CategorySlide image={list.imgUrl} />
               </Link>
               <div className="categorypost-category">

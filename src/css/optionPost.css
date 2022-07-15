@@ -1,12 +1,10 @@
 .optionpost-container {
     width: 335px;
-    height: 325px;
     margin : 12px auto;
 }
 
 .optionpost-content {
     width : 100%;
-    height: 100%;
     position: relative;
     margin-bottom: 18px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
@@ -45,7 +43,7 @@
     margin: 7px;
 }
 
-.optionpost-user > p,
+.optionpost-user > a > p,
 .area-button-content > button,
 .theme-button-content > button
 .optionpost-heart > p {
@@ -54,7 +52,7 @@
     font-weight: 400;
 }
 
-.optionpost-user > p {
+.optionpost-user > a > p {
     width : 200px;
     height : 20px;
     font-size: 14px;
@@ -122,16 +120,15 @@
 
 .optionpost-heart > button > img {
     position : absolute;
-    right : 40px;
+    right : 30px;
     bottom: 19px;
-    width: 15px;
     height : 13px;
     cursor: pointer;
 }
 
 .optionpost-heart > p {
     position : absolute;
-    right : 10px;
+    right : 5px;
     bottom: 5.5px;
     width: 20px;
     height : 17px;
