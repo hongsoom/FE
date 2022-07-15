@@ -16,15 +16,16 @@ const Setup = () => {
   useEffect(()=>{
     dispatch(userAction.myInfoDB())
   },[dispatch])
+  
 
   const myInfo = useSelector(state=>state.user.myinfo)
   console.log(myInfo)
   // ---------------------------------------------------
 
-  const [userImg, setUserImg] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [introduce, setIntroduce] = useState();
-  const [myNickname, setMynickname] = useState();
+  const [userImg, setUserImg] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
+  const [previewUrl, setPreviewUrl] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
+  const [introduce, setIntroduce] = useState(myInfo&&myInfo.userInfo? myInfo.userInfo : '');
+  const [myNickname, setMynickname] = useState(myInfo&&myInfo.nickname ? myInfo.nickname : '');
 
   // ----------------- 마이페이지로 돌아가기 버튼
   const onClickLeftArrow = () => {
@@ -92,7 +93,7 @@ const Setup = () => {
             />
           </div>
 
-          <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요'
+          <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요' defaultValue={myInfo&&myInfo.userInfo}
           onChange={(e)=>{
             setIntroduce(e.target.value)
           }}

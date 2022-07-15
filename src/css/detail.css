@@ -29,13 +29,8 @@
 }
 
 .editIcon{
-  width: 30px;
-  height: 30px;
+  width: 16.67px;
   margin-right: 15px;
-  background: red;
-  border-radius: 100px;
-  text-align: center;
-
 }
 .editIcon>img{
   width: 16.67px;
@@ -99,6 +94,7 @@
 }
 .nick{
   margin-bottom:4px;
+  margin-top: 10px;
 }
 .themeNprice{
   width: 230px;
@@ -107,6 +103,7 @@
   line-height: 25px;
   white-space: nowrap; 
   overflow-x: auto; 
+  margin-top: 5px;
 }
 
 .themeNprice::-webkit-scrollbar {
@@ -148,8 +145,7 @@
 .detail_map_wrap{
   width: 100vw;
   height: 375px;
-  margin-top: 16px;  
-  background: red;
+  margin-top: 16px; 
   z-index: 0;
   /* position: absolute; */
 }
@@ -162,12 +158,12 @@
   flex-direction: column;
   width: 100vw;
   padding: 14px 24px;
-  color: #fff;
+  overflow: hidden;
   /* background: #333333; */
 }
 .selectedPlace{
-  margin-bottom: 10px;
-  color: #fff;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
 
 .imgSlide{

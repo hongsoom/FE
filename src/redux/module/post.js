@@ -59,7 +59,7 @@ const clickLove = createAction(LOVE, (loveckecked) => ({loveckecked}));
 const clickBookmark = createAction(BOOKMARK, (bookmarkckecked) => ({bookmarkckecked}));
 const lastGet = createAction(LASTPAGE, (last) => ({last}));
 const getPostList = createAction(GET, (postList) => ({postList}));
-const getPost = createAction(GET, (postOne) => ({postOne}));
+const getPost = createAction(GET, (post) => ({post}));
 const addPost = createAction(ADD, (post) => ({post}));
 const modifyPost = createAction(MODIFY, (post) => ({post}));
 const deletePost = createAction(DELETE, (id) => ({id}));
@@ -263,10 +263,10 @@ const clearDB = () => {
 };
 
 
-export const getMypostDB = () => {
+export const getMypostDB = (size, page, id, desc) => {
   return async function (dispatch) {
   try {
-    const data = await instance.get('api/user/mypost',
+    const data = await instance.get(`api/user/mypost?size=${size}&page=${page}&sort=${id},${desc}`,
     {
       headers: {
         // "Content-Type": "multipart/form-data",
@@ -274,10 +274,9 @@ export const getMypostDB = () => {
       },
     }
     );
-    console.log(data)
-    const newData = data.data;
-    dispatch(getmypost(newData));
-    console.log(newData);
+    const myposts = data.data.content;
+    dispatch(getmypost(myposts));
+    console.log(myposts);
   } catch (error) {
     // alert("오류가 발생했습니다. 다시 시도해주세요.");
     console.log(error);
@@ -344,9 +343,9 @@ export default handleActions(
       };
     },
     
-    [GET]: (state, { payload }) =>
+    [GET]: (state, action) =>
       produce(state, (draft) => {
-        draft.postOne = payload.postOne;
+        draft.post = action.payload;
       }),
     
 
@@ -376,17 +375,16 @@ export default handleActions(
       }),
 
 
-    [GETMYPOST]:(state, action) => {
-      return {
-        myposts: action.payload
-      };
-    },
+    [GETMYPOST]:(state, action) => 
+       produce(state, (draft) => {
+        draft.myposts = action.payload
+      }),
 
-    [GETMYBOOKMARK]:(state, action) => {
-      return {
-        mybookmarks: action.payload
-      };
-    },
+
+    [GETMYBOOKMARK]:(state, action) => 
+      produce(state, (draft) => {
+      draft.mybookmarks = action.payload
+    }),
 
 
     [LOVE]: (state, action) =>
