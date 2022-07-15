@@ -23,9 +23,7 @@ const Main = () => {
       <Sharing recommendList={recommendList} />
         <div className="main-container">   
         <div className="main-content">
-          <div className="main-recommend">
             <MainPost />
-          </div>
           <div className="main-latest-love-container">
             <div className="main-latest-love-content">
               <p>다른 회원님의 경로를 확인해보세요</p>
@@ -33,10 +31,8 @@ const Main = () => {
                 {filterClick ? <p>최신순<img src={downArrow} alt="downArrow"/></p> : <p>인기순<img src={downArrow} alt="downArrow"/></p>}
                 </button>
             </div>  
-              <div className="main-latest-love">
               {filterClick ? <OptionPost loveCount={loveCount}/> 
                 : <OptionPost />}
-              </div> 
           </div>
         </div>
       </div> 

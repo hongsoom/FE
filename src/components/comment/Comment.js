@@ -11,26 +11,21 @@ const Comment = ({param}) => {
     const list = useSelector((state) => state.comment.comments);
 
     const [comment, setComment] = useState("");
-    const [data, setDate] = useState(list);
-    
-    console.log(list)
-    console.log(data)
 
     const loadCommnet = () => {
         dispatch(getCommentDB(
             postId));
     };
 
-    useEffect(() => {
-        setDate(list)
-        loadCommnet();
-    },[data])
-
     const addcomment = () => {
         dispatch(addCommentDB(
             postId, comment));
             setComment("")
     }
+
+    useEffect(() => {
+        loadCommnet();
+    },[])
 
     return (
         <div className="comment-container">
@@ -47,12 +42,12 @@ const Comment = ({param}) => {
                                 <img src={list.imgUrl} alt='profile'/>
                                 <p>{list.nickname}</p>
                             </div>
-                            <div className="comment">
+                            <div className="comment-content">
                                 <p>{list.comment}</p>
                             </div>
                             <div className="comment-info">
-                                <span>2시간 전</span>
-                                <span className="commentdelete"onClick={() => dispatch(deleteCommentDB(list.commentId))}>삭제</span>
+                                <span>{list.createdAt}</span>
+                                <span className="comment-delete" onClick={() => dispatch(deleteCommentDB(list.commentId))}>삭제</span>
                             </div>
                             </>
                         </div>

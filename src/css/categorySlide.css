@@ -8,9 +8,11 @@
 } 
 
 .categoryslide-imagecontent {
-    max-height: 221px;
+    width: 335px !important;
+    height: 200px !important;
     position: relative;
     display : flex;
+    justify-content: center;
 }
 
 .categoryslide-imagecontent > img {  
@@ -23,7 +25,6 @@
     color: #E4EFFF;
     width : 20px;
     height : 20px;
-    top : 40%;
 }
 
 .swiper-button-next:after, 

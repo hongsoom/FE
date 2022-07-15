@@ -33,7 +33,6 @@ const Mypage = () => {
       size, page, id, direction
     ))
     dispatch(getMybookmarkDB())
-    
   },[])
 
  

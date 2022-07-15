@@ -11,6 +11,10 @@ const CategorySlide = ({image}) => {
 
   return (
     <Swiper 
+      styele={{
+        width : "335px",
+        height: "221px" 
+      }}
       className="categoryslide-imagecontainer"
       spaceBetween= {10}
       navigation
@@ -20,8 +24,13 @@ const CategorySlide = ({image}) => {
             slidesPerView: 1
         }}}>
       {image.map((list, i) => 
-      <SwiperSlide className="categoryslide-imagecontent" key={i}>
-        <img src={list} alt="image" key={i} />
+      <SwiperSlide 
+        styele={{
+          width : "335px",
+          height: "221px"
+        }}
+      className="categoryslide-imagecontent" key={i}>
+            <img src={list} alt="image" key={i} />
       </SwiperSlide>
     )}
    </Swiper>
