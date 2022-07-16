@@ -80,7 +80,7 @@
   /* flex-wrap: nowrap; */
 } 
 
-.detailImgContainer>img{
+._detailImg{
   width: 100%;
-  object-fit: cover;
+  flex-shrink: 0;
 }

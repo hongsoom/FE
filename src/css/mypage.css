@@ -127,7 +127,8 @@
   justify-content: center;
   box-sizing: border-box;
 }
-input{
+.myPostsTitle>input,
+.myBookmarkTitle>input{
   display: none;
 }
 .postsNmarks{
