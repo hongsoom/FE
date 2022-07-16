@@ -53,7 +53,6 @@ const KeywordPost = (props) => {
       if (last === false) {
         setPage(page + 1);
       } else {
-        alert("마지막 페이지입니다!");
       }
     }
   };
@@ -80,8 +79,12 @@ const KeywordPost = (props) => {
           <div className="keywordpost-content" key={index}>
             <div className="keywordpost-title">
               <div className="keywordpost-user">
-                <img src={list.userImgUrl} alt="profile" />
-                <Link to={`/category/${keyword}/detail/${list.postId}`}>
+                {list.userImgUrl ? (
+                  <img src={list.userImgUrl} alt="profile" />
+                ) : (
+                  <img src={user} alt="default-profile" />
+                )}
+                <Link to={`/detail/${list.postId}`}>
                   <p>{list.title}</p>
                 </Link>
               </div>
@@ -126,16 +129,16 @@ const KeywordPost = (props) => {
                 </button>
               </div>
             </div>
-            <Link to={`/category/${keyword}/detail/${list.postId}`}>
+            <Link to={`/detail/${list.postId}`}>
               <CategorySlide image={list.imgUrl} />
             </Link>
             <div className="keywordpost-category">
               <Swiper
                 className="keywordpost-categorybutton"
-                slidesPerView={1}
+                slidesPerView={3}
                 breakpoints={{
                   300: {
-                    slidesPerView: 1,
+                    slidesPerView: 3,
                   },
                 }}
               >
@@ -156,6 +159,11 @@ const KeywordPost = (props) => {
                     </SwiperSlide>
                   );
                 })}
+                <SwiperSlide className="keywordpost-price-button-content">
+                  <button className="keywordpost-price-button">
+                    {list.priceCategory}
+                  </button>
+                </SwiperSlide>
               </Swiper>
               <div className="keywordpost-heart">
                 <button

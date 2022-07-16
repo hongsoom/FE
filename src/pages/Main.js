@@ -19,6 +19,8 @@ const Main = () => {
   const [loveCount, setLoveCount] = useState("loveCount");
 
   const [filterClick, setFilterClick] = useState(false);
+  const [themeClick, setThemeClick] = useState([]);
+  const [priceClick, setPriceClick] = useState("");
 
   const onFilterClick = () => {
     setFilterClick(!filterClick);
@@ -27,7 +29,13 @@ const Main = () => {
   return (
     <>
       <Header />
-      <Sharing recommendList={recommendList} />
+      <Sharing
+        recommendList={recommendList}
+        setPriceClick={setPriceClick}
+        priceClick={priceClick}
+        setThemeClick={setThemeClick}
+        themeClick={themeClick}
+      />
       <div className="main-container">
         <div className="main-content">
           <MainPost

@@ -27,12 +27,14 @@
 .detailImgWrap{
   display: flex;
   width: 333px;
+  height: 250px;
 }
 
 .detailImageContainerPerPlaceWrap{
-  width: 100vw;
   display: flex;
+  align-items: center;
 }
+
 .detailImageContainerPerPlace{
   width: 100%;
   height: 150px;
@@ -41,7 +43,7 @@
 }
 .detailImageContainerPerPlace:nth-of-type(2){
   width: 333px;
-  height: 150px;
+  height: 250px;
   display: flex;
 }
 

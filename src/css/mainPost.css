@@ -87,13 +87,22 @@
     height: 17px;
 }
 
-.mainpost-button {
-    margin-right: 140px;
+.mainpost-categorybutton {
+    width : 255px ;
+}
+
+.mainpost-area-button-content, 
+.mainpost-theme-button-content,
+.mainpost-price-button-content {
+    width : 70px !important;
+    height: 28px !important;
+    margin-right: 15px !important;
 }
 
 .mainpost-area-button-content > button,
-.mainpost-theme-button-content > button {
-    width : 60px;
+.mainpost-theme-button-content > button,
+.mainpost-price-button-content > button {
+    width : 70px;
     height: 28px;
     background-color: #8ACEFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -106,7 +115,8 @@
 }
 
 .mainpost-area-button,
-.mainpost-theme-button {
+.mainpost-theme-button,
+.mainpost-price-button {
     margin : 12px 0 12px 8px;
 }
 
