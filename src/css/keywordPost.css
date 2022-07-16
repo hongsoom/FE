@@ -87,14 +87,16 @@
 }
 
 .keywordpost-area-button-content, 
-.keywordpost-theme-button-content {
+.keywordpost-theme-button-content,
+.keywordpost-price-button-content {
     width : 70px !important;
     height: 28px !important;
     margin-right: 15px !important;
 }
 
 .keywordpost-area-button-content > button,
-.keywordpost-theme-button-content > button {
+.keywordpost-theme-button-content > button,
+.keywordpost-price-button-content > button {
     width : 70px;
     height: 28px;
     background-color: #8ACEFF;
@@ -109,7 +111,8 @@
 }
 
 .keywordpost-area-button,
-.keywordpost-theme-button {
+.keywordpost-theme-button,
+.keywordpost-price-button {
     margin : 12px 0 12px 8px;
 }
 

@@ -14,6 +14,10 @@ const Sharing = (props) => {
     priceSelect,
     setThemeSelect,
     setPriceSelect,
+    setPriceClick,
+    priceClick,
+    setThemeClick,
+    themeClick,
   } = props;
 
   const is_List = recommendList ? true : false;
@@ -34,6 +38,10 @@ const Sharing = (props) => {
           priceSelect={priceSelect}
           setThemeSelect={setThemeSelect}
           setPriceSelect={setPriceSelect}
+          setPriceClick={setPriceClick}
+          priceClick={priceClick}
+          setThemeClick={setThemeClick}
+          themeClick={themeClick}
         />
       ) : null}
       {is_List === true ? (

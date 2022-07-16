@@ -190,3 +190,7 @@
   width: 8.33px;
   margin-right: 3px;
 } 
+.logout-btn {
+  border: none;
+  background-color: transparent;
+}

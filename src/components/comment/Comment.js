@@ -5,6 +5,7 @@ import {
   addCommentDB,
   deleteCommentDB,
 } from "../../redux/module/comment";
+import user from "../../assets/user.png";
 import "../../css/comment.css";
 
 const Comment = ({ param }) => {
@@ -45,7 +46,11 @@ const Comment = ({ param }) => {
             <div className="comment-list" key={index}>
               <>
                 <div className="comment-user">
-                  <img src={list.userImgUrl} alt="profile" />
+                  {list.userImgUrl ? (
+                    <img src={list.userImgUrl} alt="profile" />
+                  ) : (
+                    <img src={user} alt="default-profile" />
+                  )}
                   <p>{list.nickname}</p>
                 </div>
                 <div className="comment-content">

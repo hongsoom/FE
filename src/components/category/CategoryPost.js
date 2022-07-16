@@ -59,7 +59,6 @@ const CategoryPost = (props) => {
       if (last === false) {
         setPage(page + 1);
       } else {
-        alert("마지막 페이지입니다!");
       }
     }
   };
@@ -139,27 +138,35 @@ const CategoryPost = (props) => {
               <div className="categorypost-category">
                 <Swiper
                   className="categorypost-categorybutton"
-                  slidesPerView={1}
+                  slidesPerView={3}
                   breakpoints={{
                     300: {
-                      slidesPerView: 1,
+                      slidesPerView: 3,
                     },
                   }}
                 >
-                  <SwiperSlide className="area-button-content">
-                    <button className="area-button">
+                  <SwiperSlide className="categorypost-area-button-content">
+                    <button className="categorypost-area-button">
                       {list.regionCategory}
                     </button>
                   </SwiperSlide>
                   {list.themeCategory.map((value, index) => {
                     return (
-                      <SwiperSlide className="theme-button-content" key={index}>
-                        <button className="theme-button">
+                      <SwiperSlide
+                        className="categorypost-theme-button-content"
+                        key={index}
+                      >
+                        <button className="categorypost-theme-button">
                           {value.themeCategory}
                         </button>
                       </SwiperSlide>
                     );
                   })}
+                  <SwiperSlide className="categorypost-price-button-content">
+                    <button className="categorypost-price-button">
+                      {list.priceCategory}
+                    </button>
+                  </SwiperSlide>
                 </Swiper>
                 <div className="categorypost-heart">
                   <button

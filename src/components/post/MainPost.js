@@ -115,10 +115,10 @@ const MainPost = (props) => {
                 <div className="mainpost-category">
                   <Swiper
                     className="mainpost-categorybutton"
-                    slidesPerView={1}
+                    slidesPerView={3}
                     breakpoints={{
                       300: {
-                        slidesPerView: 1,
+                        slidesPerView: 3,
                       },
                     }}
                   >
@@ -139,6 +139,11 @@ const MainPost = (props) => {
                         </SwiperSlide>
                       );
                     })}
+                    <SwiperSlide className="mainpost-price-button-content">
+                      <button className="mainpost-price-button">
+                        {list.priceCategory}
+                      </button>
+                    </SwiperSlide>
                   </Swiper>
                   <div className="mainpost-heart">
                     <button
