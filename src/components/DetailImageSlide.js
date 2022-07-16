@@ -60,7 +60,6 @@ const DetailImageSlide = (props) => {
                   slidesPerView={1}
                   breakpoints={{
                     300: {
-
                       slidesPerView: 1,
                     },
                   }}
@@ -82,15 +81,9 @@ const DetailImageSlide = (props) => {
                             backgroundPosition: "center",
                           }}
                         />
+                        <img className="_detailImg" src={v} alt="" />
                       </SwiperSlide>
                     ))}
-                        slidesPerView: 1
-                    }}}>
-                 /* {l.imgUrl && l.imgUrl.map((v, i) => 
-                  <SwiperSlide className="categoryslide-imagecontent" key={i}>
-                    <img className='_detailImg' src={v} alt=""/>
-                  </SwiperSlide> */
-                  )}
                 </Swiper>
               );
             })}
