@@ -44,7 +44,6 @@ const OptionPost = (props) => {
         setPage(page + 1);
       } else {
         window.removeEventListener("scroll", handleScroll);
-        alert("마지막 페이지입니다!");
       }
     }
   };
@@ -132,10 +131,10 @@ const OptionPost = (props) => {
               <div className="optionpost-category">
                 <Swiper
                   className="optionpost-categorybutton"
-                  slidesPerView={1}
+                  slidesPerView={3}
                   breakpoints={{
                     300: {
-                      slidesPerView: 1,
+                      slidesPerView: 3,
                     },
                   }}
                 >
@@ -156,6 +155,11 @@ const OptionPost = (props) => {
                       </SwiperSlide>
                     );
                   })}
+                  <SwiperSlide className="optionpost-price-button-content">
+                    <button className="optionpost-price-button">
+                      {list.priceCategory}
+                    </button>
+                  </SwiperSlide>
                 </Swiper>
                 <div className="optionpost-heart">
                   <button

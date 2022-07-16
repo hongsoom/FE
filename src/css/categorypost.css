@@ -97,15 +97,17 @@
     width : 255px ;
 }
 
-.area-button-content, 
-.theme-button-content {
+.categorypost-area-button-content, 
+.categorypost-theme-button-content,
+.categorypost-price-button-content {
     width : 70px !important;
     height: 28px !important;
     margin-right: 15px !important;
 }
 
-.area-button,
-.theme-button {
+.categorypost-area-button-content > button, 
+.categorypost-theme-button-content > button,
+.categorypost-price-button-content > button {
     width : 70px;
     height: 28px;
     background-color: #8ACEFF;
@@ -119,8 +121,9 @@
     text-align: center;
 }
 
-.area-button,
-.theme-button {
+.categorypost-area-button,
+.categorypost-theme-button,
+.categorypost-price-button {
     margin : 12px 0 12px 8px;
 }
 

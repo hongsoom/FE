@@ -85,15 +85,17 @@
     width : 255px ;
 }
 
-.area-button-content, 
-.theme-button-content {
+.optionpost-area-button-content, 
+.optionpost-theme-button-content, 
+.optionpost-price-button-content {
     width : 70px !important;
     height: 28px !important;
     margin-right: 15px !important;
 }
 
 .optionpost-area-button-content > button,
-.optionpost-theme-button-content > button {
+.optionpost-theme-button-content > button,
+.optionpost-price-button-content > button {
     width : 70px;
     height: 28px;
     background-color: #8ACEFF;
@@ -108,7 +110,8 @@
 }
 
 .optionpost-area-button,
-.optionpost-theme-button {
+.optionpost-theme-button,
+.optionpost-price-button {
     margin : 12px 0 12px 8px;
 }
 
