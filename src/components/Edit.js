@@ -9,8 +9,10 @@ import EditImageSlide from './EditImageSlide'
 import RegionModal from './RegionModal'
 import PriceModal from './PriceModal'
 
+import leftArrowBlack from '../assets/leftArrowBlack.png'
+
 // 라우터
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // 리덕스
 import { useDispatch } from 'react-redux'
@@ -25,6 +27,7 @@ const { kakao } = window
 
 const Edit = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
 
   // ---------------------------- 수정할 게시글 번호
@@ -79,14 +82,10 @@ const Edit = () => {
   const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
 
 
-
-  // 수정 중 새로고침하면 데이터가 날아가므로 새로고침하면 강제 홈으로 이동
-  // React.useEffect(()=> {
-  //   if(is_edit && !edit_post){
-  //     navigate(`/`)
-  //   }
-  // },[])
-
+  const onClickLeftArrow = () => {
+    navigate('/')
+  }
+  
   useEffect(()=>{
     if(editdata&&editdata.title){
       setTitle(editdata&&editdata.title)
@@ -417,10 +416,21 @@ useEffect(()=>{
         ref={myMap}
         style={{
           width:'100vw',
-          height: '50vh',
+          height: '75vh',
           position: 'absolute'
         }}
         >
+      </div>
+
+      {/* 헤더 */}
+      <div className='writeHeader'>
+        <div className='writepreIcon' onClick={onClickLeftArrow}>
+          <img src={leftArrowBlack} alt="홈으로 이동"/>
+        </div>
+        {/* 제목 */}
+        <div className='writeTitleWrap'>
+          <input type="text" onChange={onTitleHandler} placeholder="코스 이름을 적어주세요"/>
+      </div>
       </div>
 
       {/* 검색창 */}
@@ -517,7 +527,7 @@ useEffect(()=>{
           <div className='selectedList'>
             {select.map((item, i) => (
               <div className='selected' id={`finPlace${i}`} key={i}
-                style={focus === item.place_name ? {background:'skyblue', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
+                style={focus === item.place_name ? {background:'#B6DCFF', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
                 
               >
                 <input type="radio" name="selectedPlace" value={item.place_name} id={item.place_name}
@@ -555,7 +565,7 @@ useEffect(()=>{
           {theme.map((v,i)=>{
             return(
               <div className='themes' key={i}
-              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+              style={selectedTheme.includes(v) ? {background:'#B6DCFF'}: {background:'#fff'}}>
                 <input type="checkbox" name="theme" value={v} id={v}
                 onChange={(e)=>{
                   if (e.target.checked){
@@ -620,7 +630,7 @@ useEffect(()=>{
             {select.map((v,i)=>{
               return(
                 <div className='selectBestRestroom' key={i}
-                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}
+                style={selectedRestroom === v.place_name ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}
                 >
                   <input type="radio" name="restroom" value={v.place_name} id={v+i}
                   onChange={isCheckedRestroom}
@@ -638,7 +648,7 @@ useEffect(()=>{
             {restroom.map((v,i)=>{
               return(
                 <div className="restroomOptions" key={i}
-                style={restroomOption.includes(v) ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                style={restroomOption.includes(v) ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}>
                   <input type="checkbox" name="restroomOtion" value={v} id={v}
                   onChange={(e)=>{
                     if(e.target.checked){

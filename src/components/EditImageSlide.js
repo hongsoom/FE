@@ -14,8 +14,6 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
   const [place, setPlace] = useState();
   const [img, setImg] = useState(0)
 
-
-  console.log(imgUrl)
   // 몇번째 슬라이드인지
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -50,32 +48,22 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
     setImg(Url)
     select[select.length-1].imgCount = imgUrl[index].imgUrl.length
 
-      // setSelect((pre)=>{
-      //   const selectList = [...pre]
-      //   const newData = {...Places[i], imgCount:""}
-      //   selectList.push(newData)
-      //   return selectList
-      // })
-    
-    console.log(select)
-    console.log(imgUrl[index].imgUrl.length)
   }
   
-  console.log(imgs)
   
 
 
   return (
     <div className='editContainer'
     >
-      <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div>
+      {/* <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div> */}
         {/* 선택 장소 이름들 */}
         <div className='placeNames'>
           {select.map((v,i)=>{
             return(
               <div className='placeName' key={i}
               onClick={()=>{setPlace(v.place_name); setCurrentSlide(0)}}
-              style={place === v.place_name ? {background:'skyblue'}:{background:'#fff'}}
+              style={place === v.place_name ? {background:'#B6DCFF'}:{background:'#E4EFFF'}}
               >{v.place_name}</div>
             )
           })}
@@ -125,15 +113,15 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
           </div>        
       </div>   
       {/* 사진 업로드 버튼 */}
-        <div className='addButtonWrap'>
+        {/* <div className='addButtonWrap'>
           {select.map((v,i)=>{
             return(
               <div className='addButton' key={i}
               style={place === v.place_name ? {display:'block'}:{display:'none'}}
               >
-                <label htmlFor={`place_name_${i}`}>
+                <label htmlFor={`place_name_${i}`}> */}
                   {/* <FontAwesomeIcon icon={faPlus}/> */}
-                    <div><b>{v.place_name}</b> 사진 추가하기</div>
+                    {/* <div><b>{v.place_name}</b> 사진 추가하기</div>
                 </label>
                 <input type="file" id={`place_name_${i}`} name="uploadImg" accept="image/*" 
                 onChange={(e)=>{loadImg(e, i)}}
@@ -143,7 +131,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
             )
           })}
           
-        </div>
+        </div> */}
     </div>
   )
 }

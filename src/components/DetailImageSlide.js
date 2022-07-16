@@ -50,7 +50,7 @@ const DetailImageSlide = (props) => {
                     }}}>
                   {l.imgUrl && l.imgUrl.map((v, i) => 
                   <SwiperSlide className="categoryslide-imagecontent" key={i}>
-                    <div className='_detailImg' key={i} style={{backgroundImage:`url(${v})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
+                    <img className='_detailImg' src={v} alt=""/>
                   </SwiperSlide>
                   )}
                 </Swiper>

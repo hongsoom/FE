@@ -74,7 +74,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
             return(
               <div className='placeName' key={i}
               onClick={()=>{setPlace(v.place_name); setCurrentSlide(0)}}
-              style={place === v.place_name ? {background:'skyblue'}:{background:'#fff'}}
+              style={place === v.place_name ? {background:'#B6DCFF'}:{background:'#E4EFFF'}}
               >{v.place_name}</div>
             )
           })}

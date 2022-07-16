@@ -8,7 +8,7 @@
   margin-top: 10px;
   border-radius: 8px;
   padding: 15px 15px;
-  
+  padding-bottom: 35px;
 }
 
 .imgUploadTitle{
@@ -29,12 +29,11 @@
 }
 .placeName{
   font-size: 12px;
-  border:1px solid #ccc;
   border-radius: 100px;
   padding: 5px 10px;
   margin-right: 5px;
   margin-bottom: 10px;
-  
+  background:#E4EFFF;
 }
 
 .imgWrap{
@@ -96,7 +95,7 @@
 } 
 
 ._img{
-  width: 280px;
+  width: 300px;
   flex-shrink: 0;
 }
 

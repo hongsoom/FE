@@ -24,7 +24,7 @@ const RegionModal = (props) => {
     <div className={showRegionModal ? 'openModal regionWrap': 'regionWrap'}>
       {showRegionModal ?
       <div className='background' onClick={closeRegionModal}>
-        <div className='wrap' onClick={e => e.stopPropagation()}>
+        <div className='regionwrap' onClick={e => e.stopPropagation()}>
         <section>
           <div style={{display:'flex', flexWrap: 'wrap'}}>
           {region.map((v,i)=>{
@@ -32,7 +32,7 @@ const RegionModal = (props) => {
               <div key={i}>
               {is_edit ?
               <div className='regions' key={i}
-              style={selectedRegion === v ? {background:'skyblue'}: {background:'#fff'}}>
+              style={selectedRegion === v ? {background:'#B6DCFF'}: {background:'#fff'}}>
                 <input type="radio" name="region" value={v} id={v} 
                 onChange={isChecked}/>
                 <label htmlFor={v}>
@@ -41,7 +41,7 @@ const RegionModal = (props) => {
               </div>
               :
               <div className='regions' key={i}
-              style={selectedRegion === v ? {background:'skyblue'}: {background:'#fff'}}>
+              style={selectedRegion === v ? {background:'#B6DCFF'}: {background:'#fff'}}>
                 <input type="radio" name="region" value={v} id={v} 
                 onChange={isChecked}/>
                 <label htmlFor={v}>
@@ -53,7 +53,7 @@ const RegionModal = (props) => {
             )
           })}
           </div>
-          <div className="doneButton">
+          <div className="regiondoneButton">
             <button className="close" onClick={closeRegionModal}>선택완료</button>
           </div>
         </section>

@@ -3,6 +3,10 @@
   flex-direction: column;
   width: 333px;
   border-radius: 8px;
+  background:rgba(255, 255, 255, 0.9);
+  margin-top: 10px;
+  padding: 15px 15px;
+  padding-bottom: 35px;
 }
 
 .imgUploadTitle{
@@ -23,12 +27,11 @@
 }
 .placeName{
   font-size: 12px;
-  border:1px solid #ccc;
   border-radius: 100px;
   padding: 5px 10px;
   margin-right: 5px;
   margin-bottom: 10px;
-  
+  background:#E4EFFF;
 }
 
 .imgWrap{
@@ -107,7 +110,7 @@
   left:0;
   width: 300px;
   height: auto;
-  background:#ccc;
+  background:#B6DCFF;
   padding: 5px 0;
   border-radius: 5px;
   font-size: 12px;
