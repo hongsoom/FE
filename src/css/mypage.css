@@ -127,13 +127,22 @@
   justify-content: center;
   box-sizing: border-box;
 }
-.myPostsTitle>input,
-.myBookmarkTitle>input{
+input{
   display: none;
 }
-
-.myPosts{
+.postsNmarks{
+  position:relative;
+}
+.myPosts,.myBookmarks{
+  position:absolute;
   width: 100vw;
+}
+.myPosts{
+  background:#fff;
+}
+.myBookmarks{
+  background:#fff;
+  
 }
 .postboxs{
   display: grid;

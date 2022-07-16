@@ -5,18 +5,20 @@ import '../css/mapContainer.css'
 import instance from '../shared/Request'
 
 // 컴포넌트
-import ImageSlide from './ImageSlide'
+import EditImageSlide from './EditImageSlide'
 import RegionModal from './RegionModal'
 import PriceModal from './PriceModal'
 
+import leftArrowBlack from '../assets/leftArrowBlack.png'
+
 // 라우터
-import {useNavigate, useParams} from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // 리덕스
-import {useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // 리덕스 모듈
-import { addPostDB} from '../redux/module/post'
+import { modifyPostDB } from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
 
 
@@ -25,42 +27,14 @@ const { kakao } = window
 
 const Edit = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
-  const [place, setPlace] = useState(""); // 카카오맵 장소들
-  const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
-  const [title, setTitle] = useState(''); // 글 제목
-  const [content, setConent] = useState(''); // 콘텐트 텍스트 
-  const [inputText, setInputText] = useState(""); // 검색창 검색 키워드
-  const [select, setSelect] = useState([])  // 선택한 장소 배열에 담아줌
-  const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지미리보기 url 넣을 배열
-  const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
-  const [selectedRegion, setRegion] = useState(''); // 지역 선택
-  const [selectedTheme, setTheme] = useState([]); // 테마 선택
-  const [selectedPrice, setPrice] = useState(''); // 비용 선택
-  const [selectedRestroom, setRestroom] = useState(''); // 선택한 베스트 화장실 선택
-  const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
-  const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
-  const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
 
-  const [imgs, setImgs] = useState([]); // 이미지 모두 파일
+  // ---------------------------- 수정할 게시글 번호
+  const param = useParams().id;
   const [loading, setLoading] = useState(false)
   const [editdata, setEditData] = useState([])
- 
-  const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
-  const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
-  const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
-  const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
 
-
-  // ---------------------------- 게시글 수정하기
-  const param = useParams().id;
-
-  // // ---------------------------- 게시글 데이터 가져오기
-  // React.useEffect(() => {
-
-  //   dispatch(getPostDB(param));
-
-  // }, [dispatch]);
   // -------------- 게시글 데이터 가져오기
   const getData = async (postId)=>{
     try {
@@ -74,29 +48,100 @@ const Edit = () => {
     }
     setLoading(false)
   }
-  
+
   useEffect(() => {
     getData(param); 
   }, [param]);
 
   console.log(editdata)
 
+  const is_edit = param ? true : false;
+
+  const [place, setPlace] = useState(''); // 카카오맵 장소들
+  const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
+  const [title, setTitle] = useState(editdata&&editdata ? editdata.title : ''); // 글 제목
+  const [content, setConent] = useState(editdata&&editdata ? editdata.content :''); // 콘텐트 텍스트 
+  const [inputText, setInputText] = useState(''); // 검색창 검색 키워드
+  const [select, setSelect] = useState([])  // 선택한 장소 배열에 담아줌
+  const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지미리보기 url 넣을 배열
+  const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
+  const [selectedRegion, setRegion] = useState(editdata&&editdata ? editdata.regionCategory :''); // 지역 선택
+  const [selectedTheme, setTheme] = useState([]); // 테마 선택
+  const [selectedPrice, setPrice] = useState(editdata&&editdata ? editdata.priceCategory :''); // 비용 선택
+  const [selectedRestroom, setRestroom] = useState(editdata&&editdata ? editdata.restroom :''); // 선택한 베스트 화장실 선택
+  const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
+  const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
+  const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
+
+  const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   
-  // const data = useSelector((state) => state.post.post);
-  // const is_edit = param ? true : false;
-  // const edit_post = is_edit ? dataList && dataList.find(p=> p.postId === param) : null;
-  // const is_login = localStorage.getItem("token");
+ 
+  const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
+  const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
+  const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
+  const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
+
+
+  const onClickLeftArrow = () => {
+    navigate('/')
+  }
   
-  // console.log(data);
+  useEffect(()=>{
+    if(editdata&&editdata.title){
+      setTitle(editdata&&editdata.title)
+    }
+    if(editdata&&editdata.content){
+      setConent(editdata&&editdata.content)
+    }
+    if(editdata&&editdata.themeCategory){
+      editdata&&editdata.themeCategory.map((v,i)=>{
+          selectedTheme.push(v.themeCategory)
+          return selectedTheme
+      })
+    }
+    if(editdata&&editdata.priceCategory){
+      setPrice(editdata.priceCategory)
+    }
+    if(editdata&&editdata.regionCategory){
+      setRegion(editdata.regionCategory)
+    }
+    if(editdata&&editdata.restroom){
+      setRestroom(editdata.restroom)
+    }
+
+    if(editdata&&editdata.restroomOption){
+      editdata&&editdata.restroomOption.map((v,i)=>{
+        restroomOption.push(v)
+          return restroomOption
+      })
+
+    if(editdata&&editdata.place){
+      editdata&&editdata.place.map((v,i)=>{
+        select.push({
+          address_name: v.address_name,
+          category_group_code:v.category_group_code,
+          category_group_name:v.category_group_name,
+          category_name: v.category_name,
+          distance: v.distance,
+          imgCount: v.imgUrl.length,
+          id: v.id,
+          phone: v.phone,
+          place_name: v.place_name,
+          place_url: v.place_url,
+          road_address_name: v.road_address_name,
+          x:v.x,
+          y:v.y,
+        })
+        return select
+      })
+    }
+    list(select)
+    }
 
 
-  // 수정 중 새로고침하면 데이터가 날아가므로 새로고침하면 강제 홈으로 이동
-  // React.useEffect(()=> {
-  //   if(is_edit && !edit_post){
-  //     navigate(`/`)
-  //   }
-  // },[])
+  },[editdata,selectedTheme,restroomOption])
 
+  console.log(select)
   
   // ---------------------------- 제목 가져오기
   const onTitleHandler = (e) => {
@@ -158,18 +203,18 @@ const Edit = () => {
 
   
 
-  const formData = new FormData();
-  formData.append("title", title)
-  formData.append("content", content)
-  formData.append("regionCategory", selectedRegion)
-  formData.append("themeCategory", selectedTheme)
-  formData.append("priceCategory", selectedPrice)
-  formData.append("places", blob)
-  imgs.forEach((v,i)=>{
-    formData.append("imgUrl",v)
-  })
-  formData.append("restroom", selectedRestroom)
-  formData.append("restroomOption", restroomOption)
+  const editFormData = new FormData();
+  editFormData.append("title", title)
+  editFormData.append("content", content)
+  editFormData.append("regionCategory", selectedRegion)
+  editFormData.append("themeCategory", selectedTheme)
+  editFormData.append("priceCategory", selectedPrice)
+  editFormData.append("places", blob)
+  // imgs.forEach((v,i)=>{
+  //   editFormData.append("imgUrl",v)
+  // })
+  editFormData.append("restroom", selectedRestroom)
+  editFormData.append("restroomOption", restroomOption)
 
 
   // formData.append(`${imgUrl[0]}`,)
@@ -179,16 +224,16 @@ const Edit = () => {
   
 
   console.log(select)
-  for (let key of formData.keys()) {
-    console.log(key, ":", formData.get(key));
+  for (let key of editFormData.keys()) {
+    console.log(key, ":", editFormData.get(key));
   }
   console.log(imgs)
   console.log(imgUrl)
   
 
   // ---------------------------- 작성 완료 버튼
-  const onHandlerSubmit = () =>{
-    dispatch(addPostDB(formData))
+  const onHandlerEdit = () =>{
+    dispatch(modifyPostDB(editFormData, param))
   }
 
 
@@ -202,7 +247,7 @@ const Edit = () => {
       "content:" +content,
       "priceCategory:" +selectedPrice,
       "place:" +select,
-      "imgUrl" +imgs
+      // "imgUrl" +imgs
       // "restroom:" + selectedRestroom
       
     )
@@ -210,10 +255,11 @@ const Edit = () => {
 
 console.log(select)
 
-  
-  // ---------------------------- 카카오맵 불러오기
-  useEffect(() => {
-    // 지도에 검색하고 결과 나오게 하기
+
+
+useEffect(()=>{
+
+  // 지도에 검색하고 결과 나오게 하기
     // infowindow: 장소별 세부사항 보여주는 말풍선
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
 
@@ -224,7 +270,7 @@ console.log(select)
     }
     const map = new kakao.maps.Map(myMap.current, options)
 
-    const ps = new kakao.maps.services.Places()
+  const ps = new kakao.maps.services.Places()
 
     // 키워드 검색
     // place: 유저가 입력한 검색키워드
@@ -290,8 +336,6 @@ console.log(select)
       }
       paginationEl.appendChild(fragment)
     }
-
-
     // 마커찍기 함수
     function displayMarker(_place) {
       let marker = new kakao.maps.Marker({
@@ -305,9 +349,9 @@ console.log(select)
       })
     }
 
-  }, [place])
 
- 
+},[place])
+  
   
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
@@ -372,14 +416,22 @@ console.log(select)
         ref={myMap}
         style={{
           width:'100vw',
-          height: '50vh',
+          height: '75vh',
           position: 'absolute'
         }}
         >
       </div>
 
-      
-
+      {/* 헤더 */}
+      <div className='writeHeader'>
+        <div className='writepreIcon' onClick={onClickLeftArrow}>
+          <img src={leftArrowBlack} alt="홈으로 이동"/>
+        </div>
+        {/* 제목 */}
+        <div className='writeTitleWrap'>
+          <input type="text" onChange={onTitleHandler} placeholder="코스 이름을 적어주세요"/>
+      </div>
+      </div>
 
       {/* 검색창 */}
       <form className="inputForm" onSubmit={handleSubmit}>
@@ -396,7 +448,7 @@ console.log(select)
         <div className='titleTitle'>
           코스 제목을 적어주세요
         </div>
-          <input type="text" onChange={onTitleHandler}/>
+          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title}/>
         
       </div>
 
@@ -405,7 +457,7 @@ console.log(select)
         {/* 검색목록과 선택한 목록 */}
         <div className='selectNselected'>
         {/* 검색목록*/}
-          <div className='searchList_wrap' style={Places.length !== 0 ? {display:'block'}: {display:'none'}}>
+          <div className='searchList_wrap' >
             <div id="result-list">
               {Places.map((item, i) => (
                 <div key={i} style={{ marginTop: '20px'}}>
@@ -428,7 +480,7 @@ console.log(select)
                       if(e.target.checked){
                         setSelect((pre)=>{
                           const selectList = [...pre]
-                          const newData = {...Places[i], imgCount:""}
+                          const newData = {...Places[i], imgCount:''}
                           selectList.push(newData)
                           list(selectList)
                           return selectList
@@ -440,6 +492,7 @@ console.log(select)
                           dispatch(addImg(imgUrlList))
                           return imgUrlList
                         })
+                        console.log(imgUrl)
                       } else{
                         setSelect((pre)=>{
                           const selectList = pre.filter((v,i)=>{
@@ -458,11 +511,11 @@ console.log(select)
                     }} style={{display:'none'}}/>
                   </div>
                   <label htmlFor={item.id}>
-                  {select.includes(item)?  
+                  {/* {select.includes(item)?  
                   <div style={{width:'60px', background:'skyblue', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>취소하기</div>
-                  :
+                  : */}
                   <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>선택하기</div>
-                  }
+                  {/* } */}
                   </label>
                 </div>
               ))}
@@ -474,7 +527,7 @@ console.log(select)
           <div className='selectedList'>
             {select.map((item, i) => (
               <div className='selected' id={`finPlace${i}`} key={i}
-                style={focus === item.place_name ? {background:'skyblue', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
+                style={focus === item.place_name ? {background:'#B6DCFF', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
                 
               >
                 <input type="radio" name="selectedPlace" value={item.place_name} id={item.place_name}
@@ -506,13 +559,13 @@ console.log(select)
         
 
         {/* 테마선택 */}
-        <div className='theme' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='theme' >
         <div className='choiceTitle'>테마 선택하기</div>
           <div className='themeWrap'> 
           {theme.map((v,i)=>{
             return(
               <div className='themes' key={i}
-              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+              style={selectedTheme.includes(v) ? {background:'#B6DCFF'}: {background:'#fff'}}>
                 <input type="checkbox" name="theme" value={v} id={v}
                 onChange={(e)=>{
                   if (e.target.checked){
@@ -541,7 +594,6 @@ console.log(select)
         </div>
 
         <div className='regionNprice'
-        style={select.length !==0 ? {display:'flex'}:{display:'none'}}
         >
           {/* 지역선택 */}
           <div className='region'
@@ -563,7 +615,6 @@ console.log(select)
           >
             <div className='choiceTitle'>비용 선택하기</div>
             <div className='prices'
-            style={selectedPrice ? {display:'block'}: {display:'none'}}
             >{selectedPrice}</div>
             <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
             showPriceModal={showPriceModal}
@@ -573,13 +624,13 @@ console.log(select)
         </div>
 
         {/* 화장실 */}
-        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='restroom' >
         <div className='choiceTitle'>어디에서 화장실을 이용하셨나요?<br/> 여러 화장실을 가보셨다면 베스트 화장실을 추천해주세요!</div>
           <div className='restroomWrap'>
             {select.map((v,i)=>{
               return(
                 <div className='selectBestRestroom' key={i}
-                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}
+                style={selectedRestroom === v.place_name ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}
                 >
                   <input type="radio" name="restroom" value={v.place_name} id={v+i}
                   onChange={isCheckedRestroom}
@@ -597,7 +648,7 @@ console.log(select)
             {restroom.map((v,i)=>{
               return(
                 <div className="restroomOptions" key={i}
-                style={restroomOption.includes(v) ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                style={restroomOption.includes(v) ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}>
                   <input type="checkbox" name="restroomOtion" value={v} id={v}
                   onChange={(e)=>{
                     if(e.target.checked){
@@ -626,21 +677,22 @@ console.log(select)
           </div> 
 
         {/* 사진업로드 */}
-        <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='imgUpload'>
           
-          <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
+          <EditImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
+          editdata={editdata}
           />
           
         </div>
 
         {/* 텍스트 입력 */}
-        <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
-          <textarea placeholder="코스에 대한 설명을 입력해주세요" onChange={onContentHandler}/>
+        <div className='txt'>
+          <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
         </div>
 
-        <button className='submit' onClick={onHandlerSubmit}
+        <button className='submit' onClick={onHandlerEdit}
         style={select.length !==0 && selectedRegion && selectedTheme ? {display:'block'}: {display:'none'}}
-        >작성완료</button>
+        >수정 완료</button>
       </div>
   </div>
   )

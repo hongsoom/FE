@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux'
 // 리덕스 모듈
 import { getPostListDB, getPostDB, addPostDB} from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
+import leftArrowBlack from '../assets/leftArrowBlack.png'
 
 
 // 카카오맵
@@ -38,7 +39,7 @@ const MapContainer = () => {
   const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
   const [selectedRegion, setRegion] = useState(''); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
-  const [selectedPrice, setPrice] = useState(''); // 비용 선택
+  const [selectedPrice, setPrice] = useState(); // 비용 선택
   const [selectedRestroom, setRestroom] = useState(''); // 선택한 베스트 화장실 선택
   const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
@@ -58,12 +59,11 @@ const MapContainer = () => {
   // ---------------------------- 게시글 수정하기
   const param = useParams().id;
 
-  // // ---------------------------- 게시글 데이터 가져오기
-  // React.useEffect(() => {
 
-  //   dispatch(getPostDB(param));
+  const onClickLeftArrow = () => {
+    navigate('/')
+  }
 
-  // }, [dispatch]);
   // -------------- 게시글 데이터 가져오기
   const getData = async (postId)=>{
     try {
@@ -375,13 +375,22 @@ console.log(select)
         ref={myMap}
         style={{
           width:'100vw',
-          height: '50vh',
+          height: '75vh',
           position: 'absolute'
         }}
         >
       </div>
 
-      
+      {/* 헤더 */}
+      <div className='writeHeader'>
+        <div className='writepreIcon' onClick={onClickLeftArrow}>
+          <img src={leftArrowBlack} alt="홈으로 이동"/>
+        </div>
+        {/* 제목 */}
+        <div className='writeTitleWrap'>
+          <input type="text" onChange={onTitleHandler} placeholder="코스 이름을 적어주세요"/>
+      </div>
+      </div>
 
 
       {/* 검색창 */}
@@ -394,14 +403,7 @@ console.log(select)
         <button type="submit">검색</button>
       </form>
       
-      {/* 제목 */}
-      <div className='titleWrap'>
-        <div className='titleTitle'>
-          코스 제목을 적어주세요
-        </div>
-          <input type="text" onChange={onTitleHandler}/>
-        
-      </div>
+      
 
 
       <div className='contentWrap'>
@@ -462,9 +464,9 @@ console.log(select)
                   </div>
                   <label htmlFor={item.id}>
                   {select.includes(item)?  
-                  <div style={{width:'60px', background:'skyblue', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>취소하기</div>
+                  <div style={{width:'60px', background:'#B6DCFF', textAlign:'center',marginTop:'5px', cursor:'pointer', borderRadius:'3px'}}>취소하기</div>
                   :
-                  <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>선택하기</div>
+                  <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer', borderRadius:'3px'}}>선택하기</div>
                   }
                   </label>
                 </div>
@@ -477,7 +479,7 @@ console.log(select)
           <div className='selectedList'>
             {select.map((item, i) => (
               <div className='selected' id={`finPlace${i}`} key={i}
-                style={focus === item.place_name ? {background:'skyblue', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
+                style={focus === item.place_name ? {background:'#B6DCFF', color:'#fff'}:{background:'rgba(255, 255, 255, 0.85)', color:'#222'}}
                 
               >
                 <input type="radio" name="selectedPlace" value={item.place_name} id={item.place_name}
@@ -491,7 +493,7 @@ console.log(select)
                       {item.road_address_name ? (
                         <div>
                           <span>{item.road_address_name}</span><br/>
-                          <span>{item.address_name}</span>
+                          {/* <span>{item.address_name}</span> */}
                         </div>
                       ) : (
                         <span>{item.address_name}</span>
@@ -509,13 +511,13 @@ console.log(select)
         
 
         {/* 테마선택 */}
-        <div className='theme' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='theme' >
         <div className='choiceTitle'>테마 선택하기</div>
           <div className='themeWrap'> 
           {theme.map((v,i)=>{
             return(
               <div className='themes' key={i}
-              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
+              style={selectedTheme.includes(v) ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}>
                 <input type="checkbox" name="theme" value={v} id={v}
                 onChange={(e)=>{
                   if (e.target.checked){
@@ -544,7 +546,7 @@ console.log(select)
         </div>
 
         <div className='regionNprice'
-        style={select.length !==0 ? {display:'flex'}:{display:'none'}}
+        
         >
           {/* 지역선택 */}
           <div className='region'
@@ -566,7 +568,7 @@ console.log(select)
           >
             <div className='choiceTitle'>비용 선택하기</div>
             <div className='prices'
-            style={selectedPrice ? {display:'block'}: {display:'none'}}
+           
             >{selectedPrice}</div>
             <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
             showPriceModal={showPriceModal}
@@ -576,13 +578,13 @@ console.log(select)
         </div>
 
         {/* 화장실 */}
-        <div className='restroom' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='restroom' >
         <div className='choiceTitle'>어디에서 화장실을 이용하셨나요?<br/> 여러 화장실을 가보셨다면 베스트 화장실을 추천해주세요!</div>
           <div className='restroomWrap'>
             {select.map((v,i)=>{
               return(
                 <div className='selectBestRestroom' key={i}
-                style={selectedRestroom === v.place_name ? {background:'skyblue'}: {border:'1px solid #ccc'}}
+                style={selectedRestroom === v.place_name ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}
                 >
                   <input type="radio" name="restroom" value={v.place_name} id={v+i}
                   onChange={isCheckedRestroom}
@@ -600,7 +602,7 @@ console.log(select)
             {restroom.map((v,i)=>{
               return(
                 <div className="restroomOptions" key={i}
-                style={restroomOption.includes(v) ? {background:'skyblue'}: {border:'1px solid #ccc'}}>
+                style={restroomOption.includes(v) ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}>
                   <input type="checkbox" name="restroomOtion" value={v} id={v}
                   onChange={(e)=>{
                     if(e.target.checked){
@@ -629,7 +631,7 @@ console.log(select)
           </div> 
 
         {/* 사진업로드 */}
-        <div className='imgUpload' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='imgUpload'>
           
           <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
           />
@@ -637,7 +639,7 @@ console.log(select)
         </div>
 
         {/* 텍스트 입력 */}
-        <div className='txt' style={select.length !==0 ? {display:'block'}: {display:'none'}}>
+        <div className='txt'>
           <textarea placeholder="코스에 대한 설명을 입력해주세요" onChange={onContentHandler}/>
         </div>
 

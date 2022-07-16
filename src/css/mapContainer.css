@@ -11,31 +11,49 @@
   color:#222;
 }
 
-.titleWrap{
-  position:absolute;
+.writeHeader{
+  position:fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  z-index: 1;
+  background:rgba(255, 255, 255, 0.9);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.writepreIcon{
+  width: 8.43px;
+  margin-left: 28.67px;
+}
+.writepreIcon>img{
+  width: 8.43px;
+}
+
+.writeTitleWrap{
   z-index: 1;
   top: 50px;
   width: 335px;
   padding: 10px;
-  border-radius: 8px;
   left: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.05);
   display:flex;
   flex-direction: column;
   align-items: center;
   font-size: 14px;
 }
-.titleWrap input{
+.writeTitleWrap input{
+  text-align: center;
   border: 1px solid transparent;
   border-bottom: 1px solid #ccc;
   background: transparent;
 }
-
-
+.writeTitleWrap input::placeholder{
+  color:#696969;
+}
 
 .contentWrap{
-  margin-top: 350px;
+  margin-top: 300px;
   margin-left: 20px;
   margin-bottom: 30px;
   padding-bottom: 20px;
@@ -47,19 +65,23 @@
   z-index: 1;
 
 }
+.contentWrap::-webkit-scrollbar{
+  display: none;
+}
 .contentWrap .selectNselected{
   display:flex;
   width: 335px;
   z-index: 1;
+  
 }
 
 .searchList_wrap{
   width: 50%;
+  border-radius: 8px;
   height: 220px;
   margin-bottom: 5px;
   overflow-y: auto;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.95);
   font-size: 12px;
   border-radius: 8px;
 }
@@ -80,7 +102,7 @@
 
 .selectedList .selected{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.95);
   font-size: 12px;
   border-radius: 8px;
   line-height: 18px;
@@ -104,7 +126,7 @@
 .price{
   width: 48%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.95);
   font-size: 12px;
   border-radius: 8px;
   line-height: 20px;
@@ -117,7 +139,7 @@
   width: 45px;
   text-align: center;
   padding: 5px;
-  border: 1px solid #ccc;
+  background:#B6DCFF;
   border-radius: 100px;
   margin-right: 3px;
   margin-bottom: 3px;
@@ -126,14 +148,14 @@
   width: 85px;
   text-align: center;
   padding: 5px;
-  border: 1px solid #ccc;
   border-radius: 100px;
   margin-right: 3px;
   margin-bottom: 3px;
+  background:#B6DCFF;
 }
 .theme{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.95);
   font-size: 12px;
   border-radius: 8px;
   line-height: 20px;
@@ -145,16 +167,15 @@
 
 .restroom {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.95);
   font-size: 12px;
-  border-radius: 8px;
   line-height: 20px;
-  padding: 10px 10px;
+  padding: 20px 10px;
   margin-top: 10px;
   width: auto;
-  /* height: 100px; */
   text-align: center;
-  border: 1px solid #ccc;
+  border: 1px solid #B6DCFF;
+  border-radius: 8px;
   margin-right: 3px;
   margin-bottom: 3px;
 }
@@ -180,7 +201,6 @@
   width: auto;
   text-align: center;
   padding: 3px 10px;
-  border: 1px solid #ccc;
   border-radius: 100px;
   margin-right: 5px;
   margin-bottom: 3px;
@@ -190,7 +210,6 @@
   width: auto;
   text-align: center;
   padding: 3px 10px;
-  border: 1px solid #ccc;
   border-radius: 100px;
   margin-right: 5px;
   margin-bottom: 3px;
@@ -236,7 +255,7 @@
 
 .txt{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.9);
   font-size:12px;
   border-radius: 8px;
   line-height: 20px;
@@ -249,13 +268,15 @@
   resize: none;
   outline: none;
   height: 150px;
+  border: none;
+  
 }
 
 .submit{
   width: 335px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  font-size:12px;
+  background:#B6DCFF;
+  font-size: 14px;
   border-radius: 8px;
   line-height: 20px;
   padding: 10px 15px;
@@ -268,13 +289,13 @@
 .inputForm{
   position:absolute;
   z-index: 1;
-  top: 130px;
+  top: 60px;
   width: 335px;
   padding: 10px;
   border-radius: 8px;
   left: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.9);
   display:flex;
   justify-content: center;
 }
@@ -284,7 +305,17 @@ input{
   height: 30px;
   margin-right: 10px;
   outline: none;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  background: transparent;
+
 }
 .inputForm > button{
   width: 60px;
+  border:none;
+  border-radius: 8px;
+  background:#8ACEFF;
+  color:#fff;
+  font-weight: 600;
 }

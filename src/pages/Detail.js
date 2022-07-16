@@ -134,50 +134,7 @@ const Detail = () => {
 
   }
 
-  // 목록 누르면 해당 핀 하이라이트
-  const finFocus = (el) => {
-    if (data&&data.length !==0){
-      const options = {
-        center: new kakao.maps.LatLng(el.y, el.x),
-        level: 5,
-      }
-      const map = new kakao.maps.Map(myDetailMap.current, options)
-
-      for (var i = 0; i < el.length; i ++) {
-        // 마커를 생성
-        var marker = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(el[i].y, el[i].x),
-            title : el[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-            place_name : el[i].place_name
-        });
-        displayMarker(el[i] , i)          
-    }
-
-    // 마커찍기 함수
-    function displayMarker(_place , i) {
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(_place.y, _place.x)
-      })
-      
-      kakao.maps.event.addListener(marker, 'click', function () {
-        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name +  '<br/>' + _place.phone + '</div>')
-        infowindow.open(map, marker)
-        setFocus(_place.place_name)
-        const clickedFinPlace = document.getElementById(`selectedPlace${i}`)
-        clickedFinPlace.scrollIntoView({behavior:'smooth',block:'center'})
-      })
-    }
-    } else {
-      const options = {
-        center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-        level: 4,
-      }
-      const map = new kakao.maps.Map(myDetailMap.current, options)
-    }
-  }
+  
 
 
   

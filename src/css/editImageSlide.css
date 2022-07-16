@@ -1,12 +1,10 @@
-.container{
-  display:flex;
+.editContainer{
+  display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  width: 335px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  margin-top: 10px;
+  width: 333px;
   border-radius: 8px;
+  background:rgba(255, 255, 255, 0.9);
+  margin-top: 10px;
   padding: 15px 15px;
   padding-bottom: 35px;
 }
@@ -95,7 +93,7 @@
 } 
 
 ._img{
-  width: 300px;
+  width: 280px;
   flex-shrink: 0;
 }
 
@@ -112,7 +110,7 @@
   left:0;
   width: 300px;
   height: auto;
-  background:#ccc;
+  background:#B6DCFF;
   padding: 5px 0;
   border-radius: 5px;
   font-size: 12px;

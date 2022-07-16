@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React from "react";
 import '../css/priceModal.css'
 
 const PriceModal = (props) => {
@@ -21,7 +21,8 @@ const PriceModal = (props) => {
           {price.map((v,i)=>{
             return(
               <div className='prices' key={i}
-              style={selectedPrice === v ? {background:'skyblue'}: {background:'#fff'}}>
+              style={selectedPrice === v ? {background:'#B6DCFF'}: {background:'#fff'}}
+              >
                 <input type="radio" name="price" value={v} id={v}
                 onChange={isChecked}/>
                 <label htmlFor={v}>

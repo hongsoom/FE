@@ -1,15 +1,15 @@
 import React, {useState, useRef, useEffect} from 'react';
-
-import '../css/imageSlide.css';
+import '../css/editImageSlide.css';
 
 
 // 아이콘
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons'
-// import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, imgs}) => {
+
+
+const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, imgs}) => {
 
   const [place, setPlace] = useState();
   const [img, setImg] = useState(0)
@@ -44,30 +44,19 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
     imgs.push(file)
     // select[index].files.push(file)
     const Url = URL.createObjectURL(file)
-    imgUrl[index].imgUrl.push(Url)
+    imgUrl[0].imgUrl.push(Url)
     setImg(Url)
-      select[index].imgCount = imgUrl[index].imgUrl.length
+    select[select.length-1].imgCount = imgUrl[index].imgUrl.length
 
-      // setSelect((pre)=>{
-      //   const selectList = [...pre]
-      //   const newData = {...Places[i], imgCount:""}
-      //   selectList.push(newData)
-      //   return selectList
-      // })
-    
-    console.log(select)
-    console.log(imgUrl[index].imgUrl.length)
   }
   
-  console.log(imgs)
   
 
 
   return (
-    <div className='container'
-    style={select.length !== 0 ? {display:'flex'}: {display:'none'}}
+    <div className='editContainer'
     >
-      <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div>
+      {/* <div className='imgUploadTitle'>사진을 자랑할 장소를 선택해주세요</div> */}
         {/* 선택 장소 이름들 */}
         <div className='placeNames'>
           {select.map((v,i)=>{
@@ -124,15 +113,15 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
           </div>        
       </div>   
       {/* 사진 업로드 버튼 */}
-        <div className='addButtonWrap'>
+        {/* <div className='addButtonWrap'>
           {select.map((v,i)=>{
             return(
               <div className='addButton' key={i}
               style={place === v.place_name ? {display:'block'}:{display:'none'}}
               >
-                <label htmlFor={`place_name_${i}`}>
+                <label htmlFor={`place_name_${i}`}> */}
                   {/* <FontAwesomeIcon icon={faPlus}/> */}
-                    <div><b>{v.place_name}</b> 사진 추가하기</div>
+                    {/* <div><b>{v.place_name}</b> 사진 추가하기</div>
                 </label>
                 <input type="file" id={`place_name_${i}`} name="uploadImg" accept="image/*" 
                 onChange={(e)=>{loadImg(e, i)}}
@@ -142,10 +131,9 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
             )
           })}
           
-        </div>
-      
+        </div> */}
     </div>
   )
 }
 
-export default ImageSlide
+export default EditImageSlide

@@ -226,7 +226,8 @@ export const addPostDB = (data) => {
 export const modifyPostDB = (data, postId) => {
   return async function (dispatch, getState) {
     await instance
-      .post(`api/post/${postId}`, data, {
+      .put(`api/post/${postId}`, data,
+       {
         headers: {
           // "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
@@ -285,14 +286,16 @@ export const getMypostDB = (size, page, id, desc) => {
   };
 };
 
-export const getMybookmarkDB = () => {
+export const getMybookmarkDB = (size, page, id, desc) => {
   return async function (dispatch) {
-    try {
-      const data = await instance.get("api/user/mybookmark", {
-        headers: {
-          // "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("token"),
-        },
+  try {
+    const data = await instance.get(`api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
+    {
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("token") 
+      },
+
       });
       const newData = data.data;
       dispatch(getmybookmark(newData));
