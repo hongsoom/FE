@@ -59,28 +59,47 @@
     max-height: 325px;
 }
 
-.main-latest-love-content{
+.main-latest-love-content {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
 }
 
-.main-button > button, 
-.main-latest-love-content > p,
-.main-latest-love-content > button > p {
+.main-latest-love-title {
+    display: flex;
+}
+
+.main-latest-love-title > img {
+    width : 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.main-latest-love-title > p {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-}
-
-.main-latest-love-content > p {
     color : #606773;
     margin : 0;
+}
+
+.main-latest-love-select {
+    margin-bottom: 8px;
+}
+
+.main-latest-love-select > select  {
+    border: none;
+    outline: none;
+}
+
+.main-latest-love-select > select > option {
+    background: white;
+    color: black;
 }
 
 .main-filter > button,

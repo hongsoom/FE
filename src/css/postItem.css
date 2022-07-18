@@ -1,20 +1,18 @@
-.mainpost-container {
-    display: flex;
-    max-width: 335px;
-    max-height: 325px;
-    margin : 12px 12px 12px 0;
+.postItem-container {
+    width: 335px;
+    margin : 12px auto;
+}
+
+.postItem-content {
+    width : 100%;
+    position: relative;
+    margin-bottom: 18px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-.mainpost-content {
-    width : 100%;
-    height: 100%;
-    position: relative;
-}
-
-.mainpost-title,
-.mainpost-category {
+.postItem-title,
+.postItem-category {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -22,43 +20,39 @@
     background-color: #FFFFFF;
 }
 
-.mainpost-title {
+.postItem-title {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-.mainpost-category {
+.postItem-category {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 
-.mainpost-categorybutton {
-    width : 335px;
-}
-
-.mainpost-user,
-.mainpost-button,
-.mainpost-heart {
+.postItem-user,
+.postItem-heart {
     display: flex;
     flex-direction: row;
 }
 
-.mainpost-user > img {
+.postItem-user > img {
     width : 40px;
     height : 40px;
     border-radius: 50%;
     margin: 7px;
 }
 
-.mainpost-user > a > p,
-.mainpost-button > button,
-.mainpost-heart > p {
+.postItem-user > a > p,
+.postItem-area-button-content > button,
+.postItem-theme-button-content > button
+.postItem-heart > p {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
 }
 
-.mainpost-user > a > p {
+.postItem-user > a > p {
     width : 200px;
     height : 20px;
     font-size: 14px;
@@ -67,41 +61,41 @@
     margin: 16px 5px;
 }
 
-.mainpost-click {
+.postItem-click {
     display: flex;
 }
 
-.mainpost-shareicon {
-    width : 15px;
-    height: 16px;
-    margin-top: 19px;
-}
-
-.mainpost-click > button > img {
+.postItem-click > button > img {
     margin: 18px 5px;
     cursor: pointer;
 }
 
-.mainpost-bookmarkicon {
+.postItem-shareicon {
+    width : 15px;
+    height: 16px;
+    margin-top: 19.5px;
+}
+
+.postItem-bookmarkicon {
     width : 13px;
     height: 17px;
 }
 
-.mainpost-categorybutton {
+.postItem-categorybutton {
     width : 255px ;
 }
 
-.mainpost-area-button-content, 
-.mainpost-theme-button-content,
-.mainpost-price-button-content {
+.postItem-area-button-content, 
+.postItem-theme-button-content, 
+.postItem-price-button-content {
     width : 70px !important;
     height: 28px !important;
     margin-right: 15px !important;
 }
 
-.mainpost-area-button-content > button,
-.mainpost-theme-button-content > button,
-.mainpost-price-button-content > button {
+.postItem-area-button-content > button,
+.postItem-theme-button-content > button,
+.postItem-price-button-content > button {
     width : 70px;
     height: 28px;
     background-color: #8ACEFF;
@@ -112,21 +106,22 @@
     line-height: 20px;
     cursor: pointer;
     color: #F5F9FF;
+    text-align: center;
 }
 
-.mainpost-area-button,
-.mainpost-theme-button,
-.mainpost-price-button {
+.postItem-area-button,
+.postItem-theme-button,
+.postItem-price-button {
     margin : 12px 0 12px 8px;
 }
 
-.mainpost-click > button,
-.mainpost-heart > button {
+.postItem-click > button,
+.postItem-heart > button {
     border: none;
     background-color: transparent;
 }
 
-.mainpost-heart > button > img {
+.postItem-heart > button > img {
     position : absolute;
     right : 30px;
     bottom: 19px;
@@ -134,7 +129,7 @@
     cursor: pointer;
 }
 
-.mainpost-heart > p {
+.postItem-heart > p {
     position : absolute;
     right : 5px;
     bottom: 5.5px;
