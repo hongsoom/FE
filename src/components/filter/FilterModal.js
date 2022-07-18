@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/filterModal.css";
 
 const FilterModal = (props) => {
+  const { search } = useLocation();
+
   const {
     onClick,
     region,
@@ -29,6 +31,21 @@ const FilterModal = (props) => {
     "40만원대",
     "50만원 이상",
   ];
+  /* 
+  const makeQueryString = () => {
+    const queryString = themeSelect
+      .map(({ id, content }) => {
+        return sortType === "category" || sortType === "types"
+          ? `${sortType}_id=${parseInt(id) + 1}`
+          : `${sortType}=${content}`;
+      })
+      .map((item, idx) => {
+        return idx === 0 ? item : "&" + item;
+      })
+      .join("");
+
+    navigate(`?${queryString}`);
+  }; */
 
   return (
     <>
@@ -80,7 +97,7 @@ const FilterModal = (props) => {
                                     (button) => button !== theme
                                   )
                                 );
-                            navigate("/category/" + `${theme}`);
+                            navigate("/" + `${theme}`);
                           }}
                           className={
                             themeClick.includes(theme)
@@ -112,7 +129,7 @@ const FilterModal = (props) => {
                             !priceSelect.includes(price)
                               ? setPriceSelect(price)
                               : setPriceSelect("");
-                            navigate("/category/" + `${price}`);
+                            navigate("/" + `${price}`);
                           }}
                           className={
                             priceSelect.includes(price)

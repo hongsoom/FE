@@ -32,9 +32,11 @@ const initialState = {
   bookmarkchecked: false,
   last: false,
   postId: "",
+  isLoading: false,
 };
 
-const ALLGET = "post/ALLGET";
+const LOADING = "loading";
+const KEYWORDGET = "post/KEYWORDGET";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
@@ -50,7 +52,8 @@ const CLEAR = "post/CLEAR";
 const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
-const allGet = createAction(ALLGET, (newList) => ({ newList }));
+const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
+const keywordGet = createAction(KEYWORDGET, (newList) => ({ newList }));
 const arrayGet = createAction(ARRAYGET, (newList) => ({ newList }));
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkList) => ({
   bookmarkList,
@@ -76,7 +79,7 @@ const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
   mybookmarks,
 }));
 
-const allGetDB = (page, size, keyword) => {
+const keywordGetDB = (page, size, keyword) => {
   return async function (dispatch) {
     try {
       const response = await instance.get(
@@ -86,7 +89,7 @@ const allGetDB = (page, size, keyword) => {
       const newList = response.data.content;
       const lastInfo = response.data.last;
       console.log("키워드", response);
-      dispatch(allGet(newList));
+      dispatch(keywordGet(newList));
       dispatch(lastGet(lastInfo));
     } catch (error) {
       console.log(error);
@@ -226,8 +229,7 @@ export const addPostDB = (data) => {
 export const modifyPostDB = (data, postId) => {
   return async function (dispatch, getState) {
     await instance
-      .put(`api/post/${postId}`, data,
-       {
+      .put(`api/post/${postId}`, data, {
         headers: {
           // "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
@@ -288,15 +290,16 @@ export const getMypostDB = (size, page, id, desc) => {
 
 export const getMybookmarkDB = (size, page, id, desc) => {
   return async function (dispatch) {
-  try {
-    const data = await instance.get(`api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
-    {
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        Authorization: localStorage.getItem("token") 
-      },
-
-      });
+    try {
+      const data = await instance.get(
+        `api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
+        {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       const newData = data.data;
       dispatch(getmybookmark(newData));
       console.log(newData);
@@ -311,14 +314,21 @@ export const getMybookmarkDB = (size, page, id, desc) => {
 
 export default handleActions(
   {
-    [ALLGET]: (state, action) =>
+    [LOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.isLoading = action.payload.isLoading;
+      }),
+
+    [KEYWORDGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.isLoading = false;
       }),
 
     [ARRAYGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.isLoading = false;
       }),
 
     [BOOKMARKGET]: (state, action) =>
@@ -329,6 +339,7 @@ export default handleActions(
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.isLoading = false;
       }),
 
     [LASTPAGE]: (state, action) =>
@@ -416,7 +427,7 @@ const userAction = {
   clickBookmarkDB,
   clearDB,
   filterGETDB,
-  allGetDB,
+  keywordGetDB,
   getPostDB,
   addPostDB,
   modifyPostDB,
