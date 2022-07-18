@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
-import "../../css/keywordPost.css";
+import "../../css/postItem.css";
 
 const SearchPost = (props) => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const SearchPost = (props) => {
   const { page, size, keyword, posts, last, isLoading } = props;
 
   return (
-    <div className="keywordpost-container" ref={contentDivRef}>
+    <div className="postItem-container" ref={contentDivRef}>
       <InfinityScroll
         callNext={() => {
           dispatch(userAction.keywordGetDB(page, size, keyword));
