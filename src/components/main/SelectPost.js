@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
+import "../../css/postItem.css";
 
 const SelectPost = (props) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const SelectPost = (props) => {
   } = props;
 
   return (
-    <div className="optionpost-container" ref={contentDivRef}>
+    <div className="postItem-container" ref={contentDivRef}>
       <InfinityScroll
         callNext={() => {
           dispatch(
