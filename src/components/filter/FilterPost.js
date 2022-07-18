@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
-import "../../css/categoryPost.css";
 
 const FilterPost = (props) => {
   const dispatch = useDispatch();
