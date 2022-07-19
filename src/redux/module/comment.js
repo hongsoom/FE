@@ -41,7 +41,6 @@ export const addCommentDB = (postId, comment) => {
         instance
           .get(`api/post/${postId}`)
           .then((response) => {
-            console.log(response);
             const commentList = response.data.body.comments;
             dispatch(addComment(commentList));
           })
@@ -61,8 +60,6 @@ export const deleteCommentDB = (commentId) => {
     await instance
       .delete(`api/comment/${commentId}`)
       .then((response) => {
-        console.log(response);
-
         dispatch(deleteComment(commentId));
       })
       .catch((error) => {

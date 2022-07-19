@@ -1,85 +1,92 @@
-import React, { useState } from "react";
-import Header from "../components/common/Header";
-import Sharing from "../components/common/Sharing";
-import MainPost from "../components/post/MainPost";
-import OptionPost from "../components/post/OptionPost";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../redux/module/post";
+import Header from "../components/share/Header";
+import FilterButton from "../components/filter/FilterButton";
+import BookmarkPost from "../components/main/BookmarkPost";
+import SelectPost from "../components/main/SelectPost";
+import SearchWrite from "../components/search/SearchWrite";
 import "../css/main.css";
-import downArrow from "../assets/downArrow.png";
+import smaillogo from "../assets/logosky.png";
 
 const size = 5;
 
 const Main = () => {
+  const dispatch = useDispatch();
+
   const recommendList = ["서울", "호캉스", "힐링"];
+
+  const posts = useSelector((state) => state.post.contents);
+  const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
+  const last = useSelector((state) => state.post.last);
+  const isLoading = useSelector((state) => state.post.isLoading);
 
   const [page, setPage] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [direction, setDirection] = useState("desc");
-  const [id, setId] = useState("id");
   const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");
-  const [loveCount, setLoveCount] = useState("loveCount");
 
-  const [filterClick, setFilterClick] = useState(false);
-  const [themeClick, setThemeClick] = useState([]);
-  const [priceClick, setPriceClick] = useState("");
+  const [sortby, setSortby] = useState("id");
 
-  const onFilterClick = () => {
-    setFilterClick(!filterClick);
+  const onChangeSort = (e) => {
+    const clickedSort = e.target.value;
+    setSortby(clickedSort);
   };
+
+  const onSortPost = () => {
+    dispatch(userAction.arrayGetDB(keyword, page, size, sortby, direction));
+  };
+
+  const loadfirstPost = () => {
+    dispatch(
+      userAction.bookmarkGetDB(keyword, page, size, direction, bookmarkCount)
+    );
+  };
+
+  useEffect(() => {
+    onSortPost();
+    return () => {
+      dispatch(userAction.clearDB());
+    };
+  }, [sortby]);
+
+  useEffect(() => {
+    loadfirstPost();
+  }, []);
 
   return (
     <>
       <Header />
-      <Sharing
-        recommendList={recommendList}
-        setPriceClick={setPriceClick}
-        priceClick={priceClick}
-        setThemeClick={setThemeClick}
-        themeClick={themeClick}
-      />
+      <SearchWrite />
+      <FilterButton recommendList={recommendList} />
       <div className="main-container">
         <div className="main-content">
-          <MainPost
-            bookmarkCount={bookmarkCount}
-            keyword={keyword}
-            direction={direction}
-            page={page}
-            setPage={setPage}
-          />
+          <BookmarkPost bookmarkcontents={bookmarkcontents} />
           <div className="main-latest-love-container">
             <div className="main-latest-love-content">
-              <p>다른 회원님의 경로를 확인해보세요</p>
-              <button onClick={onFilterClick}>
-                {filterClick ? (
-                  <p>
-                    최신순
-                    <img src={downArrow} alt="downArrow" />
-                  </p>
-                ) : (
-                  <p>
-                    인기순
-                    <img src={downArrow} alt="downArrow" />
-                  </p>
-                )}
-              </button>
+              <div className="main-latest-love-title">
+                <img src={smaillogo} alt="smaillogo" />
+                <p>다른 회원님의 경로를 확인해보세요</p>
+              </div>
+              <div className="main-latest-love-select">
+                <select onChange={(e) => onChangeSort(e)}>
+                  <option value="id">최신순</option>
+                  <option value="loveCount">인기순</option>
+                </select>
+              </div>
             </div>
             <div className="main-latest-love-component">
-              {filterClick ? (
-                <OptionPost
-                  loveCount={loveCount}
-                  keyword={keyword}
-                  direction={direction}
-                  page={page}
-                  setPage={setPage}
-                />
-              ) : (
-                <OptionPost
-                  id={id}
-                  keyword={keyword}
-                  direction={direction}
-                  page={page}
-                  setPage={setPage}
-                />
-              )}
+              <SelectPost
+                setPage={setPage}
+                keyword={keyword}
+                sortby={sortby}
+                direction={direction}
+                size={size}
+                page={page}
+                posts={posts}
+                last={last}
+                isLoading={isLoading}
+              />
             </div>
           </div>
         </div>

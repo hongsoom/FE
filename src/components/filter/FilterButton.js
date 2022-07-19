@@ -11,16 +11,13 @@ const Sharing = (props) => {
     list,
     region,
     themeSelect,
-    priceSelect,
+    price,
     setThemeSelect,
-    setPriceSelect,
-    setPriceClick,
-    priceClick,
-    setThemeClick,
-    themeClick,
+    setPrice,
   } = props;
 
   const is_List = recommendList ? true : false;
+  const is_price = price ? true : false;
 
   const [modal, setModal] = useState(false);
 
@@ -35,13 +32,9 @@ const Sharing = (props) => {
           onClick={onClick}
           region={region}
           themeSelect={themeSelect}
-          priceSelect={priceSelect}
+          price={price}
           setThemeSelect={setThemeSelect}
-          setPriceSelect={setPriceSelect}
-          setPriceClick={setPriceClick}
-          priceClick={priceClick}
-          setThemeClick={setThemeClick}
-          themeClick={themeClick}
+          setPrice={setPrice}
         />
       ) : null}
       {is_List === true ? (
@@ -49,10 +42,7 @@ const Sharing = (props) => {
           <div className="main-click">
             <div className="main-button">
               {recommendList.map((list, i) => (
-                <button
-                  key={i}
-                  onClick={() => navigate("/category/" + `${list}`)}
-                >
+                <button key={i} onClick={() => navigate("/" + `${list}`)}>
                   #{list}
                 </button>
               ))}
@@ -72,7 +62,8 @@ const Sharing = (props) => {
               {themeSelect.map((list, i) => (
                 <button key={i}>#{list}</button>
               ))}
-              {priceSelect ? <button>#{priceSelect}</button> : null}
+
+              {is_price ? <button>#{price}</button> : null}
             </div>
             <div className="category-filter">
               <button onClick={onClick}>

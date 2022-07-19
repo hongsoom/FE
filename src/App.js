@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MyPage from "./pages/Mypage";
 import Setup from "./pages/Setup";
-import Category from "./pages/Category";
+import FilterSearch from "./pages/FilterSearch";
 import KakaoSocial from "./pages/KakaoSocial";
 import Main from "./pages/Main";
 
@@ -22,8 +22,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
-        <Route path="/category/:keyword" element={<Category />} />
-        <Route path="/category/:keyword/detail/:id" element={<Detail />} />
+        <Route path="/:keyword" element={<FilterSearch />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>
