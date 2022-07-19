@@ -22,7 +22,7 @@ const Mypage = () => {
   const [direction, setDirection] = useState("desc");
   const [id, setId] = useState("id");
 
-  const [tabState, setTabState] = useState(true)
+  const [tabState, setTabState] = useState(true);
 
   // ----------------- 나의 정보 / 나의 게시글 가져오기
 
@@ -32,15 +32,16 @@ const Mypage = () => {
 
   useEffect(() => {
     dispatch(getMypostDB(size, page, id, direction));
-    dispatch(getMybookmarkDB());
+    dispatch(getMybookmarkDB(size, page, id, direction));
   }, []);
 
   const myInfo = useSelector((state) => state.user.myinfo);
   const myPosts = useSelector((state) => state.post.myposts);
   console.log(myPosts);
   console.log(myInfo);
-  const myMarks = useSelector(state=>state.post.mybookmarks)
 
+  const myMarks = useSelector((state) => state.post.mybookmarks);
+  console.log(myMarks);
 
   // ---------------------------------------------------
 
@@ -121,7 +122,6 @@ const Mypage = () => {
 
         {/* 게시글 */}
         <div className="myprofilePosts">
-          
           <div className="myprofilePostsTitle">
             <div
               className="myPostsTitle"
@@ -131,13 +131,14 @@ const Mypage = () => {
                   : { borderBottom: "2px solid transparent" }
               }
             >
-
-              <input type="radio" name="myPost" value="myPosts" id="myPosts"
-              onChange={isChecked}
+              <input
+                type="radio"
+                name="myPost"
+                value="myPosts"
+                id="myPosts"
+                onChange={isChecked}
               />
-              <label htmlFor="myPosts">
-                내가 쓴 글
-              </label>
+              <label htmlFor="myPosts">내가 쓴 글</label>
             </div>
             <div
               className="myBookmarkTitle"
@@ -147,97 +148,93 @@ const Mypage = () => {
                   : { borderBottom: "2px solid transparent" }
               }
             >
-
-              <input type="radio" name="myPost" value="myBookmark" id="myBookmark"
-              onChange={isChecked}
+              <input
+                type="radio"
+                name="myPost"
+                value="myBookmark"
+                id="myBookmark"
+                onChange={isChecked}
               />
-              <label htmlFor="myBookmark">
-                즐겨찾기
-              </label>
+              <label htmlFor="myBookmark">즐겨찾기</label>
             </div>
           </div>
 
-        <div className="postsNmarks">
-        {toggle === 'myPosts' ? 
-          <div className="myPosts">
-            <div className="postboxs">
-              {myPosts &&
-                myPosts.myposts.map((v, i) => {
-                  return (
-                    <div
-                      className="postbox"
-                      key={i}
-                      style={{
-                        backgroundImage: `url(${v.imgUrl})`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                      }}
-                    >
-                      <div className="txtArea">
-                        <div className="postBoxTitle">{v.title}</div>
-                        <div className="myPostDetail">
-                          <div className="myPostTag">
-                            <div>#{v.regionCategory}</div>
-                            {v.themeCategory.map((v, i) => {
-                              return <div key={i}>#{v.themeCategory}</div>;
-                            })}
-                          </div>
-                          <div className="myPostIcons">
-                            <img src={talkwhite} alt="댓글 갯수" />
-                            {v.commentCount}
-                            <img src={heartwhite} alt="댓글 갯수" />
-                            {v.loveCount}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-
-          :
-        
-
-          <div className="myBookmarks" id="myBookmarks">
-            <div className="postboxs">
-              {myMarks&&myMarks.mybookmarks.content.map((v,i)=>{
-                return(
-                  <div className="postbox" key={i}
-                  style={{backgroundImage:`url(${v.imgUrl})`, backgroundPosition:'center' , backgroundSize:'cover'}}
-                  >
-                    <div className="txtArea">
-                      <div className="postBoxTitle">{v.title}</div>
-                      <div className="myPostDetail">
-                        <div className="myPostTag">
-                          <div>
-                          #{v.regionCategory}
-                          </div>
-                          {v.themeCategory.map((v,i)=>{
-                            return (
-                              <div key={i}>
-                              #{v.themeCategory}
+          <div className="postsNmarks">
+            {toggle === "myPosts" ? (
+              <div className="myPosts">
+                <div className="postboxs">
+                  {myPosts &&
+                    myPosts.myposts.map((v, i) => {
+                      return (
+                        <div
+                          className="postbox"
+                          key={i}
+                          style={{
+                            backgroundImage: `url(${v.imgUrl})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          <div className="txtArea">
+                            <div className="postBoxTitle">{v.title}</div>
+                            <div className="myPostDetail">
+                              <div className="myPostTag">
+                                <div>#{v.regionCategory}</div>
+                                {v.themeCategory.map((v, i) => {
+                                  return <div key={i}>#{v.themeCategory}</div>;
+                                })}
                               </div>
-                            )
-                          })}
-                          
+                              <div className="myPostIcons">
+                                <img src={talkwhite} alt="댓글 갯수" />
+                                {v.commentCount}
+                                <img src={heartwhite} alt="댓글 갯수" />
+                                {v.loveCount}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="myPostIcons">
-                          <img src={talkwhite} alt='댓글 갯수'/>
-                          {v.commentCount}
-                          <img src={heartwhite} alt='댓글 갯수'/>
-                          {v.loveCount}
+                      );
+                    })}
+                </div>
+              </div>
+            ) : (
+              <div className="myBookmarks" id="myBookmarks">
+                <div className="postboxs">
+                  {myMarks &&
+                    myMarks.mybookmarks.content.map((v, i) => {
+                      return (
+                        <div
+                          className="postbox"
+                          key={i}
+                          style={{
+                            backgroundImage: `url(${v.imgUrl})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          <div className="txtArea">
+                            <div className="postBoxTitle">{v.title}</div>
+                            <div className="myPostDetail">
+                              <div className="myPostTag">
+                                <div>#{v.regionCategory}</div>
+                                {v.themeCategory.map((v, i) => {
+                                  return <div key={i}>#{v.themeCategory}</div>;
+                                })}
+                              </div>
+                              <div className="myPostIcons">
+                                <img src={talkwhite} alt="댓글 갯수" />
+                                {v.commentCount}
+                                <img src={heartwhite} alt="댓글 갯수" />
+                                {v.loveCount}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-              
-              
-            </div>
-          </div>
-          }
+                      );
+                    })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

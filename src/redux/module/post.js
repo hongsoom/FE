@@ -28,21 +28,21 @@ const initialState = {
   restroom: "",
   contents: [],
   bookmarkcontents: [],
-  lovechecked: false,
-  bookmarkchecked: false,
-  last: false,
   postId: "",
   isLoading: false,
+  paging: {
+    start: "",
+    next: "",
+  },
 };
 
-const LOADING = "loading";
+const LOADING = "post/LOADING";
 const KEYWORDGET = "post/KEYWORDGET";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
-const LASTPAGE = "post/LASTPAGE";
 const GETLIST = "post/GETLIST";
 const GET = "post/GET";
 const ADD = "post/ADD";
@@ -53,12 +53,21 @@ const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
-const keywordGet = createAction(KEYWORDGET, (newList) => ({ newList }));
-const arrayGet = createAction(ARRAYGET, (newList) => ({ newList }));
-const bookmarkGet = createAction(BOOKMARKGET, (bookmarkList) => ({
-  bookmarkList,
+const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
+  newList,
+  paging,
 }));
-const filterGET = createAction(FILTERGET, (newList) => ({ newList }));
+const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
+  newList,
+  paging,
+}));
+const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
+  bookmarkcontents,
+}));
+const filterGET = createAction(FILTERGET, (newList, paging) => ({
+  newList,
+  paging,
+}));
 const clickLove = createAction(LOVE, (lovechecked, Id) => ({
   lovechecked,
   Id,
@@ -67,7 +76,6 @@ const clickBookmark = createAction(BOOKMARK, (bookmarkchecked, Id) => ({
   bookmarkchecked,
   Id,
 }));
-const lastGet = createAction(LASTPAGE, (last) => ({ last }));
 const getPostList = createAction(GET, (postList) => ({ postList }));
 const getPost = createAction(GET, (postOne) => ({ postOne }));
 const addPost = createAction(ADD, (post) => ({ post }));
@@ -79,36 +87,79 @@ const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
   mybookmarks,
 }));
 
-const keywordGetDB = (page, size, keyword) => {
+const keywordGetDB = (keyword, pageno, size) => {
+  console.log(keyword, pageno, size);
   return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    if (pageno === "") {
+      page = 0;
+    } else {
+      page = pageno;
+    }
+
     try {
       const response = await instance.get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}`
       );
-
-      const newList = response.data.content;
-      const lastInfo = response.data.last;
       console.log("키워드", response);
-      dispatch(keywordGet(newList));
-      dispatch(lastGet(lastInfo));
+      const newList = response.data.content;
+      const lastpage = response.data.last;
+      console.log(lastpage);
+
+      let paging = {};
+      if (lastpage) {
+        paging = {
+          start: 0,
+          lastpage: lastpage,
+        };
+      } else {
+        paging = {
+          start: page + 1,
+          lastpage: lastpage,
+        };
+      }
+      dispatch(keywordGet(newList, paging));
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-const filterGETDB = (region, price, theme, size, page) => {
+const filterGETDB = (region, price, theme, pageno, size) => {
+  console.log(region, price, theme, pageno, size);
   return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    if (pageno === "") {
+      page = 0;
+    } else {
+      page = pageno;
+    }
+
     try {
       const response = await instance.get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       );
       console.log("필터", response);
       const newList = response.data.content;
-      const lastInfo = response.data.last;
+      const lastpage = response.data.last;
+      console.log(lastpage);
 
-      dispatch(filterGET(newList));
-      dispatch(lastGet(lastInfo));
+      let paging = {};
+      if (lastpage) {
+        paging = {
+          start: 0,
+          lastpage: lastpage,
+        };
+      } else {
+        paging = {
+          start: page + 1,
+          lastpage: lastpage,
+        };
+      }
+
+      dispatch(filterGET(newList, paging));
     } catch (error) {
       console.log(error);
     }
@@ -122,8 +173,8 @@ const bookmarkGetDB = (keyword, page, size, desc, bookmarkCount) => {
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${bookmarkCount},${desc}`
       )
       .then((response) => {
-        const bookmarkList = response.data.content;
-        dispatch(bookmarkGet(bookmarkList));
+        const bookmarkcontents = response.data.content;
+        dispatch(bookmarkGet(bookmarkcontents));
         console.log("북마크 순 정렬", response);
       })
       .catch((error) => {
@@ -132,8 +183,17 @@ const bookmarkGetDB = (keyword, page, size, desc, bookmarkCount) => {
   };
 };
 
-const arrayGetDB = (keyword, page, size, sort, desc) => {
+const arrayGetDB = (keyword, pageno, size, sort, desc) => {
+  console.log(pageno);
   return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    if (pageno === "") {
+      page = 0;
+    } else {
+      page = pageno;
+    }
+
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -141,10 +201,25 @@ const arrayGetDB = (keyword, page, size, sort, desc) => {
       .then((response) => {
         console.log("최신순, 좋아요 순 정렬", response);
         const newList = response.data.content;
-        const lastInfo = response.data.last;
+        const lastpage = response.data.last;
+        console.log(lastpage);
 
-        dispatch(arrayGet(newList));
-        dispatch(lastGet(lastInfo));
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            start: 0,
+            lastpage: lastpage,
+          };
+        } else {
+          paging = {
+            start: page + 1,
+            lastpage: lastpage,
+          };
+        }
+
+        console.log(paging);
+
+        dispatch(arrayGet(newList, paging));
       })
       .catch((error) => {
         console.log(error);
@@ -154,16 +229,17 @@ const arrayGetDB = (keyword, page, size, sort, desc) => {
 
 const clickLoveDB = (postId) => {
   return async function (dispatch) {
-    try {
-      const response = await instance.post(`api/love/${postId}`);
-      console.log("좋아요 api", response);
-      const lovechecked = response.data.trueOrFalse;
-      const Id = response.data.postId;
-
-      dispatch(clickLove(lovechecked, Id));
-    } catch (error) {
-      console.log(error);
-    }
+    await instance
+      .post(`api/love/${postId}`)
+      .then((response) => {
+        console.log("좋아요 api", response);
+        const lovechecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+        dispatch(clickLove(lovechecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -322,29 +398,27 @@ export default handleActions(
     [KEYWORDGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
         draft.isLoading = false;
       }),
 
     [ARRAYGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
         draft.isLoading = false;
       }),
 
     [BOOKMARKGET]: (state, action) =>
       produce(state, (draft) => {
-        draft.bookmarkcontents = [...action.payload.bookmarkList];
+        draft.bookmarkcontents = [...action.payload.bookmarkcontents];
       }),
 
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
         draft.isLoading = false;
-      }),
-
-    [LASTPAGE]: (state, action) =>
-      produce(state, (draft) => {
-        draft.last = action.payload.last;
       }),
 
     [GETLIST]: (state, action) => {
@@ -402,14 +476,34 @@ export default handleActions(
 
     [LOVE]: (state, action) =>
       produce(state, (draft) => {
-        draft.lovechecked = action.payload.lovechecked;
-        draft.postId = action.payload.Id;
+        if (action.payload.lovechecked) {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.loveStatus = true;
+            post.loveCount = +1;
+          });
+        } else {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.loveStatus = false;
+            post.loveCount -= 1;
+          });
+        }
       }),
 
     [BOOKMARK]: (state, action) =>
       produce(state, (draft) => {
-        draft.bookmarkchecked = action.payload.bookmarkchecked;
-        draft.postId = action.payload.Id;
+        if (action.payload.bookmarkchecked) {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = true;
+          });
+        } else {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
+        }
       }),
 
     [CLEAR]: (state, action) =>

@@ -1,7 +1,33 @@
+.swiper {
+    margin-left: 0;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    position: relative;
+    height: auto;
+    transition-property: transform;
+}
+
+.postItem-box {
+    
+}
+
 .postItem-container {
     width: 335px;
     margin : 12px auto;
+    overflow-y: scroll;
 }
+
+.postItem-container::-webkit-scrollbar {
+    display: none;
+} 
 
 .postItem-content {
     width : 100%;
