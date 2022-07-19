@@ -117,7 +117,7 @@ const Detail = () => {
       
       kakao.maps.event.addListener(marker, 'click', function () {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1, removable: true })
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name +  '<br/>' + _place.phone + '</div>')
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name +  '<br/>' + _place.phone + `<a href= 	kakaomap://route?sp=37.537229,127.005515&ep=37.4979502,127.0276368&by=CAR style="color:blue" target="_blank">카카오길찾기</a></div>`)
         infowindow.open(map, marker)
         setFocus(_place.place_name)
         const clickedFinPlace = document.getElementById(`selectedPlace${i}`)
@@ -186,21 +186,23 @@ const Detail = () => {
             <div className='nick'>
               {data&&data.nickname&& data.nickname}
             </div>
-            <div className='themeNprice'>
+            <div className='profileTags'>
+              <div className='themeNprice'>
                 <div className='regionCategory'>
-                  {data && data.regionCategory}
+                  #{data && data.regionCategory}
                 </div>
                   {data && data.themeCategory.map((v,i)=>{
                     return(
                       <div className='themeCategory' key={i}>
-                        {v.themeCategory}
+                        #{v.themeCategory}
                       </div>
                     )
                   })}
-                <div className='priceCategory'>
-                  {data && data.priceCategory}
-                </div>
               </div>
+              <div className='priceCategory'>
+                {data && data.priceCategory}
+              </div>
+            </div>
           </div>
         </div>  
 

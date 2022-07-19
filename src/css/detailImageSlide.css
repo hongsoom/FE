@@ -75,7 +75,7 @@
 }
 
 .detailImgContainer{
-  position:relative;
+  position: relative;
   height: 150px;
   display: flex;
   transition: transform 0.5s;
