@@ -2,6 +2,8 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
 
+import swal from 'sweetalert';
+
 const initialState = {
   title: "title",
   content: "게시글 내용 입니다",
@@ -214,7 +216,7 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        window.alert("작성 성공");
+        swal("작성 성공", '', "success");
         window.location.assign("/");
       })
       .catch((error) => {
