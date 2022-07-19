@@ -22,12 +22,13 @@ const Mypage = () => {
   const [direction, setDirection] = useState("desc");
   const [id, setId] = useState("id");
 
-  const [tabState, setTabState] = useState(true)
+  const [tabState, setTabState] = useState(true);
 
   // ----------------- 나의 정보 / 나의 게시글 가져오기
+
+
   useEffect(()=>{
     dispatch(userAction.myInfoDB())
-    
   },[dispatch])
 
   useEffect(()=>{
@@ -44,6 +45,7 @@ const Mypage = () => {
   const myPosts = useSelector(state=>state.post.myposts)
   const myMarks = useSelector(state=>state.post.mybookmarks)
   console.log(myMarks)
+
   // ---------------------------------------------------
 
   
@@ -105,29 +107,28 @@ const Mypage = () => {
 
         {/* 게시글 */}
         <div className="myprofilePosts">
-          
           <div className="myprofilePostsTitle">
             <div className="myPostsTitle"
             style={toggle === "myPosts" ? {borderBottom:'2px solid #8ACEFF', fontWeight:'600'}:{borderBottom:'2px solid transparent'}}
             >
-              <input type="radio" name="myPost" value="myPosts" id="myPosts"
-              onChange={isChecked}
-              />
-              <label htmlFor="myPosts">
-                내가 쓴 글
-              </label>
-            </div>
-            <div className="myBookmarkTitle" 
-            style={toggle === "myBookmark" ? {borderBottom:'2px solid #8ACEFF', fontWeight:'600'}:{borderBottom:'2px solid transparent'}}
-            >
+
+
+
+              <input
+                type="radio"
+                name="myPost"
+                value="myBookmark"
+                id="myBookmark"
+                onChange={isChecked}
+
               <input type="radio" name="myPost" value="myBookmark" id="myBookmark"
               onChange={isChecked}
+
               />
-              <label htmlFor="myBookmark">
-                즐겨찾기
-              </label>
+              <label htmlFor="myBookmark">즐겨찾기</label>
             </div>
           </div>
+
 
         <div className="postsNmarks">
         {toggle === 'myPosts' ? 
@@ -160,6 +161,8 @@ const Mypage = () => {
                           <img src={heartwhite} alt='댓글 갯수'/>
                           {v.loveCount}
                         </div>
+
+
                       </div>
                     </div>
                   </div>
@@ -191,27 +194,22 @@ const Mypage = () => {
                             return (
                               <div key={i}>
                               #{v.themeCategory}
+
                               </div>
-                            )
-                          })}
-                          
+                              <div className="myPostIcons">
+                                <img src={talkwhite} alt="댓글 갯수" />
+                                {v.commentCount}
+                                <img src={heartwhite} alt="댓글 갯수" />
+                                {v.loveCount}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="myPostIcons">
-                          <img src={talkwhite} alt='댓글 갯수'/>
-                          {v.commentCount}
-                          <img src={heartwhite} alt='댓글 갯수'/>
-                          {v.loveCount}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-              
-              
-            </div>
-          </div>
-          }
+                      );
+                    })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
