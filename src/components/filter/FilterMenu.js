@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../css/categoryMenu.css";
+import "../../css/filterMenu.css";
 
-const CategoryMenu = ({ onClick }) => {
+const FilterMenu = ({ onClick }) => {
   const navigate = useNavigate();
 
   const area = [
@@ -46,4 +46,4 @@ const CategoryMenu = ({ onClick }) => {
   );
 };
 
-export default CategoryMenu;
+export default FilterMenu;

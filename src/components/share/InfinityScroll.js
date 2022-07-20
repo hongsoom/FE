@@ -1,59 +1,34 @@
-import React, { useEffect, useRef, forwardRef, useCallback } from "react";
-import _ from "lodash";
+import React, { useEffect } from "react";
 import Spinner from "./SpinnerSmail";
 
-const InfinityScroll = forwardRef((props, ref) => {
-  const { children, callNext, is_next, loading, setPage, page } = props;
+const InfinityScroll = (props) => {
+  const { children, callNext, is_next, loading } = props;
 
-  let container;
-  useEffect(() => {
-    container = ref.current;
-  }, [callNext]);
-
-  const _handleScroll = _.throttle(() => {
-    if (loading) {
+  const handleScroll = (e) => {
+    if (!is_next) {
       return;
     }
-    console.log("실행?");
-    const clientHeight = container.clientHeight;
-    const scrollTop = container.scrollTop;
-    const scrollHeight = container.scrollHeight;
 
-    if (scrollHeight - clientHeight - scrollTop < 150) {
+    if (
+      window.innerHeight + e.target.documentElement.scrollTop + 1 >
+      e.target.documentElement.scrollHeight
+    ) {
       callNext();
-      setPage(page + 1);
     }
-  }, 1000);
-
-  const handleScroll = useCallback(_handleScroll, [loading]);
+  };
 
   useEffect(() => {
     if (loading) {
       return;
     }
-    if (!is_next && container !== undefined) {
-      container.addEventListener("scroll", handleScroll);
-    } else if (is_next && container !== undefined) {
-      container.removeEventListener("scroll", handleScroll);
-    }
-    if (container !== undefined) {
-      return () => container.removeEventListener("scroll", handleScroll);
-    }
-  }, [is_next, loading]);
 
-  return (
-    <React.Fragment>
-      {children}
-      {is_next && <Spinner />}
-    </React.Fragment>
-  );
-});
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-InfinityScroll.defaultProps = {
-  children: null,
-  callNext: () => {},
-  is_next: false,
-  loading: false,
+  return <React.Fragment>{children}</React.Fragment>;
 };
 
 export default InfinityScroll;

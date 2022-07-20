@@ -18,14 +18,16 @@ const Main = () => {
 
   const posts = useSelector((state) => state.post.contents);
   const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
-  const last = useSelector((state) => state.post.last);
   const isLoading = useSelector((state) => state.post.isLoading);
+  const nextPage = useSelector((state) => state.post.paging?.start);
+  const lastPage = useSelector((state) => state.post.paging?.last);
 
-  const [page, setPage] = useState(0);
+  console.log(nextPage);
+  console.log(lastPage);
+
   const [keyword, setKeyword] = useState("");
   const [direction, setDirection] = useState("desc");
   const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");
-
   const [sortby, setSortby] = useState("id");
 
   const onChangeSort = (e) => {
@@ -34,14 +36,24 @@ const Main = () => {
   };
 
   const onSortPost = () => {
-    dispatch(userAction.arrayGetDB(keyword, page, size, sortby, direction));
+    dispatch(userAction.arrayGetDB(keyword, nextPage, size, sortby, direction));
   };
 
   const loadfirstPost = () => {
     dispatch(
-      userAction.bookmarkGetDB(keyword, page, size, direction, bookmarkCount)
+      userAction.bookmarkGetDB(
+        keyword,
+        nextPage,
+        size,
+        direction,
+        bookmarkCount
+      )
     );
   };
+
+  useEffect(() => {
+    loadfirstPost();
+  }, []);
 
   useEffect(() => {
     onSortPost();
@@ -50,10 +62,6 @@ const Main = () => {
     };
   }, [sortby]);
 
-  useEffect(() => {
-    loadfirstPost();
-  }, []);
-
   return (
     <>
       <Header />
@@ -61,7 +69,10 @@ const Main = () => {
       <FilterButton recommendList={recommendList} />
       <div className="main-container">
         <div className="main-content">
-          <BookmarkPost bookmarkcontents={bookmarkcontents} />
+          <BookmarkPost
+            bookmarkcontents={bookmarkcontents}
+            bookmarkCount={bookmarkCount}
+          />
           <div className="main-latest-love-container">
             <div className="main-latest-love-content">
               <div className="main-latest-love-title">
@@ -77,14 +88,13 @@ const Main = () => {
             </div>
             <div className="main-latest-love-component">
               <SelectPost
-                setPage={setPage}
                 keyword={keyword}
                 sortby={sortby}
                 direction={direction}
                 size={size}
-                page={page}
                 posts={posts}
-                last={last}
+                lastPage={lastPage}
+                nextPage={nextPage}
                 isLoading={isLoading}
               />
             </div>

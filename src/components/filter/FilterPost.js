@@ -1,25 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
+import "../../css/postItem.css";
 
 const FilterPost = (props) => {
   const dispatch = useDispatch();
 
-  const contentDivRef = useRef();
-
-  const { page, size, region, price, theme, posts, last, isLoading } = props;
+  const { nextPage, lastPage, size, region, price, theme, posts, isLoading } =
+    props;
 
   return (
-    <div className="categorypost-container" ref={contentDivRef}>
+    <div className="postItem-container">
       <InfinityScroll
         callNext={() => {
-          dispatch(userAction.filterGETDB(region, price, theme, size, page));
+          dispatch(
+            userAction.filterGETDB(region, price, theme, nextPage, size)
+          );
         }}
-        is_next={last ? false : true}
+        is_next={lastPage ? false : true}
         loading={isLoading}
-        ref={contentDivRef}
       >
         {posts &&
           posts.map((list, index) => {

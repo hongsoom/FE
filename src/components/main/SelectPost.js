@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
@@ -8,39 +8,35 @@ import "../../css/postItem.css";
 const SelectPost = (props) => {
   const dispatch = useDispatch();
 
-  const contentDivRef = useRef();
-
   const {
     keyword,
-    page,
     size,
     sortby,
     direction,
     posts,
-    last,
+    nextPage,
+    lastPage,
     isLoading,
-    setPage,
   } = props;
-
+  console.log(nextPage);
   return (
-    <div className="postItem-container" ref={contentDivRef}>
-      <InfinityScroll
-        callNext={() => {
-          dispatch(
-            userAction.arrayGetDB(keyword, page, size, sortby, direction)
-          );
-        }}
-        is_next={last ? false : true}
-        loading={isLoading}
-        ref={contentDivRef}
-        page={page}
-        setPage={setPage}
-      >
-        {posts &&
-          posts.map((list, index) => {
-            return <PostItem key={index} {...list} />;
-          })}
-      </InfinityScroll>
+    <div className="postItem-box">
+      <div className="postItem-container">
+        <InfinityScroll
+          callNext={() => {
+            dispatch(
+              userAction.arrayGetDB(keyword, nextPage, size, sortby, direction)
+            );
+          }}
+          is_next={lastPage ? false : true}
+          loading={isLoading}
+        >
+          {posts &&
+            posts.map((list, index) => {
+              return <PostItem key={index} {...list} />;
+            })}
+        </InfinityScroll>
+      </div>
     </div>
   );
 };

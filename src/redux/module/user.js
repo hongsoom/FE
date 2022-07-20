@@ -33,6 +33,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         password: password,
         passwordCheck: passwordCheck,
       });
+      console.log(response);
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 201) {

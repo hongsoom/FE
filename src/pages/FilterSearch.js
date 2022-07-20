@@ -7,20 +7,20 @@ import FilterButton from "../components/filter/FilterButton";
 import SearchPost from "../components/search/SearchPost";
 import FilterPost from "../components/filter/FilterPost";
 import SearchWrite from "../components/search/SearchWrite";
-import "../css/category.css";
+import "../css/filterSearch.css";
 
 const size = 5;
 
-const Category = () => {
+const FilterSearch = () => {
   const dispatch = useDispatch();
 
   const keyword = useParams().keyword;
+  console.log(keyword);
 
   const posts = useSelector((state) => state.post.contents);
-  const last = useSelector((state) => state.post.last);
   const isLoading = useSelector((state) => state.post.isLoading);
-
-  const [page, setPage] = useState(0);
+  const nextPage = useSelector((state) => state.post.paging?.start);
+  const lastPage = useSelector((state) => state.post.paging?.next);
 
   const [themeSelect, setThemeSelect] = useState([]);
   const [list, setList] = useState(keyword);
@@ -47,26 +47,16 @@ const Category = () => {
         checkHasIncode(region),
         checkHasIncode(price),
         checkHasIncode(theme),
-        size,
-        page
+        nextPage,
+        size
       )
     );
   };
 
   const loadKeywordPost = () => {
     const keyword_ = checkHasIncode(region);
-    dispatch(userAction.keywordGetDB(page, size, keyword_));
+    dispatch(userAction.keywordGetDB(keyword_, nextPage, size));
   };
-
-  useEffect(() => {
-    if (list) {
-      loadKeywordPost();
-    }
-
-    if (region) {
-      loadLatestPost();
-    }
-  }, []);
 
   useEffect(() => {
     if (themeSelect.length > 0) {
@@ -79,6 +69,8 @@ const Category = () => {
   }, [themeSelect]);
 
   useEffect(() => {
+    setList(keyword);
+
     if (
       keyword === "서울" ||
       keyword === "경기" ||
@@ -97,6 +89,15 @@ const Category = () => {
     ) {
       setRegion(keyword);
     }
+
+    if (list) {
+      loadKeywordPost();
+    }
+
+    if (region) {
+      loadLatestPost();
+    }
+
     return () => {
       dispatch(userAction.clearDB());
     };
@@ -120,22 +121,22 @@ const Category = () => {
             {is_list ? (
               <SearchPost
                 posts={posts}
-                last={last}
                 isLoading={isLoading}
                 size={size}
-                page={page}
-                keyword={keyword}
+                nextPage={nextPage}
+                lastPage={lastPage}
+                keyword={checkHasIncode(keyword)}
               />
             ) : (
               <FilterPost
                 posts={posts}
-                last={last}
                 isLoading={isLoading}
                 size={size}
-                page={page}
-                region={region}
-                theme={theme}
-                price={price}
+                nextPage={nextPage}
+                lastPage={lastPage}
+                region={checkHasIncode(region)}
+                theme={checkHasIncode(theme)}
+                price={checkHasIncode(price)}
               />
             )}
           </div>
@@ -145,4 +146,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default FilterSearch;
