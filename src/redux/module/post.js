@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
 
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 const initialState = {
   title: "title",
@@ -34,7 +34,7 @@ const initialState = {
   isLoading: false,
   paging: {
     start: "",
-    next: "",
+    last: "",
   },
 };
 
@@ -45,6 +45,8 @@ const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
+const MAINBOOKMARK = "post/MAINBOOKMARK";
+const MAINLOVE = "post/MAINLOVE";
 const GETLIST = "post/GETLIST";
 const GET = "post/GET";
 const ADD = "post/ADD";
@@ -78,6 +80,14 @@ const clickBookmark = createAction(BOOKMARK, (bookmarkchecked, Id) => ({
   bookmarkchecked,
   Id,
 }));
+const mainLove = createAction(MAINLOVE, (lovechecked, Id) => ({
+  lovechecked,
+  Id,
+}));
+const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
+  bookmarkchecked,
+  Id,
+}));
 const getPostList = createAction(GET, (postList) => ({ postList }));
 const getPost = createAction(GET, (postOne) => ({ postOne }));
 const addPost = createAction(ADD, (post) => ({ post }));
@@ -89,15 +99,15 @@ const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
   mybookmarks,
 }));
 
-const keywordGetDB = (keyword, pageno, size) => {
-  console.log(keyword, pageno, size);
+const keywordGetDB = (keyword, nextPage, size) => {
+  console.log(keyword, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (pageno === "") {
+    if (nextPage === "") {
       page = 0;
     } else {
-      page = pageno;
+      page = nextPage;
     }
 
     try {
@@ -107,18 +117,17 @@ const keywordGetDB = (keyword, pageno, size) => {
       console.log("키워드", response);
       const newList = response.data.content;
       const lastpage = response.data.last;
-      console.log(lastpage);
 
       let paging = {};
       if (lastpage) {
         paging = {
           start: 0,
-          lastpage: lastpage,
+          last: lastpage,
         };
       } else {
         paging = {
           start: page + 1,
-          lastpage: lastpage,
+          last: lastpage,
         };
       }
       dispatch(keywordGet(newList, paging));
@@ -128,17 +137,17 @@ const keywordGetDB = (keyword, pageno, size) => {
   };
 };
 
-const filterGETDB = (region, price, theme, pageno, size) => {
-  console.log(region, price, theme, pageno, size);
+const filterGETDB = (region, price, theme, nextPage, size) => {
+  console.log(region, price, theme, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (pageno === "") {
+    if (nextPage === "") {
       page = 0;
     } else {
-      page = pageno;
+      page = nextPage;
     }
-
+    console.log(region, price, theme, page, size);
     try {
       const response = await instance.get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
@@ -146,18 +155,17 @@ const filterGETDB = (region, price, theme, pageno, size) => {
       console.log("필터", response);
       const newList = response.data.content;
       const lastpage = response.data.last;
-      console.log(lastpage);
 
       let paging = {};
       if (lastpage) {
         paging = {
           start: 0,
-          lastpage: lastpage,
+          last: lastpage,
         };
       } else {
         paging = {
           start: page + 1,
-          lastpage: lastpage,
+          last: lastpage,
         };
       }
 
@@ -168,8 +176,13 @@ const filterGETDB = (region, price, theme, pageno, size) => {
   };
 };
 
-const bookmarkGetDB = (keyword, page, size, desc, bookmarkCount) => {
+const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
+    let page;
+    if (nextPage === "") {
+      page = 0;
+    }
+    console.log(keyword, page, size, desc, bookmarkCount);
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${bookmarkCount},${desc}`
@@ -185,17 +198,17 @@ const bookmarkGetDB = (keyword, page, size, desc, bookmarkCount) => {
   };
 };
 
-const arrayGetDB = (keyword, pageno, size, sort, desc) => {
-  console.log(pageno);
+const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
+  console.log(nextPage);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (pageno === "") {
+    if (nextPage === "") {
       page = 0;
     } else {
-      page = pageno;
+      page = nextPage;
     }
-
+    console.log(keyword, page, size, sort, desc);
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -204,18 +217,17 @@ const arrayGetDB = (keyword, pageno, size, sort, desc) => {
         console.log("최신순, 좋아요 순 정렬", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
-        console.log(lastpage);
 
         let paging = {};
         if (lastpage) {
           paging = {
             start: 0,
-            lastpage: lastpage,
+            last: lastpage,
           };
         } else {
           paging = {
             start: page + 1,
-            lastpage: lastpage,
+            last: lastpage,
           };
         }
 
@@ -261,6 +273,38 @@ const clickBookmarkDB = (postId) => {
   };
 };
 
+const mainLoveDB = (postId) => {
+  return async function (dispatch) {
+    await instance
+      .post(`api/love/${postId}`)
+      .then((response) => {
+        console.log("좋아요 api", response);
+        const lovechecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+        dispatch(mainLove(lovechecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const mainBookmarkDB = (postId) => {
+  return async function (dispatch) {
+    try {
+      const response = await instance.post(`api/bookmark/${postId}`);
+
+      console.log("북마크 api", response);
+      const bookmarkchecked = response.data.trueOrFalse;
+      const Id = response.data.postId;
+
+      dispatch(mainBookmark(bookmarkchecked, Id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 const clearDB = () => {
   return function (dispatch) {
     console.log("clear");
@@ -295,7 +339,7 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        swal("작성 성공", '', "success");
+        swal("작성 성공", "", "success");
         window.location.assign("/");
       })
       .catch((error) => {
@@ -480,15 +524,21 @@ export default handleActions(
       produce(state, (draft) => {
         if (action.payload.lovechecked) {
           draft.contents.map((post) => {
-            if (post.postId === parseInt(action.payload.Id))
+            if (post.postId === parseInt(action.payload.Id)) {
               post.loveStatus = true;
-            post.loveCount = +1;
+              post.loveCount = +1;
+            }
           });
         } else {
           draft.contents.map((post) => {
-            if (post.postId === parseInt(action.payload.Id))
+            if (post.postId === parseInt(action.payload.Id)) {
               post.loveStatus = false;
-            post.loveCount -= 1;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
           });
         }
       }),
@@ -502,6 +552,44 @@ export default handleActions(
           });
         } else {
           draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
+        }
+      }),
+
+    [MAINLOVE]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.lovechecked) {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = true;
+              post.loveCount = +1;
+            }
+          });
+        } else {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = false;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
+          });
+        }
+      }),
+
+    [MAINBOOKMARK]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.bookmarkchecked) {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = true;
+          });
+        } else {
+          draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = false;
           });
@@ -530,5 +618,7 @@ const userAction = {
   deletePostDB,
   getMypostDB,
   getMybookmarkDB,
+  mainBookmarkDB,
+  mainLoveDB,
 };
 export { userAction };

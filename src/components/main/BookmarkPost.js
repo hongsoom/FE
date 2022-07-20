@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import PostItem from "../post/PostItem";
 
 const BookmarkPost = (props) => {
-  const { bookmarkcontents } = props;
+  const { bookmarkcontents, bookmarkCount } = props;
 
   return (
     <Swiper
@@ -25,7 +25,7 @@ const BookmarkPost = (props) => {
           return (
             <div className="bookmarkpost-content" key={i}>
               <SwiperSlide key={i}>
-                <PostItem key={i} {...list} />
+                <PostItem key={i} {...list} bookmarkCount={bookmarkCount} />
               </SwiperSlide>
             </div>
           );

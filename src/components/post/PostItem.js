@@ -18,6 +18,7 @@ const PostItem = (props) => {
   const dispatch = useDispatch();
 
   const {
+    bookmarkCount,
     userImgUrl,
     nickName,
     title,
@@ -32,6 +33,8 @@ const PostItem = (props) => {
   } = props;
 
   const Id = useSelector((state) => state.post.postId);
+
+  const is_bookmarkCount = bookmarkCount ? true : false;
 
   const [shareMove, setShareMove] = useState(false);
 
@@ -61,11 +64,25 @@ const PostItem = (props) => {
               onClick={webShare}
               className="postItem-shareicon"
             />
-            <button
-              onClick={() => dispatch(userAction.clickBookmarkDB(postId))}
-            >
-              {postId === Id ? (
-                bookmarkStatus === true ? (
+            {is_bookmarkCount ? (
+              <button
+                onClick={() => dispatch(userAction.mainBookmarkDB(postId))}
+              >
+                {postId === Id ? (
+                  bookmarkStatus === true ? (
+                    <img
+                      src={bookmarkBlue}
+                      alt="bookmarkBlue"
+                      className="postItem-bookmarkicon"
+                    />
+                  ) : (
+                    <img
+                      src={bookmarkEmpty}
+                      alt="bookmarkEmpty"
+                      className="postItem-bookmarkicon"
+                    />
+                  )
+                ) : bookmarkStatus === true ? (
                   <img
                     src={bookmarkBlue}
                     alt="bookmarkBlue"
@@ -77,21 +94,41 @@ const PostItem = (props) => {
                     alt="bookmarkEmpty"
                     className="postItem-bookmarkicon"
                   />
-                )
-              ) : bookmarkStatus === true ? (
-                <img
-                  src={bookmarkBlue}
-                  alt="bookmarkBlue"
-                  className="postItem-bookmarkicon"
-                />
-              ) : (
-                <img
-                  src={bookmarkEmpty}
-                  alt="bookmarkEmpty"
-                  className="postItem-bookmarkicon"
-                />
-              )}
-            </button>
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={() => dispatch(userAction.clickBookmarkDB(postId))}
+              >
+                {postId === Id ? (
+                  bookmarkStatus === true ? (
+                    <img
+                      src={bookmarkBlue}
+                      alt="bookmarkBlue"
+                      className="postItem-bookmarkicon"
+                    />
+                  ) : (
+                    <img
+                      src={bookmarkEmpty}
+                      alt="bookmarkEmpty"
+                      className="postItem-bookmarkicon"
+                    />
+                  )
+                ) : bookmarkStatus === true ? (
+                  <img
+                    src={bookmarkBlue}
+                    alt="bookmarkBlue"
+                    className="postItem-bookmarkicon"
+                  />
+                ) : (
+                  <img
+                    src={bookmarkEmpty}
+                    alt="bookmarkEmpty"
+                    className="postItem-bookmarkicon"
+                  />
+                )}
+              </button>
+            )}
           </div>
         </div>
         <Link to={`detail/${postId}`}>
@@ -131,19 +168,36 @@ const PostItem = (props) => {
             </SwiperSlide>
           </Swiper>
           <div className="postItem-heart">
-            <button onClick={() => dispatch(userAction.clickLoveDB(postId))}>
-              {postId === Id ? (
-                loveStatus === true ? (
+            {is_bookmarkCount ? (
+              <button onClick={() => dispatch(userAction.mainLoveDB(postId))}>
+                {postId === Id ? (
+                  loveStatus === true ? (
+                    <img src={heartFull} alt="heartFull" />
+                  ) : (
+                    <img src={heartEmpty} alt="heartEmpty" />
+                  )
+                ) : loveStatus === true ? (
                   <img src={heartFull} alt="heartFull" />
                 ) : (
                   <img src={heartEmpty} alt="heartEmpty" />
-                )
-              ) : loveStatus === true ? (
-                <img src={heartFull} alt="heartFull" />
-              ) : (
-                <img src={heartEmpty} alt="heartEmpty" />
-              )}
-            </button>
+                )}
+              </button>
+            ) : (
+              <button onClick={() => dispatch(userAction.clickLoveDB(postId))}>
+                {postId === Id ? (
+                  loveStatus === true ? (
+                    <img src={heartFull} alt="heartFull" />
+                  ) : (
+                    <img src={heartEmpty} alt="heartEmpty" />
+                  )
+                ) : loveStatus === true ? (
+                  <img src={heartFull} alt="heartFull" />
+                ) : (
+                  <img src={heartEmpty} alt="heartEmpty" />
+                )}
+              </button>
+            )}
+
             <p>{loveCount}</p>
           </div>
         </div>

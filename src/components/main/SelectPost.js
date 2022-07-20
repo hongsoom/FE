@@ -18,7 +18,7 @@ const SelectPost = (props) => {
     lastPage,
     isLoading,
   } = props;
-
+  console.log(nextPage);
   return (
     <div className="postItem-box">
       <div className="postItem-container">

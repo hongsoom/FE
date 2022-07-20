@@ -5,6 +5,10 @@ const InfinityScroll = (props) => {
   const { children, callNext, is_next, loading } = props;
 
   const handleScroll = (e) => {
+    if (!is_next) {
+      return;
+    }
+
     if (
       window.innerHeight + e.target.documentElement.scrollTop + 1 >
       e.target.documentElement.scrollHeight

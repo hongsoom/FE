@@ -15,10 +15,6 @@
     transition-property: transform;
 }
 
-.postItem-box {
-    
-}
-
 .postItem-container {
     width: 335px;
     margin : 12px auto;
@@ -89,6 +85,7 @@
 
 .postItem-click {
     display: flex;
+    cursor: pointer;
 }
 
 .postItem-click > button > img {
