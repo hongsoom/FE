@@ -40,6 +40,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         window.location.assign("/login");
       }
     } catch (err) {
+      console.log(err);
       const status = err.response.data.status;
       dispatch(signUp(status));
     }
@@ -54,7 +55,9 @@ const logInDB = (username, password) => {
         password: password,
       });
       if (response.status === 201) {
+        console.log(response);
         const token = response.headers.authorization;
+        console.log(token);
         localStorage.setItem("token", token);
 
         const status = response.data.statusCode;
@@ -76,8 +79,11 @@ const kakaoLoginDB = (code) => {
       const response = await instance.get(
         `api/user/kakaoLogin/callback?code=${code}`
       );
+      console.log(response);
       if (response.status === 201) {
         const token = response.headers.authorization;
+
+        console.log(token);
         localStorage.setItem("token", token);
       }
       if (localStorage.getItem("token")) {

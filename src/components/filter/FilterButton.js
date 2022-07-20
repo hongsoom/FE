@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import filter from "../../assets/filter.png";
 
-const Sharing = (props) => {
+const FilterButton = (props) => {
   const navigate = useNavigate();
 
   const {
     recommendList,
-    list,
+    keyword,
     region,
     themeSelect,
     price,
@@ -18,6 +18,7 @@ const Sharing = (props) => {
 
   const is_List = recommendList ? true : false;
   const is_price = price ? true : false;
+  const is_region = region ? true : false;
 
   const [modal, setModal] = useState(false);
 
@@ -32,9 +33,9 @@ const Sharing = (props) => {
           onClick={onClick}
           region={region}
           themeSelect={themeSelect}
-          price={price}
           setThemeSelect={setThemeSelect}
-          setPrice={setPrice}
+          priceSelect={price}
+          setPriceSelect={setPrice}
         />
       ) : null}
       {is_List === true ? (
@@ -42,7 +43,10 @@ const Sharing = (props) => {
           <div className="main-click">
             <div className="main-button">
               {recommendList.map((list, i) => (
-                <button key={i} onClick={() => navigate("/" + `${list}`)}>
+                <button
+                  key={i}
+                  onClick={() => navigate("/filter/" + `${list}`)}
+                >
                   #{list}
                 </button>
               ))}
@@ -58,7 +62,11 @@ const Sharing = (props) => {
         <>
           <div className="category-click">
             <div className="category-button">
-              <button>#{list}</button>
+              {is_region ? (
+                <button>#{region}</button>
+              ) : (
+                <button>#{keyword}</button>
+              )}
               {themeSelect.map((list, i) => (
                 <button key={i}>#{list}</button>
               ))}
@@ -77,4 +85,4 @@ const Sharing = (props) => {
   );
 };
 
-export default Sharing;
+export default FilterButton;

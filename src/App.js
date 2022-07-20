@@ -6,11 +6,19 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MyPage from "./pages/Mypage";
 import Setup from "./pages/Setup";
-import FilterSearch from "./pages/FilterSearch";
+import Filter from "./pages/Filter";
+import Search from "./pages/Search";
 import KakaoSocial from "./pages/KakaoSocial";
 import Main from "./pages/Main";
 
 function App() {
+  if (window.Kakao) {
+    const kakao = window.Kakao;
+    if (!kakao.isInitialized()) {
+      kakao.init(`${process.env.REACT_APP_KAKAO_KEY}`);
+    }
+  }
+
   return (
     <div className="App">
       <Routes>
@@ -22,7 +30,8 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
-        <Route path="/:keyword" element={<FilterSearch />} />
+        <Route path="/filter/:keyword" element={<Filter />} />
+        <Route path="/search/:keyword" element={<Search />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>

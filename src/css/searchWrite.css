@@ -26,6 +26,10 @@
     line-height: 20px;
 }
 
+.searchWrite-content > input:hover {
+    outline: none;
+}
+
 .searchWrite-content > button {
     border: none;
     background-color: transparent;
