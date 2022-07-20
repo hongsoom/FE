@@ -1,21 +1,11 @@
-import React, { useState, useEffect }  from "react";
-import '../css/themeModal.css'
+import React from "react";
+import '../../css/themeModal.css'
 
 
 const ThemeModal = (props) => {
 
   const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal, editdata, is_edit} = props;
   
-  // const isChecked = (e) =>{
-  //   if (data||e.target.checked){
-  //     setTheme(e.target.value)
-  //     setTheme(data&&data.themeCategry)
-  //   }
-  // }
-
-  // useEffect(()=>{
-  //   setTheme(editdata&&editdata.themeCategory)
-  // },editdata)
 
   console.log(selectedTheme)
 
@@ -23,14 +13,18 @@ const ThemeModal = (props) => {
     <div className={showThemeModal ? 'openModal themeWrap': 'themeWrap'}>
       {showThemeModal ?
       <div className='background' onClick={closeThemeModal}>
-        <div className='wrap' onClick={e => e.stopPropagation()}>
+        <div className='theme_wrap' onClick={e => e.stopPropagation()}>
         <section>
-          <div style={{display:'flex', flexWrap: 'wrap'}}>
+          <div className="themeTitle">테마를 선택해주세요</div>
+          <div className="themesWrap">
+          
           {theme.map((v,i)=>{
             return(
-              <div className='themes' key={i}
-              style={selectedTheme.includes(v) ? {background:'skyblue', border:'1px solid #ccc'}: {border:'1px solid #ccc'}}>
-                <input type="checkbox" name="theme" value={v} id={v}
+              <div className='_themes' key={i}
+              style={selectedTheme.includes(v) ?
+                {background: '#ABCDFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)' }
+                : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)' }}>
+                <input type="checkbox" name="theme" value={v} id={v} 
                 onChange={(e)=>{
                   if (e.target.checked){
                   setTheme((pre)=>{
@@ -55,7 +49,7 @@ const ThemeModal = (props) => {
             )
           })}
           </div>
-          <div className="doneButton">
+          <div className="themeDoneButton">
             <button className="close" onClick={closeThemeModal}>선택완료</button>
           </div>
         </section>

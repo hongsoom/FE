@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/searchPlace.css'
 import '../css/mapContainer.css'
 
 import instance from '../shared/Request'
+import swal from 'sweetalert';
 
 // 컴포넌트
 import EditImageSlide from './EditImageSlide'
-import RegionModal from './RegionModal'
-import PriceModal from './PriceModal'
+import ThemeModal from './modal/ThemeModal'
+import RegionModal from './modal/RegionModal'
+import PriceModal from './modal/PriceModal'
 
 import leftArrowBlack from '../assets/leftArrowBlack.png'
 
@@ -20,6 +21,10 @@ import { useDispatch } from 'react-redux'
 // 리덕스 모듈
 import { modifyPostDB } from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
+
+// 아이콘
+import search from '../assets/search.png'
+import logosky from '../assets/logosky.png'
 
 
 // 카카오맵
@@ -53,33 +58,34 @@ const Edit = () => {
     getData(param); 
   }, [param]);
 
-  console.log(editdata)
+  
 
   const is_edit = param ? true : false;
 
   const [place, setPlace] = useState(''); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
-  const [title, setTitle] = useState(editdata&&editdata ? editdata.title : ''); // 글 제목
-  const [content, setConent] = useState(editdata&&editdata ? editdata.content :''); // 콘텐트 텍스트 
+  const [title, setTitle] = useState(editdata&&editdata.title); // 글 제목
+  const [content, setConent] = useState(editdata&&editdata.content ); // 콘텐트 텍스트 
   const [inputText, setInputText] = useState(''); // 검색창 검색 키워드
   const [select, setSelect] = useState([])  // 선택한 장소 배열에 담아줌
-  const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지미리보기 url 넣을 배열
+  const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지 갯수 카운트 배열
   const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
-  const [selectedRegion, setRegion] = useState(editdata&&editdata ? editdata.regionCategory :''); // 지역 선택
+  const [selectedRegion, setRegion] = useState(editdata&&editdata.regionCategory); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
-  const [selectedPrice, setPrice] = useState(editdata&&editdata ? editdata.priceCategory :''); // 비용 선택
-  const [selectedRestroom, setRestroom] = useState(editdata&&editdata ? editdata.restroom :''); // 선택한 베스트 화장실 선택
-  const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
+  const [selectedPrice, setPrice] = useState( editdata&&editdata.priceCategory ); // 비용 선택
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
+  const [showThemeModal, setShowThemeModal] = useState(false);
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
 
-  const [imgs, setImgs] = useState([]); // 이미지 모두 파일
+  const [newImgFile, setNewImgFile] = useState([]); // 이미지 모두 파일
   
  
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
   const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
   const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
-  const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
+
+// console.log(editdata&&editdata.themeCategory)
+
 
 
   const onClickLeftArrow = () => {
@@ -87,61 +93,67 @@ const Edit = () => {
   }
   
   useEffect(()=>{
-    if(editdata&&editdata.title){
-      setTitle(editdata&&editdata.title)
-    }
-    if(editdata&&editdata.content){
-      setConent(editdata&&editdata.content)
-    }
-    if(editdata&&editdata.themeCategory){
-      editdata&&editdata.themeCategory.map((v,i)=>{
-          selectedTheme.push(v.themeCategory)
-          return selectedTheme
-      })
-    }
-    if(editdata&&editdata.priceCategory){
-      setPrice(editdata.priceCategory)
-    }
-    if(editdata&&editdata.regionCategory){
-      setRegion(editdata.regionCategory)
-    }
-    if(editdata&&editdata.restroom){
-      setRestroom(editdata.restroom)
-    }
-
-    if(editdata&&editdata.restroomOption){
-      editdata&&editdata.restroomOption.map((v,i)=>{
-        restroomOption.push(v)
-          return restroomOption
-      })
 
     if(editdata&&editdata.place){
-      editdata&&editdata.place.map((v,i)=>{
-        select.push({
-          address_name: v.address_name,
-          category_group_code:v.category_group_code,
-          category_group_name:v.category_group_name,
-          category_name: v.category_name,
-          distance: v.distance,
-          imgCount: v.imgUrl.length,
-          id: v.id,
-          phone: v.phone,
+    editdata&&editdata.place.map((v,i)=>{
+      if(v.place_name !== imgUrl.place_name){
+        imgUrl.push({
           place_name: v.place_name,
-          place_url: v.place_url,
-          road_address_name: v.road_address_name,
-          x:v.x,
-          y:v.y,
+          imgUrl: []
         })
+        return imgUrl
+      }
+        
+      })
+    }
+    
+    if(editdata&&editdata.place){
+      editdata&&editdata.place.map((v,i)=>{
+          select.push({
+            address_name: v.address_name,
+            category_group_code:v.category_group_code,
+            category_group_name:v.category_group_name,
+            category_name: v.category_name,
+            distance: v.distance,
+            imgCount: 0,
+            modImgUrl: v.imgUrl,
+            id: v.id,
+            phone: v.phone,
+            place_name: v.place_name,
+            place_url: v.place_url,
+            road_address_name: v.road_address_name,
+            x:v.x,
+            y:v.y,
+          })
         return select
       })
     }
     list(select)
+    
+
+  },[ editdata, select, imgUrl ])
+
+
+  useEffect(()=>{
+    setTitle(editdata&&editdata.title)
+    setTitle(editdata&&editdata.content)
+    setRegion(editdata&&editdata.regionCategory)
+    setPrice(editdata&&editdata.priceCategory)
+    if(editdata&&editdata.themeCategory){
+      editdata&&editdata.themeCategory.map((v,i)=>{
+        selectedTheme.push(v.themeCategory)
+        return selectedTheme
+      })
     }
+    
+    
+  },[dispatch, editdata])
 
+  
 
-  },[editdata,selectedTheme,restroomOption])
+  
+  
 
-  console.log(select)
   
   // ---------------------------- 제목 가져오기
   const onTitleHandler = (e) => {
@@ -176,6 +188,15 @@ const Edit = () => {
     setShowRegionModal(false)
   }
 
+  // ---------------------------- 테마 모달 open / close
+  const openThemeModal = () => {
+    setShowThemeModal(true)
+  }
+  const closeThemeModal = () => {
+    setShowThemeModal(false)
+  }
+      
+
   // ---------------------------- 비용 모달 open / close
   const openPriceModal = () => {
     setShowPriceModal(true)
@@ -190,11 +211,6 @@ const Edit = () => {
     setConent(e.target.value);
   };
   
-
-  // ---------------------------- 선택된 화장실 장소 가져오기
-  const isCheckedRestroom = (e) =>{
-    setRestroom(e.target.value)
-  }
   
 
   // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
@@ -204,17 +220,15 @@ const Edit = () => {
   
 
   const editFormData = new FormData();
+  newImgFile.forEach((v,i)=>{
+    editFormData.append("imgUrl",v)
+  })
   editFormData.append("title", title)
   editFormData.append("content", content)
   editFormData.append("regionCategory", selectedRegion)
   editFormData.append("themeCategory", selectedTheme)
   editFormData.append("priceCategory", selectedPrice)
   editFormData.append("places", blob)
-  // imgs.forEach((v,i)=>{
-  //   editFormData.append("imgUrl",v)
-  // })
-  editFormData.append("restroom", selectedRestroom)
-  editFormData.append("restroomOption", restroomOption)
 
 
   // formData.append(`${imgUrl[0]}`,)
@@ -223,17 +237,47 @@ const Edit = () => {
 
   
 
-  console.log(select)
   for (let key of editFormData.keys()) {
     console.log(key, ":", editFormData.get(key));
   }
-  console.log(imgs)
+  console.log(newImgFile)
   console.log(imgUrl)
+  console.log(select)
+  console.log(editdata)
+
+  const onClickHandler = (__place) => {
+    setFocus(__place)
+    console.log(__place)
+    const searchList_wrap = document.getElementById('searchList_wrap')
+    searchList_wrap.style.height='0px'
+  }
   
 
   // ---------------------------- 작성 완료 버튼
   const onHandlerEdit = () =>{
     dispatch(modifyPostDB(editFormData, param))
+  }
+
+  const onSelectPlace = (e, i, item, place_name) => {
+    if(e.target.checked){
+      setSelect((pre)=>{
+        if(!pre.includes(item)){
+          const selectList = [...pre]
+          const newData = {...Places[i], imgCount:""}
+          selectList.push(newData)
+          list(selectList)
+          return selectList
+        }
+      })
+      setImgUrl((pre)=>{
+        const imgUrlList = [...pre]
+        const newData = {place_name: place_name, imgUrl:[]}
+        imgUrlList.push(newData)
+        dispatch(addImg(imgUrlList))
+        return imgUrlList
+      })
+
+    }
   }
 
 
@@ -246,14 +290,11 @@ const Edit = () => {
       "themeCategory:" +selectedTheme,
       "content:" +content,
       "priceCategory:" +selectedPrice,
-      "place:" +select,
-      // "imgUrl" +imgs
-      // "restroom:" + selectedRestroom
-      
+      "place:" +select,      
     )
-  },[content, select])
+  },[content, select, selectedPrice, selectedRegion, selectedRegion])
 
-console.log(select)
+
 
 
 
@@ -300,7 +341,7 @@ useEffect(()=>{
       }
       // 검색 결과가 없을 경우
       else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('검색 결과가 존재하지 않습니다.');
+        swal('검색 결과가 존재하지 않습니다.');
         return;
     }
     }
@@ -388,8 +429,8 @@ useEffect(()=>{
           infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name +  '<br/>' + _place.phone + '</div>')
           infowindow.open(map, marker)
           setFocus(_place.place_name)
-          const clickedFinPlace = document.getElementById(`finPlace${i}`)
-          clickedFinPlace.scrollIntoView({behavior:'smooth',block:'center'})
+          // const clickedFinPlace = document.getElementById(`finPlace${i}`)
+          // clickedFinPlace.scrollIntoView({behavior:'smooth',block:'center'})
         })
       }
       } else {
@@ -409,121 +450,196 @@ useEffect(()=>{
 
 
   return (
-    <div className='map_wrap'>
-
-      {/* 카카오맵 */}
-      <div
-        ref={myMap}
-        style={{
-          width:'100vw',
-          height: '75vh',
-          position: 'absolute'
-        }}
-        >
-      </div>
-
+    <>
       {/* 헤더 */}
       <div className='writeHeader'>
-        <div className='writepreIcon' onClick={onClickLeftArrow}>
-          <img src={leftArrowBlack} alt="홈으로 이동"/>
-        </div>
-        {/* 제목 */}
-        <div className='writeTitleWrap'>
-          <input type="text" onChange={onTitleHandler} placeholder="코스 이름을 적어주세요"/>
-      </div>
-      </div>
+        <div className='writeHeaderWrap'>
+          <div className='writeUpperHeader'>
+            <div className='writePreIcon' onClick={onClickLeftArrow}>
+              <img src={leftArrowBlack} alt="홈으로 이동"/>
+            </div>
 
-      {/* 검색창 */}
-      <form className="inputForm" onSubmit={handleSubmit}>
-        <input
-          placeholder="장소를 입력하세요"
-          onChange={onChange}
-          value={inputText}
-        />
-        <button type="submit">검색</button>
-      </form>
-      
-      {/* 제목 */}
-      <div className='titleWrap'>
-        <div className='titleTitle'>
-          코스 제목을 적어주세요
-        </div>
-          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title}/>
-        
-      </div>
+            <div className='writeSearchNresult'>
+              {/* 검색창 */}
+              <form className="inputForm" onSubmit={handleSubmit}>
+                <input
+                  placeholder="위치를 검색해주세요"
+                  onChange={onChange}
+                  value={inputText}
+                />
+                <button type="submit">
+                  <img src={search} alt="검색 아이콘"/>
+                </button>
+              </form>
 
-
-      <div className='contentWrap'>
-        {/* 검색목록과 선택한 목록 */}
-        <div className='selectNselected'>
-        {/* 검색목록*/}
-          <div className='searchList_wrap' >
-            <div id="result-list">
-              {Places.map((item, i) => (
-                <div key={i} style={{ marginTop: '20px'}}>
-                  <span>{i + 1}</span>
-                  <div>
-                    <h3>{item.place_name}</h3>
-                    {item.road_address_name ? (
+              {/* 검색목록*/}
+              <div className='searchList_wrap' id='searchList_wrap' style={Places&&Places.length ? {height:'220px'}: {height:'0px', border:'none'}}>
+                <div id="result-list">
+                  {Places.map((item, i) => (
+                    <label htmlFor={item.id} key={i}>
+                    <div style={{ marginTop: '20px'}}>
+                      <span>{i + 1}</span>
                       <div>
-                        <span>{item.road_address_name}</span><br/>
-                        <span>{item.address_name}</span>
+                        <h3>{item.place_name}</h3>
+                        {item.road_address_name ? (
+                          <div>
+                            <span>{item.road_address_name}</span><br/>
+                            <span>{item.address_name}</span>
+                          </div>
+                        ) : (
+                          <span>{item.address_name}</span>
+                        )}
+                        <span>{item.phone}</span>
                       </div>
-                    ) : (
-                      <span>{item.address_name}</span>
-                    )}
-                    <span>{item.phone}</span>
-                  </div>
-                  <div className='select'>
-                    <input type="checkbox" value={item.id} id={item.id}
-                    onChange={(e)=>{
-                      if(e.target.checked){
-                        setSelect((pre)=>{
-                          const selectList = [...pre]
-                          const newData = {...Places[i], imgCount:''}
-                          selectList.push(newData)
-                          list(selectList)
-                          return selectList
-                        })
-                        setImgUrl((pre)=>{
-                          const imgUrlList = [...pre]
-                          const newData = {place_name:item.place_name, imgUrl:[]}
-                          imgUrlList.push(newData)
-                          dispatch(addImg(imgUrlList))
-                          return imgUrlList
-                        })
-                        console.log(imgUrl)
-                      } else{
-                        setSelect((pre)=>{
-                          const selectList = pre.filter((v,i)=>{
-                            return item.place_name !== v.place_name
-                          })
-                          list(selectList)
-                          return selectList
-                        })
-                        setImgUrl((pre)=>{
-                          const imgUrlList = pre.filter((v,i)=>{
-                            return item.place_name !== v.place_name
-                          })
-                          return imgUrlList
-                        })
-                      }
-                    }} style={{display:'none'}}/>
-                  </div>
-                  <label htmlFor={item.id}>
-                  {/* {select.includes(item)?  
-                  <div style={{width:'60px', background:'skyblue', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>취소하기</div>
-                  : */}
-                  <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer'}}>선택하기</div>
-                  {/* } */}
-                  </label>
+                      <div className='select'>
+                        <input type="checkbox" value={item.id} id={item.id}
+                        onChange={(e)=>{ onClickHandler(item.place_name)
+                          const place_name = item.place_name
+                          onSelectPlace(e, i, item, place_name)
+                          // else{
+                          //   setFocus(select[0].place_name)
+                          //   setSelect((pre)=>{
+                          //     const selectList = pre.filter((v,i)=>{
+                          //       return item.place_name !== v.place_name
+                          //     })
+                          //     list(selectList)
+                          //     return selectList
+                          //   })
+                          //   setImgUrl((pre)=>{
+                          //     const imgUrlList = pre.filter((v,i)=>{
+                          //       return item.place_name !== v.place_name
+                          //     })
+                          //     return imgUrlList
+                          //   })
+                          // }
+                        }} style={{display:'none'}}/>
+                      </div>
+                      
+                      {/* <div style={{width:'60px', background:'#ddd', textAlign:'center',marginTop:'5px', cursor:'pointer', borderRadius:'3px'}}
+                      
+                      >선택하기</div> */}
+                      </div>
+                      </label>
+                    
+                  ))}
+                  
+                  <div id="pagination"></div>
                 </div>
-              ))}
-              
-              <div id="pagination"></div>
+              </div>
             </div>
           </div>
-          
+
+          <div className='writeLowerHeader'>
+            <div className='modalButtons'>
+              {/* 테마선택 */}
+              <div className='themeButton' onClick={openThemeModal}>
+                  {
+                    selectedTheme.length === 0 ?
+                    <div className='modalChoiceTitle'>
+                      테마 선택
+                    </div>
+                    :
+                    selectedTheme.length === 1 ?
+                    <div className='modalChoiceTitle'>
+                      {selectedTheme[0]}
+                    </div>
+                    :
+                    selectedTheme.length > 1 ?
+                    <div className='modalChoiceTitle'>
+                      {selectedTheme[0]} 외 {selectedTheme.length-1}개
+                    </div>
+                    :
+                    null
+                  }
+                <div className='themes'>
+                    <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
+                    showThemeModal={showThemeModal}
+                    closeThemeModal={closeThemeModal}
+                    />
+                </div>    
+              </div>
+
+              {/* 지역선택 */}
+              <div className='regionButton'onClick={openRegionModal}>
+              {selectedRegion?
+                <div className='modalChoiceTitle'>{selectedRegion&&selectedRegion}</div>
+                :
+                <div className='modalChoiceTitle'>지역 선택</div>
+                }
+                
+                <div className='regions'>
+                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+                  showRegionModal={showRegionModal}
+                  closeRegionModal={closeRegionModal}
+                  />
+                </div>  
+              </div>
+
+              {/* 비용선택 */}
+              <div className='priceButton'
+              onClick={openPriceModal}>
+                {selectedPrice ?
+                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                :
+                <div className='modalChoiceTitle'>비용 선택</div>
+                }
+                
+                  <div className='prices'>
+                    <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
+                    showPriceModal={showPriceModal}
+                    closePriceModal={closePriceModal}
+                    />
+                  </div>    
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* 카카오맵 */}
+        <div className='writeMapWrap'
+          ref={myMap}>
+        </div>
+      </div>
+
+
+      
+      
+      
+
+      {/* 움직이는 부분 */}
+      <div className='contentWrap'>
+
+        {/* 제목 */}
+        <div className='writeTitleWrap'>
+          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
+        </div>
+
+        <div className='sectionPerPlace'>
+          {select&&select.map((l,j)=>{
+            return(
+              <div className="sectionPerPlaceWrap" key={j} 
+              style={focus === l.place_name ? {display:"block"} : {display:'none'}}
+              >
+                             
+                {/* 사진업로드 */}
+                <div className='imgUpload'>
+                  {/* 사진업로드하는 장소 이름 */}
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    {l.place_name}  
+                  </div>
+                  <EditImageSlide editdata={editdata} select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setNewImgFile={setNewImgFile} newImgFile={newImgFile} l={l} j={j}
+                  style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
+                  />
+                </div>
+                
+              </div>
+            )
+          })}
+        </div>  
+                        
+
+        {/* 검색목록과 선택한 목록 */}
+        {/* <div className='selectNselected'>
           <div className='selectedList'>
             {select.map((item, i) => (
               <div className='selected' id={`finPlace${i}`} key={i}
@@ -535,17 +651,8 @@ useEffect(()=>{
                 <label htmlFor={item.place_name}>
                   <div style={{ marginTop: '5px'}} 
                   >
-                    <span>{i + 1}</span>
                     <div>
                       <h3>{item.place_name}</h3>
-                      {item.road_address_name ? (
-                        <div>
-                          <span>{item.road_address_name}</span><br/>
-                          <span>{item.address_name}</span>
-                        </div>
-                      ) : (
-                        <span>{item.address_name}</span>
-                      )}
                       <span>{item.phone}</span>
                     </div>
 
@@ -554,147 +661,21 @@ useEffect(()=>{
               </div>
               ))}
           </div>
-        </div> 
+        </div>  */}
       
-        
-
-        {/* 테마선택 */}
-        <div className='theme' >
-        <div className='choiceTitle'>테마 선택하기</div>
-          <div className='themeWrap'> 
-          {theme.map((v,i)=>{
-            return(
-              <div className='themes' key={i}
-              style={selectedTheme.includes(v) ? {background:'#B6DCFF'}: {background:'#fff'}}>
-                <input type="checkbox" name="theme" value={v} id={v}
-                onChange={(e)=>{
-                  if (e.target.checked){
-                  setTheme((pre)=>{
-                    const newData=[...pre];
-                    newData.push(v)
-                    return newData
-                  })
-                   }else{
-                    setTheme((pre)=>{
-                      const newData = pre.filter((l,i)=>{
-                        return l !== v
-                        })
-                        return newData
-                    })
-                   }
-                  }}
-                />
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-            )
-          })}
-         </div>
-        </div>
-
-        <div className='regionNprice'
-        >
-          {/* 지역선택 */}
-          <div className='region'
-          onClick={openRegionModal}
-          >
-            <div className='choiceTitle'>지역 선택하기</div>
-            <div className='regions'
-            style={selectedRegion ? {display:'block'}: {display:'none'}}
-            >{selectedRegion}</div>
-              <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-              showRegionModal={showRegionModal}
-              closeRegionModal={closeRegionModal}
-              />
-          </div>
-
-          {/* 비용선택 */}
-          <div className='price'
-          onClick={openPriceModal}
-          >
-            <div className='choiceTitle'>비용 선택하기</div>
-            <div className='prices'
-            >{selectedPrice}</div>
-            <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-            showPriceModal={showPriceModal}
-            closePriceModal={closePriceModal}
-            />
-          </div>
-        </div>
-
-        {/* 화장실 */}
-        <div className='restroom' >
-        <div className='choiceTitle'>어디에서 화장실을 이용하셨나요?<br/> 여러 화장실을 가보셨다면 베스트 화장실을 추천해주세요!</div>
-          <div className='restroomWrap'>
-            {select.map((v,i)=>{
-              return(
-                <div className='selectBestRestroom' key={i}
-                style={selectedRestroom === v.place_name ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}
-                >
-                  <input type="radio" name="restroom" value={v.place_name} id={v+i}
-                  onChange={isCheckedRestroom}
-                  />
-                  <label htmlFor={v+i}>
-                  {v.place_name}
-                  </label>
-                </div>
-              )
-            })}
-          </div>
-          <hr/>
-          <div className='choiceTitle'>화장실은 어땠나요?</div>
-            <div className="restroomOptionsWrap">
-            {restroom.map((v,i)=>{
-              return(
-                <div className="restroomOptions" key={i}
-                style={restroomOption.includes(v) ? {background:'#B6DCFF'}: {background:'#E4EFFF'}}>
-                  <input type="checkbox" name="restroomOtion" value={v} id={v}
-                  onChange={(e)=>{
-                    if(e.target.checked){
-                      setRestroomOption((pre)=>{
-                        const restroomList = [...pre]
-                        restroomList.push(v)
-                        return restroomList
-                      })
-                    }else{
-                      setRestroomOption((pre)=>{
-                        const restroomList = pre.filter((l,j)=>{
-                          return l !== v
-                        })
-                        return restroomList
-                      })
-                    }
-                  }
-                  }/>
-                  <label htmlFor={v}>
-                  {v}
-                  </label>
-                </div> 
-              )
-            })}
-            </div>
-          </div> 
-
-        {/* 사진업로드 */}
-        <div className='imgUpload'>
-          
-          <EditImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs}
-          editdata={editdata}
-          />
-          
-        </div>
 
         {/* 텍스트 입력 */}
-        <div className='txt'>
+        <div className='writeTxt'
+        // style={select&&newImgFile.length !== 0 ? {display:'block'} : {display:"none"}}
+        >
           <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
         </div>
 
-        <button className='submit' onClick={onHandlerEdit}
-        style={select.length !==0 && selectedRegion && selectedTheme ? {display:'block'}: {display:'none'}}
-        >수정 완료</button>
+        <button className='writeSubmit' onClick={onHandlerEdit}
+        
+        >작성 완료하기</button>
       </div>
-  </div>
+    </>
   )
 }
 

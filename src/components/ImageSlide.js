@@ -46,11 +46,11 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
       <div className="writeImageContainerPerPlaceWrap">
         <Swiper 
         styele={{
-          width : "335px",
-          height: "221px" 
+          width : "343px",
+          height: "256px" 
         }}
         className="categoryslide-imagecontainer"
-        spaceBetween= {10}
+        spaceBetween= {0}
         navigation
         slidesPerView={1}
         breakpoints={{
@@ -60,8 +60,8 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
         {imgUrl[j].imgUrl.map((list, i) => 
         <SwiperSlide 
           styele={{
-            width : "335px",
-            height: "221px"
+            width : "343px",
+            height: "256px"
           }}
         className="categoryslide-imagecontent" key={i}>
             <img src={list} alt="장소이미지"/>

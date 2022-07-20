@@ -4,20 +4,21 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0,0,0,0.50);
+  /* background-color: rgba(0,0,0,0.50); */
   z-index: 0;
 }
-.wrap{
+
+.theme_wrap{
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   max-height: 80%;
-  width: 20rem;
-  height: 25%;
-  padding: 16px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
+  width: 329px;
+  height: 147px;
+  padding: 18px 24px;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); */
+  background:#fff;
   border-radius: 10px;
   text-align: center;
 }
@@ -29,43 +30,54 @@
   bottom: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .themeWrap>section {
-  width: 90%;
-  max-width: 560px;
   margin: 0 auto;
   border-radius: 12px;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
   overflow: hidden;
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.12);
 }
+.themeTitle{
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 23px;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
 .themeWrap.openModal {
   display: flex;
   align-items: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
-
-.theme {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.85);
-  font-size: 12px;
-  border-radius: 8px;
-  line-height: 20px;
-  padding: 10px 15px;
-  margin-top: 10px;
+.themesWrap{
+  display: flex;
+  flex-wrap: wrap;
+  grid-column-gap: 18px;
+  grid-row-gap: 14px;
+  width: 282px;
+}
+._themes{
+  width: 82px;
+  height: 28px;
+  border-radius: 10px;
   display:flex;
-  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.theme input{
+.themes input{
   display: none;
 }
 
 
-.doneButton{
+.themeDoneButton{
   width: 100%;
   display: flex;
   justify-content: center;

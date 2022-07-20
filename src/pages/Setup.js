@@ -26,6 +26,7 @@ const Setup = () => {
   const [previewUrl, setPreviewUrl] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
   const [introduce, setIntroduce] = useState(myInfo&&myInfo.userInfo? myInfo.userInfo : '');
   const [myNickname, setMynickname] = useState(myInfo&&myInfo.nickname ? myInfo.nickname : '');
+  const [nickNameNotice, setNickNameNotice] = useState();
 
   // ----------------- 마이페이지로 돌아가기 버튼
   const onClickLeftArrow = () => {
@@ -50,9 +51,15 @@ const Setup = () => {
   
   // ----------------- 서버로 저장 버튼
   const onSaveHandler = () => {
-    dispatch(userAction.editInfoDB(
-      formData
-    ))
+    if(myNickname.length < 2 || myNickname.length > 8){
+      setNickNameNotice("닉네임은 2자리 이상, 8자리 미만입니다")
+    } else{
+      dispatch(userAction.editInfoDB(
+        formData
+      ))
+
+    }
+    
   }
 
  for (let key of formData.keys()) {
@@ -91,6 +98,7 @@ const Setup = () => {
               setMynickname(e.target.value)
             }}
             />
+            <p>{nickNameNotice}</p>
           </div>
 
           <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요' defaultValue={myInfo&&myInfo.userInfo}

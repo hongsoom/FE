@@ -1,28 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/searchPlace.css'
 import '../css/mapContainer.css'
 
 import instance from '../shared/Request'
 import swal from 'sweetalert';
 
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation } from "swiper";
-
 // 컴포넌트
 import ImageSlide from './ImageSlide'
-import ThemeModal from './ThemeModal'
-import RegionModal from './RegionModal'
-import PriceModal from './PriceModal'
+import ThemeModal from './modal/ThemeModal'
+import RegionModal from './modal/RegionModal'
+import PriceModal from './modal/PriceModal'
 
 // 라우터
 import {useNavigate, useParams} from 'react-router-dom'
 
 // 리덕스
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // 리덕스 모듈
-import { getPostListDB, getPostDB, addPostDB} from '../redux/module/post'
+import { addPostDB} from '../redux/module/post'
 import { addImg } from '../redux/module/uploadImg'
 import leftArrowBlack from '../assets/leftArrowBlack.png'
 
@@ -34,7 +29,6 @@ import logosky from '../assets/logosky.png'
 const { kakao } = window
 
 const MapContainer = () => {
-  SwiperCore.use([Navigation]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
@@ -49,8 +43,6 @@ const MapContainer = () => {
   const [selectedRegion, setRegion] = useState(''); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
   const [selectedPrice, setPrice] = useState(); // 비용 선택
-  const [selectedRestroom, setRestroom] = useState(''); // 선택한 베스트 화장실 선택
-  const [restroomOption, setRestroomOption] = useState([]); // 화장실 특징
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
@@ -63,8 +55,8 @@ const MapContainer = () => {
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
   const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
   const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
-  const restroom = ['비번있음','깨끗함','휴지있음','화장대있음','칸 많음']
-
+  
+  console.log(select)
 
   // ---------------------------- 게시글 수정하기
   const param = useParams().id;
@@ -145,7 +137,7 @@ const MapContainer = () => {
     setShowRegionModal(false)
   }
 
-  // ---------------------------- 비용 모달 open / close
+  // ---------------------------- 테마 모달 open / close
   const openThemeModal = () => {
     setShowThemeModal(true)
   }
@@ -169,11 +161,6 @@ const MapContainer = () => {
   };
   
 
-  // ---------------------------- 선택된 화장실 장소 가져오기
-  const isCheckedRestroom = (e) =>{
-    setRestroom(e.target.value)
-  }
-  
 
   // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
   const json = JSON.stringify(select)
@@ -191,9 +178,6 @@ const MapContainer = () => {
   imgs.forEach((v,i)=>{
     formData.append("imgUrl",v)
   })
-  formData.append("restroom", selectedRestroom)
-  formData.append("restroomOption", restroomOption)
-
 
   // formData.append(`${imgUrl[0]}`,)
   // localStorage.setItem('"token"') 
@@ -223,7 +207,6 @@ const MapContainer = () => {
       "priceCategory:" +selectedPrice,
       "place:" +select,
       "imgUrl" +imgs
-      // "restroom:" + selectedRestroom
       
     )
   },[content, select])
@@ -494,7 +477,24 @@ const MapContainer = () => {
             <div className='modalButtons'>
               {/* 테마선택 */}
               <div className='themeButton' onClick={openThemeModal}>
-                <div className='modalChoiceTitle'>테마 선택</div>
+                  {
+                    selectedTheme.length === 0 ?
+                    <div className='modalChoiceTitle'>
+                      테마 선택
+                    </div>
+                    :
+                    selectedTheme.length === 1 ?
+                    <div className='modalChoiceTitle'>
+                      {selectedTheme[0]}
+                    </div>
+                    :
+                    selectedTheme.length > 1 ?
+                    <div className='modalChoiceTitle'>
+                      {selectedTheme[0]} 외 {selectedTheme.length-1}개
+                    </div>
+                    :
+                    null
+                  }
                 <div className='themes'>
                     <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
                     showThemeModal={showThemeModal}
@@ -505,7 +505,12 @@ const MapContainer = () => {
 
               {/* 지역선택 */}
               <div className='regionButton'onClick={openRegionModal}>
+                {selectedRegion?
+                <div className='modalChoiceTitle'>{selectedRegion&&selectedRegion}</div>
+                :
                 <div className='modalChoiceTitle'>지역 선택</div>
+                }
+                
                 <div className='regions'>
                   <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
                   showRegionModal={showRegionModal}
@@ -517,7 +522,11 @@ const MapContainer = () => {
               {/* 비용선택 */}
               <div className='priceButton'
               onClick={openPriceModal}>
+                {selectedPrice ?
+                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                :
                 <div className='modalChoiceTitle'>비용 선택</div>
+                }
                   <div className='prices'>
                     <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
                     showPriceModal={showPriceModal}
@@ -553,60 +562,7 @@ const MapContainer = () => {
               <div className="sectionPerPlaceWrap" key={j} 
               style={focus === l.place_name ? {display:"block"} : {display:'none'}}
               >
-                {/* 화장실 */}
-                <div className='restroom'>
-                  <div className='restroomQuestion'>
-                    <div className='restroomQuestionTxt'>
-                      화장실을 이용하셨나요?
-                    </div>
-                    <div className='restroomAnswerButtons'>
-                      <label htmlFor='yes'>
-                        <div className='yesButton' name="restroom" id="yes" value="yes">
-                          Yes
-                        </div> 
-                      </label>
-                      <input type="radio" name="restroom" id="yes" value="yes"/>
-                      <label htmlFor='yes'>
-                        <div className='noButton' name="restroom" id="no" value="no">
-                          No
-                        </div>  
-                      </label>
-                      <input type="radio" name="restroom" id="no" value="no"/>
-                    </div>
-                  </div>
-                
-                  {/* 화장실 옵션 */}
-                  <div className="restroomOptionsWrap">
-                    {restroom.map((v,i)=>{
-                      return(
-                        <div className="restroomOptions" key={i}>
-                          <input type="checkbox" name="restroomOtion" value={v} id={v}
-                          onChange={(e)=>{
-                            if(e.target.checked){
-                              setRestroomOption((pre)=>{
-                                const restroomList = [...pre]
-                                restroomList.push(v)
-                                return restroomList
-                              })
-                            }else{
-                              setRestroomOption((pre)=>{
-                                const restroomList = pre.filter((l,j)=>{
-                                  return l !== v
-                                })
-                                return restroomList
-                              })
-                            }
-                          }
-                          }/>
-                          <label htmlFor={v}>
-                          {v}
-                          </label>
-                        </div> 
-                      )
-                    })}
-                  </div>
-                </div> 
-
+                             
                 {/* 사진업로드 */}
                 <div className='imgUpload'>
                   {/* 사진업로드하는 장소 이름 */}
@@ -653,7 +609,7 @@ const MapContainer = () => {
 
         {/* 텍스트 입력 */}
         <div className='writeTxt'
-        style={imgs&&imgUrl ? {display:'block'}:{display:"none"}}>
+        style={select&&imgs.length !== 0 ? {display:'block'} : {display:"none"}}>
           <textarea placeholder="코스에 대한 설명을 입력해주세요" onChange={onContentHandler}/>
         </div>
 

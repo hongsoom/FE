@@ -11,6 +11,7 @@ import leftArrowBlack from "../assets/leftArrowBlack.png"
 import setup from "../assets/setup.png"
 import talkwhite from "../assets/talkwhite.png"
 import heartwhite from "../assets/heartwhite.png"
+import edit from "../assets/edit.png"
 
 const Mypage = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Mypage = () => {
     
   },[dispatch])
 
+  
   useEffect(()=>{
     dispatch(getMypostDB(
       size, page, id, direction
@@ -43,7 +45,6 @@ const Mypage = () => {
   const myInfo = useSelector(state=>state.user.myinfo)
   const myPosts = useSelector(state=>state.post.myposts)
   const myMarks = useSelector(state=>state.post.mybookmarks)
-  console.log(myMarks)
   // ---------------------------------------------------
 
   
@@ -60,6 +61,14 @@ const Mypage = () => {
       setToggle(e.target.value)
     }
   }
+  
+  const onClickToPost = (postId) =>{
+    navigate(`/detail/${postId}`)
+  }
+
+  const onWriteHandler = () => {
+    navigate('/write')
+  }
 
 
     return (
@@ -71,9 +80,7 @@ const Mypage = () => {
             onClick={onClickLeftArrow}>
             <img src={leftArrowBlack} alt="leftArrow"/>
           </div>
-          <div className="myPageTitle" onClick={()=>
-            console.log('dd')}
-            >마이페이지</div>
+          <div className="myPageTitle">마이페이지</div>
           <img src={setup} className="setup" alt="환경설정"
           onClick={onClickSetup}/>
         </div>
@@ -136,6 +143,7 @@ const Mypage = () => {
               {myPosts&&myPosts.myposts.map((v,i)=>{
                 return(
                   <div className="postbox" key={i}
+                  onClick={()=>{onClickToPost(v.postId)}}
                   style={{backgroundImage:`url(${v.imgUrl})`, backgroundPosition:'center' , backgroundSize:'cover'}}
                   >
                     <div className="txtArea">
@@ -165,8 +173,6 @@ const Mypage = () => {
                   </div>
                 )
               })}
-              
-              
             </div>
           </div>
 
@@ -178,6 +184,7 @@ const Mypage = () => {
               {myMarks&&myMarks.mybookmarks.content.map((v,i)=>{
                 return(
                   <div className="postbox" key={i}
+                  onClick={()=>{onClickToPost(v.postId)}}
                   style={{backgroundImage:`url(${v.imgUrl})`, backgroundPosition:'center' , backgroundSize:'cover'}}
                   >
                     <div className="txtArea">
@@ -207,11 +214,16 @@ const Mypage = () => {
                   </div>
                 )
               })}
-              
-              
             </div>
           </div>
           }
+          </div>
+        </div>
+
+        <div className="writeButtonWrap">
+          <div className="writeButton"
+          onClick={onWriteHandler}>
+            <img src={edit} alt="글쓰기 버튼"/>
           </div>
         </div>
       </div>
