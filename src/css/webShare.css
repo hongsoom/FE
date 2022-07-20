@@ -1,8 +1,5 @@
 .webshare-box {
-    width : 325px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
+    margin: 0 auto;
 }
 
 .webshare-container {
@@ -10,6 +7,8 @@
 }
 
 .webshare-content {
+    width : 325px;
+    height: 150px;
     position: absolute;
     top : 0;
     left : 0;
@@ -37,6 +36,7 @@
     width : 13px;
     height: 13px;
     margin: 13px;
+    cursor: pointer;
 }
 
 .webshare-share  {
@@ -47,4 +47,5 @@
 .webshare-share > img {
     width : 89px;
     height: 32px;
+    cursor: pointer;
 }
