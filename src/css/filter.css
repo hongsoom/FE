@@ -44,17 +44,17 @@
     height: 20px;
 }
 
-.category-container {
+.filter-container {
     margin: 10px auto;
     width: 100%;
     max-width : 375px;
 }
 
-.category-content {
+.filter-content {
     margin: 0 20px;
 }
 
-.category-category {
+.filter-category {
     width: 335px;
     margin-bottom: 20px;
 }

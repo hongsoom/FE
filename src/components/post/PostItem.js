@@ -44,7 +44,18 @@ const PostItem = (props) => {
 
   return (
     <>
-      {shareMove ? <WebShare webShare={webShare} /> : null}
+      {shareMove ? (
+        <WebShare
+          webShare={webShare}
+          title={title}
+          imgUrl={imgUrl}
+          loveCount={loveCount}
+          postId={postId}
+          regionCategory={regionCategory}
+          priceCategory={priceCategory}
+          themeCategory={themeCategory}
+        />
+      ) : null}
       <div className="postItem-content">
         <div className="postItem-title">
           <div className="postItem-user">
@@ -53,9 +64,7 @@ const PostItem = (props) => {
             ) : (
               <img src={user} alt="default-profile" />
             )}
-            <Link to={`detail/${postId}`}>
-              <p>{nickName}</p>
-            </Link>
+            <p>{nickName}</p>
           </div>
           <div className="postItem-click">
             <img
@@ -131,7 +140,7 @@ const PostItem = (props) => {
             )}
           </div>
         </div>
-        <Link to={`detail/${postId}`}>
+        <Link to={`/detail/${postId}`}>
           <CategorySlide image={imgUrl} title={title} />
         </Link>
         <div className="postItem-category">

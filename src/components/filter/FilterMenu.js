@@ -32,7 +32,7 @@ const FilterMenu = ({ onClick }) => {
           {area.map((region, i) => (
             <p
               onClick={() => {
-                navigate("/" + region);
+                navigate("/filter/" + region);
                 onClick();
               }}
               key={i}
