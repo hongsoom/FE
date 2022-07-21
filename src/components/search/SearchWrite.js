@@ -12,13 +12,13 @@ const SearchWrite = () => {
     if (keyword === "") {
       alert("지역이나 테마를 검색해주세요!");
     }
-    navigate("/" + keyword);
+    navigate("/search/" + keyword);
   };
 
   const searchEnter = (e) => {
     if (e.key === "Enter") {
       const value = e.target.value;
-      navigate("/" + value);
+      navigate("/search/" + value);
     }
   };
 

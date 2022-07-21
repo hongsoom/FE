@@ -4,23 +4,10 @@ import "../../css/filterModal.css";
 
 const FilterModal = (props) => {
 
-
-  const {
-    onClick,
-    region,
-    themeSelect,
-    priceSelect,
-    setThemeSelect,
-    setPriceSelect,
-    priceClick,
-    setPriceClick,
-    themeClick,
-    setThemeClick,
-  } = props;
+  const { onClick, themeSelect, priceSelect, setThemeSelect, setPriceSelect } =
+    props;
 
   const navigate = useNavigate();
-
-  const is_region = region ? true : false;
 
   const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
   const price = [
@@ -31,21 +18,6 @@ const FilterModal = (props) => {
     "40만원대",
     "50만원 이상",
   ];
-  /* 
-  const makeQueryString = () => {
-    const queryString = themeSelect
-      .map(({ id, content }) => {
-        return sortType === "category" || sortType === "types"
-          ? `${sortType}_id=${parseInt(id) + 1}`
-          : `${sortType}=${content}`;
-      })
-      .map((item, idx) => {
-        return idx === 0 ? item : "&" + item;
-      })
-      .join("");
-
-    navigate(`?${queryString}`);
-  }; */
 
   return (
     <>
@@ -60,55 +32,26 @@ const FilterModal = (props) => {
                 {theme.map((theme, i) => {
                   return (
                     <div className="filtermodal-main-category-theme" key={i}>
-                      {is_region ? (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            !themeSelect.includes(theme)
-                              ? setThemeSelect((themeSelect) => [
-                                  ...themeSelect,
-                                  theme,
-                                ])
-                              : setThemeSelect(
-                                  themeSelect.filter(
-                                    (button) => button !== theme
-                                  )
-                                );
-                          }}
-                          className={
-                            themeSelect.includes(theme)
-                              ? "table_btn_s"
-                              : "table_btn_ns"
-                          }
-                        >
-                          {theme}
-                        </button>
-                      ) : (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            !themeClick.includes(theme)
-                              ? setThemeClick((themeClick) => [
-                                  ...themeClick,
-                                  theme,
-                                ])
-                              : setThemeClick(
-                                  themeClick.filter(
-                                    (button) => button !== theme
-                                  )
-                                );
-                            navigate("/" + `${theme}`);
-                          }}
-                          className={
-                            themeClick.includes(theme)
-                              ? "table_btn_s"
-                              : "table_btn_ns"
-                          }
-                        >
-                          {" "}
-                          {theme}{" "}
-                        </button>
-                      )}
+                      <button
+                        key={i}
+                        onClick={() => {
+                          !themeSelect.includes(theme)
+                            ? setThemeSelect((themeSelect) => [
+                                ...themeSelect,
+                                theme,
+                              ])
+                            : setThemeSelect(
+                                themeSelect.filter((button) => button !== theme)
+                              );
+                        }}
+                        className={
+                          themeSelect.includes(theme)
+                            ? "table_btn_s"
+                            : "table_btn_ns"
+                        }
+                      >
+                        {theme}
+                      </button>
                     </div>
                   );
                 })}
@@ -122,41 +65,21 @@ const FilterModal = (props) => {
                 {price.map((price, i) => {
                   return (
                     <div className="filtermodal-main-category-price" key={i}>
-                      {is_region ? (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            !priceSelect.includes(price)
-                              ? setPriceSelect(price)
-                              : setPriceSelect("");
-                            navigate("/" + `${price}`);
-                          }}
-                          className={
-                            priceSelect.includes(price)
-                              ? "table_btn_s"
-                              : "table_btn_ns"
-                          }
-                        >
-                          {price}
-                        </button>
-                      ) : (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            !priceClick.includes(price)
-                              ? setPriceClick(price)
-                              : setPriceClick("");
-                          }}
-                          className={
-                            priceClick.includes(price)
-                              ? "table_btn_s"
-                              : "table_btn_ns"
-                          }
-                        >
-                          {" "}
-                          {price}{" "}
-                        </button>
-                      )}
+                      <button
+                        key={i}
+                        onClick={() => {
+                          !priceSelect.includes(price)
+                            ? setPriceSelect(price)
+                            : setPriceSelect("");
+                        }}
+                        className={
+                          priceSelect.includes(price)
+                            ? "table_btn_s"
+                            : "table_btn_ns"
+                        }
+                      >
+                        {price}
+                      </button>
                     </div>
                   );
                 })}
