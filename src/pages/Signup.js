@@ -93,6 +93,7 @@ const Signup = () => {
           nickname: nickname,
         })
         .then((response) => {
+          console.log(response);
           setNicknameState(true);
           const status = response.status;
 

@@ -10,23 +10,21 @@ import "../css/filter.css";
 
 const size = 5;
 
-const FilterSearch = () => {
+const Filter = () => {
   const dispatch = useDispatch();
-
-  const keyword = useParams().keyword;
+  const region = useParams().keyword;
 
   const posts = useSelector((state) => state.post.contents);
   const isLoading = useSelector((state) => state.post.isLoading);
-  const nextPage = useSelector((state) => state.post.paging?.start);
-  const lastPage = useSelector((state) => state.post.paging?.next);
-
-  const [themeSelect, setThemeSelect] = useState([]);
-  const [price, setPrice] = useState("");
-  const [region, setRegion] = useState(keyword);
-  const [theme, setTheme] = useState("");
+  const nextPage = useSelector((state) => state.post.paging?.next);
+  const lastPage = useSelector((state) => state.post.paging?.last);
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+    if (value === undefined) {
+      return (value = "");
+    }
 
     if (value.match(check_kor)) {
       const encodeKeyword = encodeURI(value);
@@ -36,49 +34,26 @@ const FilterSearch = () => {
     }
   };
 
-  const loadLatestPost = () => {
-    dispatch(
-      userAction.filterGETDB(
-        checkHasIncode(region),
-        checkHasIncode(price),
-        checkHasIncode(theme),
-        nextPage,
-        size
-      )
-    );
-  };
-
   useEffect(() => {
-    if (themeSelect.length > 0) {
-      setTheme(themeSelect.toString());
-    }
-
-    if (themeSelect.length === 0) {
-      setTheme("");
-    }
-  }, [themeSelect]);
-
-  useEffect(() => {
-    setRegion(keyword);
-
     loadLatestPost();
 
     return () => {
       dispatch(userAction.clearDB());
     };
-  }, [keyword]);
+  }, [region]);
+
+  const loadLatestPost = () => {
+    const region_ = checkHasIncode(region);
+    /*     const price_ = checkHasIncode(price);
+    const theme_ = checkHasIncode(theme); 
+    dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size)); */
+  };
 
   return (
     <>
       <Header />
       <SearchWrite />
-      <FilterButton
-        region={region}
-        themeSelect={themeSelect}
-        setThemeSelect={setThemeSelect}
-        price={price}
-        setPrice={setPrice}
-      />
+      <FilterButton region={region} />
       <div className="filter-container">
         <div className="filter-content">
           <div className="filter-category">
@@ -88,9 +63,9 @@ const FilterSearch = () => {
               size={size}
               nextPage={nextPage}
               lastPage={lastPage}
-              region={checkHasIncode(region)}
-              theme={checkHasIncode(theme)}
-              price={checkHasIncode(price)}
+              region={region}
+              /*               theme={theme}
+              price={price} */
             />
           </div>
         </div>
@@ -99,4 +74,4 @@ const FilterSearch = () => {
   );
 };
 
-export default FilterSearch;
+export default Filter;

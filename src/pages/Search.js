@@ -18,12 +18,8 @@ const Search = () => {
 
   const posts = useSelector((state) => state.post.contents);
   const isLoading = useSelector((state) => state.post.isLoading);
-  const nextPage = useSelector((state) => state.post.paging?.start);
-  const lastPage = useSelector((state) => state.post.paging?.next);
-
-  const [themeSelect, setThemeSelect] = useState([]);
-  const [price, setPrice] = useState("");
-  const [theme, setTheme] = useState("");
+  const nextPage = useSelector((state) => state.post.paging?.next);
+  const lastPage = useSelector((state) => state.post.paging?.last);
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -45,6 +41,7 @@ const Search = () => {
     loadKeywordPost();
 
     return () => {
+      dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
   }, [keyword]);
@@ -53,13 +50,7 @@ const Search = () => {
     <>
       <Header />
       <SearchWrite />
-      <FilterButton
-        keyword={keyword}
-        themeSelect={themeSelect}
-        price={price}
-        setThemeSelect={setThemeSelect}
-        setPrice={setPrice}
-      />
+      <FilterButton list={keyword} />
       <div className="search-container">
         <div className="search-content">
           <div className="search-post">

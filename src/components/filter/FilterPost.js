@@ -19,7 +19,8 @@ const FilterPost = (props) => {
             userAction.filterGETDB(region, price, theme, nextPage, size)
           );
         }}
-        is_next={lastPage ? false : true}
+        nextPage={nextPage}
+        is_next={lastPage}
         loading={isLoading}
       >
         {posts &&
