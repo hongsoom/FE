@@ -33,8 +33,8 @@ const initialState = {
   postId: "",
   isLoading: false,
   paging: {
-    start: "",
-    last: "",
+    next: 0,
+    last: false,
   },
 };
 
@@ -47,6 +47,7 @@ const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
 const MAINBOOKMARK = "post/MAINBOOKMARK";
 const MAINLOVE = "post/MAINLOVE";
+const INITPAGING = "post/INITPAGING";
 const GETLIST = "post/GETLIST";
 const GET = "post/GET";
 const ADD = "post/ADD";
@@ -57,6 +58,7 @@ const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
+const initPaging = createAction(INITPAGING);
 const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
   newList,
   paging,
@@ -104,7 +106,7 @@ const keywordGetDB = (keyword, nextPage, size) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
@@ -121,12 +123,12 @@ const keywordGetDB = (keyword, nextPage, size) => {
       let paging = {};
       if (lastpage) {
         paging = {
-          start: 0,
+          next: 0,
           last: lastpage,
         };
       } else {
         paging = {
-          start: page + 1,
+          next: page + 1,
           last: lastpage,
         };
       }
@@ -142,11 +144,23 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
     }
+    if (region === undefined) {
+      region = "";
+    }
+
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
+
     console.log(region, price, theme, page, size);
     try {
       const response = await instance.get(
@@ -159,12 +173,12 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
       let paging = {};
       if (lastpage) {
         paging = {
-          start: 0,
+          next: 0,
           last: lastpage,
         };
       } else {
         paging = {
-          start: page + 1,
+          next: page + 1,
           last: lastpage,
         };
       }
@@ -179,7 +193,7 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     }
     console.log(keyword, page, size, desc, bookmarkCount);
@@ -203,7 +217,7 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
@@ -221,17 +235,15 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
         let paging = {};
         if (lastpage) {
           paging = {
-            start: 0,
+            next: 0,
             last: lastpage,
           };
         } else {
           paging = {
-            start: page + 1,
+            next: page + 1,
             last: lastpage,
           };
         }
-
-        console.log(paging);
 
         dispatch(arrayGet(newList, paging));
       })
@@ -302,6 +314,13 @@ const mainBookmarkDB = (postId) => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+const initPagingDB = () => {
+  return function (dispatch) {
+    console.log("pagingclear");
+    dispatch(initPaging());
   };
 };
 
@@ -595,6 +614,10 @@ export default handleActions(
           });
         }
       }),
+    [INITPAGING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.paging.next = 0;
+      }),
 
     [CLEAR]: (state, action) =>
       produce(state, (draft) => {
@@ -620,5 +643,6 @@ const userAction = {
   getMybookmarkDB,
   mainBookmarkDB,
   mainLoveDB,
+  initPagingDB,
 };
 export { userAction };

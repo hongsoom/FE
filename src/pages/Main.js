@@ -19,11 +19,8 @@ const Main = () => {
   const posts = useSelector((state) => state.post.contents);
   const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
   const isLoading = useSelector((state) => state.post.isLoading);
-  const nextPage = useSelector((state) => state.post.paging?.start);
+  const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-
-  console.log(nextPage);
-  console.log(lastPage);
 
   const [keyword, setKeyword] = useState("");
   const [direction, setDirection] = useState("desc");
@@ -53,11 +50,16 @@ const Main = () => {
 
   useEffect(() => {
     loadfirstPost();
+    return () => {
+      dispatch(userAction.initPagingDB());
+      dispatch(userAction.clearDB());
+    };
   }, []);
 
   useEffect(() => {
     onSortPost();
     return () => {
+      dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
   }, [sortby]);
@@ -66,7 +68,7 @@ const Main = () => {
     <>
       <Header />
       <SearchWrite />
-      <FilterButton recommendList={recommendList} />
+      <FilterButton recommendList={recommendList} keyword={keyword} />
       <div className="main-container">
         <div className="main-content">
           <BookmarkPost

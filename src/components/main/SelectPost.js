@@ -18,7 +18,7 @@ const SelectPost = (props) => {
     lastPage,
     isLoading,
   } = props;
-  console.log(nextPage);
+
   return (
     <div className="postItem-box">
       <div className="postItem-container">
@@ -28,7 +28,8 @@ const SelectPost = (props) => {
               userAction.arrayGetDB(keyword, nextPage, size, sortby, direction)
             );
           }}
-          is_next={lastPage ? false : true}
+          nextPage={nextPage}
+          is_next={lastPage}
           loading={isLoading}
         >
           {posts &&
