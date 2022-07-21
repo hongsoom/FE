@@ -25,6 +25,7 @@ import { addImg } from '../redux/module/uploadImg'
 // 아이콘
 import search from '../assets/search.png'
 import logosky from '../assets/logosky.png'
+import trashwhite from '../assets/trashwhite.png'
 
 
 // 카카오맵
@@ -65,9 +66,10 @@ const Edit = () => {
   const [place, setPlace] = useState(''); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
   const [title, setTitle] = useState(editdata&&editdata.title); // 글 제목
-  const [content, setConent] = useState(editdata&&editdata.content ); // 콘텐트 텍스트 
+  const [content, setContent] = useState(editdata&&editdata.content); // 콘텐트 텍스트 
   const [inputText, setInputText] = useState(''); // 검색창 검색 키워드
   const [select, setSelect] = useState([])  // 선택한 장소 배열에 담아줌
+  const [allImgUrl, setAllImgUrl] = useState([]) // 장소별 기존 이미지 url과 새로운 이미지 url 모음
   const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지 갯수 카운트 배열
   const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
   const [selectedRegion, setRegion] = useState(editdata&&editdata.regionCategory); // 지역 선택
@@ -129,14 +131,24 @@ const Edit = () => {
       })
     }
     list(select)
+
+    if(editdata&&editdata.place){
+      editdata&&editdata.place.map((v,i)=>{
+        allImgUrl.push({
+          place_name: v.place_name,
+          imgUrl: v.imgUrl
+        })
+        return allImgUrl
+      })
+    }
     
 
-  },[ editdata, select, imgUrl ])
+  },[dispatch, editdata])
 
 
   useEffect(()=>{
     setTitle(editdata&&editdata.title)
-    setTitle(editdata&&editdata.content)
+    setContent(editdata&&editdata.content)
     setRegion(editdata&&editdata.regionCategory)
     setPrice(editdata&&editdata.priceCategory)
     if(editdata&&editdata.themeCategory){
@@ -174,6 +186,8 @@ const Edit = () => {
     e.preventDefault();
     setPlace(inputText);
     setInputText("");
+    const searchList_wrap = document.getElementById('searchList_wrap')
+    searchList_wrap.style.height='220px'
   };
 
   const isFocusedPlace = (e) => {
@@ -208,8 +222,10 @@ const Edit = () => {
 
   // ---------------------------- 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
-    setConent(e.target.value);
+    setContent(e.target.value);
   };
+
+  
   
   
 
@@ -240,11 +256,8 @@ const Edit = () => {
   for (let key of editFormData.keys()) {
     console.log(key, ":", editFormData.get(key));
   }
-  console.log(newImgFile)
-  console.log(imgUrl)
-  console.log(select)
-  console.log(editdata)
-
+  
+  // 검색 목록에서 장소 하나를 선택 클릭
   const onClickHandler = (__place) => {
     setFocus(__place)
     console.log(__place)
@@ -258,28 +271,68 @@ const Edit = () => {
     dispatch(modifyPostDB(editFormData, param))
   }
 
+  // ---------------------------- 장소 선택하기
   const onSelectPlace = (e, i, item, place_name) => {
     if(e.target.checked){
       setSelect((pre)=>{
-        if(!pre.includes(item)){
           const selectList = [...pre]
-          const newData = {...Places[i], imgCount:""}
+          const newData = {...Places[i], imgCount:0}
           selectList.push(newData)
           list(selectList)
           return selectList
-        }
       })
       setImgUrl((pre)=>{
         const imgUrlList = [...pre]
         const newData = {place_name: place_name, imgUrl:[]}
         imgUrlList.push(newData)
-        dispatch(addImg(imgUrlList))
         return imgUrlList
       })
 
     }
   }
 
+  // ----------------------------- 장소 선택 취소
+  const onRemovePlace = (place) =>{
+    swal({
+      title: "이 장소를 삭제할까요?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal('목록에서 삭제되었습니다', {
+          icon: "success",
+        });
+        setSelect((pre)=>{
+          const newSelect = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          list(newSelect)
+          return newSelect
+        })
+        setImgUrl((pre)=>{
+          const imgUrlList = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          return imgUrlList
+        })
+        setAllImgUrl((pre)=>{
+          const imgUrlList = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          return imgUrlList
+        })
+        
+      } else {
+        swal("삭제를 취소했습니다");
+      }
+    });
+  }
+  
+  console.log(select)
+  console.log(imgUrl)
+  console.log(allImgUrl)
 
 
   // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
@@ -473,7 +526,7 @@ useEffect(()=>{
               </form>
 
               {/* 검색목록*/}
-              <div className='searchList_wrap' id='searchList_wrap' style={Places&&Places.length ? {height:'220px'}: {height:'0px', border:'none'}}>
+              <div className='searchList_wrap' id='searchList_wrap' style={Places&&Places.length !==0 ? {height:'220px'}: {height:'0px', border:'none'}}>
                 <div id="result-list">
                   {Places.map((item, i) => (
                     <label htmlFor={item.id} key={i}>
@@ -493,6 +546,7 @@ useEffect(()=>{
                       </div>
                       <div className='select'>
                         <input type="checkbox" value={item.id} id={item.id}
+                        checked={select.includes(item)? true : false}
                         onChange={(e)=>{ onClickHandler(item.place_name)
                           const place_name = item.place_name
                           onSelectPlace(e, i, item, place_name)
@@ -505,12 +559,12 @@ useEffect(()=>{
                           //     list(selectList)
                           //     return selectList
                           //   })
-                          //   setImgUrl((pre)=>{
-                          //     const imgUrlList = pre.filter((v,i)=>{
-                          //       return item.place_name !== v.place_name
-                          //     })
-                          //     return imgUrlList
-                          //   })
+                            // setImgUrl((pre)=>{
+                            //   const imgUrlList = pre.filter((v,i)=>{
+                            //     return item.place_name !== v.place_name
+                            //   })
+                            //   return imgUrlList
+                            // })
                           // }
                         }} style={{display:'none'}}/>
                       </div>
@@ -531,22 +585,39 @@ useEffect(()=>{
 
           <div className='writeLowerHeader'>
             <div className='modalButtons'>
+
+              {/* 지역선택 */}
+              <div className='regionButton'onClick={openRegionModal}>
+              {selectedRegion?
+                <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
+                :
+                <div className='modalChoiceTitle'>🗺 지역 선택</div>
+                }
+                
+                <div className='regions'>
+                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+                  showRegionModal={showRegionModal}
+                  closeRegionModal={closeRegionModal}
+                  />
+                </div>  
+              </div>
+
               {/* 테마선택 */}
               <div className='themeButton' onClick={openThemeModal}>
                   {
                     selectedTheme.length === 0 ?
                     <div className='modalChoiceTitle'>
-                      테마 선택
+                      ⛱ 테마 선택
                     </div>
                     :
                     selectedTheme.length === 1 ?
                     <div className='modalChoiceTitle'>
-                      {selectedTheme[0]}
+                      ⛱ {selectedTheme[0]}
                     </div>
                     :
                     selectedTheme.length > 1 ?
                     <div className='modalChoiceTitle'>
-                      {selectedTheme[0]} 외 {selectedTheme.length-1}개
+                      ⛱ 테마 {selectedTheme.length-1}개
                     </div>
                     :
                     null
@@ -559,29 +630,13 @@ useEffect(()=>{
                 </div>    
               </div>
 
-              {/* 지역선택 */}
-              <div className='regionButton'onClick={openRegionModal}>
-              {selectedRegion?
-                <div className='modalChoiceTitle'>{selectedRegion&&selectedRegion}</div>
-                :
-                <div className='modalChoiceTitle'>지역 선택</div>
-                }
-                
-                <div className='regions'>
-                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-                  showRegionModal={showRegionModal}
-                  closeRegionModal={closeRegionModal}
-                  />
-                </div>  
-              </div>
-
               {/* 비용선택 */}
               <div className='priceButton'
               onClick={openPriceModal}>
                 {selectedPrice ?
-                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                <div className='modalChoiceTitle'>💸 {selectedPrice&&selectedPrice}</div>
                 :
-                <div className='modalChoiceTitle'>비용 선택</div>
+                <div className='modalChoiceTitle'>💸 비용 선택</div>
                 }
                 
                   <div className='prices'>
@@ -590,6 +645,23 @@ useEffect(()=>{
                     closePriceModal={closePriceModal}
                     />
                   </div>    
+              </div>
+
+              {/* 일정선택 */}
+              <div className='calendarButton'
+              onClick={openPriceModal}>
+                {/* {selectedPrice ?
+                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                :
+                <div className='modalChoiceTitle'>비용 선택</div>
+                } */}
+                <div className='modalChoiceTitle'>🗓 일정 선택</div>
+                <div className='calendars'>
+                  <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
+                  showPriceModal={showPriceModal}
+                  closePriceModal={closePriceModal}
+                  />
+                </div>    
               </div>
             </div>
           </div>
@@ -612,31 +684,53 @@ useEffect(()=>{
         <div className='writeTitleWrap'>
           <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
         </div>
-
-        <div className='sectionPerPlace'>
-          {select&&select.map((l,j)=>{
-            return(
-              <div className="sectionPerPlaceWrap" key={j} 
-              style={focus === l.place_name ? {display:"block"} : {display:'none'}}
-              >
-                             
-                {/* 사진업로드 */}
-                <div className='imgUpload'>
-                  {/* 사진업로드하는 장소 이름 */}
-                  <div className='imgUploadTitle'>
-                    <img src={logosky} alt="야너갈 로고"/>
-                    {l.place_name}  
+        <div className='sectionWrap'>
+          <div className='sectionPerPlace'>
+            {select&&select.map((l,j)=>{
+              return(
+                <div className="sectionPerPlaceWrap" key={j} 
+                style={focus === l.place_name ? {display:"block"} : {display:'none'}}
+                >
+                              
+                  {/* 사진업로드 */}
+                  <div className='imgUpload'>
+                    {/* 사진업로드하는 장소 이름 */}
+                    <div className='imgUploadHeader'>
+                      <div className='imgUploadTitle'>
+                        <img src={logosky} alt="야너갈 로고"/>
+                        {l.place_name}
+                      </div>
+                      <div className='removePlaceButton'
+                      onClick={()=>{onRemovePlace(l)}}
+                      >
+                        <img src={trashwhite} alt="장소 삭제 버튼"/>
+                        이 장소 삭제
+                      </div>    
+                    </div>
+                    <EditImageSlide editdata={editdata} select={select} setSelect={setSelect}
+                    imgUrl={imgUrl} setImgUrl={setImgUrl} setNewImgFile={setNewImgFile} newImgFile={newImgFile}
+                    l={l} j={j} allImgUrl={allImgUrl} setAllImgUrl={setAllImgUrl}
+                    // style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
+                    />
                   </div>
-                  <EditImageSlide editdata={editdata} select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setNewImgFile={setNewImgFile} newImgFile={newImgFile} l={l} j={j}
-                  style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
-                  />
+                  
                 </div>
-                
-              </div>
-            )
-          })}
-        </div>  
-                        
+              )
+            })}
+          </div>  
+
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'
+          // style={select&&newImgFile.length !== 0 ? {display:'block'} : {display:"none"}}
+          >
+            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+
+          <button className='writeSubmit' onClick={onHandlerEdit}
+          
+          >작성 완료하기</button>
+        </div>            
 
         {/* 검색목록과 선택한 목록 */}
         {/* <div className='selectNselected'>
@@ -664,16 +758,7 @@ useEffect(()=>{
         </div>  */}
       
 
-        {/* 텍스트 입력 */}
-        <div className='writeTxt'
-        // style={select&&newImgFile.length !== 0 ? {display:'block'} : {display:"none"}}
-        >
-          <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
-        </div>
-
-        <button className='writeSubmit' onClick={onHandlerEdit}
         
-        >작성 완료하기</button>
       </div>
     </>
   )

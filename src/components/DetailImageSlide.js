@@ -52,7 +52,7 @@ const DetailImageSlide = (props) => {
                   key={j}
                   style={
                     place === l.place_name
-                      ? { display: "flex", width: "333px", height: "250px" }
+                      ? { display: "flex", width: "343px", height: "256px" }
                       : { display: "none" }
                   }
                   spaceBetween={10}
@@ -74,8 +74,8 @@ const DetailImageSlide = (props) => {
                           className="_detailImg"
                           key={i}
                           style={{
-                            height: "250px",
-                            width: "333px",
+                            height: "256px",
+                            width: "343px",
                             backgroundImage: `url(${v})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",

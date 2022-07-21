@@ -1,9 +1,9 @@
-import React, { useLocation } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/filterModal.css";
 
 const FilterModal = (props) => {
-  const { search } = useLocation();
+
 
   const {
     onClick,

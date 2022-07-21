@@ -7,6 +7,7 @@ import write from "../../assets/write.png";
 import mypage from "../../assets/mypage.png";
 import logoSmail from "../../assets/logo-smail.png";
 import topArrow from "../../assets/topArrow.png";
+import setup from "../../assets/setup.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -51,8 +52,10 @@ const Header = () => {
                   alt="write"
                   className="write-icon"
                   onClick={() => navigate("/write")}
+                  
                 />
               ) : null}
+              <img src={setup} alt="login" className="login-icon" onClick={()=> navigate("/login")} />
               <img
                 src={mypage}
                 alt="mypage"
