@@ -6,6 +6,7 @@ import "../../css/filterModal.css";
 const size = 5;
 
 const FilterModal = (props) => {
+
   const dispatch = useDispatch();
 
   const nextPage = useSelector((state) => state.post.paging?.next);

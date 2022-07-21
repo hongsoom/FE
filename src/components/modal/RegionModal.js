@@ -24,15 +24,18 @@ const RegionModal = (props) => {
     <div className={showRegionModal ? 'openModal regionWrap': 'regionWrap'}>
       {showRegionModal ?
       <div className='background' onClick={closeRegionModal}>
-        <div className='regionwrap' onClick={e => e.stopPropagation()}>
+        <div className='region_wrap' onClick={e => e.stopPropagation()}>
         <section>
-          <div style={{display:'flex', flexWrap: 'wrap'}}>
+          <div className="modalTitle">지역을 선택해주세요</div>
+          <div className="regionsWrap">
           {region.map((v,i)=>{
             return(
               <div key={i}>
               {is_edit ?
-              <div className='regions' key={i}
-              style={selectedRegion === v ? {background:'#B6DCFF'}: {background:'#fff'}}>
+              <div className='_regions' key={i}
+              style={selectedRegion === v ?
+                {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
+                : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
                 <input type="radio" name="region" value={v} id={v} 
                 onChange={isChecked}/>
                 <label htmlFor={v}>
@@ -40,8 +43,11 @@ const RegionModal = (props) => {
                 </label>
               </div>
               :
-              <div className='regions' key={i}
-              style={selectedRegion === v ? {background:'#B6DCFF'}: {background:'#fff'}}>
+              <div className='_regions' key={i}
+              style={selectedRegion === v ?
+                {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
+                : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
+                
                 <input type="radio" name="region" value={v} id={v} 
                 onChange={isChecked}/>
                 <label htmlFor={v}>
@@ -53,7 +59,7 @@ const RegionModal = (props) => {
             )
           })}
           </div>
-          <div className="regiondoneButton">
+          <div className="doneButton">
             <button className="close" onClick={closeRegionModal}>선택완료</button>
           </div>
         </section>

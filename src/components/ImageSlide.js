@@ -23,6 +23,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
     // imgs라는 배열 안에 선택한 장소와 해당 첨부이미지넣음
     imgUrl[index].imgUrl.push(Url)
     setImg(Url)
+    console.log(img)
     select[index].imgCount = imgUrl[index].imgUrl.length
 
       // setSelect((pre)=>{
@@ -45,12 +46,12 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
     <>
       <div className="writeImageContainerPerPlaceWrap">
         <Swiper 
-        styele={{
-          width : "343px",
-          height: "256px" 
+        style={{
+          width : "100%",
+          height: "100%",
         }}
         className="categoryslide-imagecontainer"
-        spaceBetween= {0}
+        spaceBetween= {10}
         navigation
         slidesPerView={1}
         breakpoints={{
@@ -59,7 +60,7 @@ const ImageSlide = ({setImgFile, select, setSelect, imgUrl, setImgUrl, setImgs, 
           }}}>
         {imgUrl[j].imgUrl.map((list, i) => 
         <SwiperSlide 
-          styele={{
+          style={{
             width : "343px",
             height: "256px"
           }}
