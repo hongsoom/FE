@@ -1,44 +1,7 @@
-.main-container,
-.main-click {
+.main-container {
     margin: 10px auto;
     width: 100%;
     max-width : 375px;
-}
-
-.main-click {
-    margin: 10px auto;
-    width : 335px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
-}
-
-.main-button {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.main-button > button {
-    width : 70px;
-    height: 28px;
-    background-color: #FFFFFF;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin-right: 10px;
-    border: 1px solid #FFFFFF;
-    color : #333333;
-    cursor: pointer;
-}
-
-.main-filter {
-    position: absolute;
-    right: 0;
-}
-
-.main-filter > button > img {
-    width : 20px;
-    height: 20px;
 }
 
 .main-content {
@@ -102,7 +65,6 @@
     color: black;
 }
 
-.main-filter > button,
 .main-latest-love-content > button {
     border: none;
     background-color: transparent;

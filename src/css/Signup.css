@@ -96,7 +96,8 @@
 
 .signup-input > input:focus,
 .signup-id > input:focus,
-.signup-nickname > input:focus {
+.signup-nickname > input:focus,
+.signup-password > input:focus {
     outline: none;
 }
 

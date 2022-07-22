@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../redux/module/post";
 import Header from "../components/share/Header";
 import FilterButton from "../components/filter/FilterButton";
+import MenuPost from "../components/filter/MenuPost";
 import FilterPost from "../components/filter/FilterPost";
 import SearchWrite from "../components/search/SearchWrite";
 import "../css/filter.css";
 
 const size = 5;
 
-const FilterSearch = () => {
+const Filter = () => {
   const dispatch = useDispatch();
-
-  const keyword = useParams().keyword;
+  const region = useParams().keyword;
 
   const posts = useSelector((state) => state.post.contents);
+  const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
-  const nextPage = useSelector((state) => state.post.paging?.start);
-  const lastPage = useSelector((state) => state.post.paging?.next);
+  const nextPage = useSelector((state) => state.post.paging?.next);
+  const lastPage = useSelector((state) => state.post.paging?.last);
 
-  const [themeSelect, setThemeSelect] = useState([]);
-  const [price, setPrice] = useState("");
-  const [region, setRegion] = useState(keyword);
-  const [theme, setTheme] = useState("");
+  const [page, setPage] = useState(nextPage);
+  const is_filtercontents = filtercontents ? true : false;
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+    if (value === undefined) {
+      return (value = "");
+    }
 
     if (value.match(check_kor)) {
       const encodeKeyword = encodeURI(value);
@@ -37,61 +40,49 @@ const FilterSearch = () => {
   };
 
   const loadLatestPost = () => {
-    dispatch(
-      userAction.filterGETDB(
-        checkHasIncode(region),
-        checkHasIncode(price),
-        checkHasIncode(theme),
-        nextPage,
-        size
-      )
-    );
+    const region_ = checkHasIncode(region);
+    dispatch(userAction.regionGETDB(region_, page, size));
   };
 
   useEffect(() => {
-    if (themeSelect.length > 0) {
-      setTheme(themeSelect.toString());
-    }
-
-    if (themeSelect.length === 0) {
-      setTheme("");
-    }
-  }, [themeSelect]);
+    setPage(nextPage);
+  }, [nextPage]);
 
   useEffect(() => {
-    setRegion(keyword);
-
     loadLatestPost();
 
     return () => {
+      dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
-  }, [keyword]);
+  }, [region]);
 
   return (
     <>
       <Header />
       <SearchWrite />
-      <FilterButton
-        region={region}
-        themeSelect={themeSelect}
-        setThemeSelect={setThemeSelect}
-        price={price}
-        setPrice={setPrice}
-      />
+      <FilterButton region={region} />
       <div className="filter-container">
         <div className="filter-content">
           <div className="filter-category">
-            <FilterPost
-              posts={posts}
-              isLoading={isLoading}
-              size={size}
-              nextPage={nextPage}
-              lastPage={lastPage}
-              region={checkHasIncode(region)}
-              theme={checkHasIncode(theme)}
-              price={checkHasIncode(price)}
-            />
+            {is_filtercontents === false ? (
+              <FilterPost
+                posts={filtercontents}
+                isLoading={isLoading}
+                size={size}
+                page={page}
+                lastPage={lastPage}
+              />
+            ) : (
+              <MenuPost
+                posts={posts}
+                isLoading={isLoading}
+                size={size}
+                page={page}
+                lastPage={lastPage}
+                region={region}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -99,4 +90,4 @@ const FilterSearch = () => {
   );
 };
 
-export default FilterSearch;
+export default Filter;

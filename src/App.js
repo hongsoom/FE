@@ -9,6 +9,7 @@ import Setup from "./pages/Setup";
 import Filter from "./pages/Filter";
 import Search from "./pages/Search";
 import KakaoSocial from "./pages/KakaoSocial";
+import FilterModal from "./components/filter/FilterModal";
 import Main from "./pages/Main";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setup" element={<Setup />} />
+        <Route path="/filtermodal" element={<FilterModal />} />
         <Route path="/filter/:keyword" element={<Filter />} />
         <Route path="/search/:keyword" element={<Search />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />

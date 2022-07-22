@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../redux/module/post";
 import "../../css/filterMenu.css";
 
 const FilterMenu = ({ onClick }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const area = [
     "서울",
@@ -22,6 +25,10 @@ const FilterMenu = ({ onClick }) => {
     "제주도",
   ];
 
+  useEffect(() => {
+    dispatch(userAction.initPagingDB());
+  }, []);
+
   return (
     <div className="categorymenu-container">
       <div className="categorymenu-content">
@@ -34,6 +41,7 @@ const FilterMenu = ({ onClick }) => {
               onClick={() => {
                 navigate("/filter/" + region);
                 onClick();
+                dispatch(userAction.initPagingDB());
               }}
               key={i}
             >

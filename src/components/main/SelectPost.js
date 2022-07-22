@@ -8,27 +8,20 @@ import "../../css/postItem.css";
 const SelectPost = (props) => {
   const dispatch = useDispatch();
 
-  const {
-    keyword,
-    size,
-    sortby,
-    direction,
-    posts,
-    nextPage,
-    lastPage,
-    isLoading,
-  } = props;
-  console.log(nextPage);
+  const { keyword, page, size, sortby, direction, posts, lastPage, isLoading } =
+    props;
+
   return (
     <div className="postItem-box">
       <div className="postItem-container">
         <InfinityScroll
           callNext={() => {
             dispatch(
-              userAction.arrayGetDB(keyword, nextPage, size, sortby, direction)
+              userAction.arrayGetDB(keyword, page, size, sortby, direction)
             );
           }}
-          is_next={lastPage ? false : true}
+          page={page}
+          is_next={lastPage}
           loading={isLoading}
         >
           {posts &&

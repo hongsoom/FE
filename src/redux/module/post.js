@@ -30,16 +30,23 @@ const initialState = {
   restroom: "",
   contents: [],
   bookmarkcontents: [],
+  filtercontents: [],
   postId: "",
   isLoading: false,
   paging: {
-    start: "",
-    last: "",
+    next: 0,
+    last: false,
+  },
+  category: {
+    region: "",
+    theme: "",
+    price: "",
   },
 };
 
 const LOADING = "post/LOADING";
 const KEYWORDGET = "post/KEYWORDGET";
+const REGIONGET = "post/REGIONGET";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
@@ -47,6 +54,7 @@ const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
 const MAINBOOKMARK = "post/MAINBOOKMARK";
 const MAINLOVE = "post/MAINLOVE";
+const INITPAGING = "post/INITPAGING";
 const GETLIST = "post/GETLIST";
 const GET = "post/GET";
 const ADD = "post/ADD";
@@ -57,6 +65,7 @@ const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
+const initPaging = createAction(INITPAGING);
 const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
   newList,
   paging,
@@ -68,7 +77,12 @@ const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
 }));
-const filterGET = createAction(FILTERGET, (newList, paging) => ({
+const filterGET = createAction(FILTERGET, (newList, paging, category) => ({
+  newList,
+  paging,
+  category,
+}));
+const regionGET = createAction(REGIONGET, (newList, paging) => ({
   newList,
   paging,
 }));
@@ -100,11 +114,10 @@ const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
 }));
 
 const keywordGetDB = (keyword, nextPage, size) => {
-  console.log(keyword, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
@@ -121,12 +134,12 @@ const keywordGetDB = (keyword, nextPage, size) => {
       let paging = {};
       if (lastpage) {
         paging = {
-          start: 0,
+          next: 0,
           last: lastpage,
         };
       } else {
         paging = {
-          start: page + 1,
+          next: page + 1,
           last: lastpage,
         };
       }
@@ -138,16 +151,25 @@ const keywordGetDB = (keyword, nextPage, size) => {
 };
 
 const filterGETDB = (region, price, theme, nextPage, size) => {
-  console.log(region, price, theme, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
     }
-    console.log(region, price, theme, page, size);
+    if (region === undefined) {
+      region = "";
+    }
+
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
     try {
       const response = await instance.get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
@@ -159,17 +181,72 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
       let paging = {};
       if (lastpage) {
         paging = {
-          start: 0,
+          next: 0,
           last: lastpage,
         };
       } else {
         paging = {
-          start: page + 1,
+          next: page + 1,
           last: lastpage,
         };
       }
 
-      dispatch(filterGET(newList, paging));
+      let category = {};
+      category = {
+        region: region,
+        theme: theme,
+        price: price,
+      };
+      console.log(category);
+      dispatch(filterGET(newList, paging, category));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const regionGETDB = (region, nextPage, size) => {
+  return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    let price;
+    let theme;
+
+    if (nextPage === undefined) {
+      page = 0;
+    } else {
+      page = nextPage;
+    }
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
+
+    try {
+      const response = await instance.get(
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+      );
+      console.log("지역필터", response);
+      const newList = response.data.content;
+      const lastpage = response.data.last;
+
+      let paging = {};
+      if (lastpage) {
+        paging = {
+          next: 0,
+          last: lastpage,
+        };
+      } else {
+        paging = {
+          next: page + 1,
+          last: lastpage,
+        };
+      }
+
+      dispatch(regionGET(newList, paging));
     } catch (error) {
       console.log(error);
     }
@@ -179,7 +256,7 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     }
     console.log(keyword, page, size, desc, bookmarkCount);
@@ -203,12 +280,11 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
-    if (nextPage === "") {
+    if (nextPage === undefined) {
       page = 0;
     } else {
       page = nextPage;
     }
-    console.log(keyword, page, size, sort, desc);
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -221,17 +297,15 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
         let paging = {};
         if (lastpage) {
           paging = {
-            start: 0,
+            next: 0,
             last: lastpage,
           };
         } else {
           paging = {
-            start: page + 1,
+            next: page + 1,
             last: lastpage,
           };
         }
-
-        console.log(paging);
 
         dispatch(arrayGet(newList, paging));
       })
@@ -278,7 +352,7 @@ const mainLoveDB = (postId) => {
     await instance
       .post(`api/love/${postId}`)
       .then((response) => {
-        console.log("좋아요 api", response);
+        console.log("메인좋아요 api", response);
         const lovechecked = response.data.trueOrFalse;
         const Id = response.data.postId;
         dispatch(mainLove(lovechecked, Id));
@@ -294,7 +368,7 @@ const mainBookmarkDB = (postId) => {
     try {
       const response = await instance.post(`api/bookmark/${postId}`);
 
-      console.log("북마크 api", response);
+      console.log("메인북마크 api", response);
       const bookmarkchecked = response.data.trueOrFalse;
       const Id = response.data.postId;
 
@@ -302,6 +376,13 @@ const mainBookmarkDB = (postId) => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+const initPagingDB = () => {
+  return function (dispatch) {
+    console.log("pagingclear");
+    dispatch(initPaging());
   };
 };
 
@@ -462,6 +543,17 @@ export default handleActions(
 
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
+        draft.filtercontents = [
+          ...state.filtercontents,
+          ...action.payload.newList,
+        ];
+        draft.paging = action.payload.paging;
+        draft.category = action.payload.category;
+        draft.isLoading = false;
+      }),
+
+    [REGIONGET]: (state, action) =>
+      produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
         draft.paging = action.payload.paging;
         draft.isLoading = false;
@@ -596,9 +688,16 @@ export default handleActions(
         }
       }),
 
+    [INITPAGING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.paging.next = 0;
+        draft.paging.last = false;
+      }),
+
     [CLEAR]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [];
+        draft.filtercontents = [];
       }),
   },
   initialState
@@ -620,5 +719,7 @@ const userAction = {
   getMybookmarkDB,
   mainBookmarkDB,
   mainLoveDB,
+  initPagingDB,
+  regionGETDB,
 };
 export { userAction };
