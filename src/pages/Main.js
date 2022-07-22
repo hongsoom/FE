@@ -5,6 +5,7 @@ import Header from "../components/share/Header";
 import FilterButton from "../components/filter/FilterButton";
 import BookmarkPost from "../components/main/BookmarkPost";
 import SelectPost from "../components/main/SelectPost";
+import FilterPost from "../components/filter/FilterPost";
 import SearchWrite from "../components/search/SearchWrite";
 import "../css/main.css";
 import smaillogo from "../assets/logosky.png";
@@ -18,6 +19,7 @@ const Main = () => {
 
   const posts = useSelector((state) => state.post.contents);
   const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
+  const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
@@ -26,6 +28,9 @@ const Main = () => {
   const [direction, setDirection] = useState("desc");
   const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");
   const [sortby, setSortby] = useState("id");
+  const [page, setPage] = useState(nextPage);
+
+  const is_filtercontents = filtercontents ? true : false;
 
   const onChangeSort = (e) => {
     const clickedSort = e.target.value;
@@ -33,25 +38,18 @@ const Main = () => {
   };
 
   const onSortPost = () => {
-    dispatch(userAction.arrayGetDB(keyword, nextPage, size, sortby, direction));
+    dispatch(userAction.arrayGetDB(keyword, page, size, sortby, direction));
   };
 
   const loadfirstPost = () => {
     dispatch(
-      userAction.bookmarkGetDB(
-        keyword,
-        nextPage,
-        size,
-        direction,
-        bookmarkCount
-      )
+      userAction.bookmarkGetDB(keyword, page, size, direction, bookmarkCount)
     );
   };
 
   useEffect(() => {
     loadfirstPost();
     return () => {
-      dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
   }, []);
@@ -63,6 +61,10 @@ const Main = () => {
       dispatch(userAction.clearDB());
     };
   }, [sortby]);
+
+  useEffect(() => {
+    setPage(nextPage);
+  }, [nextPage]);
 
   return (
     <>
@@ -89,16 +91,25 @@ const Main = () => {
               </div>
             </div>
             <div className="main-latest-love-component">
-              <SelectPost
-                keyword={keyword}
-                sortby={sortby}
-                direction={direction}
-                size={size}
-                posts={posts}
-                lastPage={lastPage}
-                nextPage={nextPage}
-                isLoading={isLoading}
-              />
+              {is_filtercontents === false ? (
+                <FilterPost
+                  posts={filtercontents}
+                  lastPage={lastPage}
+                  page={page}
+                  isLoading={isLoading}
+                />
+              ) : (
+                <SelectPost
+                  keyword={keyword}
+                  sortby={sortby}
+                  direction={direction}
+                  size={size}
+                  posts={posts}
+                  page={page}
+                  lastPage={lastPage}
+                  isLoading={isLoading}
+                />
+              )}
             </div>
           </div>
         </div>

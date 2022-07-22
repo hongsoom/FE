@@ -30,16 +30,23 @@ const initialState = {
   restroom: "",
   contents: [],
   bookmarkcontents: [],
+  filtercontents: [],
   postId: "",
   isLoading: false,
   paging: {
     next: 0,
     last: false,
   },
+  category: {
+    region: "",
+    theme: "",
+    price: "",
+  },
 };
 
 const LOADING = "post/LOADING";
 const KEYWORDGET = "post/KEYWORDGET";
+const REGIONGET = "post/REGIONGET";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
@@ -70,7 +77,12 @@ const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
 }));
-const filterGET = createAction(FILTERGET, (newList, paging) => ({
+const filterGET = createAction(FILTERGET, (newList, paging, category) => ({
+  newList,
+  paging,
+  category,
+}));
+const regionGET = createAction(REGIONGET, (newList, paging) => ({
   newList,
   paging,
 }));
@@ -102,7 +114,6 @@ const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
 }));
 
 const keywordGetDB = (keyword, nextPage, size) => {
-  console.log(keyword, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
@@ -140,7 +151,6 @@ const keywordGetDB = (keyword, nextPage, size) => {
 };
 
 const filterGETDB = (region, price, theme, nextPage, size) => {
-  console.log(region, price, theme, nextPage, size);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
@@ -160,8 +170,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (theme === undefined) {
       theme = "";
     }
-
-    console.log(region, price, theme, page, size);
     try {
       const response = await instance.get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
@@ -183,7 +191,62 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         };
       }
 
-      dispatch(filterGET(newList, paging));
+      let category = {};
+      category = {
+        region: region,
+        theme: theme,
+        price: price,
+      };
+      console.log(category);
+      dispatch(filterGET(newList, paging, category));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const regionGETDB = (region, nextPage, size) => {
+  return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    let price;
+    let theme;
+
+    if (nextPage === undefined) {
+      page = 0;
+    } else {
+      page = nextPage;
+    }
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
+
+    try {
+      const response = await instance.get(
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+      );
+      console.log("지역필터", response);
+      const newList = response.data.content;
+      const lastpage = response.data.last;
+
+      let paging = {};
+      if (lastpage) {
+        paging = {
+          next: 0,
+          last: lastpage,
+        };
+      } else {
+        paging = {
+          next: page + 1,
+          last: lastpage,
+        };
+      }
+
+      dispatch(regionGET(newList, paging));
     } catch (error) {
       console.log(error);
     }
@@ -222,7 +285,6 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
     } else {
       page = nextPage;
     }
-    console.log(keyword, page, size, sort, desc);
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -290,7 +352,7 @@ const mainLoveDB = (postId) => {
     await instance
       .post(`api/love/${postId}`)
       .then((response) => {
-        console.log("좋아요 api", response);
+        console.log("메인좋아요 api", response);
         const lovechecked = response.data.trueOrFalse;
         const Id = response.data.postId;
         dispatch(mainLove(lovechecked, Id));
@@ -306,7 +368,7 @@ const mainBookmarkDB = (postId) => {
     try {
       const response = await instance.post(`api/bookmark/${postId}`);
 
-      console.log("북마크 api", response);
+      console.log("메인북마크 api", response);
       const bookmarkchecked = response.data.trueOrFalse;
       const Id = response.data.postId;
 
@@ -481,6 +543,17 @@ export default handleActions(
 
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
+        draft.filtercontents = [
+          ...state.filtercontents,
+          ...action.payload.newList,
+        ];
+        draft.paging = action.payload.paging;
+        draft.category = action.payload.category;
+        draft.isLoading = false;
+      }),
+
+    [REGIONGET]: (state, action) =>
+      produce(state, (draft) => {
         draft.contents = [...state.contents, ...action.payload.newList];
         draft.paging = action.payload.paging;
         draft.isLoading = false;
@@ -614,14 +687,17 @@ export default handleActions(
           });
         }
       }),
+
     [INITPAGING]: (state, action) =>
       produce(state, (draft) => {
         draft.paging.next = 0;
+        draft.paging.last = false;
       }),
 
     [CLEAR]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = [];
+        draft.filtercontents = [];
       }),
   },
   initialState
@@ -644,5 +720,6 @@ const userAction = {
   mainBookmarkDB,
   mainLoveDB,
   initPagingDB,
+  regionGETDB,
 };
 export { userAction };
