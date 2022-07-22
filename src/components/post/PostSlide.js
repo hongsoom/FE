@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "../../css/postSlide.css";
 
-const CategorySlide = ({ image, title }) => {
+const postSlide = ({ image, title }) => {
   SwiperCore.use([Navigation]);
 
   return (
@@ -14,7 +14,7 @@ const CategorySlide = ({ image, title }) => {
         width: "335px",
         height: "221px",
       }}
-      className="categoryslide-imagecontainer"
+      className="postslide-imagecontainer"
       spaceBetween={10}
       navigation
       slidesPerView={1}
@@ -30,15 +30,17 @@ const CategorySlide = ({ image, title }) => {
             width: "335px",
             height: "221px",
           }}
-          className="categoryslide-imagecontent"
+          className="postslide-imagecontent"
           key={i}
         >
           <img src={list} alt="image" key={i} />
-          <div className="title-shadow">{title}</div>
+          <div className="postslide-title">
+            <p>{title}</p>
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
   );
 };
 
-export default CategorySlide;
+export default postSlide;

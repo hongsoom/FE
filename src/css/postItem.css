@@ -18,7 +18,6 @@
 .postItem-container {
     width: 335px;
     margin : 12px auto;
-    overflow-y: scroll;
 }
 
 .postItem-container::-webkit-scrollbar {

@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { userAction } from "../../redux/module/post";
 import FilterModal from "./FilterModal";
 import filter from "../../assets/filter.png";
 import "../../css/filterButton.css";
-import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 
 const FilterButton = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { recommendList, keyword, region, list } = props;
 
+  const [listRegion, setListRegion] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
   const [price, setPrice] = useState("");
   const [modal, setModal] = useState(false);
@@ -17,8 +21,52 @@ const FilterButton = (props) => {
 
   const is_keyword = recommendList ? true : false;
   const is_price = price ? true : false;
+  const is_listRegion = listRegion ? true : false;
   const is_region = region ? true : false;
-  const is_list = list ? true : false;
+
+  useEffect(() => {
+    if (list) {
+      if (
+        list === "서울" ||
+        list === "경기" ||
+        list === "인천" ||
+        list === "강원도" ||
+        list === "충청도" ||
+        list === "전라도" ||
+        list === "경상도" ||
+        list === "대전" ||
+        list === "세종" ||
+        list === "대구" ||
+        list === "울산" ||
+        list === "광주" ||
+        list === "부산" ||
+        list === "제주도"
+      ) {
+        setListRegion(list);
+      }
+
+      if (
+        list === "힐링" ||
+        list === "맛집" ||
+        list === "애견동반" ||
+        list === "액티비티" ||
+        list === "호캉스"
+      ) {
+        setThemeSelect([list]);
+      }
+
+      if (
+        list === "10만원이하" ||
+        list === "10만원" ||
+        list === "20만원" ||
+        list === "30만원" ||
+        list === "40만원" ||
+        list === "50만원이상"
+      ) {
+        setPrice(list);
+      }
+    }
+  }, [list]);
 
   const onClick = () => {
     setModal(!modal);
@@ -32,6 +80,7 @@ const FilterButton = (props) => {
           list={list}
           region={region}
           keyword={keyword}
+          listRegion={listRegion}
           themeSelect={themeSelect}
           setThemeSelect={setThemeSelect}
           priceSelect={price}
@@ -56,7 +105,10 @@ const FilterButton = (props) => {
                     {recommendList.map((list, i) => (
                       <button
                         key={i}
-                        onClick={() => navigate("/filter/" + `${list}`)}
+                        onClick={() => {
+                          navigate("/filter/" + `${list}`);
+                          dispatch(userAction.initPagingDB());
+                        }}
                       >
                         #{list}
                       </button>
@@ -73,15 +125,22 @@ const FilterButton = (props) => {
             <div className="filterbutton-content">
               <div className="filterbutton-button">
                 {is_region ? (
-                  <button>#{region}</button>
+                  <>
+                    <button>#{region}</button>
+                    {themeSelect.map((list, i) => (
+                      <button key={i}>#{list}</button>
+                    ))}
+                    {is_price ? <button>#{price}</button> : null}
+                  </>
                 ) : (
-                  <button>#{list}</button>
+                  <>
+                    {is_listRegion ? <button>#{listRegion}</button> : null}
+                    {themeSelect.map((list, i) => (
+                      <button key={i}>#{list}</button>
+                    ))}
+                    {is_price ? <button>#{price}</button> : null}
+                  </>
                 )}
-                {themeSelect.map((list, i) => (
-                  <button key={i}>#{list}</button>
-                ))}
-
-                {is_price ? <button>#{price}</button> : null}
               </div>
             </div>
           </div>

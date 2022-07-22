@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../redux/module/post";
 import Header from "../components/share/Header";
 import FilterButton from "../components/filter/FilterButton";
+import FilterPost from "../components/filter/FilterPost";
 import SearchPost from "../components/search/SearchPost";
 import SearchWrite from "../components/search/SearchWrite";
 import "../css/search.css";
@@ -14,12 +15,13 @@ const Search = () => {
   const dispatch = useDispatch();
 
   const keyword = useParams().keyword;
-  console.log(keyword);
 
   const posts = useSelector((state) => state.post.contents);
   const isLoading = useSelector((state) => state.post.isLoading);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
+
+  const [page, setPage] = useState(nextPage);
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -34,8 +36,12 @@ const Search = () => {
 
   const loadKeywordPost = () => {
     const keyword_ = checkHasIncode(keyword);
-    dispatch(userAction.keywordGetDB(keyword_, nextPage, size));
+    dispatch(userAction.keywordGetDB(keyword_, page, size));
   };
+
+  useEffect(() => {
+    setPage(nextPage);
+  }, [nextPage]);
 
   useEffect(() => {
     loadKeywordPost();

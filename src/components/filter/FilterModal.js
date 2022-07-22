@@ -6,7 +6,6 @@ import "../../css/filterModal.css";
 const size = 5;
 
 const FilterModal = (props) => {
-
   const dispatch = useDispatch();
 
   const nextPage = useSelector((state) => state.post.paging?.next);
@@ -16,13 +15,13 @@ const FilterModal = (props) => {
     keyword,
     region,
     list,
+    listRegion,
     themeSelect,
     priceSelect,
     setThemeSelect,
     setPriceSelect,
   } = props;
 
-  const is_keyword = keyword ? true : false;
   const is_region = region ? true : false;
   const is_list = list ? true : false;
 
@@ -37,9 +36,6 @@ const FilterModal = (props) => {
   ];
 
   const [theme, setTheme] = useState("");
-  const [listRegion, setListRegion] = useState("");
-  const [listTheme, setListTheme] = useState("");
-  const [listPrice, setListPrice] = useState("");
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -81,53 +77,6 @@ const FilterModal = (props) => {
   };
 
   useEffect(() => {
-    if (list) {
-      if (
-        list === "서울" ||
-        list === "경기" ||
-        list === "인천" ||
-        list === "강원도" ||
-        list === "충청도" ||
-        list === "전라도" ||
-        list === "경상도" ||
-        list === "대전" ||
-        list === "세종" ||
-        list === "대구" ||
-        list === "울산" ||
-        list === "광주" ||
-        list === "부산" ||
-        list === "제주도"
-      ) {
-        setListRegion(list);
-      }
-
-      if (
-        list === "힐링" ||
-        list === "맛집" ||
-        list === "애견동반" ||
-        list === "액티비티" ||
-        list === "호캉스"
-      ) {
-        setTheme(list);
-      }
-
-      if (
-        list === "10만원이하" ||
-        list === "10만원" ||
-        list === "20만원" ||
-        list === "30만원" ||
-        list === "40만원" ||
-        list === "50만원이상"
-      ) {
-        setPriceSelect(list);
-      }
-    }
-  }, [list]);
-
-  console.log(themeSelect);
-  console.log(priceSelect);
-
-  useEffect(() => {
     if (themeSelect.length > 0) {
       setTheme(themeSelect.toString());
     }
@@ -140,6 +89,11 @@ const FilterModal = (props) => {
       setPriceSelect("");
     }
   }, [themeSelect, priceSelect]);
+
+  useEffect(() => {
+    dispatch(userAction.initPagingDB());
+    dispatch(userAction.clearDB());
+  }, [dispatch]);
 
   return (
     <>
@@ -207,7 +161,7 @@ const FilterModal = (props) => {
                 })}
               </div>
             </div>
-            {is_keyword ? (
+            {keyword === "" && (
               <div className="filtermodal-filterbutton">
                 <button
                   onClick={() => {
@@ -218,12 +172,8 @@ const FilterModal = (props) => {
                   검색
                 </button>
               </div>
-            ) : (
-              <div className="filtermodal-filterbutton">
-                <button onClick={onClick}>검색</button>
-              </div>
             )}
-            {is_region ? (
+            {is_region && (
               <div className="filtermodal-filterbutton">
                 <button
                   onClick={() => {
@@ -234,12 +184,8 @@ const FilterModal = (props) => {
                   검색
                 </button>
               </div>
-            ) : (
-              <div className="filtermodal-filterbutton">
-                <button onClick={onClick}>검색</button>
-              </div>
             )}
-            {is_list ? (
+            {is_list && (
               <div className="filtermodal-filterbutton">
                 <button
                   onClick={() => {
@@ -249,10 +195,6 @@ const FilterModal = (props) => {
                 >
                   검색
                 </button>
-              </div>
-            ) : (
-              <div className="filtermodal-filterbutton">
-                <button onClick={onClick}>검색</button>
               </div>
             )}
           </div>

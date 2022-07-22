@@ -5,15 +5,16 @@ import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
 import "../../css/postItem.css";
 
-const SearchPost = (props) => {
+const MenuPost = (props) => {
   const dispatch = useDispatch();
-  const { page, size, keyword, posts, lastPage, isLoading } = props;
+
+  const { page, lastPage, size, region, posts, isLoading } = props;
 
   return (
     <div className="postItem-container">
       <InfinityScroll
         callNext={() => {
-          dispatch(userAction.keywordGetDB(keyword, page, size));
+          dispatch(userAction.regionGETDB(region, page, size));
         }}
         page={page}
         is_next={lastPage}
@@ -28,4 +29,4 @@ const SearchPost = (props) => {
   );
 };
 
-export default SearchPost;
+export default MenuPost;
