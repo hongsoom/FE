@@ -339,7 +339,7 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        swal("작성 성공", "", "success");
+        swal("작성 완료!");
         window.location.assign("/");
       })
       .catch((error) => {

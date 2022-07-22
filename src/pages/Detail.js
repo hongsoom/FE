@@ -19,6 +19,9 @@ import heartpink from '../assets/heartpink.png'
 import bookmark from '../assets/bookmark.png'
 import shareblack from '../assets/shareblack.png'
 import talk from '../assets/talk.png'
+import logosky from '../assets/logosky.png'
+import bookmarkBlue from '../assets/bookmark-blue.png'
+import heartpaint from '../assets/heartpaint.png'
 
 // 카카오맵
 const { kakao } = window
@@ -151,43 +154,40 @@ const Detail = () => {
     <>
       {/* 헤더 */}
       <div className='detailHeader'>
-        <div className='preIcon' onClick={onClickLeftArrow}>
-          <img src={leftArrowBlack} alt="홈으로 이동"/>
-        </div>
-        <div className='title'>
-          {data && data.title}
-        </div>
-        {userInfo&&data&& (userInfo.nickname === data.nickname) ? (
-          <>
-          <div className='editIcon'>
-            <img src={editblack} alt="수정하기" onClick={onModifyHandler}/>
-          </div>
-          <div className='trashIcon'>
-            <img src={trash} alt="삭제하기" onClick={onDeleteHandler}/>
-          </div>
-        </>
-        ):null}
-        
-
-      </div>
-
-      
-
-      {/* 프로필 / 장소목록 / 사진슬라이드 / 댓글 */}
-      <div className='contentsWrap'>
-        <div className='profile'>
-          <div className='profilePic'>
-            {data&&data.userImgUrl ?
-              <img src={`${data.userImgUrl}`} alt="프로필 이미지"/>:
-              null
-            }
-          </div>
-          <div className='txtWrap'>
-            <div className='nick'>
-              {data&&data.nickname&& data.nickname}
+        <div className='detailHeaderWrap'>
+          <div className='detailUpperHeader'>
+            <div className='preIcon' onClick={onClickLeftArrow}>
+              <img src={leftArrowBlack} alt="홈으로 이동"/>
             </div>
-            <div className='profileTags'>
-              <div className='themeNprice'>
+            <div className='title'>
+              {data && data.title}
+            </div>
+            <div className='icons'>
+            {userInfo&&data&& (userInfo.nickname === data.nickname) ? (
+              <>
+              <div className='editIcon'>
+                <img src={editblack} alt="수정하기" onClick={onModifyHandler}/>
+              </div>
+              <div className='trashIcon'>
+                <img src={trash} alt="삭제하기" onClick={onDeleteHandler}/>
+              </div>
+            </>
+            ):null}
+            </div>
+          </div>  
+
+          <div className='writeMiddleHeader'>
+            <div className='profile'>
+              <div className='profilePic'>
+                {data&&data.userImgUrl ?
+                  <img src={`${data.userImgUrl}`} alt="프로필 이미지"/>:
+                  null
+                }
+              </div>
+              <div className='nick'>
+                {data&&data.nickname&& data.nickname}
+              </div>
+              <div className='profileTags'>
                 <div className='regionCategory'>
                   #{data && data.regionCategory}
                 </div>
@@ -199,71 +199,162 @@ const Detail = () => {
                     )
                   })}
               </div>
-              <div className='priceCategory'>
-                {data && data.priceCategory}
+            </div>  
+          </div>
+
+          <div className='detailLowerHeader'>
+            <div className='modalButtons'>
+              <div className='regionButton'>
+                🗺 {data&&data.regionCategory}
+              </div>
+              <div className='priceButton'>
+                💸 {data&&data.priceCategory}
+              </div>
+              <div className='calendarButton'>
+                🗓 코스일정
+              </div>
+              <div className='kakaomapButton'>
+                길찾기
               </div>
             </div>
           </div>
-        </div>  
-
+        </div>
         {/* 지도 */}
-          <div className='detail_map_wrap' ref={myDetailMap}
+        <div className='detail_map_wrap' ref={myDetailMap}
           >
-          </div>
+        </div>
+      </div>
 
-        {/* 검색목록과 선택한 목록 */}
-          <div className='placeList'>
-            {data && data.place.map((item, i) => (
-              <div className='selectedPlace' id={`selectedPlace${i}`} key={i}
-              style={focus === item.place_name ? {border:'1px solid #8ACEFF', borderRadius: '8px', boxSizing:'border-box', boxShadow:'0px 4px 4px rgba(0, 0, 0, 0.1)'}:{border:'1px solid #fff',boxSizing:'border-box'}}
-              onClick={() => window.open(`${item.place_url}`)}
-              >
-                <div>
-                  <h3>{i + 1}. {item.place_name}</h3>
-                  {item.road_address_name ? (
-                    <div>
-                      <span>{item.road_address_name}</span><br/>
-                      {/* <span>{item.address_name}</span> */}
+      
+
+      {/* 장소목록 / 사진슬라이드 / 댓글 */}
+      <div className='contentsWrap'> 
+      {focus&&focus.length !== 0 ?
+        <div className='detailSectionWrap'>
+          {/* 핀을 클릭했을 때 */}
+          {/* 바뀌는 부분 시작 */}
+          <div className='sectionPerPlace' >
+            {data&&data.map((l,j)=>{
+              return(
+                <div className="sectionPerPlaceWrap" key={j} 
+                style={focus === l.place_name ? {display:"block"} : {display:'none'}}
+                >
+                  <div className='imgUpload'>
+                    {/* 사진업로드하는 장소 이름 */}
+                    <div className='imgUploadHeader'>
+                      <div className='imgUploadTitle'>
+                        <img src={logosky} alt="야너갈 로고"/>
+                        {l.place_name}
+                      </div>
                     </div>
-                  ) : (
-                    <span>{item.address_name}</span>
-                  )}
-                  <span>{item.phone}</span>
-                </div>
-              </div>
-              ))}
-          </div>
+                      <DetailImageSlide data={data} focus={focus} l={l} j={j}/>
+                  </div>  
+                </div>       
+              )
+            })}
+          </div> 
+          {/* 장소마다 바뀌는 부분 끝  */}
 
-          {/* 사진업로드 */}
-          <div className='imgSlide'>
-            <DetailImageSlide data={data}/>
+          {/* 콘텐츠 */}
+          <div className='txtPlace'>
+            {data && data.content}
           </div>
 
           {/* 좋아요 즐겨찾기 버튼 */}
           <div className='heartNbookmarkIcon'>
             <div className='heartIcon'>
+              {data&&data.loveStatus === true ?
+              <img src={heartpaint} alt="좋아요 버튼"/>
+              :
               <img src={heartpink} alt="좋아요 버튼"/>
+              }
             </div>
             <div className='heartNum'>
               {data&&data.loveCount}
             </div>
             <div className='bookmarkIcon'>
+              {data&&data.bookmarkStatus === false?
               <img src={bookmark} alt="즐겨찾기 버튼"/>
+              :
+              <img src={bookmarkBlue} alt="즐겨찾기 완료"/>
+              }
             </div>
             <div className='shareIcon'>
               <img src={shareblack} alt="즐겨찾기 버튼"/>
             </div>
           </div>
 
+          
+          <div className='commentPlace'>
+            <Comment param={param}/>
+          </div>
+        </div>
+
+        :
+        
+        <div className='detailSectionWrap'>
+          {/* 핀을 클릭하지 않았을 때 */}
+          {/* 바뀌는 부분 시작 */}
+          <div className='sectionPerPlace' >
+            <div className="sectionPerPlaceWrap">
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    {data&&data.place[0]&&data.place[0].place_name}
+                  </div>
+                </div>
+                {/* 사진업로드 */}
+                <div className='imgSlide'>
+                  <DetailImageSlide data={data} l={data&&data.place[0]} j={0}/>
+                </div>
+              </div>    
+            </div>       
+          </div> 
+          {/* 장소마다 바뀌는 부분 끝  */}
+
           {/* 콘텐츠 */}
           <div className='txtPlace'>
-            <img src={talk} alt="말풍선"/>
             {data && data.content}
           </div>
+
+          {/* 좋아요 즐겨찾기 버튼 */}
+          <div className='heartNbookmarkIcon'>
+            <div className='heartIcon'>
+              {data&&data.loveStatus === true ?
+              <img src={heartpaint} alt="좋아요 버튼"/>
+              :
+              <img src={heartpink} alt="좋아요 버튼"/>
+              }
+            </div>
+            <div className='heartNum'>
+              {data&&data.loveCount}
+            </div>
+            <div className='bookmarkIcon'>
+              {data&&data.bookmarkStatus === false?
+              <img src={bookmark} alt="즐겨찾기 버튼"/>
+              :
+              <img src={bookmarkBlue} alt="즐겨찾기 완료"/>
+              }
+            </div>
+            <div className='shareIcon'>
+              <img src={shareblack} alt="즐겨찾기 버튼"/>
+            </div>
+          </div>
+
+          
 
           <div className='commentPlace'>
             <Comment param={param}/>
           </div>
+        </div>
+
+        }
+        
+          
+
+          
         </div> 
       
     </>

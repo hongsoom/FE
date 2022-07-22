@@ -127,10 +127,10 @@
   align-items: center;
   justify-content: center;
   background: #8ACEFF;
-  border-radius: 8px;
   width: 82px;
   height: 38px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
 }
 .regionButton{
   margin-right: 5px;
@@ -202,26 +202,6 @@
 }
 
 
-/* .selectedList{
-  width: 50%;
-  height: 220px;
-  overflow-y: auto;
-  z-index: 1;
-  margin-left: 10px;
-  overflow: auto;
-}
-
-.selectedList .selected{
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  background:rgba(255, 255, 255, 0.95);
-  font-size: 12px;
-  border-radius: 8px;
-  line-height: 18px;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-} */
-
-
 
 .sectionWrap{
   display: flex;
@@ -229,12 +209,9 @@
   width: 343px;
 }
 .sectionPerPlace{
-  position: relative;
   width: 100vw;
-  /* flex-direction: column; */
 }
 .sectionPerPlaceWrap{
-  position: absolute;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -261,7 +238,7 @@
   display:flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16.33px;
+  margin-bottom: 12px;
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;

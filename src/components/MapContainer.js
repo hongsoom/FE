@@ -24,6 +24,7 @@ import leftArrowBlack from '../assets/leftArrowBlack.png'
 // 아이콘
 import search from '../assets/search.png'
 import logosky from '../assets/logosky.png'
+import trashwhite from '../assets/trashwhite.png'
 
 // 카카오맵
 const { kakao } = window
@@ -42,7 +43,7 @@ const MapContainer = () => {
   const [focus, setFocus] = useState(); // 선택한 장소 핀 클릭 목록 포커스
   const [selectedRegion, setRegion] = useState(''); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
-  const [selectedPrice, setPrice] = useState(); // 비용 선택
+  const [selectedPrice, setPrice] = useState(''); // 비용 선택
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
@@ -117,7 +118,7 @@ const MapContainer = () => {
     searchList_wrap.style.height='220px'
 
     if(!inputText.replace(/^\s+|\s+$/g, '')){
-      alert('키워드를 입력해주세요')
+      swal("키워드를 입력해주세요!");
       return false;
     }
     e.preventDefault();
@@ -159,6 +160,41 @@ const MapContainer = () => {
   const onContentHandler = (e) => {
     setConent(e.target.value);
   };
+
+  // ----------------------------- 장소 선택 취소
+  const onRemovePlace = (place) =>{
+    swal({
+      title: "이 장소를 삭제할까요?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal('목록에서 삭제되었습니다', {
+          icon: "success",
+        });
+        if(select&&select.length !==0){
+          setFocus(select&&select[0].place_name)
+        }        
+        setSelect((pre)=>{
+          const newSelect = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          list(newSelect)
+          return newSelect
+        })
+        setImgUrl((pre)=>{
+          const imgUrlList = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          return imgUrlList
+        })
+      } else {
+        swal("삭제를 취소했습니다");
+      }
+    });
+  }
   
 
 
@@ -189,10 +225,28 @@ const MapContainer = () => {
     console.log(key, ":", formData.get(key));
   }
   
+  
 
   // ---------------------------- 작성 완료 버튼
   const onHandlerSubmit = () =>{
-    dispatch(addPostDB(formData))
+    if (select.length === 0){
+      swal("장소를 검색하고 선택해주세요!");
+    } else if (selectedRegion.length === 0){
+      swal("지역을 선택해주세요!");
+    } else if (selectedTheme.length === 0){
+      swal("테마를 선택해주세요!");
+    } else if (selectedPrice.length === 0){
+      swal("비용을 선택해주세요!");
+    } else if (title.length === 0){
+      swal("제목을 적어주세요!");
+    } else if (imgs.length === 0){
+      swal("사진을 첨부해주세요!");
+    } else if (content.length < 10){
+      swal("내용은 10자 이상 적어주세요!");
+    } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title && imgs.length !== 0){
+      dispatch(addPostDB(formData))
+    }
+    
   }
 
 
@@ -475,22 +529,39 @@ const MapContainer = () => {
 
           <div className='writeLowerHeader'>
             <div className='modalButtons'>
+
+              {/* 지역선택 */}
+              <div className='regionButton'onClick={openRegionModal}>
+              {selectedRegion?
+                <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
+                :
+                <div className='modalChoiceTitle'>🗺 지역 선택</div>
+                }
+                
+                <div className='regions'>
+                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+                  showRegionModal={showRegionModal}
+                  closeRegionModal={closeRegionModal}
+                  />
+                </div>  
+              </div>
+
               {/* 테마선택 */}
               <div className='themeButton' onClick={openThemeModal}>
                   {
                     selectedTheme.length === 0 ?
                     <div className='modalChoiceTitle'>
-                      테마 선택
+                      ⛱ 테마 선택
                     </div>
                     :
                     selectedTheme.length === 1 ?
                     <div className='modalChoiceTitle'>
-                      {selectedTheme[0]}
+                      ⛱ {selectedTheme[0]}
                     </div>
                     :
                     selectedTheme.length > 1 ?
                     <div className='modalChoiceTitle'>
-                      {selectedTheme[0]} 외 {selectedTheme.length-1}개
+                      ⛱ 테마 {selectedTheme.length-1}개
                     </div>
                     :
                     null
@@ -503,36 +574,38 @@ const MapContainer = () => {
                 </div>    
               </div>
 
-              {/* 지역선택 */}
-              <div className='regionButton'onClick={openRegionModal}>
-                {selectedRegion?
-                <div className='modalChoiceTitle'>{selectedRegion&&selectedRegion}</div>
-                :
-                <div className='modalChoiceTitle'>지역 선택</div>
-                }
-                
-                <div className='regions'>
-                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-                  showRegionModal={showRegionModal}
-                  closeRegionModal={closeRegionModal}
-                  />
-                </div>  
-              </div>
-
               {/* 비용선택 */}
               <div className='priceButton'
               onClick={openPriceModal}>
                 {selectedPrice ?
-                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                <div className='modalChoiceTitle'>💸 {selectedPrice&&selectedPrice}</div>
                 :
-                <div className='modalChoiceTitle'>비용 선택</div>
+                <div className='modalChoiceTitle'>💸 비용 선택</div>
                 }
+                
                   <div className='prices'>
                     <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
                     showPriceModal={showPriceModal}
                     closePriceModal={closePriceModal}
                     />
                   </div>    
+              </div>
+
+              {/* 일정선택 */}
+              <div className='calendarButton'
+              onClick={openPriceModal}>
+                {/* {selectedPrice ?
+                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
+                :
+                <div className='modalChoiceTitle'>비용 선택</div>
+                } */}
+                <div className='modalChoiceTitle'>🗓 일정 선택</div>
+                <div className='calendars'>
+                  <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
+                  showPriceModal={showPriceModal}
+                  closePriceModal={closePriceModal}
+                  />
+                </div>    
               </div>
             </div>
           </div>
@@ -550,36 +623,128 @@ const MapContainer = () => {
 
       {/* 움직이는 부분 */}
       <div className='contentWrap'>
-
+        
         {/* 제목 */}
         <div className='writeTitleWrap'>
-          <input type="text" onChange={onTitleHandler} placeholder="코스 이름을 적어주세요"/>
+          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
         </div>
 
-        <div className='sectionPerPlace'>
-          {select&&select.map((l,j)=>{
-            return(
-              <div className="sectionPerPlaceWrap" key={j} 
-              style={focus === l.place_name ? {display:"block"} : {display:'none'}}
-              >
-                             
-                {/* 사진업로드 */}
-                <div className='imgUpload'>
-                  {/* 사진업로드하는 장소 이름 */}
+        {/* 검색하고 선택한 장소가 없을 때 */}
+        {select.length === 0 ?
+        <div className='sectionWrap'>
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace'>
+            <div className="sectionPerPlaceWrap">        
+              {/* 사진업로드 */}
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
                   <div className='imgUploadTitle'>
                     <img src={logosky} alt="야너갈 로고"/>
-                    {l.place_name}  
+                    장소를 검색해주세요!
                   </div>
-                  <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={l} j={j}
-                  style={imgs.length !== 0 ? {display:"block"}:{display:"none"}}
-                  />
                 </div>
-                
               </div>
-            )
-          })}
-        </div>  
-                        
+            </div>
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'
+          >
+            <textarea placeholder="아직 선택된 장소가 없어요!" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+          <button className='writeSubmit' onClick={onHandlerSubmit}> 작성 완료하기</button>
+        </div> 
+
+        :
+        
+        focus&&focus.length !== 0 ?
+        <div className='sectionWrap'>
+        {/* 검색해서 장소를 선택했고 핀을 클릭했을 때 */}
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace' >
+            {select&&select.map((l,j)=>{
+              return(
+                <div className="sectionPerPlaceWrap" key={j} 
+                style={focus === l.place_name ? {display:"block"} : {display:'none'}}
+                >        
+                  {/* 사진업로드 */}
+                  <div className='imgUpload'>
+                    {/* 사진업로드하는 장소 이름 */}
+                    <div className='imgUploadHeader'>
+                      <div className='imgUploadTitle'>
+                        <img src={logosky} alt="야너갈 로고"/>
+                        {l.place_name}
+                      </div>
+                      <div className='removePlaceButton'
+                      onClick={()=>{onRemovePlace(l)}}
+                      >
+                        <img src={trashwhite} alt="장소 삭제 버튼"/>
+                        이 장소 삭제
+                      </div>    
+                    </div>
+                    <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={l} j={j}
+                    focus={focus}
+                  />
+                  </div>
+                  
+                </div>
+              )
+            })}
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'>
+            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+
+          <button className='writeSubmit' onClick={onHandlerSubmit}
+          
+          >작성 완료하기</button>
+        </div> 
+            
+        :
+
+        <div className='sectionWrap'>
+          {/* 검색해서 장소를 선택했지만 핀을 클릭하지 않았을 때 */}
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace'>
+            <div className="sectionPerPlaceWrap">        
+              {/* 사진업로드 */}
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    {select&&select[0]&&select[0].place_name}
+                  </div>
+                  <div className='removePlaceButton'
+                  onClick={()=>{onRemovePlace(select&&select[0])}}
+                  >
+                    <img src={trashwhite} alt="장소 삭제 버튼"/>
+                    이 장소 삭제
+                  </div>    
+                </div>
+                <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={select[0]&&select[0]} j={0}
+                 focus={focus}
+                  />
+              </div>
+            </div>
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'
+          >
+            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+          <button className='writeSubmit' onClick={onHandlerSubmit}
+          >작성 완료하기</button>
+        </div> 
+        
+        
+        }
+        
+                   
 
         {/* 검색목록과 선택한 목록 */}
         {/* <div className='selectNselected'>
@@ -605,17 +770,6 @@ const MapContainer = () => {
               ))}
           </div>
         </div>  */}
-      
-
-        {/* 텍스트 입력 */}
-        <div className='writeTxt'
-        style={select&&imgs.length !== 0 ? {display:'block'} : {display:"none"}}>
-          <textarea placeholder="코스에 대한 설명을 입력해주세요" onChange={onContentHandler}/>
-        </div>
-
-        <button className='writeSubmit' onClick={onHandlerSubmit}
-        
-        >작성 완료하기</button>
       </div>
     </>
   )

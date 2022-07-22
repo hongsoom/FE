@@ -287,6 +287,12 @@ const Edit = () => {
         imgUrlList.push(newData)
         return imgUrlList
       })
+      setAllImgUrl((pre)=>{
+        const imgUrlList = [...pre]
+        const newData = {place_name: place_name, imgUrl:[]}
+        imgUrlList.push(newData)
+        return imgUrlList
+      })
 
     }
   }
@@ -304,6 +310,9 @@ const Edit = () => {
         swal('목록에서 삭제되었습니다', {
           icon: "success",
         });
+        if(select&&select.length !==0){
+          setFocus(select&&select[0].place_name)
+        }        
         setSelect((pre)=>{
           const newSelect = pre.filter((v,i)=>{
             return place.place_name !== v.place_name
@@ -323,7 +332,6 @@ const Edit = () => {
           })
           return imgUrlList
         })
-        
       } else {
         swal("삭제를 취소했습니다");
       }
@@ -338,6 +346,7 @@ const Edit = () => {
   // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
   useEffect(()=>{
     console.log(
+      "imgUrl" + newImgFile,
       "title:"+ title,
       "regionCategory:" +selectedRegion,
       "themeCategory:" +selectedTheme,
@@ -679,19 +688,51 @@ useEffect(()=>{
 
       {/* 움직이는 부분 */}
       <div className='contentWrap'>
-
+        
         {/* 제목 */}
         <div className='writeTitleWrap'>
           <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
         </div>
+
+        {/* 검색하고 선택한 장소가 없을 때 */}
+        {select.length === 0 ?
         <div className='sectionWrap'>
+          {/* 바뀌는 부분 */}
           <div className='sectionPerPlace'>
+            <div className="sectionPerPlaceWrap">        
+              {/* 사진업로드 */}
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    장소를 검색해주세요!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'
+          >
+            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+          <button className='writeSubmit' onClick={onHandlerEdit}>수정 완료하기</button>
+        </div> 
+
+        :
+        
+        focus&&focus.length !== 0 ?
+        <div className='sectionWrap'>
+        {/* 검색해서 장소를 선택했고 핀을 클릭했을 때 */}
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace' >
             {select&&select.map((l,j)=>{
               return(
                 <div className="sectionPerPlaceWrap" key={j} 
                 style={focus === l.place_name ? {display:"block"} : {display:'none'}}
-                >
-                              
+                >        
                   {/* 사진업로드 */}
                   <div className='imgUpload'>
                     {/* 사진업로드하는 장소 이름 */}
@@ -709,8 +750,8 @@ useEffect(()=>{
                     </div>
                     <EditImageSlide editdata={editdata} select={select} setSelect={setSelect}
                     imgUrl={imgUrl} setImgUrl={setImgUrl} setNewImgFile={setNewImgFile} newImgFile={newImgFile}
-                    l={l} j={j} allImgUrl={allImgUrl} setAllImgUrl={setAllImgUrl}
-                    // style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
+                    l={l} j={j} allImgUrl={allImgUrl} setAllImgUrl={setAllImgUrl} focus={focus}
+                    
                     />
                   </div>
                   
@@ -719,18 +760,60 @@ useEffect(()=>{
             })}
           </div>  
 
-
           {/* 텍스트 입력 */}
-          <div className='writeTxt'
-          // style={select&&newImgFile.length !== 0 ? {display:'block'} : {display:"none"}}
-          >
+          <div className='writeTxt'>
             <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
           </div>
 
           <button className='writeSubmit' onClick={onHandlerEdit}
           
-          >작성 완료하기</button>
-        </div>            
+          >수정 완료하기</button>
+        </div> 
+            
+        :
+
+        <div className='sectionWrap' id="sectionWrap">
+          {/* 검색해서 장소를 선택했지만 핀을 클릭하지 않았을 때 */}
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace'>
+            <div className="sectionPerPlaceWrap">        
+              {/* 사진업로드 */}
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    {select&&select[0]&&select[0].place_name}
+                  </div>
+                  <div className='removePlaceButton'
+                  onClick={()=>{onRemovePlace(select&&select[0])}}
+                  >
+                    <img src={trashwhite} alt="장소 삭제 버튼"/>
+                    이 장소 삭제
+                  </div>    
+                </div>
+                <EditImageSlide editdata={editdata} select={select} setSelect={setSelect}
+                imgUrl={imgUrl} setImgUrl={setImgUrl} setNewImgFile={setNewImgFile} newImgFile={newImgFile}
+                l={select&&select[0]} j={0} allImgUrl={allImgUrl} setAllImgUrl={setAllImgUrl} focus={focus}
+                // style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
+                />
+              </div>
+            </div>
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <div className='writeTxt'
+          >
+            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
+          </div>
+          <button className='writeSubmit' onClick={onHandlerEdit}
+          >수정 완료하기</button>
+        </div> 
+        
+        
+        }
+        
+                   
 
         {/* 검색목록과 선택한 목록 */}
         {/* <div className='selectNselected'>
@@ -756,9 +839,6 @@ useEffect(()=>{
               ))}
           </div>
         </div>  */}
-      
-
-        
       </div>
     </>
   )

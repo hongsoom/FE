@@ -45,6 +45,8 @@ const Mypage = () => {
   const myInfo = useSelector(state=>state.user.myinfo)
   const myPosts = useSelector(state=>state.post.myposts)
   const myMarks = useSelector(state=>state.post.mybookmarks)
+  console.log(myPosts)
+  console.log(myMarks)
 
   // ---------------------------------------------------
 
@@ -71,7 +73,7 @@ const Mypage = () => {
   }
 
   return (
-    <>
+    <div className="mypageWrap">
       {/* 헤더 */}
       <div className="mypageHeader">
         <div className="mypageHeaderItemsWrap">
@@ -95,7 +97,7 @@ const Mypage = () => {
         <div className="myProfile">
           <div className="myProfilePic">
             <div className="myProfilePicCircle">
-              <img src={myInfo && myInfo.userImgUrl} alt="" />
+              <img src={myInfo && myInfo.userImgUrl} alt="프로필 이미지" />
             </div>
           </div>
 
@@ -120,7 +122,25 @@ const Mypage = () => {
                   ? { borderBottom: "2px solid #8ACEFF", fontWeight: "600" }
                   : { borderBottom: "2px solid transparent" }
               }
-            >
+              >
+              <input
+                type="radio"
+                name="myPost"
+                value="myPosts"
+                id="myPosts"
+                onChange={isChecked}
+              />
+              <label htmlFor="myPosts">내가 쓴 글</label>
+            </div>
+            
+            <div
+              className="myBookmarkTitle"
+              style={
+                toggle === "myBookmark"
+                  ? { borderBottom: "2px solid #8ACEFF", fontWeight: "600" }
+                  : { borderBottom: "2px solid transparent" }
+              }
+              >
               <input
                 type="radio"
                 name="myPost"
@@ -131,6 +151,7 @@ const Mypage = () => {
               <label htmlFor="myBookmark">즐겨찾기</label>
             </div>
           </div>
+          
 
 
           <div className="postsNmarks">
@@ -220,7 +241,7 @@ const Mypage = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

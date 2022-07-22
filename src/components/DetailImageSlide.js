@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/detailImageSlide.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
@@ -8,88 +8,76 @@ import SwiperCore, { Navigation } from "swiper";
 // import leftArrow from '../assets/leftArrow.png'
 
 const DetailImageSlide = (props) => {
-  const { data } = props;
+  const { data, focus, l , j } = props;
   SwiperCore.use([Navigation]);
 
   const [place, setPlace] = useState("");
 
-  useEffect(() => {
-    setPlace(data && data.place[0].place_name);
-  }, [data]);
-
   return (
-    <div className="detailContainer">
-      {/* 선택 장소 이름들 */}
-      <div className="detailPlaceNames">
-        {data &&
-          data.place.map((v, i) => {
-            return (
-              <div
-                className="detailPlaceName"
-                key={i}
-                onClick={() => {
-                  setPlace(v.place_name);
-                }}
-                style={
-                  place === v.place_name
-                    ? { background: "skyblue" }
-                    : { background: "#fff" }
-                }
-              >
-                {v.place_name}
-              </div>
-            );
-          })}
+    <>
+    {focus&&focus.length !== 0 ?
+      <>
+      <div className="detailImageContainerPerPlaceWrap">
+      <Swiper 
+        style={{
+          width : "100%",
+          height: "256px",
+        }}
+        className="categoryslide-imagecontainer"
+        spaceBetween= {10}
+        navigation
+        slidesPerView={1}
+        breakpoints={{
+          300: {
+              slidesPerView: 1
+          }}}>
+        {data&&data.place[j]&&data.place[j].imgUrl&&data.place[j].imgUrl.map((list, index) => 
+        <SwiperSlide 
+          style={{
+            width : "343px",
+            height: "256px",
+          }}
+        className="detail_categoryslide-imagecontent" key={index}>
+           <img src={list} alt="장소이미지" style={{width:"343px"}}/>
+        </SwiperSlide>
+        )}
+        </Swiper> 
       </div>
+    </>
 
-      <div className="detailImgWrap">
-        <div className="detailImageContainerPerPlaceWrap">
-          {data &&
-            data.place.map((l, j) => {
-              return (
-                <Swiper
-                  className="detailImageContainerPerPlace"
-                  key={j}
-                  style={
-                    place === l.place_name
-                      ? { display: "flex", width: "343px", height: "256px" }
-                      : { display: "none" }
-                  }
-                  spaceBetween={10}
-                  navigation
-                  slidesPerView={1}
-                  breakpoints={{
-                    300: {
-                      slidesPerView: 1,
-                    },
-                  }}
-                >
-                  {l.imgUrl &&
-                    l.imgUrl.map((v, i) => (
-                      <SwiperSlide
-                        className="categoryslide-imagecontent"
-                        key={i}
-                      >
-                        <div
-                          className="_detailImg"
-                          key={i}
-                          style={{
-                            height: "256px",
-                            width: "343px",
-                            backgroundImage: `url(${v})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        />
-                        <img className="_detailImg" src={v} alt="" />
-                      </SwiperSlide>
-                    ))}
-                </Swiper>
-              );
-            })}
-        </div>
+    :
+
+    <>
+      <div className="writeImageContainerPerPlaceWrap">
+      <Swiper 
+        style={{
+          width : "100%",
+          height: "256px",
+        }}
+        className="categoryslide-imagecontainer"
+        spaceBetween= {10}
+        navigation
+        slidesPerView={1}
+        breakpoints={{
+          300: {
+              slidesPerView: 1
+          }}}>
+        {data&&data.place[j]&&data.place[j].imgUrl&&data.place[j].imgUrl.map((list, index) => 
+        <SwiperSlide 
+          style={{
+            width : "343px",
+            height: "256px",
+          }}
+        className="write_categoryslide-imagecontent" key={index}>
+           <img src={list} alt="장소이미지" style={{width:"343px"}}/>
+        </SwiperSlide>
+        )}
+        </Swiper> 
       </div>
-    </div>
+    </>
+    }
+    </>
+    
   );
 };
 
