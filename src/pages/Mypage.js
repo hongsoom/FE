@@ -132,7 +132,7 @@ const Mypage = () => {
               />
               <label htmlFor="myPosts">내가 쓴 글</label>
             </div>
-            
+
             <div
               className="myBookmarkTitle"
               style={
@@ -163,6 +163,7 @@ const Mypage = () => {
                       return (
                         <div
                           className="postbox"
+                          onClick={onClickToPost}
                           key={i}
                           style={{
                             backgroundImage: `url(${v.imgUrl})`,
@@ -200,6 +201,7 @@ const Mypage = () => {
                       return (
                         <div
                           className="postbox"
+                          onClick={onClickToPost}
                           key={i}
                           style={{
                             backgroundImage: `url(${v.imgUrl})`,
