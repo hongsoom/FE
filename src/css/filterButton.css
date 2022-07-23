@@ -1,7 +1,16 @@
+.filterbutton-box {
+    position: relative;
+    margin : 0 auto;
+    width: 100%;
+    max-width : 335px;
+}
+
 .filterbutton-container {
     margin : 0 auto;
     width: 100%;
     max-width : 375px;
+    max-height: 70px;
+    height: 100%;
 }
 
 .filterbutton-content {
@@ -24,7 +33,7 @@
     background-color: #FFFFFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    margin-right: 10px;
+    margin: 6px;
     border: 1px solid #FFFFFF;
     color : #333333;
     cursor: pointer;
@@ -32,8 +41,8 @@
 
 .filterbutton-filter {
     position: absolute;
-    right: 80px;
-    top: 150px;
+    right: 0;
+    top: 4px;
 }
 
 .filterbutton-filter > button {
