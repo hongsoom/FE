@@ -87,74 +87,76 @@ const FilterButton = (props) => {
           setPriceSelect={setPrice}
         />
       ) : null}
-      {is_keyword === true ? (
-        <>
-          <div className="filterbutton-container">
-            <div className="filterbutton-content">
-              <div className="filterbutton-button">
-                {click ? (
-                  <>
-                    {themeSelect.map((list, i) => (
-                      <button key={i}>#{list}</button>
-                    ))}
+      <div className="filterbutton-box">
+        {is_keyword === true ? (
+          <>
+            <div className="filterbutton-container">
+              <div className="filterbutton-content">
+                <div className="filterbutton-button">
+                  {click ? (
+                    <>
+                      {themeSelect.map((list, i) => (
+                        <button key={i}>#{list}</button>
+                      ))}
 
-                    {is_price ? <button>#{price}</button> : null}
-                  </>
-                ) : (
-                  <>
-                    {recommendList.map((list, i) => (
-                      <button
-                        key={i}
-                        onClick={() => {
-                          navigate("/filter/" + `${list}`);
-                          dispatch(userAction.initPagingDB());
-                        }}
-                      >
-                        #{list}
-                      </button>
-                    ))}
-                  </>
-                )}
+                      {is_price ? <button>#{price}</button> : null}
+                    </>
+                  ) : (
+                    <>
+                      {recommendList.map((list, i) => (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            navigate("/filter/" + `${list}`);
+                            dispatch(userAction.initPagingDB());
+                          }}
+                        >
+                          #{list}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="filterbutton-container">
-            <div className="filterbutton-content">
-              <div className="filterbutton-button">
-                {is_region ? (
-                  <>
-                    <button>#{region}</button>
-                    {themeSelect.map((list, i) => (
-                      <button key={i}>#{list}</button>
-                    ))}
-                    {is_price ? <button>#{price}</button> : null}
-                  </>
-                ) : (
-                  <>
-                    {is_listRegion ? <button>#{listRegion}</button> : null}
-                    {themeSelect.map((list, i) => (
-                      <button key={i}>#{list}</button>
-                    ))}
-                    {is_price ? <button>#{price}</button> : null}
-                  </>
-                )}
+          </>
+        ) : (
+          <>
+            <div className="filterbutton-container">
+              <div className="filterbutton-content">
+                <div className="filterbutton-button">
+                  {is_region ? (
+                    <>
+                      <button>#{region}</button>
+                      {themeSelect.map((list, i) => (
+                        <button key={i}>#{list}</button>
+                      ))}
+                      {is_price ? <button>#{price}</button> : null}
+                    </>
+                  ) : (
+                    <>
+                      {is_listRegion ? <button>#{listRegion}</button> : null}
+                      {themeSelect.map((list, i) => (
+                        <button key={i}>#{list}</button>
+                      ))}
+                      {is_price ? <button>#{price}</button> : null}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
-      <div className="filterbutton-filter">
-        <button
-          onClick={() => {
-            onClick();
-            setClick(true);
-          }}
-        >
-          <img src={filter} alt="filter" />
-        </button>
+          </>
+        )}
+        <div className="filterbutton-filter">
+          <button
+            onClick={() => {
+              onClick();
+              setClick(true);
+            }}
+          >
+            <img src={filter} alt="filter" />
+          </button>
+        </div>
       </div>
     </>
   );

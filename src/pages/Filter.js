@@ -18,11 +18,13 @@ const Filter = () => {
   const posts = useSelector((state) => state.post.contents);
   const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
+  const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
 
+  console.log(isFilter);
+
   const [page, setPage] = useState(nextPage);
-  const is_filtercontents = filtercontents ? true : false;
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -65,7 +67,7 @@ const Filter = () => {
       <div className="filter-container">
         <div className="filter-content">
           <div className="filter-category">
-            {is_filtercontents === false ? (
+            {isFilter ? (
               <FilterPost
                 posts={filtercontents}
                 isLoading={isLoading}
