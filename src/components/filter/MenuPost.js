@@ -8,15 +8,15 @@ import "../../css/postItem.css";
 const MenuPost = (props) => {
   const dispatch = useDispatch();
 
-  const { page, lastPage, size, region, posts, isLoading } = props;
+  const { nextPage, lastPage, size, region, posts, isLoading } = props;
 
   return (
     <div className="postItem-container">
       <InfinityScroll
         callNext={() => {
-          dispatch(userAction.regionGETDB(region, page, size));
+          dispatch(userAction.regionGETDB(region, nextPage, size));
         }}
-        page={page}
+        nextPage={nextPage}
         is_next={lastPage}
         loading={isLoading}
       >
