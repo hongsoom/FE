@@ -1,7 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
-
 import swal from "sweetalert";
 
 const initialState = {
@@ -33,6 +32,7 @@ const initialState = {
   filtercontents: [],
   postId: "",
   isLoading: false,
+  isFilter: false,
   paging: {
     next: 0,
     last: false,
@@ -123,30 +123,31 @@ const keywordGetDB = (keyword, nextPage, size) => {
       page = nextPage;
     }
 
-    try {
-      const response = await instance.get(
-        `api/posts?keyword=${keyword}&page=${page}&size=${size}`
-      );
-      console.log("키워드", response);
-      const newList = response.data.content;
-      const lastpage = response.data.last;
+    await instance
+      .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
+      .then((response) => {
+        console.log("키워드", response);
+        const newList = response.data.content;
+        const lastpage = response.data.last;
 
-      let paging = {};
-      if (lastpage) {
-        paging = {
-          next: 0,
-          last: lastpage,
-        };
-      } else {
-        paging = {
-          next: page + 1,
-          last: lastpage,
-        };
-      }
-      dispatch(keywordGet(newList, paging));
-    } catch (error) {
-      console.log(error);
-    }
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
+
+        dispatch(keywordGet(newList, paging));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -170,38 +171,41 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (theme === undefined) {
       theme = "";
     }
-    try {
-      const response = await instance.get(
+
+    await instance
+      .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
-      );
-      console.log("필터", response);
-      const newList = response.data.content;
-      const lastpage = response.data.last;
+      )
+      .then((response) => {
+        console.log("필터", response);
+        const newList = response.data.content;
+        const lastpage = response.data.last;
 
-      let paging = {};
-      if (lastpage) {
-        paging = {
-          next: 0,
-          last: lastpage,
-        };
-      } else {
-        paging = {
-          next: page + 1,
-          last: lastpage,
-        };
-      }
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
 
-      let category = {};
-      category = {
-        region: region,
-        theme: theme,
-        price: price,
-      };
-      console.log(category);
-      dispatch(filterGET(newList, paging, category));
-    } catch (error) {
-      console.log(error);
-    }
+        let category = {};
+        category = {
+          region: region,
+          theme: theme,
+          price: price,
+        };
+
+        dispatch(filterGET(newList, paging, category));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -225,31 +229,33 @@ const regionGETDB = (region, nextPage, size) => {
       theme = "";
     }
 
-    try {
-      const response = await instance.get(
+    await instance
+      .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
-      );
-      console.log("지역필터", response);
-      const newList = response.data.content;
-      const lastpage = response.data.last;
+      )
+      .then((response) => {
+        console.log("지역필터", response);
+        const newList = response.data.content;
+        const lastpage = response.data.last;
 
-      let paging = {};
-      if (lastpage) {
-        paging = {
-          next: 0,
-          last: lastpage,
-        };
-      } else {
-        paging = {
-          next: page + 1,
-          last: lastpage,
-        };
-      }
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
 
-      dispatch(regionGET(newList, paging));
-    } catch (error) {
-      console.log(error);
-    }
+        dispatch(regionGET(newList, paging));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -259,7 +265,7 @@ const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
     if (nextPage === undefined) {
       page = 0;
     }
-    console.log(keyword, page, size, desc, bookmarkCount);
+
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${bookmarkCount},${desc}`
@@ -276,7 +282,6 @@ const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
 };
 
 const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
-  console.log(nextPage);
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
@@ -285,6 +290,7 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
     } else {
       page = nextPage;
     }
+
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -333,17 +339,18 @@ const clickLoveDB = (postId) => {
 
 const clickBookmarkDB = (postId) => {
   return async function (dispatch) {
-    try {
-      const response = await instance.post(`api/bookmark/${postId}`);
+    await instance
+      .post(`api/bookmark/${postId}`)
+      .then((response) => {
+        console.log("북마크 api", response);
+        const bookmarkchecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
 
-      console.log("북마크 api", response);
-      const bookmarkchecked = response.data.trueOrFalse;
-      const Id = response.data.postId;
-
-      dispatch(clickBookmark(bookmarkchecked, Id));
-    } catch (error) {
-      console.log(error);
-    }
+        dispatch(clickBookmark(bookmarkchecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -365,17 +372,18 @@ const mainLoveDB = (postId) => {
 
 const mainBookmarkDB = (postId) => {
   return async function (dispatch) {
-    try {
-      const response = await instance.post(`api/bookmark/${postId}`);
+    await instance
+      .post(`api/bookmark/${postId}`)
+      .then((response) => {
+        console.log("메인북마크 api", response);
+        const bookmarkchecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
 
-      console.log("메인북마크 api", response);
-      const bookmarkchecked = response.data.trueOrFalse;
-      const Id = response.data.postId;
-
-      dispatch(mainBookmark(bookmarkchecked, Id));
-    } catch (error) {
-      console.log(error);
-    }
+        dispatch(mainBookmark(bookmarkchecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -550,6 +558,7 @@ export default handleActions(
         draft.paging = action.payload.paging;
         draft.category = action.payload.category;
         draft.isLoading = false;
+        draft.isFilter = true;
       }),
 
     [REGIONGET]: (state, action) =>

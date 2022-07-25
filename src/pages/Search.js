@@ -17,11 +17,11 @@ const Search = () => {
   const keyword = useParams().keyword;
 
   const posts = useSelector((state) => state.post.contents);
+  const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
+  const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-
-  const [page, setPage] = useState(nextPage);
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -36,12 +36,8 @@ const Search = () => {
 
   const loadKeywordPost = () => {
     const keyword_ = checkHasIncode(keyword);
-    dispatch(userAction.keywordGetDB(keyword_, page, size));
+    dispatch(userAction.keywordGetDB(keyword_, nextPage, size));
   };
-
-  useEffect(() => {
-    setPage(nextPage);
-  }, [nextPage]);
 
   useEffect(() => {
     loadKeywordPost();
@@ -60,14 +56,24 @@ const Search = () => {
       <div className="search-container">
         <div className="search-content">
           <div className="search-post">
-            <SearchPost
-              posts={posts}
-              isLoading={isLoading}
-              size={size}
-              nextPage={nextPage}
-              lastPage={lastPage}
-              keyword={checkHasIncode(keyword)}
-            />
+            {isFilter ? (
+              <FilterPost
+                posts={filtercontents}
+                isLoading={isLoading}
+                size={size}
+                nextPage={nextPage}
+                lastPage={lastPage}
+              />
+            ) : (
+              <SearchPost
+                posts={posts}
+                isLoading={isLoading}
+                size={size}
+                nextPage={nextPage}
+                lastPage={lastPage}
+                keyword={checkHasIncode(keyword)}
+              />
+            )}
           </div>
         </div>
       </div>

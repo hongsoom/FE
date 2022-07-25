@@ -18,11 +18,9 @@ const Filter = () => {
   const posts = useSelector((state) => state.post.contents);
   const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
+  const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-
-  const [page, setPage] = useState(nextPage);
-  const is_filtercontents = filtercontents ? true : false;
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -41,12 +39,8 @@ const Filter = () => {
 
   const loadLatestPost = () => {
     const region_ = checkHasIncode(region);
-    dispatch(userAction.regionGETDB(region_, page, size));
+    dispatch(userAction.regionGETDB(region_, nextPage, size));
   };
-
-  useEffect(() => {
-    setPage(nextPage);
-  }, [nextPage]);
 
   useEffect(() => {
     loadLatestPost();
@@ -65,12 +59,12 @@ const Filter = () => {
       <div className="filter-container">
         <div className="filter-content">
           <div className="filter-category">
-            {is_filtercontents === false ? (
+            {isFilter ? (
               <FilterPost
                 posts={filtercontents}
                 isLoading={isLoading}
                 size={size}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
               />
             ) : (
@@ -78,7 +72,7 @@ const Filter = () => {
                 posts={posts}
                 isLoading={isLoading}
                 size={size}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
                 region={region}
               />
