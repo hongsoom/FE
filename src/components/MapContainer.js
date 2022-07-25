@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/mapContainer.css'
+import '../css/mapContainer.scss'
 
 import instance from '../shared/Request'
 import swal from 'sweetalert';
 
 // 컴포넌트
-import ImageSlide from './ImageSlide'
+import ImageSlide from './imageSlide/ImageSlide'
 import ThemeModal from './modal/ThemeModal'
 import RegionModal from './modal/RegionModal'
 import PriceModal from './modal/PriceModal'

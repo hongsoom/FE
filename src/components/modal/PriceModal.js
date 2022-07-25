@@ -1,5 +1,5 @@
 import React from "react";
-import '../../css/priceModal.css'
+import '../../css/priceModal.scss'
 
 const PriceModal = (props) => {
 

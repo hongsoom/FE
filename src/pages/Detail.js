@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/detail.css'
+import '../css/detail.scss'
 import instance from '../shared/Request'
 
 import DetailImageSlide from '../components/DetailImageSlide'
@@ -234,7 +234,7 @@ const Detail = () => {
           {/* 핀을 클릭했을 때 */}
           {/* 바뀌는 부분 시작 */}
           <div className='sectionPerPlace' >
-            {data&&data.map((l,j)=>{
+            {data&&data.place.map((l,j)=>{
               return(
                 <div className="sectionPerPlaceWrap" key={j} 
                 style={focus === l.place_name ? {display:"block"} : {display:'none'}}

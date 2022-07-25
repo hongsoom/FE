@@ -1,5 +1,5 @@
 import React from "react";
-import '../../css/themeModal.css'
+import '../../css/themeModal.scss'
 
 
 const ThemeModal = (props) => {

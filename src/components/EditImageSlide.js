@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/editImageSlide.css';
+import '../css/editImageSlide.scss';
 
 import swal from 'sweetalert';
 import { Swiper, SwiperSlide } from "swiper/react";

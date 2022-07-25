@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import '../css/mapContainer.css'
+import '../css/mapContainer.scss'
 
 import instance from '../shared/Request'
 import swal from 'sweetalert';

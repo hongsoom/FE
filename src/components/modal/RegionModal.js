@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from "react";
-import '../../css/regionModal.css'
+import '../../css/regionModal.scss'
 
 
 const RegionModal = (props) => {
