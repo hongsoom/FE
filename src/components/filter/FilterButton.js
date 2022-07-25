@@ -111,6 +111,7 @@ const FilterButton = (props) => {
                           key={i}
                           onClick={() => {
                             navigate("/search/" + `${list}`);
+
                             dispatch(userAction.initPagingDB());
                           }}
                         >
