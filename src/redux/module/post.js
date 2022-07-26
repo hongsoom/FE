@@ -47,6 +47,8 @@ const LOADING = "post/LOADING";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const KEYWORDGET = "post/KEYWORDGET";
+const REGIONGET = "post/REGIONGET";
+const FILTERGET = "post/FILTERGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
 const MAINBOOKMARK = "post/MAINBOOKMARK";
@@ -64,6 +66,15 @@ const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
 }));
 const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
+  newList,
+  paging,
+}));
+const filterGET = createAction(FILTERGET, (newList, paging, category) => ({
+  newList,
+  paging,
+  category,
+}));
+const regionGET = createAction(REGIONGET, (newList, paging) => ({
   newList,
   paging,
 }));
@@ -176,6 +187,110 @@ const keywordGetDB = (keyword, nextPage, size) => {
 
         dispatch(keywordGet(newList, paging));
       })
+      .catch((error) => {});
+  };
+};
+
+const filterGETDB = (region, price, theme, nextPage, size) => {
+  return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    if (nextPage === undefined) {
+      page = 0;
+    } else {
+      page = nextPage;
+    }
+    if (region === undefined) {
+      region = "";
+    }
+
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
+
+    await instance
+      .get(
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+      )
+      .then((response) => {
+        const newList = response.data.content;
+        const lastpage = response.data.last;
+
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
+
+        let category = {};
+        category = {
+          region: region,
+          theme: theme,
+          price: price,
+        };
+
+        dispatch(filterGET(newList, paging, category));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const regionGETDB = (region, nextPage, size) => {
+  return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    let price;
+    let theme;
+
+    if (nextPage === undefined) {
+      page = 0;
+    } else {
+      page = nextPage;
+    }
+    if (price === undefined) {
+      price = "";
+    }
+
+    if (theme === undefined) {
+      theme = "";
+    }
+
+    await instance
+      .get(
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+      )
+      .then((response) => {
+        const newList = response.data.content;
+        const lastpage = response.data.last;
+
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
+
+        dispatch(regionGET(newList, paging));
+      })
       .catch((error) => {
       });
   };
@@ -283,6 +398,26 @@ export default handleActions(
         draft.isLoading = false;
       }),
 
+
+    [FILTERGET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.filtercontents = [
+          ...state.filtercontents,
+          ...action.payload.newList,
+        ];
+        draft.paging = action.payload.paging;
+        draft.category = action.payload.category;
+        draft.isLoading = false;
+        draft.isFilter = true;
+      }),
+
+    [REGIONGET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
+        draft.isLoading = false;
+      }),
+
     [LOVE]: (state, action) =>
       produce(state, (draft) => {
         if (action.payload.lovechecked) {
@@ -378,6 +513,8 @@ const userAction = {
   bookmarkGetDB,
   arrayGetDB,
   keywordGetDB,
+  filterGETDB,
+  regionGETDB,
   clickLoveDB,
   clickBookmarkDB,
   clearDB,
