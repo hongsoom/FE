@@ -81,7 +81,6 @@ const myInfoDB = () => {
         dispatch(myInfo(data));
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 };
