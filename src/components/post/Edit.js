@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../../css/post.scss'
+import { useDispatch } from 'react-redux'
+import { modifyPostDB } from '../../redux/module/post'
 
 import instance from '../../shared/Request'
 import swal from 'sweetalert';
@@ -13,12 +15,6 @@ import PriceModal from '../modal/PriceModal'
 
 // 라우터
 import { useNavigate, useParams } from 'react-router-dom'
-
-// 리덕스
-import { useDispatch } from 'react-redux'
-
-// 리덕스 모듈
-import { modifyPostDB } from '../../redux/module/post'
 
 // 아이콘
 import search from '../../assets/search.png'

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../../css/post.scss'
-
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import swal from 'sweetalert';
 
 // 컴포넌트
@@ -10,12 +11,6 @@ import ImageSlide from '../imageSlide/ImageSlide'
 import ThemeModal from '../modal/ThemeModal'
 import RegionModal from '../modal/RegionModal'
 import PriceModal from '../modal/PriceModal'
-
-// 라우터
-import { useNavigate } from 'react-router-dom'
-
-// 리덕스
-import { useDispatch } from 'react-redux'
 
 // 리덕스 모듈
 import { addPostDB } from '../../redux/module/post'
@@ -48,7 +43,6 @@ const NewPost = () => {
   const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
   
-
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [loading, setLoading] = useState(false)
   const [editdata, setEditData] = useState([])
@@ -57,8 +51,6 @@ const NewPost = () => {
   const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
   const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
   
-  console.log(select)
-
   const onClickLeftArrow = () => {
     navigate('/')
   }
@@ -169,14 +161,9 @@ const NewPost = () => {
     formData.append("imgUrl",v)
   })
 
-  // formData.append(`${imgUrl[0]}`,)
-  // localStorage.setItem('"token"') 
-  // formData.append("imgUrl",imgs)
-
-
-  for (let key of formData.keys()) {
-    console.log(key, ":", formData.get(key));
-  }
+  // for (let key of formData.keys()) {
+  //   console.log(key, ":", formData.get(key));
+  // }
     
 
   // ---------------------------- 작성 완료 버튼
@@ -187,11 +174,9 @@ const NewPost = () => {
       swal("지역을 선택해주세요!");
     } else if (selectedTheme.length === 0){
       swal("테마를 선택해주세요!");
-    } 
-    // else if (selectedPrice.length === 0){
-    //   swal("비용을 선택해주세요!");
-    // } 
-    else if (title.length === 0){
+    } else if (selectedPrice.length === 0){
+      swal("비용을 선택해주세요!");
+    } else if (title.length === 0){
       swal("제목을 적어주세요!");
     } else if (imgs.length === 0){
       swal("사진을 첨부해주세요!");
@@ -200,27 +185,11 @@ const NewPost = () => {
     } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title && imgs.length !== 0){
       dispatch(addPostDB(formData))
     }
-    
   }
-
-  // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
-  useEffect(()=>{
-    console.log(
-      "title:"+ title,
-      "regionCategory:" +selectedRegion,
-      "themeCategory:" +selectedTheme,
-      "content:" +content,
-      "priceCategory:" +selectedPrice,
-      "place:" +select,
-      "imgUrl" +imgs
-      
-    )
-  },[content, select])
 
 
   const onClickHandler = (__place) => {
     setFocus(__place)
-    console.log(__place)
     const searchList_wrap = document.getElementById('searchList_wrap')
     searchList_wrap.style.height='0px'
   }
@@ -358,11 +327,6 @@ const NewPost = () => {
               {/* 일정선택 */}
               <div className='calendarButton'
               onClick={openPriceModal}>
-                {/* {selectedPrice ?
-                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
-                :
-                <div className='modalChoiceTitle'>비용 선택</div>
-                } */}
                 <div className='modalChoiceTitle'>🗓 일정 선택</div>
                 <div className='calendars'>
                   <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
@@ -405,8 +369,7 @@ const NewPost = () => {
           </div>  
 
           {/* 텍스트 입력 */}
-          <div className='writeTxt'
-          >
+          <div className='writeTxt'>
             <textarea placeholder="아직 선택된 장소가 없어요!" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
           </div>
           <button className='writeSubmit' onClick={onHandlerSubmit}> 작성 완료하기</button>
@@ -454,9 +417,7 @@ const NewPost = () => {
             <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
           </div>
 
-          <button className='writeSubmit' onClick={onHandlerSubmit}
-          
-          >작성 완료하기</button>
+          <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
         </div> 
             
         :
@@ -493,8 +454,7 @@ const NewPost = () => {
           >
             <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
           </div>
-          <button className='writeSubmit' onClick={onHandlerSubmit}
-          >작성 완료하기</button>
+          <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
         </div> 
         }
       </div>
