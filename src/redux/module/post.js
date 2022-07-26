@@ -158,7 +158,6 @@ const keywordGetDB = (keyword, nextPage, size) => {
     await instance
       .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
       .then((response) => {
-        console.log("키워드", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -178,7 +177,6 @@ const keywordGetDB = (keyword, nextPage, size) => {
         dispatch(keywordGet(newList, paging));
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 };
