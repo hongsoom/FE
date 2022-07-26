@@ -1,0 +1,35 @@
+.writeImageContainerPerPlaceWrap{
+  display: flex;
+  align-items: center;
+  z-index: 0;
+
+  .write_categoryslide-imagecontent{
+    width:343px;
+    height:256px;
+    position: relative;
+
+    img {  
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.addButton{
+  width: 343px;
+  height: 40px;
+  background: #E4EFFF;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top:8px;
+
+  input{
+    display: none;
+  }
+}

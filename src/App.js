@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Write from "./pages/Write";
 import Search from "./pages/Search";
 import Main from "./pages/Main";
 import Signup from "./pages/Signup";
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
+        <Route path="/write" element={<Write />} />
       </Routes>
     </div>
   );

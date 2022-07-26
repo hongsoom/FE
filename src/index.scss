@@ -1,5 +1,11 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
+$sky_color: #8ACEFF;
+$ligt_sky_color: #E4EFFF;
+$sub_white_color: #F5F9FF;
+$black_color: #333;
+$gray_color: #606773;
+
 * {
   box-sizing: border-box;
   color: #333;
@@ -17,7 +23,7 @@ code {
 
 a{
   text-decoration: none;
-  color: #333;
+  color: $black_color;
 }
 @font-face {
   font-family: 'Noto Sans CJK KR';
