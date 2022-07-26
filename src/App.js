@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
+import KakaoSocial from "./pages/KakaoSocial";
 
 function App() {
   if (window.Kakao) {
@@ -14,6 +15,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
       </Routes>
     </div>
   );
