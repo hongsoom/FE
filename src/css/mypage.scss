@@ -1,0 +1,338 @@
+.mypageWrap{
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  max-width: 375px;
+  background: #fff;
+  
+  .mypageHeader{
+    width: 100%;
+    height: 231px;
+    background-color: #fff;
+
+    .mypageHeaderItemsWrap{
+      width: 100%;
+      height: 75px;
+      display: flex;
+      justify-content: center;
+      padding-top: 43px;
+
+      .mypageHeaderLeft{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        margin-left: 28.67px;
+
+        .leftArrowBlack{
+          left: 29px;
+          width: 8.43px;
+          margin-right: 20.91px;
+  
+          img{
+            width: 8.43px;
+          }
+        }
+  
+        .myPageTitle{
+          font-family: 'Noto Sans KR';
+          font-style: normal;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 26px;
+        }
+      }
+
+      .mypageHeaderRight{
+        display: flex;
+        align-items: center;
+        margin-right: 21.6px;
+
+        .myProfileLogout{
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 17.38px;
+        }
+
+        .setup{
+          margin-left: 16px;
+          width: 18.4px;
+          height: 21.5px;
+        }
+      }    
+    }
+
+    .myProfile{
+      position: absolute;
+      top: 89px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    
+      .myProfilePic{
+      
+        .myProfilePicCircle{
+          width: 94px;
+          height: 94px;
+          margin-left: 29px;
+          margin-right: 20px;
+          border-radius: 100px;
+          background: #F5F9FF;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.18);
+          left: 29px;
+          top: 89px;
+          overflow: hidden;
+    
+          img{
+            width: 94px;
+            height: 94px;
+          }
+        }
+      }
+    
+      .myProfileTxt{
+        width: 100%;
+    
+        .myProfileTxtTitle{
+          display:flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-right: 20px;
+    
+          .myProfileName{
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26.06px;
+          }
+        }
+    
+        .myProfileTxtDetail{
+          margin-top: 15px;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+  .mypageWraper{
+    position: relative;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+  .mypageWraper::-webkit-scrollbar {
+    display: none;
+  } 
+
+  .writeButtonWrap{
+    position: absolute;
+    left: 301px;
+    bottom: 44px;
+    z-index: 1;
+  }
+  
+  .writeButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    width: 48px;
+    height: 48px;
+    background: #8ACEFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+  
+  .writeButton img{
+    width: 17.97px;
+  }
+}
+
+
+
+
+
+/* 게시글 */
+.myprofilePosts{
+  width: 100%;
+
+  .myprofilePostsTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+
+    .myPostsTitle{
+      width: 50%;
+      padding: 10px 0;
+      display:flex;
+      justify-content: center;
+      box-sizing: border-box;
+
+      input{
+        display: none;
+      }
+    }
+    .myBookmarkTitle{
+      width: 50%;
+      padding: 10px 0;
+      display:flex;
+      justify-content: center;
+      box-sizing: border-box;
+
+      input{
+        display: none;
+      }
+    }
+  }
+
+  .postsNmarks{
+    position:relative;
+
+    .myPosts{
+      position:absolute;
+      width: 100%;
+      background:#fff;
+
+      .postboxs{
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        row-gap: 7px;
+        padding: 18px 20px;
+
+        .postbox{
+          width: 45vw;
+          height: 150px;
+          background: #F5F5F5;
+          border-radius: 8px;
+          overflow: hidden;
+
+          .txtArea{
+            background: rgba(96, 103, 115, 0.8);
+            border-radius: 0px 0px 8px 8px;
+            margin-top:104px;
+            padding: 6px;
+          
+            .postBoxTitle{
+              font-weight: 600;
+              font-size: 11px;
+              line-height: 14px;
+              display: flex;
+              color: #FFF;
+              margin-bottom: 8px;
+            }
+          
+            .myPostDetail{
+              display:flex;  
+          
+              .myPostTag{
+                font-weight: 400;
+                font-size: 10px;
+                line-height: 14px;
+                display: flex;
+                color: #FFF;
+          
+                div{
+                  color: #FFF;
+                  margin-right: 5px;
+                }
+              }
+          
+              .myPostIcons{
+                font-weight: 400;
+                font-size: 10px;
+                line-height: 14px;
+                margin-left:auto;
+                color: #fff;
+              
+                img{
+                  width: 8.33px;
+                  margin-right: 3px;
+                } 
+              }
+            }
+          }
+          
+          
+        }
+      }
+    }
+
+    .myBookmarks{
+      position:absolute;
+      width: 100%;
+      background:#fff;
+
+      .postboxs{
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        row-gap: 7px;
+        padding: 18px 20px;
+
+        .postbox{
+          width: 45vw;
+          height: 150px;
+          background: #F5F5F5;
+          border-radius: 8px;
+          overflow: hidden;
+
+          .txtArea{
+            background: rgba(96, 103, 115, 0.8);
+            border-radius: 0px 0px 8px 8px;
+            margin-top:104px;
+            padding: 6px;
+          
+            .postBoxTitle{
+              font-weight: 600;
+              font-size: 11px;
+              line-height: 14px;
+              display: flex;
+              color: #FFF;
+              margin-bottom: 8px;
+            }
+          
+            .myPostDetail{
+              display:flex;  
+          
+              .myPostTag{
+                font-weight: 400;
+                font-size: 10px;
+                line-height: 14px;
+                display: flex;
+                color: #FFF;
+          
+                div{
+                  color: #FFF;
+                  margin-right: 5px;
+                }
+              }
+          
+              .myPostIcons{
+                font-weight: 400;
+                font-size: 10px;
+                line-height: 14px;
+                margin-left:auto;
+                color: #fff;
+              
+                img{
+                  width: 8.33px;
+                  margin-right: 3px;
+                } 
+              }
+            }
+          }
+          
+          
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+.setupWrap{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+
+  .setupHeader{
+    position: fixed;
+    width: 100vw;
+
+    .leftArrowBlack{
+      width: 8.43px;
+      margin-top: 50.11px;
+      margin-left: 28.67px;
+
+      img{
+        width: 8.43px;
+      }
+    }
+  }  
+}
+
+.setupContents{
+  position: absolute;
+  top: 94px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 24px;
+
+  .setupProfilePic{
+    background-color: #F5F9FF;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .setupNickname{
+
+    input{
+      width: 183px;
+      text-align: center;
+      background: transparent;
+      border: 2px solid transparent;
+      border-bottom: 2px solid #8ACEFF;
+      margin-top: 30px;
+    }
+
+    p{
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 17px;
+      color: #D25151;
+    }
+  }
+
+  textarea{
+    box-sizing: border-box;
+    width: 327px;
+    height: 120px;
+    border: 1px solid #8ACEFF;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 36px;
+    resize: none;
+    outline: none;
+  }
+
+  .setUpbutton{
+    width: 327px;
+    margin-top: 18px;
+    height: 44px;
+    background: #8ACEFF;
+    color: #F5F9FF;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 23px;
+    border-radius: 8px;
+  }
+}
