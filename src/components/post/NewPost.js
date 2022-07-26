@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import '../../css/post.scss'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -42,7 +42,6 @@ const NewPost = () => {
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
-  
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [loading, setLoading] = useState(false)
   const [editdata, setEditData] = useState([])
