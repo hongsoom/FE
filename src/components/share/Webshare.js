@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "../../css/webShare.scss";
 import close from "../../assets/close.png";
 import urlshare from "../../assets/urlshare.png";
