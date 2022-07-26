@@ -292,7 +292,6 @@ const regionGETDB = (region, nextPage, size) => {
         dispatch(regionGET(newList, paging));
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 };
@@ -398,6 +397,7 @@ export default handleActions(
         draft.paging = action.payload.paging;
         draft.isLoading = false;
       }),
+
 
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
