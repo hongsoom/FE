@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import "../../css/post.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addPostDB } from "../../redux/module/post";
-
 import swal from "sweetalert";
 
 // 컴포넌트
