@@ -598,18 +598,11 @@ export default handleActions(
       });
     },
 
-    /* 
     [DELETE]: (state, action) =>
-     produce(state, (draft) => {
-    draft.newList = draft.newList.filter(
-      (p) => p.postId !== action.payload.postId)
-    }),
-
       produce(state, (draft) => {
         draft.contents = draft.contents.filter((p) =>
         p.postId !== action.payload.postId );
-      }),
-      */
+    }),
 
     [GETMYPOST]: (state, action) =>
       produce(state, (draft) => {
