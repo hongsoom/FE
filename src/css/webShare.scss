@@ -1,0 +1,62 @@
+.webshare-box {
+    margin: 0 auto;
+  }
+  
+  .webshare-container {
+    position: relative;
+  }
+  
+  .webshare-content {
+    position: absolute;
+    width: 325px;
+    height: 100px;
+    top: 1.5%;
+    left: 1.5%;
+    margin-top: 51px;
+    z-index: 2;
+    background-color: #ffffff;
+    box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.24);
+    border-radius: 8px;
+  }
+  
+  .webshare-title {
+    display: flex;
+    justify-content: center;
+  
+    > {
+      p {
+        font-family: "Noto Sans KR";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 23px;
+        color: #333333;
+      }
+  
+      img {
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        margin: 13px;
+        cursor: pointer;
+        margin-left: 300px;
+      }
+    }
+  }
+  
+  .webshare-share {
+    display: flex;
+    justify-content: center;
+  
+    > {
+      input {
+        display: none;
+      }
+  
+      img, a > img {
+        width: 89px;
+        height: 32px;
+        cursor: pointer;
+      }
+    }
+  }
