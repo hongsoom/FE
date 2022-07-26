@@ -55,6 +55,7 @@ const MAINBOOKMARK = "post/MAINBOOKMARK";
 const MAINLOVE = "post/MAINLOVE";
 const INITPAGING = "post/INITPAGING";
 const CLEAR = "post/CLEAR";
+const DELETE = "post/DELETE";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
 const initPaging = createAction(INITPAGING);
@@ -95,6 +96,7 @@ const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
   Id,
 }));
 const clearPost = createAction(CLEAR);
+const deletePost = createAction(DELETE, (id) => ({ id }));
 
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
@@ -291,8 +293,7 @@ const regionGETDB = (region, nextPage, size) => {
 
         dispatch(regionGET(newList, paging));
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   };
 };
 
@@ -372,6 +373,26 @@ const clearDB = () => {
   };
 };
 
+export const deletePostDB = (postId) => {
+  console.log(postId);
+  return function (dispatch) {
+    instance
+      .delete(`api/post/${postId}`, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        dispatch(deletePost(postId));
+        window.location.assign("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 export default handleActions(
   {
     [LOADING]: (state, action) =>
@@ -398,7 +419,6 @@ export default handleActions(
         draft.isLoading = false;
       }),
 
-
     [FILTERGET]: (state, action) =>
       produce(state, (draft) => {
         draft.filtercontents = [
@@ -416,6 +436,13 @@ export default handleActions(
         draft.contents = [...state.contents, ...action.payload.newList];
         draft.paging = action.payload.paging;
         draft.isLoading = false;
+      }),
+
+    [DELETE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.contents = draft.contents.filter(
+          (p) => p.postId !== action.payload.postId
+        );
       }),
 
     [LOVE]: (state, action) =>

@@ -4,6 +4,7 @@ import instance from "../../shared/Request";
 
 const LOGIN = "login";
 const LOGOUT = "logout";
+const MYINFO = "myinfo";
 
 const initialState = {
   list: [],
@@ -13,6 +14,7 @@ const initialState = {
 
 const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
+const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 
 const logInDB = (username, password) => {
   return async function (dispatch) {
@@ -65,6 +67,24 @@ const logOutDB = () => {
   };
 };
 
+const myInfoDB = () => {
+  return async function (dispatch) {
+    await instance
+      .get("api/user/", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        dispatch(myInfo(data));
+      })
+      .catch((error) => {
+      });
+  };
+};
+
 export default handleActions(
   {
     [LOGIN]: (state, action) =>
@@ -77,6 +97,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.isLogin = false;
       }),
+
+    [MYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = action.payload.myinfo;
+      }),
   },
   initialState
 );
@@ -85,6 +110,7 @@ const userAction = {
   logInDB,
   kakaoLoginDB,
   logOutDB,
+  myInfoDB,
 };
 
 export { userAction };
