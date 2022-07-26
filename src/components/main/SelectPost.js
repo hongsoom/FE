@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import InfinityScroll from "../share/InfinityScroll";
 import PostItem from "../post/PostItem";
-import "../../css/postItem.css";
+import "../../css/postItem.scss";
 
 const SelectPost = (props) => {
   const dispatch = useDispatch();

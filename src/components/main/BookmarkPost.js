@@ -1,7 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PostItem from "../post/PostItem";
-import "../../css/postItem.css";
+import "../../css/postItem.scss";
 
 const BookmarkPost = (props) => {
   const { bookmarkcontents, bookmarkCount } = props;
