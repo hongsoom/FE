@@ -7,7 +7,6 @@ import write from "../../assets/write.png";
 import mypage from "../../assets/mypage.png";
 import logoSmail from "../../assets/logo-smail.png";
 import topArrow from "../../assets/topArrow.png";
-import setup from "../../assets/setup.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -43,29 +42,29 @@ const Header = () => {
             )}
             <div className="header-title" onClick={() => navigate("/")}>
               <img src={logoSmail} alt="logoSmail" className="logoSmail-icon" />
-              <p>야너갈</p>
+              <p>야, 너도 갈래?</p>
             </div>
             <div className="header-icon">
               {is_login ? (
-                <img
-                  src={write}
-                  alt="write"
-                  className="write-icon"
-                  onClick={() => navigate("/write")}
-                />
-              ) : null}
-              <img
-                src={setup}
-                alt="login"
-                className="login-icon"
-                onClick={() => navigate("/login")}
-              />
-              <img
-                src={mypage}
-                alt="mypage"
-                className="mypage-icon"
-                onClick={() => navigate("/mypage")}
-              />
+                <>
+                  <img
+                    src={write}
+                    alt="write"
+                    className="write-icon"
+                    onClick={() => navigate("/write")}
+                  />
+                  <img
+                    src={mypage}
+                    alt="mypage"
+                    className="mypage-icon"
+                    onClick={() => navigate("/mypage")}
+                  />
+                </>
+              ) : (
+                <p>
+                  <a href={"/Login"}>로그인</a>
+                </p>
+              )}
             </div>
           </div>
         </div>
