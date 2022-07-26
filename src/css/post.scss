@@ -1,0 +1,362 @@
+/* 헤더 */
+.writeHeader{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+
+  .writeHeaderWrap{
+    background: #FFFCFC;
+    width: 100%;
+    height: 146px;
+    padding-top: 44px;
+    display:flex;
+    flex-direction: column;
+
+    /* 헤더 위쪽 아이콘, 검색창*/
+    .writeUpperHeader{
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      .writePreIcon{
+        width: 8.43px;
+        margin-right: 8.91px;
+        margin-left: 5px;
+
+        img{
+          width: 8.43px;
+        }
+      }
+
+      .writeSearchNresult{
+        position: relative;
+
+        .inputForm{
+          position: relative;
+          width: 317px;
+          border: 1px solid #E4EFFF;
+          border-radius: 8px;
+          box-sizing: border-box;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+          background: #FFF;
+          display:flex;
+        
+          input{
+            width: 317px;
+            height: 40px;
+            padding: 10px;
+            margin-right: 10px;
+            outline: none;
+            border: none;
+            background: transparent;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+          }
+          input::placeholder{
+            color: #E4EFFF;
+          }
+
+          button{
+            position: absolute;
+            top: 25%;
+            right: 20px;
+            width: 15.65px;
+            height: 16.93px;
+            background:transparent;
+            border: none;
+
+            img{
+              width: 15.65px;
+              height: 16.93px;
+            }
+          }
+        }
+
+        /* 검색 목록 */
+        .searchList_wrap{
+          position: absolute;
+          z-index: 99;
+          width: 317px;
+          border-radius: 8px;
+          height: 0px;
+          border: 1px solid #E4EFFF;
+          margin-bottom: 5px;
+          overflow-y: auto;
+          font-size: 12px;
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+
+          #result-list{
+            margin-left: 15px;
+            line-height: 18px;
+          }
+        }
+      }
+    }
+
+
+    /* 헤더 아래쪽 지역, 테마, 비용 */
+    .writeLowerHeader{
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+
+      .modalButtons{
+        display: flex;
+        margin-top: 12px;
+
+        .regionButton{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #8ACEFF;
+          width: 82px;
+          height: 38px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+          border-radius: 8px;
+          margin-right: 5px;
+
+          .modalChoiceTitle{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #F5F9FF;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 17px;
+          }
+        }
+        .priceButton{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #8ACEFF;
+          width: 82px;
+          height: 38px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+          border-radius: 8px;
+          margin-right: 5px;
+
+          .modalChoiceTitle{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #F5F9FF;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 17px;
+          }
+        }
+        .themeButton{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #8ACEFF;
+          width: 82px;
+          height: 38px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+          border-radius: 8px;
+          margin-right: 5px;
+
+          .modalChoiceTitle{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #F5F9FF;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 17px;
+          }
+        }
+        .calendarButton{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #8ACEFF;
+          width: 82px;
+          height: 38px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+          border-radius: 8px;
+
+          .modalChoiceTitle{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            color: #F5F9FF;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 17px;
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+
+/* 지도 아래 움직이는 부분 */
+.contentWrap{
+  margin-top: 516px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  width: 100vw;
+  background: #fff;
+
+  /* 제목 */
+  .writeTitleWrap{
+    width: 343px;
+    height: 40px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    border: 1px solid #E4EFFF;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    background: #FFF;
+    margin-bottom: 16.33px;
+
+    input{
+      text-align: left;
+      border: 1px solid transparent;
+      background: transparent;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      padding: 10px;
+    }
+    input::placeholder{
+      color: #E4EFFF;
+    }
+  }
+
+  .sectionWrap{
+    display: flex;
+    flex-direction: column;
+    width: 343px;
+
+    .sectionPerPlace{
+      width: 100vw;
+
+      .sectionPerPlaceWrap{
+        display: flex;
+        flex-direction: column;
+        width: 343px;
+        overflow: hidden;
+        z-index: 0;
+        background: #fff;
+
+        /* 사진 */
+        .imgUpload{
+          width: 343px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          
+          .imgUploadHeader{
+            display:flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 20px;
+
+            .imgUploadTitle{
+              display:flex;
+              align-items: center;
+
+              img{
+                width: 24px;
+              }
+            }
+
+            .removePlaceButton{
+              width: 95px;
+              height: 28px;
+              background: #8ACEFF;
+              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+              border-radius: 8px;
+              color: #F5F9FF;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 17px;
+              display:flex;
+              align-items: center;
+              justify-content: center;
+            
+              img{
+                width: 16.67px;
+                height: 16.67px;
+                margin-right: 5.67px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* 콘텐트 */
+    .writeTxt{
+      display: flex;
+      flex-direction: column;
+      width: 343px;
+      font-size:12px;
+      border-radius: 8px;
+      line-height: 20px;
+      padding: 12px;
+      border: 1px solid #B6DCFF;
+      border-radius: 8px;
+
+      textarea{
+        width: 100%;
+        resize: none;
+        outline: none;
+        border: none;
+      }
+
+      textarea::placeholder{
+        color: #E4EFFF;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+
+    .writeSubmit{
+      width: 343px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+      background: #8ACEFF;
+      border-radius: 8px;
+      line-height: 20px;
+      padding: 10px 15px;
+      margin-top: 16px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}
+
+.contentWrap::-webkit-scrollbar{
+  display: none;
+}
