@@ -1,24 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import '../../css/post.scss'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { addPostDB } from '../../redux/module/post'
 
 import swal from 'sweetalert';
 
 // 컴포넌트
-import SearchPlace from '../post/SearchPlace'
+import SearchPlace from '../search/SearchPlace'
 import Kakaomap from '../kakaomap/Kakaomap'
 import ImageSlide from '../imageSlide/ImageSlide'
 import ThemeModal from '../modal/ThemeModal'
 import RegionModal from '../modal/RegionModal'
 import PriceModal from '../modal/PriceModal'
-
-// 라우터
-import { useNavigate } from 'react-router-dom'
-
-// 리덕스
-import { useDispatch } from 'react-redux'
-
-// 리덕스 모듈
-import { addPostDB } from '../../redux/module/post'
 
 // 아이콘
 import search from '../../assets/search.png'
@@ -68,25 +62,7 @@ const NewPost = () => {
     setTitle(e.currentTarget.value);
   };
 
-  // ---------------------------- 검색 창
-  const onChange = (e) => {
-    setInputText(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    const searchList_wrap = document.getElementById('searchList_wrap')
-    searchList_wrap.style.height='220px'
-
-    if(!inputText.replace(/^\s+|\s+$/g, '')){
-      swal("키워드를 입력해주세요!");
-      return false;
-    }
-    e.preventDefault();
-    setPlace(inputText);
-    setInputText("");
-  };
-
-
+  
   // ---------------------------- 지역 모달 open / close
   const openRegionModal = () => {
     setShowRegionModal(true)
@@ -112,7 +88,6 @@ const NewPost = () => {
     setShowPriceModal(false)
   }
   
-
   // ---------------------------- 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
     setConent(e.target.value);
@@ -169,14 +144,9 @@ const NewPost = () => {
     formData.append("imgUrl",v)
   })
 
-  // formData.append(`${imgUrl[0]}`,)
-  // localStorage.setItem('"token"') 
-  // formData.append("imgUrl",imgs)
-
-
-  for (let key of formData.keys()) {
-    console.log(key, ":", formData.get(key));
-  }
+  // for (let key of formData.keys()) {
+  //   console.log(key, ":", formData.get(key));
+  // }
     
 
   // ---------------------------- 작성 완료 버튼
@@ -187,11 +157,9 @@ const NewPost = () => {
       swal("지역을 선택해주세요!");
     } else if (selectedTheme.length === 0){
       swal("테마를 선택해주세요!");
-    } 
-    // else if (selectedPrice.length === 0){
-    //   swal("비용을 선택해주세요!");
-    // } 
-    else if (title.length === 0){
+    } else if (selectedPrice.length === 0){
+      swal("비용을 선택해주세요!");
+    } else if (title.length === 0){
       swal("제목을 적어주세요!");
     } else if (imgs.length === 0){
       swal("사진을 첨부해주세요!");
@@ -202,29 +170,6 @@ const NewPost = () => {
     }
     
   }
-
-  // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
-  useEffect(()=>{
-    console.log(
-      "title:"+ title,
-      "regionCategory:" +selectedRegion,
-      "themeCategory:" +selectedTheme,
-      "content:" +content,
-      "priceCategory:" +selectedPrice,
-      "place:" +select,
-      "imgUrl" +imgs
-      
-    )
-  },[content, select])
-
-
-  const onClickHandler = (__place) => {
-    setFocus(__place)
-    console.log(__place)
-    const searchList_wrap = document.getElementById('searchList_wrap')
-    searchList_wrap.style.height='0px'
-  }
-
   
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
@@ -286,9 +231,8 @@ const NewPost = () => {
               <img src={leftArrowBlack} alt="홈으로 이동"/>
             </div>
             <SearchPlace
-            search={search} Places={Places} onChange={onChange} handleSubmit={handleSubmit} inputText={inputText}
-            onClickHandler={onClickHandler} setSelect={setSelect} select={select} setImgUrl={setImgUrl} list={list}
-            setFocus={setFocus}
+            setInputText={setInputText} inputText={inputText} setPlace={setPlace} Places={Places}
+            search={search} setSelect={setSelect} select={select} setFocus={setFocus} list={list} setImgUrl={setImgUrl} 
             />
           </div>
           <div className='writeLowerHeader'>
@@ -358,11 +302,6 @@ const NewPost = () => {
               {/* 일정선택 */}
               <div className='calendarButton'
               onClick={openPriceModal}>
-                {/* {selectedPrice ?
-                <div className='modalChoiceTitle'>{selectedPrice&&selectedPrice}</div>
-                :
-                <div className='modalChoiceTitle'>비용 선택</div>
-                } */}
                 <div className='modalChoiceTitle'>🗓 일정 선택</div>
                 <div className='calendars'>
                   <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
