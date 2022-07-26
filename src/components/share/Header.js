@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FilterMenu from "../filter/FilterMenu";
+import RegionFilter from "../filter/RegionFilter";
 import "../../css/header.scss";
 import categoryMenu from "../../assets/categoryMenu.png";
 import write from "../../assets/write.png";
@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <>
-      {viewCategory ? <FilterMenu onClick={onClick} /> : null}
+      {viewCategory ? <RegionFilter onClick={onClick} /> : null}
       <div className="header-container">
         <div className="header-content">
           <div className="header-image">
