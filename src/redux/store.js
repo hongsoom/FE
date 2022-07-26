@@ -1,15 +1,13 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import user from "./module/user";
 import post from "./module/post";
+import user from "./module/user";
 import comment from "./module/comment";
-import uploadImg from "./module/uploadImg"
 
 const rootReducer = combineReducers({
-  user: user,
+  user,
   post,
-  uploadImg,
-  comment: comment,
+  comment,
 });
 
 const middlewares = [thunk];

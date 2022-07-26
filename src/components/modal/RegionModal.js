@@ -4,7 +4,7 @@ import '../../css/regionModal.scss'
 
 const RegionModal = (props) => {
 
-  const { region, selectedRegion, setRegion, showRegionModal, closeRegionModal, editdata, is_edit} = props;
+  const { region, selectedRegion, setRegion, showRegionModal, closeRegionModal, is_edit} = props;
   
   const isChecked = (e) =>{
     if (e.target.checked){

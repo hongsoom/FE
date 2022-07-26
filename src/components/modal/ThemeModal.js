@@ -4,11 +4,8 @@ import '../../css/themeModal.scss'
 
 const ThemeModal = (props) => {
 
-  const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal, editdata, is_edit} = props;
+  const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal } = props;
   
-
-  console.log(selectedTheme)
-
   return (
     <div className={showThemeModal ? 'openModal themeWrap': 'themeWrap'}>
       {showThemeModal ?
