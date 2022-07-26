@@ -46,6 +46,10 @@ const initialState = {
 const LOADING = "post/LOADING";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
+const BOOKMARK = "post/BOOKMARK";
+const LOVE = "post/LOVE";
+const MAINBOOKMARK = "post/MAINBOOKMARK";
+const MAINLOVE = "post/MAINLOVE";
 const INITPAGING = "post/INITPAGING";
 const CLEAR = "post/CLEAR";
 
@@ -58,7 +62,25 @@ const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
 }));
+
+const clickLove = createAction(LOVE, (lovechecked, Id) => ({
+  lovechecked,
+  Id,
+}));
+const clickBookmark = createAction(BOOKMARK, (bookmarkchecked, Id) => ({
+  bookmarkchecked,
+  Id,
+}));
+const mainLove = createAction(MAINLOVE, (lovechecked, Id) => ({
+  lovechecked,
+  Id,
+}));
+const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
+  bookmarkchecked,
+  Id,
+}));
 const clearPost = createAction(CLEAR);
+
 
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
@@ -120,6 +142,68 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
   };
 };
 
+const clickLoveDB = (postId) => {
+  return async function (dispatch) {
+    await instance
+      .post(`api/love/${postId}`)
+      .then((response) => {
+        const lovechecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+        dispatch(clickLove(lovechecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const clickBookmarkDB = (postId) => {
+  return async function (dispatch) {
+    await instance
+      .post(`api/bookmark/${postId}`)
+      .then((response) => {
+        const bookmarkchecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+
+        dispatch(clickBookmark(bookmarkchecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const mainLoveDB = (postId) => {
+  return async function (dispatch) {
+    await instance
+      .post(`api/love/${postId}`)
+      .then((response) => {
+        const lovechecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+        dispatch(mainLove(lovechecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const mainBookmarkDB = (postId) => {
+  return async function (dispatch) {
+    await instance
+      .post(`api/bookmark/${postId}`)
+      .then((response) => {
+        const bookmarkchecked = response.data.trueOrFalse;
+        const Id = response.data.postId;
+
+        dispatch(mainBookmark(bookmarkchecked, Id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 const initPagingDB = () => {
   return function (dispatch) {
     console.log("pagingclear");
@@ -153,6 +237,82 @@ export default handleActions(
         draft.bookmarkcontents = [...action.payload.bookmarkcontents];
       }),
 
+    [LOVE]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.lovechecked) {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = true;
+              post.loveCount = +1;
+            }
+          });
+        } else {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = false;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
+          });
+        }
+      }),
+
+    [BOOKMARK]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.bookmarkchecked) {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = true;
+          });
+        } else {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
+        }
+      }),
+
+    [MAINLOVE]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.lovechecked) {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = true;
+              post.loveCount = +1;
+            }
+          });
+        } else {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = false;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
+          });
+        }
+      }),
+
+    [MAINBOOKMARK]: (state, action) =>
+      produce(state, (draft) => {
+        if (action.payload.bookmarkchecked) {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = true;
+          });
+        } else {
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
+        }
+      }),
+
     [INITPAGING]: (state, action) =>
       produce(state, (draft) => {
         draft.paging.next = 0;
@@ -171,7 +331,11 @@ export default handleActions(
 const userAction = {
   bookmarkGetDB,
   arrayGetDB,
+  clickLoveDB,
+  clickBookmarkDB,
   clearDB,
+  mainBookmarkDB,
+  mainLoveDB,
   initPagingDB,
 };
 export { userAction };
