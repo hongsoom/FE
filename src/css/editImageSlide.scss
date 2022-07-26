@@ -1,0 +1,38 @@
+.writeImageContainerPerPlaceWrap{
+  display: flex;
+  align-items: center;
+}
+.write_categoryslide-imagecontent{
+  width: 343px;
+  height: 256px;
+  position: relative;
+  z-index: 0;
+
+  img {  
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+}
+
+.addButton{
+  width: 343px;
+  height: 40px;
+  background: #E4EFFF;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+.imgRemoveButton{
+  position: absolute;
+  top: 5.64px;
+  right: 5.64px;
+  cursor: pointer;
+}

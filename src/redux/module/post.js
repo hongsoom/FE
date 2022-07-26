@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
+import swal from "sweetalert";
 
 const initialState = {
   title: "",
@@ -44,31 +45,37 @@ const initialState = {
 };
 
 const LOADING = "post/LOADING";
-const ARRAYGET = "post/ARRAYGET";
-const BOOKMARKGET = "post/BOOKMARKGET";
 const KEYWORDGET = "post/KEYWORDGET";
 const REGIONGET = "post/REGIONGET";
+const ARRAYGET = "post/ARRAYGET";
+const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
 const MAINBOOKMARK = "post/MAINBOOKMARK";
 const MAINLOVE = "post/MAINLOVE";
 const INITPAGING = "post/INITPAGING";
-const CLEAR = "post/CLEAR";
+const GETLIST = "post/GETLIST";
+const GET = "post/GET";
+const ADD = "post/ADD";
+const MODIFY = "post/MODIFY";
 const DELETE = "post/DELETE";
+const CLEAR = "post/CLEAR";
+const GETMYPOST = "post/GETMYPOST";
+const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
 const initPaging = createAction(INITPAGING);
+const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
+  newList,
+  paging,
+}));
 const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
   newList,
   paging,
 }));
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
-}));
-const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
-  newList,
-  paging,
 }));
 const filterGET = createAction(FILTERGET, (newList, paging, category) => ({
   newList,
@@ -96,7 +103,15 @@ const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
   Id,
 }));
 const clearPost = createAction(CLEAR);
+const getPostList = createAction(GET, (postList) => ({ postList }));
+const getPost = createAction(GET, (postOne) => ({ postOne }));
+const addPost = createAction(ADD, (post) => ({ post }));
+const modifyPost = createAction(MODIFY, (post) => ({ post }));
 const deletePost = createAction(DELETE, (id) => ({ id }));
+const getmypost = createAction(GETMYPOST, (myposts) => ({ myposts }));
+const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
+  mybookmarks,
+}));
 
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
@@ -373,6 +388,62 @@ const clearDB = () => {
   };
 };
 
+export const getPostDB = (postId) => {
+  return async function (dispatch) {
+    try {
+      const data = await instance.get(`api/post/${postId}`);
+      const newData = data.data.body;
+      dispatch(getPost(newData));
+      console.log(newData);
+    } catch (error) {
+      // alert("오류가 발생했습니다. 다시 시도해주세요.");
+      console.log(error);
+    }
+  };
+};
+
+export const addPostDB = (data) => {
+  console.log(data);
+  return async function (dispatch, getState) {
+    console.log(data);
+    await instance
+      .post("api/post", data, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        swal("작성 완료!");
+        window.location.assign("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const modifyPostDB = (data, postId) => {
+  return async function (dispatch, getState) {
+    await instance
+      .put(`api/post/${postId}`, data, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.alert("수정 완료");
+        window.location.assign("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 export const deletePostDB = (postId) => {
   console.log(postId);
   return function (dispatch) {
@@ -393,11 +464,64 @@ export const deletePostDB = (postId) => {
   };
 };
 
+export const getMypostDB = (size, page, id, desc) => {
+  return async function (dispatch) {
+    try {
+      const data = await instance.get(
+        `api/user/mypost?size=${size}&page=${page}&sort=${id},${desc}`,
+        {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      const myposts = data.data.content;
+      dispatch(getmypost(myposts));
+      console.log(myposts);
+    } catch (error) {
+      // alert("오류가 발생했습니다. 다시 시도해주세요.");
+      console.log(error);
+    }
+  };
+};
+
+export const getMybookmarkDB = (size, page, id, desc) => {
+  return async function (dispatch) {
+    try {
+      const data = await instance.get(
+        `api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
+        {
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      const newData = data.data;
+      dispatch(getmybookmark(newData));
+      console.log(newData);
+    } catch (error) {
+      // alert("오류가 발생했습니다. 다시 시도해주세요.");
+      console.log(error);
+    }
+  };
+};
+
+//reducer
+
 export default handleActions(
   {
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
         draft.isLoading = action.payload.isLoading;
+      }),
+
+    [KEYWORDGET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
+        draft.isLoading = false;
       }),
 
     [ARRAYGET]: (state, action) =>
@@ -410,13 +534,6 @@ export default handleActions(
     [BOOKMARKGET]: (state, action) =>
       produce(state, (draft) => {
         draft.bookmarkcontents = [...action.payload.bookmarkcontents];
-      }),
-
-    [KEYWORDGET]: (state, action) =>
-      produce(state, (draft) => {
-        draft.contents = [...state.contents, ...action.payload.newList];
-        draft.paging = action.payload.paging;
-        draft.isLoading = false;
       }),
 
     [FILTERGET]: (state, action) =>
@@ -438,11 +555,51 @@ export default handleActions(
         draft.isLoading = false;
       }),
 
+    [GETLIST]: (state, action) => {
+      return {
+        posts: action.payload,
+      };
+    },
+
+    [GET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.post = action.payload;
+      }),
+
+    [ADD]: (state, action) => {
+      return {
+        ...state,
+        posts: action.payload.post,
+      };
+    },
+
+    [MODIFY]: (state, action) => {
+      produce(state, (draft) => {
+        const index = draft.contents.findIndex(
+          (p) => p.postId === action.payload.postId
+        );
+        draft.contents[index] = {
+          ...draft.contents[index],
+          ...action.payload.post,
+        };
+      });
+    },
+
     [DELETE]: (state, action) =>
       produce(state, (draft) => {
         draft.contents = draft.contents.filter(
           (p) => p.postId !== action.payload.postId
         );
+      }),
+
+    [GETMYPOST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myposts = action.payload;
+      }),
+
+    [GETMYBOOKMARK]: (state, action) =>
+      produce(state, (draft) => {
+        draft.mybookmarks = action.payload;
       }),
 
     [LOVE]: (state, action) =>
@@ -539,14 +696,20 @@ export default handleActions(
 const userAction = {
   bookmarkGetDB,
   arrayGetDB,
-  keywordGetDB,
-  filterGETDB,
-  regionGETDB,
   clickLoveDB,
   clickBookmarkDB,
   clearDB,
+  filterGETDB,
+  keywordGetDB,
+  getPostDB,
+  addPostDB,
+  modifyPostDB,
+  deletePostDB,
+  getMypostDB,
+  getMybookmarkDB,
   mainBookmarkDB,
   mainLoveDB,
   initPagingDB,
+  regionGETDB,
 };
 export { userAction };
