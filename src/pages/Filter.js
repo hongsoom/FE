@@ -22,10 +22,6 @@ const Filter = () => {
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
 
-  console.log(isFilter);
-
-  const [page, setPage] = useState(nextPage);
-
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
@@ -43,12 +39,8 @@ const Filter = () => {
 
   const loadLatestPost = () => {
     const region_ = checkHasIncode(region);
-    dispatch(userAction.regionGETDB(region_, page, size));
+    dispatch(userAction.regionGETDB(region_, nextPage, size));
   };
-
-  useEffect(() => {
-    setPage(nextPage);
-  }, [nextPage]);
 
   useEffect(() => {
     loadLatestPost();
@@ -72,7 +64,7 @@ const Filter = () => {
                 posts={filtercontents}
                 isLoading={isLoading}
                 size={size}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
               />
             ) : (
@@ -80,7 +72,7 @@ const Filter = () => {
                 posts={posts}
                 isLoading={isLoading}
                 size={size}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
                 region={region}
               />

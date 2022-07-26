@@ -23,10 +23,6 @@ const Search = () => {
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
 
-  console.log(isFilter);
-
-  const [page, setPage] = useState(nextPage);
-
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
@@ -40,12 +36,8 @@ const Search = () => {
 
   const loadKeywordPost = () => {
     const keyword_ = checkHasIncode(keyword);
-    dispatch(userAction.keywordGetDB(keyword_, page, size));
+    dispatch(userAction.keywordGetDB(keyword_, nextPage, size));
   };
-
-  useEffect(() => {
-    setPage(nextPage);
-  }, [nextPage]);
 
   useEffect(() => {
     loadKeywordPost();
@@ -69,7 +61,7 @@ const Search = () => {
                 posts={filtercontents}
                 isLoading={isLoading}
                 size={size}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
               />
             ) : (

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Spinner from "./SpinnerSmail";
 
 const InfinityScroll = (props) => {
-  const { children, callNext, is_next, loading, page } = props;
+  const { children, callNext, is_next, loading, nextPage } = props;
 
   const handleScroll = (e) => {
     if (is_next) {
@@ -26,7 +26,7 @@ const InfinityScroll = (props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [page]);
+  }, [nextPage]);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

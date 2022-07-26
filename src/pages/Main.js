@@ -31,20 +31,25 @@ const Main = () => {
   const [direction, setDirection] = useState("desc");
   const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");
   const [sortby, setSortby] = useState("id");
-  const [page, setPage] = useState(nextPage);
 
   const onChangeSort = (e) => {
     const clickedSort = e.target.value;
     setSortby(clickedSort);
   };
 
-  const onSortPost = () => {
-    dispatch(userAction.arrayGetDB(keyword, page, size, sortby, direction));
+  const onSortPost = (nextPage) => {
+    dispatch(userAction.arrayGetDB(keyword, nextPage, size, sortby, direction));
   };
 
   const loadfirstPost = () => {
     dispatch(
-      userAction.bookmarkGetDB(keyword, page, size, direction, bookmarkCount)
+      userAction.bookmarkGetDB(
+        keyword,
+        nextPage,
+        size,
+        direction,
+        bookmarkCount
+      )
     );
   };
 
@@ -63,10 +68,6 @@ const Main = () => {
     };
   }, [sortby]);
 
-  useEffect(() => {
-    setPage(nextPage);
-  }, [nextPage]);
-
   return (
     <>
       <Header />
@@ -79,7 +80,7 @@ const Main = () => {
               <FilterPost
                 size={size}
                 posts={filtercontents}
-                page={page}
+                nextPage={nextPage}
                 lastPage={lastPage}
                 isLoading={isLoading}
               />
@@ -110,7 +111,7 @@ const Main = () => {
                     direction={direction}
                     size={size}
                     posts={posts}
-                    page={page}
+                    nextPage={nextPage}
                     lastPage={lastPage}
                     isLoading={isLoading}
                   />

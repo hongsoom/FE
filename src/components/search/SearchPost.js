@@ -7,15 +7,15 @@ import "../../css/postItem.css";
 
 const SearchPost = (props) => {
   const dispatch = useDispatch();
-  const { page, size, keyword, posts, lastPage, isLoading } = props;
+  const { nextPage, size, keyword, posts, lastPage, isLoading } = props;
 
   return (
     <div className="postItem-container">
       <InfinityScroll
         callNext={() => {
-          dispatch(userAction.keywordGetDB(keyword, page, size));
+          dispatch(userAction.keywordGetDB(keyword, nextPage, size));
         }}
-        page={page}
+        nextPage={nextPage}
         is_next={lastPage}
         loading={isLoading}
       >

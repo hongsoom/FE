@@ -8,7 +8,7 @@ import "../../css/postItem.css";
 const FilterPost = (props) => {
   const dispatch = useDispatch();
 
-  const { page, lastPage, size, posts, isLoading } = props;
+  const { nextPage, lastPage, size, posts, isLoading } = props;
 
   const region = useSelector((state) => state.post.category?.region);
   const price = useSelector((state) => state.post.category?.price);
@@ -20,9 +20,11 @@ const FilterPost = (props) => {
     <div className="postItem-container">
       <InfinityScroll
         callNext={() => {
-          dispatch(userAction.filterGETDB(region, price, theme, page, size));
+          dispatch(
+            userAction.filterGETDB(region, price, theme, nextPage, size)
+          );
         }}
-        page={page}
+        nextPage={nextPage}
         is_next={lastPage}
         loading={isLoading}
       >

@@ -26,6 +26,9 @@ const FilterButton = (props) => {
 
   useEffect(() => {
     if (list) {
+      setListRegion("");
+      setThemeSelect([]);
+      setPrice("");
       if (
         list === "서울" ||
         list === "경기" ||
@@ -107,7 +110,8 @@ const FilterButton = (props) => {
                         <button
                           key={i}
                           onClick={() => {
-                            navigate("/filter/" + `${list}`);
+                            navigate("/search/" + `${list}`);
+
                             dispatch(userAction.initPagingDB());
                           }}
                         >
