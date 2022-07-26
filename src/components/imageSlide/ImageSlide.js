@@ -42,12 +42,17 @@ const ImageSlide = ({select, imgUrl, imgs, l, j, focus}) => {
           icon: "success",
         });
 
+      
+
       imgUrl[j].imgUrl.filter((v,i)=>{
         return v !== list
       })
-        return imgUrl
-
       
+      select[j].imgCount = imgUrl[j].imgUrl.length
+      
+      
+
+
       } else {
         swal("삭제를 취소했습니다");
       }
