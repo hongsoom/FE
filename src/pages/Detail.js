@@ -2,14 +2,15 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../css/detail.scss'
 import instance from '../shared/Request'
 
-import DetailImageSlide from '../components/DetailImageSlide'
-import Comment from "../components/comment/Comment"
-
 import { useDispatch, useSelector} from 'react-redux'
 import { useParams, useNavigate } from "react-router-dom";
 import { deletePostDB } from "../redux/module/post"
 import { userAction} from '../redux/module/user'
 
+// 컴포넌트
+import Kakaomap from '../components/kakaomap/Kakaomap'
+import DetailImageSlide from '../components/imageSlide/DetailImageSlide'
+import Comment from "../components/comment/Comment"
 
 // 아이콘
 import leftArrowBlack from '../assets/leftArrowBlack.png'
@@ -18,7 +19,6 @@ import trash from '../assets/trash.png'
 import heartpink from '../assets/heartpink.png'
 import bookmark from '../assets/bookmark.png'
 import shareblack from '../assets/shareblack.png'
-import talk from '../assets/talk.png'
 import logosky from '../assets/logosky.png'
 import bookmarkBlue from '../assets/bookmark-blue.png'
 import heartpaint from '../assets/heartpaint.png'
@@ -31,7 +31,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const param = useParams().id;
   const [points, setPoints] = useState([])
-  const myDetailMap = useRef();
+  const myMap = useRef();
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [focus, setFocus] = useState('')
@@ -57,20 +57,13 @@ const Detail = () => {
 
   console.log(data)
 
- // ------------------------------------
 
  // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
-
  useEffect(() => {
   dispatch(userAction.myInfoDB()); 
+  }, [dispatch]);
+ const userInfo = useSelector(state=> state.user.myinfo)
   
-  }, []);
-
-  
-  const userInfo = useSelector(state=> state.user.myinfo)
-  
-
-
  // -------------- 게시글 데이터 삭제하기
   const onDeleteHandler = () => {
     dispatch(deletePostDB(param))
@@ -83,11 +76,9 @@ const Detail = () => {
   
   useEffect(()=>{
     list(data&&data.place)
+    window.scrollTo(0, 0);
   }, [data])
     
-
-  
-
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   const list = (positions) => {
@@ -96,7 +87,7 @@ const Detail = () => {
         center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
         level: 7,
       }
-      const map = new kakao.maps.Map(myDetailMap.current, options)
+      const map = new kakao.maps.Map(myMap.current, options)
 
       for (var i = 0; i < positions.length; i ++) {
         // 마커를 생성
@@ -132,19 +123,12 @@ const Detail = () => {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
         level: 4,
       }
-      const map = new kakao.maps.Map(myDetailMap.current, options)
+      const map = new kakao.maps.Map(myMap.current, options)
     }
 
   }
-
   
-
-
-  
-
-
-  
- 
+  // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
     navigate('/')
   }
@@ -176,7 +160,7 @@ const Detail = () => {
             </div>
           </div>  
 
-          <div className='writeMiddleHeader'>
+          <div className='detailMiddleHeader'>
             <div className='profile'>
               <div className='profilePic'>
                 {data&&data.userImgUrl ?
@@ -191,13 +175,13 @@ const Detail = () => {
                 <div className='regionCategory'>
                   #{data && data.regionCategory}
                 </div>
-                  {data && data.themeCategory.map((v,i)=>{
-                    return(
-                      <div className='themeCategory' key={i}>
-                        #{v.themeCategory}
-                      </div>
-                    )
-                  })}
+                {data && data.themeCategory.map((v,i)=>{
+                  return(
+                    <div className='themeCategory' key={i}>
+                      #{v.themeCategory}
+                    </div>
+                  )
+                })}
               </div>
             </div>  
           </div>
@@ -219,14 +203,10 @@ const Detail = () => {
             </div>
           </div>
         </div>
-        {/* 지도 */}
-        <div className='detail_map_wrap' ref={myDetailMap}
-          >
-        </div>
+        <Kakaomap kakao={kakao} myMap={myMap}/>
       </div>
 
       
-
       {/* 장소목록 / 사진슬라이드 / 댓글 */}
       <div className='contentsWrap'> 
       {focus&&focus.length !== 0 ?
@@ -253,8 +233,8 @@ const Detail = () => {
               )
             })}
           </div> 
-          {/* 장소마다 바뀌는 부분 끝  */}
 
+          {/* 장소마다 바뀌는 부분 끝  */}
           {/* 콘텐츠 */}
           <div className='txtPlace'>
             {data && data.content}
@@ -343,20 +323,12 @@ const Detail = () => {
             </div>
           </div>
 
-          
-
           <div className='commentPlace'>
             <Comment param={param}/>
           </div>
         </div>
-
         }
-        
-          
-
-          
-        </div> 
-      
+      </div> 
     </>
   )
 }

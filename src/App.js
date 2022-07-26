@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from './redux/module/user'
 import Write from "./pages/Write";
 import Detail from "./pages/Detail";
 import Signup from "./pages/Signup";
@@ -13,6 +15,8 @@ import FilterModal from "./components/filter/FilterModal";
 import Main from "./pages/Main";
 
 function App() {
+  const dispatch = useDispatch();
+
   if (window.Kakao) {
     const kakao = window.Kakao;
     if (!kakao.isInitialized()) {
@@ -20,6 +24,13 @@ function App() {
     }
   }
 
+  // 나의 정보 가져오기
+  useEffect(()=>{
+    dispatch(userAction.myInfoDB())
+  },[dispatch])
+  
+  const myInfo = useSelector(state=>state.user.myinfo)
+  
   return (
     <div className="App">
       <Routes>
@@ -29,8 +40,8 @@ function App() {
         <Route path="/write/:id" element={<Write />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/" element={<Main />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/setup" element={<Setup />} />
+        <Route path="/mypage" element={<MyPage myInfo={myInfo}/>} />
+        <Route path="/setup" element={<Setup myInfo={myInfo}/>}  />
         <Route path="/filtermodal" element={<FilterModal />} />
         <Route path="/filter/:keyword" element={<Filter />} />
         <Route path="/search/:keyword" element={<Search />} />

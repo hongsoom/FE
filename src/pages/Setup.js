@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "../css/setup.scss";
 
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userAction } from '../redux/module/user'
 
 // 아이콘
 import leftArrowBlack from "../assets/leftArrowBlack.png"
 
-const Setup = () => {
+const Setup = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  // --------------------------------------- 나의 정보 가져오기
-  useEffect(()=>{
-    dispatch(userAction.myInfoDB())
-  },[dispatch])
-  
-  const myInfo = useSelector(state=>state.user.myinfo)
 
-  // ---------------------------------------------------
-
+  const {myInfo} = props
+  console.log(myInfo)
   const [userImg, setUserImg] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
   const [previewUrl, setPreviewUrl] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
   const [introduce, setIntroduce] = useState(myInfo&&myInfo.userInfo? myInfo.userInfo : '');
@@ -65,51 +58,46 @@ const Setup = () => {
 
 
   return(
-    <>
+    <div className="setupWrap">
       {/* 헤더 */}
-      <div className="mypageHeader">
-        <div className="mypageHeaderItemsWrap">
-          <div className="leftArrowBlack"
-            onClick={onClickLeftArrow}>
-            <img src={leftArrowBlack} alt="leftArrow"/>
-          </div>
-          <div className="myPageTitle">환경설정</div>
+      <div className="setupHeader">
+        <div className="leftArrowBlack"
+          onClick={onClickLeftArrow}>
+          <img src={leftArrowBlack} alt="leftArrow"/>
         </div>
       </div>
 
-      <div className="setupWrap">
-        <div className='setupContents'>
-        <label htmlFor='uploadProfileImg'>
-          <div className='setupProfilePic'
-          style={previewUrl ? {backgroundImage:`url(${previewUrl})`, backgroundSize:'cover', backgroundPosition:'center'}: {background:'#F5F9FF'}}
-          >
-          </div>    
-          </label>
-          <input type="file" id='uploadProfileImg' name="uploadProfileImg" accept="image/*" 
-          onChange={(e)=>{loadProfilImg(e)}}
-          style={{display:'none'}}
-          />
-          
-          <div className='setupNickname'>
-            <input type="text" placeholder='닉네임을 입력하세요' defaultValue={myInfo&&myInfo.nickname}
-            onChange={(e)=>{
-              setMynickname(e.target.value)
-            }}
-            />
-            <p>{nickNameNotice}</p>
-          </div>
-
-          <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요' defaultValue={myInfo&&myInfo.userInfo}
+      <div className='setupContents'>
+      <label htmlFor='uploadProfileImg'>
+        <div className='setupProfilePic'
+        style={previewUrl ? {backgroundImage:`url(${previewUrl})`, backgroundSize:'cover', backgroundPosition:'center'}: {background:'#F5F9FF'}}
+        >
+        </div>    
+        </label>
+        <input type="file" id='uploadProfileImg' name="uploadProfileImg" accept="image/*" 
+        onChange={(e)=>{loadProfilImg(e)}}
+        style={{display:'none'}}
+        />
+        
+        <div className='setupNickname'>
+          <input type="text" placeholder='닉네임을 입력하세요' defaultValue={myInfo&&myInfo.nickname}
           onChange={(e)=>{
-            setIntroduce(e.target.value)
+            setMynickname(e.target.value)
           }}
-          >
-          </textarea>
-
-          <button className='setUpbutton' onClick={onSaveHandler}>저장</button>
+          />
+          <p>{nickNameNotice}</p>
         </div>
+
+        <textarea className='setupIntroduce' placeholder='자기소개를 입력하세요' defaultValue={myInfo&&myInfo.userInfo}
+        onChange={(e)=>{
+          setIntroduce(e.target.value)
+        }}
+        >
+        </textarea>
+
+        <button className='setUpbutton' onClick={onSaveHandler}>저장</button>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from "react";
+import React from "react";
 import '../../css/regionModal.scss'
 
 
@@ -9,15 +9,9 @@ const RegionModal = (props) => {
   const isChecked = (e) =>{
     if (e.target.checked){
       setRegion(e.target.value)
-      // setRegion(data&&data.regionCategry)
     }
   }
-
-  // useEffect(()=>{
-  //   setRegion(editdata&&editdata.regionCategory)
-  // },editdata)
-   
-  
+    
   console.log(selectedRegion)
 
   return (
@@ -25,44 +19,44 @@ const RegionModal = (props) => {
       {showRegionModal ?
       <div className='background' onClick={closeRegionModal}>
         <div className='region_wrap' onClick={e => e.stopPropagation()}>
-        <section>
-          <div className="modalTitle">지역을 선택해주세요</div>
-          <div className="regionsWrap">
-          {region.map((v,i)=>{
-            return(
-              <div key={i}>
-              {is_edit ?
-              <div className='_regions' key={i}
-              style={selectedRegion === v ?
-                {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
-                : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
-                <input type="radio" name="region" value={v} id={v} 
-                onChange={isChecked}/>
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-              :
-              <div className='_regions' key={i}
-              style={selectedRegion === v ?
-                {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
-                : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
-                
-                <input type="radio" name="region" value={v} id={v} 
-                onChange={isChecked}/>
-                <label htmlFor={v}>
-                  {v}
-                </label>
-              </div>
-              }
-              </div>
-            )
-          })}
-          </div>
-          <div className="doneButton">
-            <button className="close" onClick={closeRegionModal}>선택완료</button>
-          </div>
-        </section>
+          <section>
+            <div className="modalTitle">지역을 선택해주세요</div>
+            <div className="regionsWrap">
+            {region.map((v,i)=>{
+              return(
+                <div key={i}>
+                {is_edit ?
+                <div className='_regions' key={i}
+                style={selectedRegion === v ?
+                  {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
+                  : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
+                  <input type="radio" name="region" value={v} id={v} 
+                  onChange={isChecked}/>
+                  <label htmlFor={v}>
+                    {v}
+                  </label>
+                </div>
+                :
+                <div className='_regions' key={i}
+                style={selectedRegion === v ?
+                  {background: '#8ACEFF', color:'#fff', boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.12)'}
+                  : {background: '#F5F9FF', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
+                  
+                  <input type="radio" name="region" value={v} id={v} 
+                  onChange={isChecked}/>
+                  <label htmlFor={v}>
+                    {v}
+                  </label>
+                </div>
+                }
+                </div>
+              )
+            })}
+            </div>
+            <div className="doneButton">
+              <button className="close" onClick={closeRegionModal}>선택완료</button>
+            </div>
+          </section>
         </div>
       </div> : null}
       

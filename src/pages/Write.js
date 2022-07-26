@@ -1,6 +1,6 @@
 import React from 'react';
-import MapContainer from '../components/MapContainer';
-import Edit from '../components/Edit';
+import NewPost from '../components/post/NewPost';
+import Edit from '../components/post/Edit';
 
 // 라우터
 import {useParams} from 'react-router-dom'
@@ -15,7 +15,7 @@ const Write = () => {
       {param ?
       <Edit/>
       :
-      <MapContainer/>
+      <NewPost/>
       }
       
     </div>

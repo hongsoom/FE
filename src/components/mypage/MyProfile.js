@@ -16,7 +16,7 @@ const MyProfile = (props) => {
       <div className="myProfileTxt">
         <div className="myProfileTxtTitle">
           <div className="myProfileName">{myInfo && myInfo.nickname}</div>
-          <div className="myProfileLogout">로그아웃</div>
+          
         </div>
         <div className="myProfileTxtDetail">
           {myInfo && myInfo.userInfo}

@@ -11,7 +11,6 @@ const AddButton = (props) =>{
       </label>
       <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
       onChange={(e)=>{loadImg(e, j)}}
-      style={{display:'none'}}
       />
     </div> 
   )

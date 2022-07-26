@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 // 모듈
-import { userAction } from "../redux/module/user";
 import { getMypostDB, getMybookmarkDB } from "../redux/module/post";
 
 // 컴포넌트
 import MyPageHeader from "../components/mypage/MyPageHeader"
-import MyProfile from "../components/mypage/MyProfile"
 import MyPosts from "../components/mypage/MyPosts"
 
 // 아이콘
@@ -20,7 +18,8 @@ import talkwhite from "../assets/talkwhite.png"
 import heartwhite from "../assets/heartwhite.png"
 import edit from "../assets/edit.png"
 
-const Mypage = () => {
+const Mypage = (props) => {
+  const {myInfo} = props
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState("myPosts");
@@ -31,26 +30,20 @@ const Mypage = () => {
 
   // ----------------- 나의 정보 / 나의 게시글 가져오기
   useEffect(()=>{
-    dispatch(userAction.myInfoDB())
-    
-  },[dispatch])
-
-  useEffect(()=>{
     dispatch(getMypostDB(
       size, page, id, direction
     ))
     dispatch(getMybookmarkDB(
       size, page, id, direction
     ))
-  },[])
+  },[dispatch])
 
-  const myInfo = useSelector(state=>state.user.myinfo)
   const myPosts = useSelector(state=>state.post.myposts)
   const myMarks = useSelector(state=>state.post.mybookmarks)
   console.log(myMarks)
+  console.log(myPosts)
 
   // ---------------------------------------------------
-
 
   const onWriteHandler = () => {
     navigate('/write')
@@ -60,23 +53,20 @@ const Mypage = () => {
     <div className="mypageWrap">
 
       {/* 헤더 */}
-      <MyPageHeader leftArrowBlack={leftArrowBlack} setup={setup} navigate={navigate}/>
+      <MyPageHeader leftArrowBlack={leftArrowBlack} setup={setup} navigate={navigate} myInfo={myInfo}/>
 
       <div className="mypageWraper">
-
-        {/* 나의 프로필 */}
-        <MyProfile myInfo={myInfo}/>
 
         {/* 내가 쓴글 & 즐겨찾기한 글 */}
         <MyPosts myPosts={myPosts} toggle={toggle} setToggle={setToggle} talkwhite={talkwhite} heartwhite={heartwhite} myMarks={myMarks} navigate={navigate}/>
 
-        <div className="writeButtonWrap">
+      </div>
+
+      <div className="writeButtonWrap">
           <div className="writeButton" onClick={onWriteHandler}>
             <img src={edit} alt="글쓰기 버튼"/>
           </div>
         </div>
-
-      </div>
 
     </div>
   );

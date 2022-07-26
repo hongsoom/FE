@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import '../css/editImageSlide.scss';
+import '../../css/editImageSlide.scss';
 
 import swal from 'sweetalert';
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import closewhite from '../assets/closewhite.png'
-import AddPicSign from '../assets/AddPicSign.png'
-
+import closewhite from '../../assets/closewhite.png'
 
 const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setNewImgFile, newImgFile, l, j, setAllImgUrl, allImgUrl, focus}) => {
 

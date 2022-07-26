@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/detailImageSlide.scss";
+import "../../css/detailImageSlide.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 
