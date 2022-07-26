@@ -46,6 +46,7 @@ const initialState = {
 const LOADING = "post/LOADING";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
+const KEYWORDGET = "post/KEYWORDGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
 const MAINBOOKMARK = "post/MAINBOOKMARK";
@@ -62,7 +63,10 @@ const arrayGet = createAction(ARRAYGET, (newList, paging) => ({
 const bookmarkGet = createAction(BOOKMARKGET, (bookmarkcontents) => ({
   bookmarkcontents,
 }));
-
+const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
+  newList,
+  paging,
+}));
 const clickLove = createAction(LOVE, (lovechecked, Id) => ({
   lovechecked,
   Id,
@@ -80,7 +84,6 @@ const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
   Id,
 }));
 const clearPost = createAction(CLEAR);
-
 
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
   return async function (dispatch) {
@@ -138,6 +141,42 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+};
+
+const keywordGetDB = (keyword, nextPage, size) => {
+  return async function (dispatch) {
+    dispatch(loading(true));
+    let page;
+    if (nextPage === undefined) {
+      page = 0;
+    } else {
+      page = nextPage;
+    }
+
+    await instance
+      .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
+      .then((response) => {
+        const newList = response.data.content;
+        const lastpage = response.data.last;
+
+        let paging = {};
+        if (lastpage) {
+          paging = {
+            next: 0,
+            last: lastpage,
+          };
+        } else {
+          paging = {
+            next: page + 1,
+            last: lastpage,
+          };
+        }
+
+        dispatch(keywordGet(newList, paging));
+      })
+      .catch((error) => {
       });
   };
 };
@@ -237,6 +276,13 @@ export default handleActions(
         draft.bookmarkcontents = [...action.payload.bookmarkcontents];
       }),
 
+    [KEYWORDGET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.contents = [...state.contents, ...action.payload.newList];
+        draft.paging = action.payload.paging;
+        draft.isLoading = false;
+      }),
+
     [LOVE]: (state, action) =>
       produce(state, (draft) => {
         if (action.payload.lovechecked) {
@@ -331,6 +377,7 @@ export default handleActions(
 const userAction = {
   bookmarkGetDB,
   arrayGetDB,
+  keywordGetDB,
   clickLoveDB,
   clickBookmarkDB,
   clearDB,
