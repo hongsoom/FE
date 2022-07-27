@@ -66,6 +66,11 @@ const Main = () => {
     };
   }, [sortby]);
 
+  useEffect(() => {
+    dispatch(userAction.initPagingDB());
+    dispatch(userAction.clearDB());
+  }, [isFilter]);
+
   return (
     <>
       <Header />
@@ -73,50 +78,47 @@ const Main = () => {
       <FilterButton recommendList={recommendList} keyword={keyword} />
       <div className="main-container">
         <div className="main-content">
-          {isFilter ? (
-            <>
-              <FilterPost
+          <BookmarkPost
+            bookmarkcontents={bookmarkcontents}
+            bookmarkCount={bookmarkCount}
+          />
+          <div className="main-latest-love-container">
+            <div className="main-latest-love-content">
+              <div className="main-latest-love-title">
+                <img src={smaillogo} alt="smaillogo" />
+                <p>다른 회원님의 경로를 확인해보세요</p>
+              </div>
+              <div className="main-latest-love-select">
+                <select onChange={(e) => onChangeSort(e)}>
+                  <option value="id">최신순</option>
+                  <option value="loveCount">인기순</option>
+                </select>
+              </div>
+            </div>
+            <div className="main-latest-love-component">
+              <SelectPost
+                keyword={keyword}
+                sortby={sortby}
+                direction={direction}
                 size={size}
-                posts={filtercontents}
+                posts={posts}
                 nextPage={nextPage}
                 lastPage={lastPage}
                 isLoading={isLoading}
               />
-            </>
-          ) : (
-            <>
-              <BookmarkPost
-                bookmarkcontents={bookmarkcontents}
-                bookmarkCount={bookmarkCount}
-              />
-              <div className="main-latest-love-container">
-                <div className="main-latest-love-content">
-                  <div className="main-latest-love-title">
-                    <img src={smaillogo} alt="smaillogo" />
-                    <p>다른 회원님의 경로를 확인해보세요</p>
-                  </div>
-                  <div className="main-latest-love-select">
-                    <select onChange={(e) => onChangeSort(e)}>
-                      <option value="id">최신순</option>
-                      <option value="loveCount">인기순</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="main-latest-love-component">
-                  <SelectPost
-                    keyword={keyword}
-                    sortby={sortby}
-                    direction={direction}
+              {isFilter && (
+                <>
+                  <FilterPost
                     size={size}
-                    posts={posts}
+                    posts={filtercontents}
                     nextPage={nextPage}
                     lastPage={lastPage}
                     isLoading={isLoading}
                   />
-                </div>
-              </div>
-            </>
-          )}
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

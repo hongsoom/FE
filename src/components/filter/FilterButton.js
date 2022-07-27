@@ -76,8 +76,9 @@ const FilterButton = (props) => {
 
   return (
     <>
-      {modal ? (
+      {modal && (
         <FilterModal
+          setClick={setClick}
           onClick={onClick}
           list={list}
           region={region}
@@ -88,7 +89,7 @@ const FilterButton = (props) => {
           priceSelect={price}
           setPriceSelect={setPrice}
         />
-      ) : null}
+      )}
       <div className="filterbutton-box">
         {is_keyword === true ? (
           <>
@@ -102,7 +103,6 @@ const FilterButton = (props) => {
                           #{list}
                         </button>
                       ))}
-
                       {is_price ? (
                         <button className="filterbutton-price">#{price}</button>
                       ) : null}
@@ -170,7 +170,6 @@ const FilterButton = (props) => {
           <button
             onClick={() => {
               onClick();
-              setClick(true);
             }}
           >
             <img src={filter} alt="filter" />

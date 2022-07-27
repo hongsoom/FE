@@ -56,22 +56,21 @@ const Search = () => {
       <div className="search-container">
         <div className="search-content">
           <div className="search-post">
-            {isFilter ? (
+            <SearchPost
+              posts={posts}
+              isLoading={isLoading}
+              size={size}
+              nextPage={nextPage}
+              lastPage={lastPage}
+              keyword={checkHasIncode(keyword)}
+            />
+            {isFilter && (
               <FilterPost
                 posts={filtercontents}
                 isLoading={isLoading}
                 size={size}
                 nextPage={nextPage}
                 lastPage={lastPage}
-              />
-            ) : (
-              <SearchPost
-                posts={posts}
-                isLoading={isLoading}
-                size={size}
-                nextPage={nextPage}
-                lastPage={lastPage}
-                keyword={checkHasIncode(keyword)}
               />
             )}
           </div>

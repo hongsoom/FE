@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
@@ -14,6 +14,7 @@ const FilterModal = (props) => {
 
   const {
     onClick,
+    setClick,
     keyword,
     region,
     list,
@@ -91,12 +92,22 @@ const FilterModal = (props) => {
       setPriceSelect("");
     }
   }, [themeSelect, priceSelect]);
+  /* 
+  const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
 
-  useEffect(() => {
+    useEffect(() => {
+      if (didMount.current) func();
+      else didMount.current = true;
+    }, deps);
+  };
+
+  useDidMountEffect(() => {
+    console.log("성공?");
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
   }, [dispatch]);
-
+ */
   return (
     <>
       <div className="filtermodal-box">
@@ -170,8 +181,8 @@ const FilterModal = (props) => {
                   onClick={() => {
                     setThemeSelect([]);
                     setPriceSelect("");
+                    setClick(false);
                     onClick();
-                    navigate("/");
                   }}
                 >
                   취소
@@ -180,8 +191,14 @@ const FilterModal = (props) => {
                   className="filtermodal-search"
                   onClick={() => {
                     loadMainPost();
+                    setClick(true);
                     onClick();
                   }}
+                  disabled={
+                    themeSelect.length === 0 && priceSelect === ""
+                      ? true
+                      : false
+                  }
                 >
                   선택 완료
                 </button>
@@ -195,7 +212,6 @@ const FilterModal = (props) => {
                     setThemeSelect([]);
                     setPriceSelect("");
                     onClick();
-                    navigate("/");
                   }}
                 >
                   취소
@@ -206,6 +222,11 @@ const FilterModal = (props) => {
                     loadFilterPost();
                     onClick();
                   }}
+                  disabled={
+                    themeSelect.length === 0 && priceSelect === ""
+                      ? true
+                      : false
+                  }
                 >
                   선택 완료
                 </button>
@@ -219,7 +240,6 @@ const FilterModal = (props) => {
                     setThemeSelect([]);
                     setPriceSelect("");
                     onClick();
-                    navigate("/");
                   }}
                 >
                   취소
@@ -230,6 +250,11 @@ const FilterModal = (props) => {
                     loadSearchPost();
                     onClick();
                   }}
+                  disabled={
+                    themeSelect.length === 0 && priceSelect === ""
+                      ? true
+                      : false
+                  }
                 >
                   선택 완료
                 </button>
