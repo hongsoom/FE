@@ -52,8 +52,6 @@ const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
 const BOOKMARK = "post/BOOKMARK";
 const LOVE = "post/LOVE";
-const MAINBOOKMARK = "post/MAINBOOKMARK";
-const MAINLOVE = "post/MAINLOVE";
 const INITPAGING = "post/INITPAGING";
 const GETLIST = "post/GETLIST";
 const GET = "post/GET";
@@ -91,14 +89,6 @@ const clickLove = createAction(LOVE, (lovechecked, Id) => ({
   Id,
 }));
 const clickBookmark = createAction(BOOKMARK, (bookmarkchecked, Id) => ({
-  bookmarkchecked,
-  Id,
-}));
-const mainLove = createAction(MAINLOVE, (lovechecked, Id) => ({
-  lovechecked,
-  Id,
-}));
-const mainBookmark = createAction(MAINBOOKMARK, (bookmarkchecked, Id) => ({
   bookmarkchecked,
   Id,
 }));
@@ -343,37 +333,6 @@ const clickBookmarkDB = (postId) => {
   };
 };
 
-const mainLoveDB = (postId) => {
-  return async function (dispatch) {
-    await instance
-      .post(`api/love/${postId}`)
-      .then((response) => {
-        const lovechecked = response.data.trueOrFalse;
-        const Id = response.data.postId;
-        dispatch(mainLove(lovechecked, Id));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-};
-
-const mainBookmarkDB = (postId) => {
-  return async function (dispatch) {
-    await instance
-      .post(`api/bookmark/${postId}`)
-      .then((response) => {
-        const bookmarkchecked = response.data.trueOrFalse;
-        const Id = response.data.postId;
-
-        dispatch(mainBookmark(bookmarkchecked, Id));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-};
-
 const initPagingDB = () => {
   return function (dispatch) {
     console.log("pagingclear");
@@ -608,11 +567,27 @@ export default handleActions(
           draft.contents.map((post) => {
             if (post.postId === parseInt(action.payload.Id)) {
               post.loveStatus = true;
-              post.loveCount = +1;
+              post.loveCount += 1;
+            }
+          });
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = true;
+              post.loveCount += 1;
             }
           });
         } else {
           draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = false;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
+          });
+          draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id)) {
               post.loveStatus = false;
               if (post.loveCount < 0) {
@@ -632,45 +607,15 @@ export default handleActions(
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = true;
           });
-        } else {
-          draft.contents.map((post) => {
-            if (post.postId === parseInt(action.payload.Id))
-              post.bookmarkStatus = false;
-          });
-        }
-      }),
-
-    [MAINLOVE]: (state, action) =>
-      produce(state, (draft) => {
-        if (action.payload.lovechecked) {
-          draft.bookmarkcontents.map((post) => {
-            if (post.postId === parseInt(action.payload.Id)) {
-              post.loveStatus = true;
-              post.loveCount = +1;
-            }
-          });
-        } else {
-          draft.bookmarkcontents.map((post) => {
-            if (post.postId === parseInt(action.payload.Id)) {
-              post.loveStatus = false;
-              if (post.loveCount < 0) {
-                post.loveCount = 0;
-              } else {
-                post.loveCount -= 1;
-              }
-            }
-          });
-        }
-      }),
-
-    [MAINBOOKMARK]: (state, action) =>
-      produce(state, (draft) => {
-        if (action.payload.bookmarkchecked) {
           draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = true;
           });
         } else {
+          draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
           draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = false;
@@ -707,8 +652,6 @@ const userAction = {
   deletePostDB,
   getMypostDB,
   getMybookmarkDB,
-  mainBookmarkDB,
-  mainLoveDB,
   initPagingDB,
   regionGETDB,
 };
