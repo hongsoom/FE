@@ -13,7 +13,7 @@ const KakaoTraffic = () =>{
   console.log(data)
 
   const onClickLeftArrow = () =>{
-    navigate(`/write/${param}`);
+    navigate(`/detail/${param}`);
   }
 
   return(
@@ -30,11 +30,29 @@ const KakaoTraffic = () =>{
           <div className="departureTitle">
           📍출발지 선택
           </div>  
+          <div className="departureListBox">
+            <div className="departureList">
+              {data&&data.place((v,i)=>{
+                return(
+                  <div>{v.place_name}</div>
+                )
+              })}
+            </div>
+          </div>
         </div>
         <div className="arrival">
           <div className="arrivalTitle">
           📍도착지 선택
           </div> 
+          <div className="arrivalListBox">
+            <div className="arrivalList">
+              {data&&data.place((v,i)=>{
+                return(
+                  <div>{v.place_name}</div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
