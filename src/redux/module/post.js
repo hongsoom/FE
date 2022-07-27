@@ -307,7 +307,6 @@ const clickLoveDB = (postId) => {
     await instance
       .post(`api/love/${postId}`)
       .then((response) => {
-        console.log(response);
         const lovechecked = response.data.trueOrFalse;
         const Id = response.data.postId;
         dispatch(clickLove(lovechecked, Id));
@@ -323,7 +322,6 @@ const clickBookmarkDB = (postId) => {
     await instance
       .post(`api/bookmark/${postId}`)
       .then((response) => {
-        console.log(response);
         const bookmarkchecked = response.data.trueOrFalse;
         const Id = response.data.postId;
 
@@ -494,7 +492,7 @@ export default handleActions(
 
     [BOOKMARKGET]: (state, action) =>
       produce(state, (draft) => {
-        draft.contents = [...action.payload.bookmarkcontents];
+        draft.bookmarkcontents = [...action.payload.bookmarkcontents];
       }),
 
     [FILTERGET]: (state, action) =>
@@ -572,8 +570,24 @@ export default handleActions(
               post.loveCount += 1;
             }
           });
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = true;
+              post.loveCount += 1;
+            }
+          });
         } else {
           draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id)) {
+              post.loveStatus = false;
+              if (post.loveCount < 0) {
+                post.loveCount = 0;
+              } else {
+                post.loveCount -= 1;
+              }
+            }
+          });
+          draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id)) {
               post.loveStatus = false;
               if (post.loveCount < 0) {
@@ -593,8 +607,16 @@ export default handleActions(
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = true;
           });
+          draft.bookmarkcontents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = true;
+          });
         } else {
           draft.contents.map((post) => {
+            if (post.postId === parseInt(action.payload.Id))
+              post.bookmarkStatus = false;
+          });
+          draft.bookmarkcontents.map((post) => {
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = false;
           });
