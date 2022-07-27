@@ -9,7 +9,7 @@ const MyProfile = (props) => {
     <div className="myProfile">
       <div className="myProfilePic">
         <div className="myProfilePicCircle">
-          {myInfo.userImgUrl === null ? (
+          {myInfo&&myInfo.userImgUrl === null ? (
             <img src={user} alt="프로필 기본이미지" />
           ) : (
             <img src={myInfo && myInfo.userImgUrl} alt="프로필 이미지" />

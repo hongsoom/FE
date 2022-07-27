@@ -31,7 +31,7 @@ const KakaoTraffic = () =>{
       swal("출발지와 도착지를 확인해주세요!");
     } else if(departure.length === 0){
       swal("출발지를 선택해주세요");
-    } else if(departure.length === 0){
+    } else if(arrival.length === 0){
       swal("도착지를 선택해주세요");
     } else if (departure&&arrival&&departure !== arrival){
       window.open(`kakaomap://route?sp=${departureY},${departureX}&ep=${arrivalY},${arrivalX}&by=CAR`)
