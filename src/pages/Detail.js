@@ -30,7 +30,6 @@ const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const param = useParams().id;
-  const [points, setPoints] = useState([]);
   const myMap = useRef();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -205,7 +204,6 @@ const Detail = () => {
                 🗺 {data && data.regionCategory}
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
-              <div className="calendarButton">🗓 코스일정</div>
               <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>길찾기</div>
             </div>
           </div>
