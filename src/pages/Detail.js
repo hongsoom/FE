@@ -54,7 +54,6 @@ const Detail = () => {
     getData(param);
   }, [param]);
 
-  console.log(data);
 
   // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
   useEffect(() => {
@@ -70,6 +69,11 @@ const Detail = () => {
   // ------------- 수정하기
   const onModifyHandler = () => {
     navigate(`/write/${param}`);
+  };
+
+  // ------------- 길찾기 버튼
+  const onKakaoTrafficHandler = () => {
+    navigate(`/detail/${param}/kakaomap`, {state:{data:data}});
   };
 
   useEffect(() => {
@@ -115,19 +119,15 @@ const Detail = () => {
             removable: true,
           });
           infowindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
+            '<div style="display:flex;justify-content:center;"><div style="padding-left:15px;padding-right:15px;height:100px;font-size:12px;display:flex;flex-direction:column;justify-content:center;">' +
               _place.place_name +
               "<br/>" +
               _place.phone +
-              `<a href= 	kakaomap://route?sp=37.537229,127.005515&ep=37.4979502,127.0276368&by=CAR style="color:blue" target="_blank">카카오길찾기</a></div>`
+              "<br/>" +
+              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
-          const clickedFinPlace = document.getElementById(`selectedPlace${i}`);
-          clickedFinPlace.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
         });
       }
     } else {
@@ -138,6 +138,7 @@ const Detail = () => {
       const map = new kakao.maps.Map(myMap.current, options);
     }
   };
+  console.log(data)
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
@@ -205,7 +206,7 @@ const Detail = () => {
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
               <div className="calendarButton">🗓 코스일정</div>
-              <div className="kakaomapButton">길찾기</div>
+              <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>길찾기</div>
             </div>
           </div>
         </div>

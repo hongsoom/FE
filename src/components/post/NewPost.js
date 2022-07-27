@@ -237,7 +237,7 @@ const NewPost = () => {
         </div>
 
         {/* 검색하고 선택한 장소가 없을 때 */}
-        {select.length === 0 ?
+        {select&&select.length === 0 ?
         <div className='sectionWrap'>
           {/* 바뀌는 부분 */}
           <div className='sectionPerPlace'>
@@ -288,7 +288,7 @@ const NewPost = () => {
                       </div>    
                     </div>
                     <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={l} j={j}
-                    focus={focus}
+                    focus={focus} setFocus={setFocus}
                   />
                   </div>
                   

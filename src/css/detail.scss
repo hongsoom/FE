@@ -236,7 +236,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-bottom: 7px;
   
             .imgUploadHeader{
               display:flex;
@@ -262,12 +261,11 @@
       .txtPlace{
         width: 343px;
         background: #FFFFFF;
-        border: 1px solid #B6DCFF;
         border-radius: 8px;
         font-weight: 400;
         font-size: 14px;
         line-height: 20px;
-        padding: 12px 14px;
+        margin: 21px 0px;
       }
   
   

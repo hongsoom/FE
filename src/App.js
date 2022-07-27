@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Detail from "./pages/Detail";
 import KakaoSocial from "./pages/KakaoSocial";
+import KakaoTraffic from "./pages/KakaoTraffic";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
         <Route path="/write" element={<Write />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/detail/:id/kakaomap" element={<KakaoTraffic/>}/>
         <Route path="/mypage" element={<MyPage myInfo={myInfo} />} />
         <Route path="/setup" element={<Setup myInfo={myInfo} />} />
       </Routes>

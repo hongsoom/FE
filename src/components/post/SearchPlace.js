@@ -57,7 +57,7 @@ const SearchPlace = (props) => {
 
                       }
                       else{
-                        setFocus(select[0].place_name)
+                        setFocus(select[0]&&select[0].place_name)
                         setSelect((pre)=>{
                           const selectList = pre.filter((v,i)=>{
                             return item.place_name !== v.place_name

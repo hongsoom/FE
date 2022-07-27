@@ -124,9 +124,9 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
             height: "256px",
           }}
         className="write_categoryslide-imagecontent" key={index}>
-          <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px", height:"12.73px"}}
+          {/* <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px", height:"12.73px"}}
           onClick={()=>{onRemoveHandler(j,index)}}
-          />
+          /> */}
           <img src={list} alt="장소이미지" style={{width:"343px"}}/>
         </SwiperSlide>
         )}
