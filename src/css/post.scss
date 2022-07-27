@@ -8,6 +8,7 @@
   top: 0;
   left: 0;
   width: 100vw;
+  background: #fff;
 
   .writeHeaderWrap{
     background: #FFFCFC;
@@ -113,6 +114,9 @@
       .modalButtons{
         display: flex;
         margin-top: 12px;
+        width: 335px;
+        display: flex;
+
 
         .regionButton{
           display: flex;
