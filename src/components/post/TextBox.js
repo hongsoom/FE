@@ -2,11 +2,12 @@ import React from 'react'
 import '../../css/post.scss'
 
 const TextBox = (props) =>{
-  const {editdata, setConent} = props
+  const {editdata, setContent} = props
 
-  // 적힌 콘텐트 텍스트 가져오기
+  // ---------------------------- 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
-    setConent(e.target.value);
+    setContent(e.target.value);
+
   };
 
   return(

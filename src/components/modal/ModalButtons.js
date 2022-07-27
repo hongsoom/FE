@@ -19,6 +19,10 @@ const ModalButtons = (props) =>{
   const closeRegionModal = () => {
     setShowRegionModal(false)
   }
+  const cancelRegionModal = () =>{
+    setShowRegionModal(false)
+    setRegion('')
+  }
 
   // ---------------------------- 테마 모달 open / close
   const openThemeModal = () => {
@@ -26,6 +30,10 @@ const ModalButtons = (props) =>{
   }
   const closeThemeModal = () => {
     setShowThemeModal(false)
+  }
+  const cancelThemeModal = () =>{
+    setShowThemeModal(false)
+    setTheme([])
   }
       
   // ---------------------------- 비용 모달 open / close
@@ -35,6 +43,34 @@ const ModalButtons = (props) =>{
   const closePriceModal = () => {
     setShowPriceModal(false)
   }
+  const cancelPriceModal = () =>{
+    setShowPriceModal(false)
+    setPrice('')
+  }
+  
+  return(
+    <div className='modalButtons'>
+      {/* 지역선택 */}
+      <div className='regionButton'onClick={openRegionModal}>
+      {selectedRegion?
+        <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
+        :
+        <div className='modalChoiceTitle'>🗺 지역 선택</div>
+        }
+        
+        <div className='regions'>
+          <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+          showRegionModal={showRegionModal} cancelRegionModal={cancelRegionModal}
+          closeRegionModal={closeRegionModal}
+          />
+        </div>  
+      </div>
+
+      {/* 테마선택 */}
+      <div className='themeButton' onClick={openThemeModal}>
+          {
+            selectedTheme.length === 0 ?
+=======
 
   
   return(
@@ -59,6 +95,7 @@ const ModalButtons = (props) =>{
         {/* 테마선택 */}
         <div className='themeButton' onClick={openThemeModal}>
           {selectedTheme.length === 0 ?
+
             <div className='modalChoiceTitle'>
               ⛱ 테마 선택
             </div>
@@ -70,16 +107,16 @@ const ModalButtons = (props) =>{
             :
             selectedTheme.length > 1 ?
             <div className='modalChoiceTitle'>
-              ⛱ 테마 {selectedTheme.length-1}개
+              ⛱ 테마 {selectedTheme.length}개
             </div>
             :
             null
           }
         <div className='themes'>
-          <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
-          showThemeModal={showThemeModal}
-          closeThemeModal={closeThemeModal}
-          />
+            <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
+            showThemeModal={showThemeModal} cancelThemeModal={cancelThemeModal}
+            closeThemeModal={closeThemeModal}
+            />
         </div>    
       </div>
 
@@ -93,7 +130,7 @@ const ModalButtons = (props) =>{
         
           <div className='prices'>
             <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-            showPriceModal={showPriceModal}
+            showPriceModal={showPriceModal} cancelPriceModal={cancelPriceModal}
             closePriceModal={closePriceModal}
             />
           </div>    
@@ -105,7 +142,7 @@ const ModalButtons = (props) =>{
         <div className='modalChoiceTitle'>🗓 일정 선택</div>
         <div className='calendars'>
           <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-          showPriceModal={showPriceModal}
+          showPriceModal={showPriceModal} cancelPriceModal={cancelPriceModal}
           closePriceModal={closePriceModal}
           />
         </div>    
@@ -113,5 +150,4 @@ const ModalButtons = (props) =>{
     </div>
   )
 }
-
 export default ModalButtons
