@@ -13,6 +13,11 @@ import bookmarkBlue from "../../assets/bookmark-blue.png";
 import share from "../../assets/share.png";
 import heartEmpty from "../../assets/heart.png";
 import heartFull from "../../assets/heartpaint.png";
+import bronze from "../../assets/bronze.png";
+import diamond from "../../assets/diamond.png";
+import master from "../../assets/master.png";
+import gold from "../../assets/gold.png";
+import silver from "../../assets/silver.png";
 
 const PostItem = (props) => {
   const dispatch = useDispatch();
@@ -23,6 +28,7 @@ const PostItem = (props) => {
     nickName,
     title,
     imgUrl,
+    grade,
     regionCategory,
     themeCategory,
     priceCategory,
@@ -63,6 +69,21 @@ const PostItem = (props) => {
               <img src={userImgUrl} alt="profile" />
             ) : (
               <img src={user} alt="default-profile" />
+            )}
+            {grade === "BRONZE" && (
+              <img src={bronze} alt="grade" className="postItem-grade" />
+            )}
+            {grade === "SILVER" && (
+              <img src={silver} alt="grade" className="postItem-grade" />
+            )}
+            {grade === "DIAMOND" && (
+              <img src={diamond} alt="grade" className="postItem-grade" />
+            )}
+            {grade === "MASTER" && (
+              <img src={master} alt="grade" className="postItem-grade" />
+            )}
+            {grade === "GOLD" && (
+              <img src={gold} alt="grade" className="postItem-grade" />
             )}
             <p>{nickName}</p>
           </div>
