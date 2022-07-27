@@ -6,11 +6,11 @@ import swal from 'sweetalert';
 
 // 컴포넌트
 import SearchPlace from '../post/SearchPlace'
+import ModalButtons from '../modal/ModalButtons';
 import Kakaomap from '../kakaomap/Kakaomap'
 import ImageSlide from '../imageSlide/ImageSlide'
-import ThemeModal from '../modal/ThemeModal'
-import RegionModal from '../modal/RegionModal'
-import PriceModal from '../modal/PriceModal'
+import TextBox from './TextBox';
+
 
 // 리덕스 모듈
 import { addPostDB } from '../../redux/module/post'
@@ -31,7 +31,7 @@ const NewPost = () => {
   const [place, setPlace] = useState(""); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]) // 검색 결과 배열에 담아줌
   const [title, setTitle] = useState(''); // 글 제목
-  const [content, setConent] = useState(''); // 콘텐트 텍스트 
+  const [content, setContent] = useState(''); // 콘텐트 텍스트 
   const [inputText, setInputText] = useState(""); // 검색창 검색 키워드
   const [select, setSelect] = useState([])  // 선택한 장소 배열에 담아줌
   const [imgUrl, setImgUrl] = useState([]) // 선택한 장소 이미지미리보기 url 넣을 배열
@@ -39,9 +39,6 @@ const NewPost = () => {
   const [selectedRegion, setRegion] = useState(''); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
   const [selectedPrice, setPrice] = useState(''); // 비용 선택
-  const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
-  const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
-  const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [loading, setLoading] = useState(false)
   const [editdata, setEditData] = useState([])
@@ -75,38 +72,6 @@ const NewPost = () => {
     e.preventDefault();
     setPlace(inputText);
     setInputText("");
-  };
-
-
-  // ---------------------------- 지역 모달 open / close
-  const openRegionModal = () => {
-    setShowRegionModal(true)
-  }
-  const closeRegionModal = () => {
-    setShowRegionModal(false)
-  }
-
-  // ---------------------------- 테마 모달 open / close
-  const openThemeModal = () => {
-    setShowThemeModal(true)
-  }
-  const closeThemeModal = () => {
-    setShowThemeModal(false)
-  }
-    
-
-  // ---------------------------- 비용 모달 open / close
-  const openPriceModal = () => {
-    setShowPriceModal(true)
-  }
-  const closePriceModal = () => {
-    setShowPriceModal(false)
-  }
-  
-
-  // ---------------------------- 적힌 콘텐트 텍스트 가져오기
-  const onContentHandler = (e) => {
-    setConent(e.target.value);
   };
 
   // ----------------------------- 장소 선택 취소
@@ -164,7 +129,6 @@ const NewPost = () => {
   //   console.log(key, ":", formData.get(key));
   // }
     
-
   // ---------------------------- 작성 완료 버튼
   const onHandlerSubmit = () =>{
     if (select.length === 0){
@@ -192,7 +156,6 @@ const NewPost = () => {
     const searchList_wrap = document.getElementById('searchList_wrap')
     searchList_wrap.style.height='0px'
   }
-
   
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
@@ -229,8 +192,6 @@ const NewPost = () => {
           infowindow.setContent('<div style="padding:5px;font-size:12px;"> <b>'+ _place.place_name + '</b> <br/>' +  _place.address_name  + '<br/>' + _place.phone + '</div>')
           infowindow.open(map, marker)
           setFocus(_place.place_name)
-          // const clickedFinPlace = document.getElementById(`finPlace${i}`)
-          // clickedFinPlace.scrollIntoView({behavior:'smooth',block:'center'})
         })
       }
       } else {
@@ -260,81 +221,7 @@ const NewPost = () => {
             />
           </div>
           <div className='writeLowerHeader'>
-            <div className='modalButtons'>
-
-              {/* 지역선택 */}
-              <div className='regionButton'onClick={openRegionModal}>
-              {selectedRegion?
-                <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
-                :
-                <div className='modalChoiceTitle'>🗺 지역 선택</div>
-                }
-                
-                <div className='regions'>
-                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-                  showRegionModal={showRegionModal}
-                  closeRegionModal={closeRegionModal}
-                  />
-                </div>  
-              </div>
-
-              {/* 테마선택 */}
-              <div className='themeButton' onClick={openThemeModal}>
-                  {
-                    selectedTheme.length === 0 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ 테마 선택
-                    </div>
-                    :
-                    selectedTheme.length === 1 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ {selectedTheme[0]}
-                    </div>
-                    :
-                    selectedTheme.length > 1 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ 테마 {selectedTheme.length-1}개
-                    </div>
-                    :
-                    null
-                  }
-                <div className='themes'>
-                    <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
-                    showThemeModal={showThemeModal}
-                    closeThemeModal={closeThemeModal}
-                    />
-                </div>    
-              </div>
-
-              {/* 비용선택 */}
-              <div className='priceButton'
-              onClick={openPriceModal}>
-                {selectedPrice ?
-                <div className='modalChoiceTitle'>💸 {selectedPrice&&selectedPrice}</div>
-                :
-                <div className='modalChoiceTitle'>💸 비용 선택</div>
-                }
-                
-                  <div className='prices'>
-                    <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-                    showPriceModal={showPriceModal}
-                    closePriceModal={closePriceModal}
-                    />
-                  </div>    
-              </div>
-
-              {/* 일정선택 */}
-              <div className='calendarButton'
-              onClick={openPriceModal}>
-                <div className='modalChoiceTitle'>🗓 일정 선택</div>
-                <div className='calendars'>
-                  <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-                  showPriceModal={showPriceModal}
-                  closePriceModal={closePriceModal}
-                  />
-                </div>    
-              </div>
-            </div>
+            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice}/>
           </div>
         </div>
         <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
@@ -360,7 +247,7 @@ const NewPost = () => {
                 <div className='imgUploadHeader'>
                   <div className='imgUploadTitle'>
                     <img src={logosky} alt="야너갈 로고"/>
-                    장소를 검색해주세요!
+                    아직 선택된 장소가 없습니다. 장소를 검색해주세요!
                   </div>
                 </div>
               </div>
@@ -368,9 +255,7 @@ const NewPost = () => {
           </div>  
 
           {/* 텍스트 입력 */}
-          <div className='writeTxt'>
-            <textarea placeholder="아직 선택된 장소가 없어요!" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
-          </div>
+          <TextBox editdata={editdata} setContent={setContent}/>
           <button className='writeSubmit' onClick={onHandlerSubmit}> 작성 완료하기</button>
         </div> 
 
@@ -412,9 +297,7 @@ const NewPost = () => {
           </div>  
 
           {/* 텍스트 입력 */}
-          <div className='writeTxt'>
-            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
-          </div>
+          <TextBox editdata={editdata} setContent={setContent}/>
 
           <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
         </div> 
@@ -449,10 +332,7 @@ const NewPost = () => {
           </div>  
 
           {/* 텍스트 입력 */}
-          <div className='writeTxt'
-          >
-            <textarea placeholder="코스에 대한 설명을 입력해주세요" defaultValue={editdata&&editdata.content} onChange={onContentHandler}/>
-          </div>
+          <TextBox editdata={editdata} setContent={setContent}/>
           <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
         </div> 
         }
