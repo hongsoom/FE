@@ -1,0 +1,327 @@
+/* 헤더 */
+.detailHeader{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: #FFFCFC;
+  
+    .detailHeaderWrap{
+      background: #FFFCFC;
+      width: 100vw;
+      padding-top: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid #E4EFFF;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+  
+      .detailUpperHeader{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        margin-bottom: 12px;
+  
+        .preIcon{
+          width: 8.43px;
+          margin-right: 30.91px;
+          margin-left: 5px;
+  
+          img{
+            width: 8.43px;
+          }
+        }
+  
+        .title{
+          font-size: 18px;
+          font-weight: 400;
+          width: 240px;
+          height: 26px;
+          text-align: center;
+        }
+  
+        .icons{
+          display: flex;
+          justify-content: right;
+          width: 48.34px;
+  
+          .editIcon{
+            width: 16.67px;
+            margin-right: 7.19px;
+            
+            img{
+              width: 16.67px;
+            }
+          }
+  
+          .trashIcon{
+            width: 16.67px;
+            
+            img{
+              width: 16.67px;
+            }  
+          }
+        }
+      }
+    }
+  }
+  
+  
+  
+  /* 프로필 */
+  .detailMiddleHeader{
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 48px;
+    margin-bottom: 10px;
+  
+    .profile{
+      width: 343px;
+      height: 48px;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.12));
+      background: #fff;
+      border: 1px solid #E4EFFF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+  
+      .profilePic{
+        width: 40px;
+        height: 40px;
+        background: #E4EFFF;
+        border-radius: 100px;
+        margin: 14px;
+        overflow: hidden;
+  
+        img{
+          width: 40px;
+          height: 40px;
+        }
+      }
+  
+      .nick{
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+  
+      .profileTags{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: right;
+        margin-right: 18px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      
+        .regionCategory{
+          margin-right: 4px;
+          color: #606773;
+        }
+      
+        .themeCategory{
+          margin-right: 5px;
+          color: #606773;
+        }
+      }
+    }
+  }
+  
+  
+  .detailLowerHeader{
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 17px;
+    margin-bottom: 12px;
+  
+    .modalButtons{
+      width: 343px;
+      display: flex;
+  
+      .regionButton{
+        margin-right: 5px;
+        width: 82px;
+        height: 38px;
+        background: #8ACEFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        color: #F5F9FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .priceButton{
+        margin-right: 5px;
+        width: 82px;
+        height: 38px;
+        background: #8ACEFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        color: #F5F9FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .calendarButton{
+        margin-right: 5px;
+        width: 82px;
+        height: 38px;
+        background: #8ACEFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        color: #F5F9FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .kakaomapButton{
+        background: #F5F9FF;
+        color: #8ACEFF;
+        width: 82px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 82px;
+        height: 38px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+  
+  
+  .contentsWrap{
+    margin-top: 560px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    width: 100vw;
+  
+    .detailSectionWrap{
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      width: 343px;
+  
+      .sectionPerPlace{
+        width: 100vw;
+        z-index: 0;
+  
+        .sectionPerPlaceWrap{
+          display: flex;
+          flex-direction: column;
+          width: 343px;
+          overflow: hidden;
+          z-index: 0;
+          background: #fff;
+  
+          /* 사진 */
+          .imgUpload{
+            width: 343px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 7px;
+  
+            .imgUploadHeader{
+              display:flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-bottom: 12px;
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 20px;
+  
+              .imgUploadTitle{
+                display:flex;
+                align-items: center;
+                img{
+                  width: 24px;
+                }
+              }
+            }
+          }
+        }
+      }
+  
+      .txtPlace{
+        width: 343px;
+        background: #FFFFFF;
+        border: 1px solid #B6DCFF;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 12px 14px;
+      }
+  
+  
+    }
+  }
+  .contentsWrap::-webkit-scrollbar{
+    display: none;
+  }
+  
+  .heartNbookmarkIcon{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 343px;
+    height: 55px;
+    padding-right: 15px;
+  
+    .heartIcon{
+      width: 16.67px;
+      margin-right: 4px;
+  
+      img{
+        width: 16.67px;
+      }
+    }
+  
+    .heartNum{
+      font-weight: 400;
+      font-size: 16px;
+      color: #606773;
+      height: 23px;
+      margin-right: 10px;
+    }
+  
+    .bookmarkIcon{
+      width: 13.33px;
+      margin-right: 10px;
+    
+      img{
+        width: 13.33px;
+      }
+    }
+    
+    .shareIcon{
+      width: 15.83px;
+    
+      img{
+        width: 15.83px;
+      }
+    }
+    
+  }
+  
+  /* 댓글 */
+  .commentPlace{
+    margin-top: 30px;
+  }

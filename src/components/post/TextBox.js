@@ -7,6 +7,7 @@ const TextBox = (props) =>{
   // ---------------------------- 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
     setContent(e.target.value);
+
   };
 
   return(
@@ -15,4 +16,5 @@ const TextBox = (props) =>{
     </div>
   )
 }
+
 export default TextBox

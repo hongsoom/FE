@@ -1,16 +1,17 @@
 import React from "react";
-import '../../css/regionModal.scss'
-
+import "../../css/regionModal.scss";
 
 const RegionModal = (props) => {
-
+  
   const { region, selectedRegion, setRegion, showRegionModal, closeRegionModal, cancelRegionModal, is_edit} = props;
   
   const isChecked = (e) =>{
     if (e.target.checked){
       setRegion(e.target.value)
     }
-  }
+  };
+
+
   return (
     <div className={showRegionModal ? 'openModal regionWrap': 'regionWrap'}>
       {showRegionModal ?
@@ -60,10 +61,9 @@ const RegionModal = (props) => {
             </div>  
           </section>
         </div>
-      </div> : null}
-      
+      ) : null}
     </div>
-  )
-}
+  );
+};
 
 export default RegionModal;

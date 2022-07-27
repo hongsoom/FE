@@ -1,9 +1,8 @@
 import React from "react";
-import '../../css/themeModal.scss'
-
+import "../../css/themeModal.scss";
 
 const ThemeModal = (props) => {
-
+  
   const { theme, selectedTheme, setTheme, showThemeModal, closeThemeModal, cancelThemeModal } = props;
   
   return (
@@ -56,10 +55,9 @@ const ThemeModal = (props) => {
             </div>  
           </section>
         </div>
-      </div> : null}
-      
+      ) : null}
     </div>
-  )
-}
+  );
+};
 
 export default ThemeModal;

@@ -1,0 +1,74 @@
+.header-container {
+    margin: 0 auto;
+  }
+  
+  .header-content {
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+  }
+  
+  .header-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+    > img {
+      cursor: pointer;
+    }
+  }
+  
+  .header-title {
+    display: flex;
+    flex-direction: row;
+  
+    > p {
+      margin-top: 45px;
+      font-family: 'BM Dohyeon';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 23px;
+    }
+  }
+  
+  .topArrow-icon {
+    width: 12px;
+    height: 8px;
+    margin: 55px 23px 25px;
+  }
+  
+  .categoryMenu-icon {
+    width: 18px;
+    height: 16px;
+    margin: 50px 23px 25px;
+  }
+  
+  .logoSmail-icon {
+    width: 23px;
+    height: 23px;
+    margin: 45px 8px 25px;
+  }
+  
+  .header-icon {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .write-icon {
+    width: 20px;
+    height: 20px;
+    margin: 45px 0 25px 0;
+  }
+  
+  .mypage-icon {
+    width: 16px;
+    height: 21px;
+    margin: 45px 24px 25px 17px;
+  }
+  
+  .login-icon {
+    width: 18px;
+    height: 20px;
+    margin: 45px 0px 25px 17px;
+  }

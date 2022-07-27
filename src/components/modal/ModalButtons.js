@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState} from 'react'
 import '../../css/post.scss'
 
 import ThemeModal from '../modal/ThemeModal'
@@ -6,10 +6,10 @@ import RegionModal from '../modal/RegionModal'
 import PriceModal from '../modal/PriceModal'
 
 const ModalButtons = (props) =>{
-  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice} = props
+  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice} = props 
 
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
-  const [showThemeModal, setShowThemeModal] = useState(false); // 지역모달
+  const [showThemeModal, setShowThemeModal] = useState(false); // 테마모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
 
   // ---------------------------- 지역 모달 open / close
@@ -35,7 +35,7 @@ const ModalButtons = (props) =>{
     setShowThemeModal(false)
     setTheme([])
   }
-
+      
   // ---------------------------- 비용 모달 open / close
   const openPriceModal = () => {
     setShowPriceModal(true)
@@ -70,6 +70,32 @@ const ModalButtons = (props) =>{
       <div className='themeButton' onClick={openThemeModal}>
           {
             selectedTheme.length === 0 ?
+=======
+
+  
+  return(
+      <div className='modalButtons'>
+
+        {/* 지역선택 */}
+        <div className='regionButton'onClick={openRegionModal}>
+        {selectedRegion?
+          <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
+          :
+          <div className='modalChoiceTitle'>🗺 지역 선택</div>
+          }
+          
+          <div className='regions'>
+            <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
+            showRegionModal={showRegionModal}
+            closeRegionModal={closeRegionModal}
+            />
+          </div>  
+        </div>
+
+        {/* 테마선택 */}
+        <div className='themeButton' onClick={openThemeModal}>
+          {selectedTheme.length === 0 ?
+
             <div className='modalChoiceTitle'>
               ⛱ 테마 선택
             </div>
@@ -95,8 +121,7 @@ const ModalButtons = (props) =>{
       </div>
 
       {/* 비용선택 */}
-      <div className='priceButton'
-      onClick={openPriceModal}>
+      <div className='priceButton' onClick={openPriceModal}>
         {selectedPrice ?
         <div className='modalChoiceTitle'>💸 {selectedPrice&&selectedPrice}</div>
         :
