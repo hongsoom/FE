@@ -18,14 +18,11 @@ const Main = () => {
   const recommendList = ["서울", "호캉스", "힐링"];
 
   const posts = useSelector((state) => state.post.contents);
-  const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
   const filtercontents = useSelector((state) => state.post.filtercontents);
   const isLoading = useSelector((state) => state.post.isLoading);
   const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-
-  console.log(isFilter);
 
   const [keyword, setKeyword] = useState("");
   const [direction, setDirection] = useState("desc");
@@ -61,6 +58,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(userAction.clearDB());
     onSortPost();
     return () => {
       dispatch(userAction.initPagingDB());
@@ -88,7 +86,7 @@ const Main = () => {
           ) : (
             <>
               <BookmarkPost
-                bookmarkcontents={bookmarkcontents}
+                bookmarkcontents={posts}
                 bookmarkCount={bookmarkCount}
               />
               <div className="main-latest-love-container">
