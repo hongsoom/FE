@@ -54,6 +54,13 @@
           line-height: 17.38px;
         }
 
+        .logout-btn {
+          border: none;
+          background-color: transparent;
+          color: #606773;
+          cursor: pointer;
+        }
+
         .setup{
           margin-left: 16px;
           width: 18.4px;
@@ -125,12 +132,15 @@
   .mypageWraper::-webkit-scrollbar {
     display: none;
   } 
+  .writeContainer {
+    position: absolute;
+    left: 300px;
+    bottom: 80px;
+    z-index: 1;
+  }
 
   .writeButtonWrap{
-    position: absolute;
-    left: 301px;
-    bottom: 44px;
-    z-index: 1;
+    position: fixed;
   }
   
   .writeButton{
@@ -204,10 +214,8 @@
         grid-template-columns: 1fr 1fr;
         column-gap: 10px;
         row-gap: 7px;
-        padding: 18px 20px;
 
         .postbox{
-          width: 45vw;
           height: 150px;
           background: #F5F5F5;
           border-radius: 8px;
