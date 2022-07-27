@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import swal from "sweetalert";
 import "../../css/webShare.scss";
 import urlshare from "../../assets/urlshare.png";
 import kakaoshare from "../../assets/kakaoshare.png";
@@ -56,17 +57,20 @@ const WebShare = ({
     <div className="webshare-box">
       <div className="webshare-container">
         <div className="webshare-content">
-          <div className="webshare-title">
-            <p>공유하기</p>
-            
-          </div>
           <div className="webshare-share">
             <img
+              className="webshare-url"
               src={urlshare}
               alt="close"
               onClick={() => {
                 clip(url);
-                webShare();
+                swal({
+                  title: "링크가 복사되었습니다!",
+                  icon: "success",
+                  closeOnClickOutside: false,
+                }).then(function () {
+                  webShare();
+                });
               }}
             />
             <a className="kakao_share">
@@ -79,6 +83,9 @@ const WebShare = ({
                 }}
               />
             </a>
+          </div>
+          <div className="webshare-button">
+            <button onClick={webShare}>닫기</button>
           </div>
         </div>
       </div>

@@ -98,19 +98,23 @@ const FilterButton = (props) => {
                   {click ? (
                     <>
                       {themeSelect.map((list, i) => (
-                        <button key={i}>#{list}</button>
+                        <button key={i} className="filterbutton-theme">
+                          #{list}
+                        </button>
                       ))}
 
-                      {is_price ? <button>#{price}</button> : null}
+                      {is_price ? (
+                        <button className="filterbutton-price">#{price}</button>
+                      ) : null}
                     </>
                   ) : (
                     <>
                       {recommendList.map((list, i) => (
                         <button
+                          className="filterbutton-theme"
                           key={i}
                           onClick={() => {
                             navigate("/search/" + `${list}`);
-
                             dispatch(userAction.initPagingDB());
                           }}
                         >
@@ -130,19 +134,31 @@ const FilterButton = (props) => {
                 <div className="filterbutton-button">
                   {is_region ? (
                     <>
-                      <button>#{region}</button>
+                      <button className="filterbutton-region">#{region}</button>
                       {themeSelect.map((list, i) => (
-                        <button key={i}>#{list}</button>
+                        <button key={i} className="filterbutton-theme">
+                          #{list}
+                        </button>
                       ))}
-                      {is_price ? <button>#{price}</button> : null}
+                      {is_price ? (
+                        <button className="filterbutton-price">#{price}</button>
+                      ) : null}
                     </>
                   ) : (
                     <>
-                      {is_listRegion ? <button>#{listRegion}</button> : null}
+                      {is_listRegion ? (
+                        <button className="filterbutton-region">
+                          #{listRegion}
+                        </button>
+                      ) : null}
                       {themeSelect.map((list, i) => (
-                        <button key={i}>#{list}</button>
+                        <button key={i} className="filterbutton-theme">
+                          #{list}
+                        </button>
                       ))}
-                      {is_price ? <button>#{price}</button> : null}
+                      {is_price ? (
+                        <button className="filterbutton-price">#{price}</button>
+                      ) : null}
                     </>
                   )}
                 </div>

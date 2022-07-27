@@ -19,31 +19,6 @@
     border-radius: 8px;
   }
   
-  .webshare-title {
-    display: flex;
-    justify-content: center;
-  
-    > {
-      p {
-        font-family: "Noto Sans KR";
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 23px;
-        color: #333333;
-      }
-  
-      img {
-        position: absolute;
-        width: 13px;
-        height: 13px;
-        margin: 13px;
-        cursor: pointer;
-        margin-left: 300px;
-      }
-    }
-  }
-  
   .webshare-share {
     display: flex;
     justify-content: center;
@@ -54,9 +29,29 @@
       }
   
       img, a > img {
-        width: 89px;
-        height: 32px;
+        width: 125px;
+        height: 30px;
         cursor: pointer;
+        margin : 10px;
       }
+      .webshare-url {
+        margin-right: 15px;
+      }
+    }
+  }
+  .webshare-button {
+    margin: 0 22px;
+    > button {
+    width : 285px;
+    height: 35px;
+    background-color: #E4EFFF;
+    border: 1px solid #E4EFFF;
+    border-radius: 8px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
     }
   }

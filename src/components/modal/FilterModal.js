@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import "../../css/filterModal.scss";
@@ -7,6 +8,7 @@ const size = 5;
 
 const FilterModal = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const nextPage = useSelector((state) => state.post.paging?.next);
 
@@ -164,36 +166,72 @@ const FilterModal = (props) => {
             {keyword === "" && (
               <div className="filtermodal-filterbutton">
                 <button
+                  className="filtermodal-cancel"
+                  onClick={() => {
+                    setThemeSelect([]);
+                    setPriceSelect("");
+                    onClick();
+                    navigate("/");
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  className="filtermodal-search"
                   onClick={() => {
                     loadMainPost();
                     onClick();
                   }}
                 >
-                  검색
+                  선택 완료
                 </button>
               </div>
             )}
             {is_region && (
               <div className="filtermodal-filterbutton">
                 <button
+                  className="filtermodal-cancel"
+                  onClick={() => {
+                    setThemeSelect([]);
+                    setPriceSelect("");
+                    onClick();
+                    navigate("/");
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  className="filtermodal-search"
                   onClick={() => {
                     loadFilterPost();
                     onClick();
                   }}
                 >
-                  검색
+                  선택 완료
                 </button>
               </div>
             )}
             {is_list && (
               <div className="filtermodal-filterbutton">
                 <button
+                  className="filtermodal-cancel"
+                  onClick={() => {
+                    setThemeSelect([]);
+                    setPriceSelect("");
+                    onClick();
+                    navigate("/");
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  className="filtermodal-search"
                   onClick={() => {
                     loadSearchPost();
                     onClick();
                   }}
                 >
-                  검색
+                  선택 완료
                 </button>
               </div>
             )}

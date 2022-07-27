@@ -60,13 +60,22 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      margin: 7px;
+      margin: 7px 2px 7px 7px;
     }
   
-    a > p {
+    p {
       font-family: 'Noto Sans KR';
       font-style: normal;
       font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #333333;
+      margin-top: 17px;
+    }
+    .postItem-grade {
+      width: 30px;
+      height: 30px;
+      margin: 13px 5px 0 0;
     }
   }
   

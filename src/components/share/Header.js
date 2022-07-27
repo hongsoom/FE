@@ -6,7 +6,7 @@ import categoryMenu from "../../assets/categoryMenu.png";
 import write from "../../assets/write.png";
 import mypage from "../../assets/mypage.png";
 import logoSmail from "../../assets/logo-smail.png";
-import topArrow from "../../assets/topArrow.png";
+import close from "../../assets/close.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,9 +27,9 @@ const Header = () => {
           <div className="header-image">
             {viewCategory ? (
               <img
-                src={topArrow}
-                alt="topArrow"
-                className="topArrow-icon"
+                src={close}
+                alt="close"
+                className="close-icon"
                 onClick={onClick}
               />
             ) : (
@@ -61,7 +61,7 @@ const Header = () => {
                   />
                 </>
               ) : (
-                <p>
+                <p className="login-icon">
                   <a href={"/Login"}>로그인</a>
                 </p>
               )}
