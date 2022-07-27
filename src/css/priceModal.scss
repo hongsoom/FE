@@ -78,22 +78,44 @@
           }
         }
 
-        .doneButton{
-          width: 100%;
+        .buttons{
           display: flex;
           justify-content: center;
-          margin-top: 16px;
-        
-          .close{
-            width: 258px;
-            height: 36px;
-            background: #8ACEFF;
-            border-radius: 8px;
-            color: #F5F9FF;
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 20px;
-            border: none;
+          .doneButton{
+            width: 138px;
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+            .close{
+              width: 258px;
+              height: 36px;
+              background: #8ACEFF;
+              border-radius: 8px;
+              color: #F5F9FF;
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 20px;
+              border: none;
+            }
+          }
+  
+          .cancelButton{
+            width: 138px;
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+            margin-right: 6px;
+            .cancel{
+              width: 258px;
+              height: 36px;
+              background: #FF8686;
+              border-radius: 8px;
+              color: #F5F9FF;
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 20px;
+              border: none;
+            }
           }
         }
       }

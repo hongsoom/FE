@@ -3,7 +3,7 @@ import '../../css/priceModal.scss'
 
 const PriceModal = (props) => {
 
-  const { price, selectedPrice, setPrice, showPriceModal, closePriceModal} = props;
+  const { price, selectedPrice, setPrice, showPriceModal, closePriceModal, cancelPriceModal} = props;
   
   const isChecked = (e) =>{
     if (e.target.checked){
@@ -34,9 +34,14 @@ const PriceModal = (props) => {
               )
             })}
             </div>
-            <div className="doneButton">
-              <button className="close" onClick={closePriceModal}>선택완료</button>
-            </div>
+            <div className="buttons">
+              <div className="cancelButton">
+                <button className="cancel" onClick={cancelPriceModal}>취소</button>
+              </div>
+              <div className="doneButton">
+                <button className="close" onClick={closePriceModal}>선택완료</button>
+              </div>
+            </div>  
           </section>
       </div>
       </div> : null}

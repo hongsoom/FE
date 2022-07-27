@@ -16,8 +16,7 @@ const Write = () => {
       <Edit/>
       :
       <NewPost/>
-      }
-      
+      }      
     </div>
   )
 }

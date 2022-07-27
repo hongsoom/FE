@@ -29,7 +29,7 @@ const ImageSlide = ({select, imgUrl, imgs, l, j, focus}) => {
   }  
 
   // ------------------- 사진 삭제하기
-  const onRemoveHandler = (j,index) =>{
+  const onRemoveHandler = (j,index, list) =>{
     swal({
       title: "사진을 삭제할까요?",
       icon: "warning",
@@ -41,8 +41,18 @@ const ImageSlide = ({select, imgUrl, imgs, l, j, focus}) => {
         swal('사진이 삭제되었습니다', {
           icon: "success",
         });
-        
-        
+
+      
+
+      imgUrl[j].imgUrl.filter((v,i)=>{
+        return v !== list
+      })
+      
+      select[j].imgCount = imgUrl[j].imgUrl.length
+      
+      
+
+
       } else {
         swal("삭제를 취소했습니다");
       }
@@ -79,7 +89,7 @@ const ImageSlide = ({select, imgUrl, imgs, l, j, focus}) => {
           }}
         className="write_categoryslide-imagecontent" key={i}>
            <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px",height:"12.73px"}}
-           onClick={()=>{onRemoveHandler(j,i)}}
+           onClick={()=>{onRemoveHandler(j, i, list)}}
            />
            <img src={list} alt="장소이미지" style={{width:"343px"}}/>
         </SwiperSlide>
