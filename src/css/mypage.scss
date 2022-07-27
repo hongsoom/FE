@@ -214,6 +214,7 @@
         grid-template-columns: 1fr 1fr;
         column-gap: 10px;
         row-gap: 7px;
+        padding: 18px 20px;
 
         .postbox{
           height: 150px;
@@ -275,7 +276,7 @@
     .myBookmarks{
       position:absolute;
       width: 100%;
-      background:#fff;
+      background: #fff;
 
       .postboxs{
         display: grid;
@@ -284,9 +285,9 @@
         column-gap: 10px;
         row-gap: 7px;
         padding: 18px 20px;
+        
 
         .postbox{
-          width: 45vw;
           height: 150px;
           background: #F5F5F5;
           border-radius: 8px;
