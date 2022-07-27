@@ -49,31 +49,6 @@ const ModalButtons = (props) =>{
   }
   
   return(
-    <div className='modalButtons'>
-      {/* 지역선택 */}
-      <div className='regionButton'onClick={openRegionModal}>
-      {selectedRegion?
-        <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
-        :
-        <div className='modalChoiceTitle'>🗺 지역 선택</div>
-        }
-        
-        <div className='regions'>
-          <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-          showRegionModal={showRegionModal} cancelRegionModal={cancelRegionModal}
-          closeRegionModal={closeRegionModal}
-          />
-        </div>  
-      </div>
-
-      {/* 테마선택 */}
-      <div className='themeButton' onClick={openThemeModal}>
-          {
-            selectedTheme.length === 0 ?
-=======
-
-  
-  return(
       <div className='modalButtons'>
 
         {/* 지역선택 */}
