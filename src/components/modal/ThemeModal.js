@@ -54,8 +54,8 @@ const ThemeModal = (props) => {
               </div>
             </div>  
           </section>
-        </div>
-      ) : null}
+          </div>
+      </div> : null}
     </div>
   );
 };

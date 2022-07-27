@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import "../../css/webShare.scss";
-import close from "../../assets/close.png";
 import urlshare from "../../assets/urlshare.png";
 import kakaoshare from "../../assets/kakaoshare.png";
 
@@ -59,7 +58,7 @@ const WebShare = ({
         <div className="webshare-content">
           <div className="webshare-title">
             <p>공유하기</p>
-            <img src={close} alt="close" onClick={webShare} />
+            
           </div>
           <div className="webshare-share">
             <img

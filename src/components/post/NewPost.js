@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
-import "../../css/post.scss";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import React, { useState, useRef } from 'react'
+import '../../css/post.scss'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import swal from 'sweetalert';
 
 // 컴포넌트
 import SearchPlace from '../post/SearchPlace'
@@ -11,18 +11,17 @@ import Kakaomap from '../kakaomap/Kakaomap'
 import ImageSlide from '../imageSlide/ImageSlide'
 import TextBox from './TextBox';
 
-
 // 리덕스 모듈
-import { addPostDB } from "../../redux/module/post";
+import { addPostDB } from '../../redux/module/post'
 
 // 아이콘
-import search from "../../assets/search.png";
-import logosky from "../../assets/logosky.png";
-import trashwhite from "../../assets/trashwhite.png";
-import leftArrowBlack from "../../assets/leftArrowBlack.png";
+import search from '../../assets/search.png'
+import logosky from '../../assets/logosky.png'
+import trashwhite from '../../assets/trashwhite.png'
+import leftArrowBlack from '../../assets/leftArrowBlack.png'
 
 // 카카오맵
-const { kakao } = window;
+const { kakao } = window
 
 const NewPost = () => {
   const dispatch = useDispatch();
@@ -42,36 +41,14 @@ const NewPost = () => {
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [loading, setLoading] = useState(false);
   const [editdata, setEditData] = useState([]);
-
-  const region = [
-    "서울",
-    "대전",
-    "경기",
-    "세종",
-    "인천",
-    "대구",
-    "강원도",
-    "울산",
-    "충청도",
-    "광주",
-    "전라도",
-    "부산",
-    "경상도",
-    "제주도",
-  ];
-  const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
-  const price = [
-    "10만원 이하",
-    "10만원대",
-    "20만원대",
-    "30만원대",
-    "40만원대",
-    "50만원 이상",
-  ];
-
+ 
+  const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
+  const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
+  const price = ['10만원 이하', '10만원대', '20만원대','30만원대','40만원대','50만원 이상']
+  
   const onClickLeftArrow = () => {
-    navigate("/");
-  };
+    navigate('/')
+  }
 
   // ---------------------------- 제목 가져오기
   const onTitleHandler = (e) => {
@@ -84,10 +61,10 @@ const NewPost = () => {
   };
 
   const handleSubmit = (e) => {
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "220px";
+    const searchList_wrap = document.getElementById('searchList_wrap')
+    searchList_wrap.style.height='220px'
 
-    if (!inputText.replace(/^\s+|\s+$/g, "")) {
+    if(!inputText.replace(/^\s+|\s+$/g, '')){
       swal("키워드를 입력해주세요!");
       return false;
     }
@@ -97,119 +74,113 @@ const NewPost = () => {
   };
 
   // ----------------------------- 장소 선택 취소
-  const onRemovePlace = (place) => {
+  const onRemovePlace = (place) =>{
     swal({
       title: "이 장소를 삭제할까요?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((willDelete) => {
+    })
+    .then((willDelete) => {
       if (willDelete) {
-        swal("목록에서 삭제되었습니다", {
+        swal('목록에서 삭제되었습니다', {
           icon: "success",
         });
-        if (select && select.length !== 0) {
-          setFocus(select && select[0].place_name);
-        }
-        setSelect((pre) => {
-          const newSelect = pre.filter((v, i) => {
-            return place.place_name !== v.place_name;
-          });
-          list(newSelect);
-          return newSelect;
-        });
-        setImgUrl((pre) => {
-          const imgUrlList = pre.filter((v, i) => {
-            return place.place_name !== v.place_name;
-          });
-          return imgUrlList;
-        });
+        if(select&&select.length !==0){
+          setFocus(select&&select[0].place_name)
+        }        
+        setSelect((pre)=>{
+          const newSelect = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          list(newSelect)
+          return newSelect
+        })
+        setImgUrl((pre)=>{
+          const imgUrlList = pre.filter((v,i)=>{
+            return place.place_name !== v.place_name
+          })
+          return imgUrlList
+        })
       } else {
         swal("삭제를 취소했습니다");
       }
     });
-  };
+  }
+  
 
   // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
-  const json = JSON.stringify(select);
-  const blob = new Blob([json], { type: "application/json" });
+  const json = JSON.stringify(select)
+  const blob = new Blob([json], { type: "application/json" })
 
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("regionCategory", selectedRegion);
-  formData.append("themeCategory", selectedTheme);
-  formData.append("priceCategory", selectedPrice);
-  formData.append("places", blob);
-  imgs.forEach((v, i) => {
-    formData.append("imgUrl", v);
-  });
+  formData.append("title", title)
+  formData.append("content", content)
+  formData.append("regionCategory", selectedRegion)
+  formData.append("themeCategory", selectedTheme)
+  formData.append("priceCategory", selectedPrice)
+  formData.append("places", blob)
+  imgs.forEach((v,i)=>{
+    formData.append("imgUrl",v)
+  })
 
   // for (let key of formData.keys()) {
   //   console.log(key, ":", formData.get(key));
   // }
+    
 
   // ---------------------------- 작성 완료 버튼
-  const onHandlerSubmit = () => {
-    if (select.length === 0) {
+  const onHandlerSubmit = () =>{
+    if (select.length === 0){
       swal("장소를 검색하고 선택해주세요!");
-    } else if (selectedRegion.length === 0) {
+    } else if (selectedRegion.length === 0){
       swal("지역을 선택해주세요!");
-    } else if (selectedTheme.length === 0) {
+    } else if (selectedTheme.length === 0){
       swal("테마를 선택해주세요!");
-    } else if (selectedPrice.length === 0) {
+    } else if (selectedPrice.length === 0){
       swal("비용을 선택해주세요!");
-    } else if (title.length === 0) {
+    } else if (title.length === 0){
       swal("제목을 적어주세요!");
-    } else if (imgs.length === 0) {
+    } else if (imgs.length === 0){
       swal("사진을 첨부해주세요!");
-    } else if (content.length < 10) {
+    } else if (content.length < 10){
       swal("내용은 10자 이상 적어주세요!");
-    } else if (
-      selectedRegion.length !== 0 &&
-      selectedTheme.length !== 0 &&
-      selectedPrice.length !== 0 &&
-      select &&
-      content.length >= 10 &&
-      title &&
-      imgs.length !== 0
-    ) {
-      dispatch(addPostDB(formData));
+    } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title && imgs.length !== 0){
+      dispatch(addPostDB(formData))
     }
-  };
+  }
+
 
   const onClickHandler = (__place) => {
-    setFocus(__place);
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "0px";
-  };
+    setFocus(__place)
+    const searchList_wrap = document.getElementById('searchList_wrap')
+    searchList_wrap.style.height='0px'
+  }
 
+  
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
-  // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
-  const list = (positions) => {
-    if (positions.length !== 0) {
-      const options = {
-        center: new kakao.maps.LatLng(
-          positions[positions.length - 1].y,
-          positions[positions.length - 1].x
-        ),
-        level: 5,
-      };
-      const map = new kakao.maps.Map(myMap.current, options);
-
-      for (var i = 0; i < positions.length; i++) {
-        // 마커를 생성
-        var marker = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
-          // position: positions[i].latlng, // 마커를 표시할 위치
-          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          place_name: positions[i].place_name,
-        });
-        displayMarker(positions[i], i);
+    // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
+    const list = (positions) => {
+      if (positions.length !==0 ){
+        const options = {
+          center: new kakao.maps.LatLng(positions[positions.length-1].y, positions[positions.length-1].x),
+          level: 5,
+        }
+        const map = new kakao.maps.Map(myMap.current, options)
+  
+        for (var i = 0; i < positions.length; i ++) {
+          // 마커를 생성
+          var marker = new kakao.maps.Marker({
+              map: map, // 마커를 표시할 지도
+              position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
+              // position: positions[i].latlng, // 마커를 표시할 위치
+              title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              place_name : positions[i].place_name
+          });
+          displayMarker(positions[i] ,i)          
       }
-
+  
       // 마커찍기 함수
       function displayMarker(_place, i) {
         let marker = new kakao.maps.Marker({
@@ -230,63 +201,39 @@ const NewPost = () => {
           level: 4,
         }
         const map = new kakao.maps.Map(myMap.current, options)
-
       }
-    } else {
-      const options = {
-        center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-        level: 4,
-      };
-      const map = new kakao.maps.Map(myMap.current, options);
     }
-  };
 
+    
+ 
   return (
     <>
       {/* 헤더 */}
-      <div className="writeHeader">
-        <div className="writeHeaderWrap">
-          <div className="writeUpperHeader">
-            <div className="writePreIcon" onClick={onClickLeftArrow}>
-              <img src={leftArrowBlack} alt="홈으로 이동" />
+      <div className='writeHeader'>
+        <div className='writeHeaderWrap'>
+          <div className='writeUpperHeader'>
+            <div className='writePreIcon' onClick={onClickLeftArrow}>
+              <img src={leftArrowBlack} alt="홈으로 이동"/>
             </div>
             <SearchPlace
-              search={search}
-              Places={Places}
-              onChange={onChange}
-              handleSubmit={handleSubmit}
-              inputText={inputText}
-              onClickHandler={onClickHandler}
-              setSelect={setSelect}
-              select={select}
-              setImgUrl={setImgUrl}
-              list={list}
-              setFocus={setFocus}
+            search={search} Places={Places} onChange={onChange} handleSubmit={handleSubmit} inputText={inputText}
+            onClickHandler={onClickHandler} setSelect={setSelect} select={select} setImgUrl={setImgUrl} list={list}
+            setFocus={setFocus}
             />
           </div>
-
           <div className='writeLowerHeader'>
             <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice}/>
           </div>
         </div>
-        <Kakaomap
-          kakao={kakao}
-          myMap={myMap}
-          setPlaces={setPlaces}
-          place={place}
-        />
+        <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
       </div>
 
       {/* 움직이는 부분 */}
-      <div className="contentWrap">
+      <div className='contentWrap'>
+        
         {/* 제목 */}
-        <div className="writeTitleWrap">
-          <input
-            type="text"
-            onChange={onTitleHandler}
-            defaultValue={editdata && editdata.title}
-            placeholder="코스 이름을 적어주세요"
-          />
+        <div className='writeTitleWrap'>
+          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
         </div>
 
         {/* 검색하고 선택한 장소가 없을 때 */}
@@ -301,15 +248,15 @@ const NewPost = () => {
                 <div className='imgUploadHeader'>
                   <div className='imgUploadTitle'>
                     <img src={logosky} alt="야너갈 로고"/>
-                    아직 선택된 장소가 없습니다. 장소를 검색해주세요!
-
+                    장소를 검색해주세요!
                   </div>
                 </div>
               </div>
             </div>
+          </div>  
 
           {/* 텍스트 입력 */}
-          <TextBox editdata={editdata} setContent={setContent}/>
+          <TextBox setContent={setContent}/>
           <button className='writeSubmit' onClick={onHandlerSubmit}> 작성 완료하기</button>
         </div> 
 
@@ -333,65 +280,66 @@ const NewPost = () => {
                         <img src={logosky} alt="야너갈 로고"/>
                         {l.place_name}
                       </div>
+                      <div className='removePlaceButton'
+                      onClick={()=>{onRemovePlace(l)}}
+                      >
+                        <img src={trashwhite} alt="장소 삭제 버튼"/>
+                        이 장소 삭제
+                      </div>    
                     </div>
-                  );
-                })}
-            </div>
-
-          {/* 텍스트 입력 */}
-          <TextBox editdata={editdata} setContent={setContent}/>
-
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
-          </div>
-        ) : (
-          <div className="sectionWrap">
-            {/* 검색해서 장소를 선택했지만 핀을 클릭하지 않았을 때 */}
-            {/* 바뀌는 부분 */}
-            <div className="sectionPerPlace">
-              <div className="sectionPerPlaceWrap">
-                {/* 사진업로드 */}
-                <div className="imgUpload">
-                  {/* 사진업로드하는 장소 이름 */}
-                  <div className="imgUploadHeader">
-                    <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" />
-                      {select && select[0] && select[0].place_name}
-                    </div>
-                    <div
-                      className="removePlaceButton"
-                      onClick={() => {
-                        onRemovePlace(select && select[0]);
-                      }}
-                    >
-                      <img src={trashwhite} alt="장소 삭제 버튼" />이 장소 삭제
-                    </div>
-                  </div>
-                  <ImageSlide
-                    select={select}
-                    setSelect={setSelect}
-                    imgUrl={imgUrl}
-                    setImgUrl={setImgUrl}
-                    setImgs={setImgs}
-                    imgs={imgs}
-                    l={select[0] && select[0]}
-                    j={0}
+                    <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={l} j={j}
                     focus={focus}
                   />
+                  </div>
+                  
                 </div>
-              </div>
-            </div>
+              )
+            })}
+          </div>  
 
           {/* 텍스트 입력 */}
-          <TextBox editdata={editdata} setContent={setContent}/>
+          <TextBox setContent={setContent}/>
+
+          <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
+        </div> 
+            
+        :
+
+        <div className='sectionWrap'>
+          {/* 검색해서 장소를 선택했지만 핀을 클릭하지 않았을 때 */}
+          {/* 바뀌는 부분 */}
+          <div className='sectionPerPlace'>
+            <div className="sectionPerPlaceWrap">        
+              {/* 사진업로드 */}
+              <div className='imgUpload'>
+                {/* 사진업로드하는 장소 이름 */}
+                <div className='imgUploadHeader'>
+                  <div className='imgUploadTitle'>
+                    <img src={logosky} alt="야너갈 로고"/>
+                    {select&&select[0]&&select[0].place_name}
+                  </div>
+                  <div className='removePlaceButton'
+                  onClick={()=>{onRemovePlace(select&&select[0])}}
+                  >
+                    <img src={trashwhite} alt="장소 삭제 버튼"/>
+                    이 장소 삭제
+                  </div>    
+                </div>
+                <ImageSlide select={select} setSelect={setSelect} imgUrl={imgUrl} setImgUrl={setImgUrl} setImgs={setImgs} imgs={imgs} l={select[0]&&select[0]} j={0}
+                 focus={focus}
+                  />
+              </div>
+            </div>
+          </div>  
+
+          {/* 텍스트 입력 */}
+          <TextBox setContent={setContent}/>
           <button className='writeSubmit' onClick={onHandlerSubmit}>작성 완료하기</button>
         </div> 
         }
-
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NewPost;
+export default NewPost

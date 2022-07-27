@@ -61,7 +61,7 @@ const ModalButtons = (props) =>{
           
           <div className='regions'>
             <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-            showRegionModal={showRegionModal}
+            showRegionModal={showRegionModal} cancelRegionModal={cancelRegionModal}
             closeRegionModal={closeRegionModal}
             />
           </div>  

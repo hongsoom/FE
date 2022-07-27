@@ -60,8 +60,8 @@ const RegionModal = (props) => {
               </div>
             </div>  
           </section>
-        </div>
-      ) : null}
+          </div>
+      </div> : null}
     </div>
   );
 };
