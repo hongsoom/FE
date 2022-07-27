@@ -16,19 +16,18 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
   // ------------------- 업로드 이미지 url로 바꿔서 미리보기 띄우기
   const editLoadImg = (e, index) => {
     const file = e.target.files[0];
-    newImgFile.push(file) // 파일들 자체 배열
-    console.log(newImgFile) 
-    console.log(imgUrl)
+    setNewImgFile((pre)=>{
+      const imgList = [...pre]
+      imgList.push(file)
+      return imgList
+    })
     const Url = URL.createObjectURL(file)
     imgUrl[index].imgUrl.push(Url)
     allImgUrl[index].imgUrl.push(Url)
     setImg(Url)
     select[index].imgCount = imgUrl[index].imgUrl.length
   }
-  
-  console.log(select)
-  console.log(imgUrl)
-  console.log(allImgUrl)
+ 
 
   // ------------------- 사진 삭제하기
   const onRemoveHandler = (j,index) =>{
@@ -124,9 +123,6 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
             height: "256px",
           }}
         className="write_categoryslide-imagecontent" key={index}>
-          {/* <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px", height:"12.73px"}}
-          onClick={()=>{onRemoveHandler(j,index)}}
-          /> */}
           <img src={list} alt="장소이미지" style={{width:"343px"}}/>
         </SwiperSlide>
         )}

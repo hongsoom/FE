@@ -65,7 +65,7 @@ const MyPosts = (props) => {
                   return (
                     <div
                       className="postbox"
-                      onClick={()=>{onClickToPost()}}
+                      onClick={()=>{onClickToPost(v.postId)}}
                       key={i}
                       style={{
                         backgroundImage: `url(${v.imgUrl})`,

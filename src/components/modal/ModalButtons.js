@@ -111,17 +111,6 @@ const ModalButtons = (props) =>{
           </div>    
       </div>
 
-      {/* 일정선택 */}
-      <div className='calendarButton'
-      onClick={openPriceModal}>
-        <div className='modalChoiceTitle'>🗓 일정 선택</div>
-        <div className='calendars'>
-          <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-          showPriceModal={showPriceModal} cancelPriceModal={cancelPriceModal}
-          closePriceModal={closePriceModal}
-          />
-        </div>    
-      </div>
     </div>
   )
 }

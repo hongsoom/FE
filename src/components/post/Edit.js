@@ -7,11 +7,9 @@ import instance from '../../shared/Request'
 import swal from 'sweetalert';
 
 // 컴포넌트
+import ModalButtons from '../modal/ModalButtons'
 import Kakaomap from '../kakaomap/Kakaomap';
 import EditImageSlide from '../imageSlide/EditImageSlide'
-import ThemeModal from '../modal/ThemeModal'
-import RegionModal from '../modal/RegionModal'
-import PriceModal from '../modal/PriceModal'
 
 // 라우터
 import { useNavigate, useParams } from 'react-router-dom'
@@ -63,10 +61,6 @@ const Edit = () => {
   const [selectedRegion, setRegion] = useState(editdata&&editdata.regionCategory); // 지역 선택
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
   const [selectedPrice, setPrice] = useState( editdata&&editdata.priceCategory ); // 비용 선택
-  const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
-  const [showThemeModal, setShowThemeModal] = useState(false);
-  const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
-
   const [newImgFile, setNewImgFile] = useState([]); // 이미지 모두 파일
   
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
@@ -166,32 +160,7 @@ const Edit = () => {
     searchList_wrap.style.height='220px'
   };
 
-  // ---------------------------- 지역 모달 open / close
-  const openRegionModal = () => {
-    setShowRegionModal(true)
-  }
-  const closeRegionModal = () => {
-    setShowRegionModal(false)
-  }
-
-  // ---------------------------- 테마 모달 open / close
-  const openThemeModal = () => {
-    setShowThemeModal(true)
-  }
-  const closeThemeModal = () => {
-    setShowThemeModal(false)
-  }
-      
-
-  // ---------------------------- 비용 모달 open / close
-  const openPriceModal = () => {
-    setShowPriceModal(true)
-  }
-  const closePriceModal = () => {
-    setShowPriceModal(false)
-  }
   
-
   // ---------------------------- 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
     setContent(e.target.value);
@@ -213,7 +182,7 @@ const Edit = () => {
   editFormData.append("priceCategory", selectedPrice)
   editFormData.append("places", blob)
 
-
+  console.log(newImgFile)
   // formData.append(`${imgUrl[0]}`,)
   // localStorage.setItem('"token"') 
   // formData.append("imgUrl",imgs)
@@ -356,8 +325,6 @@ const Edit = () => {
           infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name +  '<br/>' + _place.phone + '</div>')
           infowindow.open(map, marker)
           setFocus(_place.place_name)
-          // const clickedFinPlace = document.getElementById(`finPlace${i}`)
-          // clickedFinPlace.scrollIntoView({behavior:'smooth',block:'center'})
         })
       }
       } else {
@@ -418,22 +385,6 @@ const Edit = () => {
                         onChange={(e)=>{ onClickHandler(item.place_name)
                           const place_name = item.place_name
                           onSelectPlace(e, i, item, place_name)
-                          // else{
-                          //   setFocus(select[0].place_name)
-                          //   setSelect((pre)=>{
-                          //     const selectList = pre.filter((v,i)=>{
-                          //       return item.place_name !== v.place_name
-                          //     })
-                          //     list(selectList)
-                          //     return selectList
-                          //   })
-                            // setImgUrl((pre)=>{
-                            //   const imgUrlList = pre.filter((v,i)=>{
-                            //     return item.place_name !== v.place_name
-                            //   })
-                            //   return imgUrlList
-                            // })
-                          // }
                         }} style={{display:'none'}}/>
                       </div>
                       </div>
@@ -447,79 +398,7 @@ const Edit = () => {
           </div>
 
           <div className='writeLowerHeader'>
-            <div className='modalButtons'>
-
-              {/* 지역선택 */}
-              <div className='regionButton'onClick={openRegionModal}>
-              {selectedRegion?
-                <div className='modalChoiceTitle'>🗺 {selectedRegion&&selectedRegion}</div>
-                :
-                <div className='modalChoiceTitle'>🗺 지역 선택</div>
-                }
-                
-                <div className='regions'>
-                  <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
-                  showRegionModal={showRegionModal}
-                  closeRegionModal={closeRegionModal}
-                  />
-                </div>  
-              </div>
-
-              {/* 테마선택 */}
-              <div className='themeButton' onClick={openThemeModal}>
-                  {selectedTheme.length === 0 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ 테마 선택
-                    </div>
-                    :
-                    selectedTheme.length === 1 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ {selectedTheme[0]}
-                    </div>
-                    :
-                    selectedTheme.length > 1 ?
-                    <div className='modalChoiceTitle'>
-                      ⛱ 테마 {selectedTheme.length-1}개
-                    </div>
-                    :
-                    null
-                  }
-                <div className='themes'>
-                  <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
-                  showThemeModal={showThemeModal}
-                  closeThemeModal={closeThemeModal}
-                  />
-                </div>    
-              </div>
-
-              {/* 비용선택 */}
-              <div className='priceButton' onClick={openPriceModal}>
-                {selectedPrice ?
-                <div className='modalChoiceTitle'>💸 {selectedPrice&&selectedPrice}</div>
-                :
-                <div className='modalChoiceTitle'>💸 비용 선택</div>
-                }
-                
-                  <div className='prices'>
-                    <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-                    showPriceModal={showPriceModal}
-                    closePriceModal={closePriceModal}
-                    />
-                  </div>    
-              </div>
-
-              {/* 일정선택 */}
-              <div className='calendarButton'
-              onClick={openPriceModal}>
-                <div className='modalChoiceTitle'>🗓 일정 선택</div>
-                <div className='calendars'>
-                  <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
-                  showPriceModal={showPriceModal}
-                  closePriceModal={closePriceModal}
-                  />
-                </div>    
-              </div>
-            </div>
+            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice}/>
           </div>
         </div>
         <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>

@@ -8,6 +8,7 @@ import swal from 'sweetalert';
 import SearchPlace from '../post/SearchPlace'
 import ModalButtons from '../modal/ModalButtons';
 import Kakaomap from '../kakaomap/Kakaomap'
+import Title from '../post/Title'
 import ImageSlide from '../imageSlide/ImageSlide'
 import TextBox from './TextBox';
 
@@ -39,8 +40,6 @@ const NewPost = () => {
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
   const [selectedPrice, setPrice] = useState(''); // 비용 선택
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
-  const [loading, setLoading] = useState(false);
-  const [editdata, setEditData] = useState([]);
  
   const region = ['서울','대전','경기','세종','인천','대구','강원도','울산','충청도','광주','전라도','부산','경상도','제주도']
   const theme = ['힐링','맛집','애견동반','액티비티','호캉스']
@@ -50,10 +49,6 @@ const NewPost = () => {
     navigate('/')
   }
 
-  // ---------------------------- 제목 가져오기
-  const onTitleHandler = (e) => {
-    setTitle(e.currentTarget.value);
-  };
 
   // ---------------------------- 검색 창
   const onChange = (e) => {
@@ -232,10 +227,8 @@ const NewPost = () => {
       <div className='contentWrap'>
         
         {/* 제목 */}
-        <div className='writeTitleWrap'>
-          <input type="text" onChange={onTitleHandler} defaultValue={editdata&&editdata.title} placeholder="코스 이름을 적어주세요"/>
-        </div>
-
+        <Title setTitle={setTitle}/>
+        
         {/* 검색하고 선택한 장소가 없을 때 */}
         {select&&select.length === 0 ?
         <div className='sectionWrap'>
