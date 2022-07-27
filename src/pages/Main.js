@@ -66,10 +66,10 @@ const Main = () => {
     };
   }, [sortby]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
-  }, [isFilter]);
+  }, [isFilter]); */
 
   return (
     <>

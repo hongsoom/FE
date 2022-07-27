@@ -92,7 +92,7 @@ const FilterModal = (props) => {
       setPriceSelect("");
     }
   }, [themeSelect, priceSelect]);
-  /* 
+
   const useDidMountEffect = (func, deps) => {
     const didMount = useRef(false);
 
@@ -107,7 +107,7 @@ const FilterModal = (props) => {
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
   }, [dispatch]);
- */
+
   return (
     <>
       <div className="filtermodal-box">
