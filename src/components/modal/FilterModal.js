@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import "../../css/filterModal.scss";
@@ -8,7 +7,6 @@ const size = 5;
 
 const FilterModal = (props) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const nextPage = useSelector((state) => state.post.paging?.next);
 
@@ -93,19 +91,11 @@ const FilterModal = (props) => {
     }
   }, [themeSelect, priceSelect]);
 
-  const useDidMountEffect = (func, deps) => {
-    const didMount = useRef(false);
-
-    useEffect(() => {
-      if (didMount.current) func();
-      else didMount.current = true;
-    }, deps);
-  };
-
-  useDidMountEffect(() => {
-    console.log("성공?");
-    dispatch(userAction.initPagingDB());
-    dispatch(userAction.clearDB());
+  useEffect(() => {
+    return () => {
+      dispatch(userAction.initPagingDB());
+      dispatch(userAction.clearDB());
+    };
   }, [dispatch]);
 
   return (

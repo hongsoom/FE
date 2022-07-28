@@ -66,11 +66,6 @@ const Main = () => {
     };
   }, [sortby]);
 
-  /*   useEffect(() => {
-    dispatch(userAction.initPagingDB());
-    dispatch(userAction.clearDB());
-  }, [isFilter]); */
-
   return (
     <>
       <Header />
