@@ -9,7 +9,7 @@ import "../../css/postItem.scss";
 const FilterPost = (props) => {
   const dispatch = useDispatch();
 
-  const { nextPage, lastPage, size, posts, isLoading, isFilter } = props;
+  const { nextPage, lastPage, size, posts, isLoading } = props;
 
   const region = useSelector((state) => state.post.category?.region);
   const price = useSelector((state) => state.post.category?.price);

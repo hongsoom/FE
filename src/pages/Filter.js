@@ -59,15 +59,7 @@ const Filter = () => {
       <div className="filter-container">
         <div className="filter-content">
           <div className="filter-category">
-            <RegionPost
-              posts={posts}
-              isLoading={isLoading}
-              size={size}
-              nextPage={nextPage}
-              lastPage={lastPage}
-              region={region}
-            />
-            {isFilter && (
+            {isFilter ? (
               <FilterPost
                 posts={filtercontents}
                 isLoading={isLoading}
@@ -75,6 +67,15 @@ const Filter = () => {
                 nextPage={nextPage}
                 lastPage={lastPage}
                 isFilter={isFilter}
+              />
+            ) : (
+              <RegionPost
+                posts={posts}
+                isLoading={isLoading}
+                size={size}
+                nextPage={nextPage}
+                lastPage={lastPage}
+                region={region}
               />
             )}
           </div>

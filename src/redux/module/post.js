@@ -147,6 +147,7 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
+        console.log("최신순", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -218,21 +219,19 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (region === undefined) {
       region = "";
     }
-
     if (price === undefined) {
       price = "";
     }
-
     if (theme === undefined) {
       theme = "";
     }
-
+    console.log(region, price, theme, nextPage, size);
     await instance
       .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
-        console.log(response);
+        console.log("필터", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
