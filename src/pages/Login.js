@@ -40,12 +40,12 @@ const Login = () => {
       <div className="login-container">
         <div className="login-content">
           <div className="login-logo">
-            <div className="choi-test"></div>
+            <div className="login-background"></div>
             <img src={logoSmail} alt="logoSmail" />
             <h2>Welcome!</h2>
             <p>여행 경로가 궁금할땐 야너갈</p>
           </div>
-          <div className="choi-test2">
+          <div className="login-background-input">
             <div className="login-input">
               <input
                 type="text"
