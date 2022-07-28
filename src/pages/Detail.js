@@ -142,7 +142,6 @@ const Detail = () => {
       const map = new kakao.maps.Map(myMap.current, options);
     }
   };
-  console.log(data);
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
