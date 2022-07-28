@@ -118,9 +118,7 @@ const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
         const bookmarkcontents = response.data.content;
         dispatch(bookmarkGet(bookmarkcontents));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -147,7 +145,6 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
-        console.log(response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -233,7 +230,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
-        console.log(response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -321,9 +317,7 @@ const clickLoveDB = (postId) => {
         const Id = response.data.postId;
         dispatch(clickLove(lovechecked, Id));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -337,22 +331,18 @@ const clickBookmarkDB = (postId) => {
 
         dispatch(clickBookmark(bookmarkchecked, Id));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
 const initPagingDB = () => {
   return function (dispatch) {
-    console.log("pagingclear");
     dispatch(initPaging());
   };
 };
 
 const clearDB = () => {
   return function (dispatch) {
-    console.log("clear");
     dispatch(clearPost());
   };
 };
@@ -363,11 +353,7 @@ export const getPostDB = (postId) => {
       const data = await instance.get(`api/post/${postId}`);
       const newData = data.data.body;
       dispatch(getPost(newData));
-      console.log(newData);
-    } catch (error) {
-      // alert("오류가 발생했습니다. 다시 시도해주세요.");
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
@@ -378,18 +364,14 @@ export const addPostDB = (data) => {
     await instance
       .post("api/post", data, {
         headers: {
-          // "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
       })
       .then((res) => {
-        console.log(res);
         swal("작성 완료!");
         window.location.assign("/");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -398,7 +380,6 @@ export const modifyPostDB = (data, postId) => {
     await instance
       .put(`api/post/${postId}`, data, {
         headers: {
-          // "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
       })
@@ -407,9 +388,7 @@ export const modifyPostDB = (data, postId) => {
         window.alert("수정 완료");
         window.location.assign("/");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -419,7 +398,6 @@ export const deletePostDB = (postId) => {
     instance
       .delete(`api/post/${postId}`, {
         headers: {
-          // "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
       })
@@ -427,9 +405,7 @@ export const deletePostDB = (postId) => {
         dispatch(deletePost(postId));
         window.location.assign("/");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -440,18 +416,13 @@ export const getMypostDB = (size, page, id, desc) => {
         `api/user/mypost?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            // "Content-Type": "multipart/form-data",
             Authorization: localStorage.getItem("token"),
           },
         }
       );
       const myposts = data.data.content;
       dispatch(getmypost(myposts));
-      console.log(myposts);
-    } catch (error) {
-      // alert("오류가 발생했습니다. 다시 시도해주세요.");
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
@@ -462,18 +433,13 @@ export const getMybookmarkDB = (size, page, id, desc) => {
         `api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            // "Content-Type": "multipart/form-data",
             Authorization: localStorage.getItem("token"),
           },
         }
       );
       const newData = data.data;
       dispatch(getmybookmark(newData));
-      console.log(newData);
-    } catch (error) {
-      // alert("오류가 발생했습니다. 다시 시도해주세요.");
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 

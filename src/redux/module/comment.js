@@ -24,9 +24,7 @@ export const getCommentDB = (postId) => {
         const commentList = response.data.body.comments;
         dispatch(getComment(commentList));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -44,13 +42,9 @@ export const addCommentDB = (postId, comment) => {
             const commentList = response.data.body.comments;
             dispatch(addComment(commentList));
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => {});
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -62,9 +56,7 @@ export const deleteCommentDB = (commentId) => {
       .then((response) => {
         dispatch(deleteComment(commentId));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
