@@ -14,12 +14,14 @@ const FilterButton = (props) => {
 
   const [listRegion, setListRegion] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
-  const [price, setPrice] = useState("");
+  const [priceSelect, setPriceSelect] = useState("");
   const [modal, setModal] = useState(false);
   const [click, setClick] = useState(false);
+  const [theme, setTheme] = useState([]);
+  const [price, setPrice] = useState("");
 
   const is_keyword = recommendList ? true : false;
-  const is_price = price ? true : false;
+  const is_price = priceSelect ? true : false;
   const is_listRegion = listRegion ? true : false;
   const is_region = region ? true : false;
 
@@ -27,7 +29,7 @@ const FilterButton = (props) => {
     if (list) {
       setListRegion("");
       setThemeSelect([]);
-      setPrice("");
+      setPriceSelect("");
       if (
         list === "서울" ||
         list === "경기" ||
@@ -55,6 +57,7 @@ const FilterButton = (props) => {
         list === "호캉스"
       ) {
         setThemeSelect([list]);
+        setTheme([list]);
       }
 
       if (
@@ -65,6 +68,7 @@ const FilterButton = (props) => {
         list === "40만원" ||
         list === "50만원 이상"
       ) {
+        setPriceSelect(list);
         setPrice(list);
       }
     }
@@ -86,8 +90,10 @@ const FilterButton = (props) => {
           listRegion={listRegion}
           themeSelect={themeSelect}
           setThemeSelect={setThemeSelect}
-          priceSelect={price}
-          setPriceSelect={setPrice}
+          priceSelect={priceSelect}
+          setPriceSelect={setPriceSelect}
+          setTheme={setTheme}
+          setPrice={setPrice}
         />
       )}
       <div className="filterbutton-box">
@@ -98,7 +104,7 @@ const FilterButton = (props) => {
                 <div className="filterbutton-button">
                   {click ? (
                     <>
-                      {themeSelect.map((list, i) => (
+                      {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}
                         </button>
@@ -135,7 +141,7 @@ const FilterButton = (props) => {
                   {is_region ? (
                     <>
                       <button className="filterbutton-region">#{region}</button>
-                      {themeSelect.map((list, i) => (
+                      {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}
                         </button>
@@ -151,7 +157,7 @@ const FilterButton = (props) => {
                           #{listRegion}
                         </button>
                       ) : null}
-                      {themeSelect.map((list, i) => (
+                      {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}
                         </button>

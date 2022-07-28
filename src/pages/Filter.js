@@ -21,7 +21,7 @@ const Filter = () => {
   const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-
+  console.log(isFilter);
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
@@ -74,6 +74,7 @@ const Filter = () => {
                 size={size}
                 nextPage={nextPage}
                 lastPage={lastPage}
+                isFilter={isFilter}
               />
             )}
           </div>

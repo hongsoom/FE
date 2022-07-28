@@ -22,6 +22,8 @@ const FilterModal = (props) => {
     priceSelect,
     setThemeSelect,
     setPriceSelect,
+    setPrice,
+    setTheme,
   } = props;
 
   const is_region = region ? true : false;
@@ -37,7 +39,7 @@ const FilterModal = (props) => {
     "50만원이상",
   ];
 
-  const [theme, setTheme] = useState("");
+  const [themesetting, setThemeSetting] = useState("");
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -57,7 +59,7 @@ const FilterModal = (props) => {
   const loadFilterPost = (nextPage) => {
     const region_ = checkHasIncode(region);
     const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(theme);
+    const theme_ = checkHasIncode(themesetting);
 
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
   };
@@ -65,7 +67,7 @@ const FilterModal = (props) => {
   const loadMainPost = (nextPage) => {
     const region_ = checkHasIncode(keyword);
     const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(theme);
+    const theme_ = checkHasIncode(themesetting);
 
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
   };
@@ -73,7 +75,7 @@ const FilterModal = (props) => {
   const loadSearchPost = (nextPage) => {
     const region_ = checkHasIncode(listRegion);
     const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(theme);
+    const theme_ = checkHasIncode(themesetting);
 
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
   };
@@ -89,7 +91,7 @@ const FilterModal = (props) => {
   const initialMainPost = (nextPage) => {
     if (themeSelect.length === 0 && priceSelect === "") {
       swal({
-        title: "한가지를 꼭 골라주세요!",
+        title: "테마, 가격을 골라주세요!",
         icon: "warning",
         closeOnClickOutside: false,
       }).then(function () {
@@ -112,20 +114,18 @@ const FilterModal = (props) => {
         title: "한가지를 꼭 골라주세요!",
         icon: "warning",
         closeOnClickOutside: false,
-      }).then(function () {
-        dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
-        onClick();
       });
+      return;
     }
   };
 
   useEffect(() => {
     if (themeSelect.length > 0) {
-      setTheme(themeSelect.toString());
+      setThemeSetting(themeSelect.toString());
     }
 
     if (themeSelect.length === 0) {
-      setTheme("");
+      setThemeSetting("");
     }
 
     if (priceSelect === undefined) {
@@ -205,7 +205,10 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     initialMainPost();
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                 >
@@ -214,10 +217,13 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     dispatch(userAction.initPagingDB());
                     dispatch(userAction.clearDB());
                     loadMainPost();
                     setClick(true);
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                   disabled={
@@ -235,7 +241,10 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     initialFilterPost();
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                 >
@@ -244,9 +253,12 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     dispatch(userAction.initPagingDB());
                     dispatch(userAction.clearDB());
                     loadFilterPost();
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                   disabled={
@@ -264,7 +276,10 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     initialSearchPost();
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                 >
@@ -273,9 +288,12 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.isFilterDB());
                     dispatch(userAction.initPagingDB());
                     dispatch(userAction.clearDB());
                     loadSearchPost();
+                    setPrice(priceSelect);
+                    setTheme(themeSelect);
                     onClick();
                   }}
                   disabled={

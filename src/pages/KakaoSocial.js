@@ -7,7 +7,6 @@ const KakaoSocial = () => {
   const dispatch = useDispatch();
 
   let code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
 
   useEffect(async () => {
     await dispatch(userAction.kakaoLoginDB(code));

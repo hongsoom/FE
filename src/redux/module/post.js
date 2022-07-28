@@ -45,6 +45,7 @@ const initialState = {
 };
 
 const LOADING = "post/LOADING";
+const ISFILTER = "post/ISFILTER";
 const KEYWORDGET = "post/KEYWORDGET";
 const REGIONGET = "post/REGIONGET";
 const ARRAYGET = "post/ARRAYGET";
@@ -63,6 +64,7 @@ const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
+const isfilter = createAction(ISFILTER, (isfilter) => ({ isfilter }));
 const initPaging = createAction(INITPAGING);
 const keywordGet = createAction(KEYWORDGET, (newList, paging) => ({
   newList,
@@ -230,6 +232,7 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
+        console.log(response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -335,6 +338,12 @@ const clickBookmarkDB = (postId) => {
   };
 };
 
+const isFilterDB = () => {
+  return function (dispatch) {
+    dispatch(isfilter());
+  };
+};
+
 const initPagingDB = () => {
   return function (dispatch) {
     dispatch(initPaging());
@@ -358,9 +367,7 @@ export const getPostDB = (postId) => {
 };
 
 export const addPostDB = (data) => {
-  console.log(data);
   return async function (dispatch, getState) {
-    console.log(data);
     await instance
       .post("api/post", data, {
         headers: {
@@ -393,7 +400,6 @@ export const modifyPostDB = (data, postId) => {
 };
 
 export const deletePostDB = (postId) => {
-  console.log(postId);
   return function (dispatch) {
     instance
       .delete(`api/post/${postId}`, {
@@ -443,13 +449,16 @@ export const getMybookmarkDB = (size, page, id, desc) => {
   };
 };
 
-//reducer
-
 export default handleActions(
   {
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
         draft.isLoading = action.payload.isLoading;
+      }),
+
+    [ISFILTER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.isFilter = false;
       }),
 
     [KEYWORDGET]: (state, action) =>
@@ -630,6 +639,7 @@ const userAction = {
   getMybookmarkDB,
   initPagingDB,
   regionGETDB,
+  isFilterDB,
 };
 
 export { userAction };
