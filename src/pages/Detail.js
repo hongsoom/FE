@@ -22,6 +22,12 @@ import shareblack from "../assets/shareblack.png";
 import logosky from "../assets/logosky.png";
 import bookmarkBlue from "../assets/bookmark-blue.png";
 import heartpaint from "../assets/heartpaint.png";
+import bronze from "../assets/bronze.png";
+import silver from "../assets/silver.png";
+import gold from "../assets/gold.png";
+import diamond from "../assets/diamond.png"
+import master from "../assets/master.png"
+
 
 // 카카오맵
 const { kakao } = window;
@@ -179,6 +185,25 @@ const Detail = () => {
                   <img src={`${data.userImgUrl}`} alt="프로필 이미지" />
                 ) : null}
               </div>
+              <div className="myBadge">
+                {data&&data.grade === 'BRONZE' ? 
+                  <img src={bronze} alt="브론즈 뱃지"/>
+                  :
+                  data&&data.grade === 'SILVER' ? 
+                  <img src={silver} alt="실버 뱃지"/>
+                  :
+                  data&&data.grade === 'GOLD' ? 
+                  <img src={gold} alt="골드 뱃지"/>
+                  :
+                  data&&data.grade === 'DIAMOND' ? 
+                  <img src={diamond} alt="다이아몬드 뱃지"/>
+                  :
+                  data&&data.grade === 'MASTER' ? 
+                  <img src={master} alt="마스터 뱃지"/>
+                  :
+                  null
+                }
+              </div>
               <div className="nick">
                 {data && data.nickname && data.nickname}
               </div>
@@ -208,7 +233,9 @@ const Detail = () => {
             </div>
           </div>
         </div>
-        <Kakaomap kakao={kakao} myMap={myMap} />
+        <div className="kakaomap">
+          <Kakaomap kakao={kakao} myMap={myMap} />
+        </div>
       </div>
 
       {/* 장소목록 / 사진슬라이드 / 댓글 */}

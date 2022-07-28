@@ -16,8 +16,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border: 1px solid #E4EFFF;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
       border-radius: 8px;
   
       .detailUpperHeader{
@@ -69,6 +67,11 @@
         }
       }
     }
+    .kakaomap{
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+    }
   }
   
   
@@ -104,7 +107,17 @@
           height: 40px;
         }
       }
-  
+      .myBadge{
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+        margin-top: 1.5px;
+        
+        img{
+          width: 20px;
+          height: 20px;
+        }
+      }
       .nick{
         font-weight: 400;
         font-size: 14px;

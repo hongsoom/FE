@@ -56,7 +56,7 @@ const KakaoTraffic = () =>{
               <div className="departureList">
                 {data&&data.place.map((v,i)=>{
                   return(
-                    <div className="departureItem">
+                    <div className="departureItem" key={i}>
                       <label htmlFor={`depart${v.place_name}`}>
                         {departure === v.place_name?
                           <img src={radioselected} alt="선택된 버튼"/>  
@@ -88,7 +88,7 @@ const KakaoTraffic = () =>{
               <div className="arrivalList">
                 {data&&data.place.map((v,i)=>{
                   return(
-                    <div className="arrivalItem">
+                    <div className="arrivalItem" key={i}>
                       <label htmlFor={`arrival${v.place_name}`}>
                         {arrival === v.place_name?
                           <img src={radioselected} alt="선택된 버튼"/>  

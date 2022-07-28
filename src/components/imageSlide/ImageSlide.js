@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../../css/imageSlide.scss';
-import swal from 'sweetalert';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 
 // 컴포넌트
 import AddButton from "./AddButton"
-
-// 아이콘
-import closewhite from '../../assets/closewhite.png'
 
 const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, imgs, l, j,setFocus, focus}) => {
   SwiperCore.use([Navigation]);
@@ -27,42 +23,6 @@ const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, imgs, l, j,setFocus, 
     // select 배열 안의 imgCount가 imgUrl 배열 안의 이미지url 갯수
     select[index].imgCount = imgUrl[index].imgUrl.length
   }  
-
-  const RemoveImg = (j, index, list) => {
-    setImgUrl(()=>{
-      const data = imgUrl[j].imgUrl.filter((v,i)=>{
-        return v !== list
-      })
-      return data
-    })
-    console.log(imgUrl)
-    setSelect((pre)=>{
-      select[j].imgCount = select[j].imgCount-1
-    })
-    setFocus(select[j].place_name)
-  }
-
-  // ------------------- 사진 삭제하기
-  const onRemoveHandler = (j,index, list) =>{
-    swal({
-      title: "사진을 삭제할까요?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        RemoveImg(j,index, list)
-        swal('사진이 삭제되었습니다', {
-          icon: "success",
-        });
-
-      } else {
-        swal("삭제를 취소했습니다");
-      }
-    });
-  }
- 
 
   return (
     <>
@@ -91,10 +51,7 @@ const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, imgs, l, j,setFocus, 
             height: "256px"
           }}
         className="write_categoryslide-imagecontent" key={i}>
-           <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px",height:"12.73px"}}
-           onClick={()=>{onRemoveHandler(j, i, list)}}
-           />
-           <img src={list} alt="장소이미지" style={{width:"343px"}}/>
+          <img src={list} alt="장소이미지" style={{width:"343px"}}/>
         </SwiperSlide>
         )}
         </Swiper>
@@ -127,9 +84,6 @@ const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, imgs, l, j,setFocus, 
           height: "256px"
         }}
       className="write_categoryslide-imagecontent" key={i}>
-         {/* <img className='imgRemoveButton' src={closewhite} alt="이미지삭제버튼" style={{width:"12.73px",height:"12.73px"}}
-         onClick={()=>{onRemoveHandler(j,i)}}
-         /> */}
          <img src={list} alt="장소이미지" style={{width:"343px"}}/>
       </SwiperSlide>
       )}
