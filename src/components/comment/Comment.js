@@ -8,11 +8,12 @@ import {
 import user from "../../assets/user.png";
 import "../../css/comment.scss";
 
-const Comment = ({ param }) => {
+const Comment = ({ param, nickname }) => {
   const dispatch = useDispatch();
   const postId = parseInt(param);
 
   const list = useSelector((state) => state.comment.comments);
+  console.log(nickname);
 
   const [comment, setComment] = useState("");
 
@@ -58,12 +59,14 @@ const Comment = ({ param }) => {
                 </div>
                 <div className="comment-info">
                   <span>{list.createdAt}</span>
-                  <span
-                    className="comment-delete"
-                    onClick={() => dispatch(deleteCommentDB(list.commentId))}
-                  >
-                    삭제
-                  </span>
+                  {nickname === list.nickname && (
+                    <span
+                      className="comment-delete"
+                      onClick={() => dispatch(deleteCommentDB(list.commentId))}
+                    >
+                      삭제
+                    </span>
+                  )}
                 </div>
               </>
             </div>

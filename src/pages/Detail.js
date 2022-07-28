@@ -53,7 +53,6 @@ const Detail = () => {
     getData(param);
   }, [param]);
 
-
   // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
   useEffect(() => {
     dispatch(userAction.myInfoDB());
@@ -72,7 +71,7 @@ const Detail = () => {
 
   // ------------- 길찾기 버튼
   const onKakaoTrafficHandler = () => {
-    navigate(`/detail/${param}/kakaomap`, {state:{data:data}});
+    navigate(`/detail/${param}/kakaomap`, { state: { data: data } });
   };
 
   useEffect(() => {
@@ -137,7 +136,7 @@ const Detail = () => {
       const map = new kakao.maps.Map(myMap.current, options);
     }
   };
-  console.log(data)
+  console.log(data);
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
@@ -204,7 +203,9 @@ const Detail = () => {
                 🗺 {data && data.regionCategory}
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
-              <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>길찾기</div>
+              <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>
+                길찾기
+              </div>
             </div>
           </div>
         </div>
@@ -333,7 +334,7 @@ const Detail = () => {
             </div>
 
             <div className="commentPlace">
-              <Comment param={param} />
+              <Comment param={param} nickname={userInfo.nickname} />
             </div>
           </div>
         )}
