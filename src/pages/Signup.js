@@ -205,7 +205,7 @@ const Signup = () => {
 
       if (password !== passwordCheck) {
         setState(false);
-        setMessage("비밀번호를 다시 확인해주세요.");
+        setMessage("비밀번호는 8자리 이상, 16자리 미만입니다.");
         setSignupState(false);
       }
     }

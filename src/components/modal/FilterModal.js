@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
+import swal from "sweetalert";
 import "../../css/filterModal.scss";
 
 const size = 5;
@@ -53,7 +54,7 @@ const FilterModal = (props) => {
     }
   };
 
-  const loadFilterPost = () => {
+  const loadFilterPost = (nextPage) => {
     const region_ = checkHasIncode(region);
     const price_ = checkHasIncode(priceSelect);
     const theme_ = checkHasIncode(theme);
@@ -61,7 +62,7 @@ const FilterModal = (props) => {
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
   };
 
-  const loadMainPost = () => {
+  const loadMainPost = (nextPage) => {
     const region_ = checkHasIncode(keyword);
     const price_ = checkHasIncode(priceSelect);
     const theme_ = checkHasIncode(theme);
@@ -69,12 +70,53 @@ const FilterModal = (props) => {
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
   };
 
-  const loadSearchPost = () => {
+  const loadSearchPost = (nextPage) => {
     const region_ = checkHasIncode(listRegion);
     const price_ = checkHasIncode(priceSelect);
     const theme_ = checkHasIncode(theme);
 
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+  };
+
+  const initialFilterPost = (nextPage) => {
+    if (themeSelect.length === 0 && priceSelect === "") {
+      dispatch(userAction.initPagingDB());
+      dispatch(userAction.clearDB());
+      dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
+    }
+  };
+
+  const initialMainPost = (nextPage) => {
+    if (themeSelect.length === 0 && priceSelect === "") {
+      swal({
+        title: "한가지를 꼭 골라주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      }).then(function () {
+        dispatch(userAction.initPagingDB());
+        dispatch(userAction.clearDB());
+        dispatch(userAction.arrayGetDB(keyword, nextPage, size));
+        setClick(false);
+      });
+    }
+  };
+
+  const initialSearchPost = (nextPage) => {
+    if (themeSelect.length === 0 && priceSelect === "") {
+      dispatch(userAction.initPagingDB());
+      dispatch(userAction.clearDB());
+      dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
+    }
+    if (themeSelect === [list]) {
+      swal({
+        title: "한가지를 꼭 골라주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      }).then(function () {
+        dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
+        onClick();
+      });
+    }
   };
 
   useEffect(() => {
@@ -90,13 +132,6 @@ const FilterModal = (props) => {
       setPriceSelect("");
     }
   }, [themeSelect, priceSelect]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
-    };
-  }, [dispatch]);
 
   return (
     <>
@@ -128,6 +163,7 @@ const FilterModal = (props) => {
                             ? "table_btn_s"
                             : "table_btn_ns"
                         }
+                        disabled={theme === list ? true : false}
                       >
                         {theme}
                       </button>
@@ -169,9 +205,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    setThemeSelect([]);
-                    setPriceSelect("");
-                    setClick(false);
+                    initialMainPost();
                     onClick();
                   }}
                 >
@@ -180,6 +214,8 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.initPagingDB());
+                    dispatch(userAction.clearDB());
                     loadMainPost();
                     setClick(true);
                     onClick();
@@ -199,8 +235,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    setThemeSelect([]);
-                    setPriceSelect("");
+                    initialFilterPost();
                     onClick();
                   }}
                 >
@@ -209,6 +244,8 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.initPagingDB());
+                    dispatch(userAction.clearDB());
                     loadFilterPost();
                     onClick();
                   }}
@@ -227,8 +264,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    setThemeSelect([]);
-                    setPriceSelect("");
+                    initialSearchPost();
                     onClick();
                   }}
                 >
@@ -237,6 +273,8 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    dispatch(userAction.initPagingDB());
+                    dispatch(userAction.clearDB());
                     loadSearchPost();
                     onClick();
                   }}

@@ -133,7 +133,15 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
     } else {
       page = nextPage;
     }
-
+    if (keyword === undefined) {
+      keyword = "";
+    }
+    if (sort === undefined) {
+      sort = "id";
+    }
+    if (desc === undefined) {
+      desc = "desc";
+    }
     await instance
       .get(
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -225,6 +233,7 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
+        console.log(response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
