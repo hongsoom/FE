@@ -63,6 +63,7 @@ const FilterModal = (props) => {
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    dispatch(userAction.isFilterDB());
   };
 
   const loadMainPost = (nextPage) => {
@@ -72,6 +73,7 @@ const FilterModal = (props) => {
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    dispatch(userAction.isFilterDB());
     setClick(true);
   };
 
@@ -82,12 +84,14 @@ const FilterModal = (props) => {
     dispatch(userAction.initPagingDB());
     dispatch(userAction.clearDB());
     dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    dispatch(userAction.isFilterDB());
   };
 
   const initialFilterPost = (nextPage) => {
     if (themeSelect.length === 0 && priceSelect === "") {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
+      dispatch(userAction.isFilterDB());
       dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
     }
   };
@@ -101,6 +105,7 @@ const FilterModal = (props) => {
       }).then(function () {
         dispatch(userAction.initPagingDB());
         dispatch(userAction.clearDB());
+        dispatch(userAction.isFilterDB());
         dispatch(userAction.arrayGetDB(keyword, nextPage, size));
         setClick(false);
       });
@@ -111,6 +116,7 @@ const FilterModal = (props) => {
     if (themeSelect.length === 0 && priceSelect === "") {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
+      dispatch(userAction.isFilterDB());
       dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
     }
     if (themeSelect === [list]) {

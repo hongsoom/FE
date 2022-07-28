@@ -219,6 +219,15 @@ const Signup = () => {
     setSignupState(true);
   };
 
+  const searchEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(
+        userAction.signUpDB(username, nickname, password, passwordCheck)
+      );
+      setSignupState(true);
+    }
+  };
+
   return (
     <div className="signup-container">
       <div className="signup-content">
@@ -275,6 +284,7 @@ const Signup = () => {
               placeholder="비밀번호 확인"
               className="passwordCheck"
               onChange={(e) => setPasswordCheck(e.target.value)}
+              onKeyPress={(e) => searchEnter(e)}
             />
           </div>
           <div className="signup-message">
