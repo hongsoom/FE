@@ -60,7 +60,6 @@ const Signup = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
           setIdState(true);
 
           const status = err.response.status;
@@ -93,7 +92,6 @@ const Signup = () => {
           nickname: nickname,
         })
         .then((response) => {
-          console.log(response);
           setNicknameState(true);
           const status = response.status;
 
@@ -104,10 +102,8 @@ const Signup = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
           setNicknameState(true);
           const status = err.response.status;
-          console.log(status);
 
           if (status === 400) {
             if (nickname === "") {
@@ -205,7 +201,7 @@ const Signup = () => {
 
       if (password !== passwordCheck) {
         setState(false);
-        setMessage("비밀번호를 다시 확인해주세요.");
+        setMessage("비밀번호는 8자리 이상, 16자리 미만입니다.");
         setSignupState(false);
       }
     }

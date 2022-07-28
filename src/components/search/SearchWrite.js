@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import "../../css/searchWrite.scss";
 import search from "../../assets/search.png";
 
@@ -13,7 +14,12 @@ const SearchWrite = () => {
 
   const handleClick = () => {
     if (keyword === "") {
-      alert("지역이나 테마를 검색해주세요!");
+      swal({
+        title: "지역이나 테마를 검색해주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      });
+      return;
     }
     dispatch(userAction.initPagingDB());
     navigate("/search/" + keyword);

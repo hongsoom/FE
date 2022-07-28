@@ -73,10 +73,7 @@ const Main = () => {
       <FilterButton recommendList={recommendList} keyword={keyword} />
       <div className="main-container">
         <div className="main-content">
-          <BookmarkPost
-            bookmarkcontents={bookmarkcontents}
-            bookmarkCount={bookmarkCount}
-          />
+          <BookmarkPost bookmarkcontents={bookmarkcontents} />
           <div className="main-latest-love-container">
             <div className="main-latest-love-content">
               <div className="main-latest-love-title">

@@ -12,21 +12,25 @@ export const getComment = createAction(GET_COMMENT, (commentList) => ({
 export const addComment = createAction(ADD_COMMENT, (commentList) => ({
   commentList,
 }));
-export const deleteComment = createAction(DELETE_COMMENT, (commentId) => ({
-  commentId,
-}));
+export const deleteComment = createAction(
+  DELETE_COMMENT,
+  (commentId, errormessage) => ({
+    commentId,
+    errormessage,
+  })
+);
 
 export const getCommentDB = (postId) => {
   return async function (dispatch) {
     await instance
       .get(`api/post/${postId}`)
       .then((response) => {
+        console.log(response);
         const commentList = response.data.body.comments;
+
         dispatch(getComment(commentList));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -44,32 +48,26 @@ export const addCommentDB = (postId, comment) => {
             const commentList = response.data.body.comments;
             dispatch(addComment(commentList));
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => {});
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
 export const deleteCommentDB = (commentId) => {
-  console.log(commentId);
   return async function (dispatch) {
     await instance
       .delete(`api/comment/${commentId}`)
       .then((response) => {
         dispatch(deleteComment(commentId));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
 const initialComment = {
   comments: [],
+  errormessage: "",
 };
 
 export default handleActions(
