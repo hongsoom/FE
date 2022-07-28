@@ -29,6 +29,13 @@ const Login = () => {
     }
   };
 
+  const searchEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(userAction.logInDB(username, password));
+      setState(true);
+    }
+  };
+
   useEffect(() => {
     if (state) {
       login();
@@ -58,6 +65,7 @@ const Login = () => {
                 className="login-password"
                 placeholder="비밀번호를 입력해 주세요"
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={(e) => searchEnter(e)}
               />
             </div>
             <div className="login-message">
