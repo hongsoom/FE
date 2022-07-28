@@ -1,7 +1,7 @@
 .mypageWrap{
   position: relative;
   margin: 0 auto;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   max-width: 375px;
   background: #fff;
@@ -69,60 +69,130 @@
       }    
     }
 
+    
+    // 마이페이지 프로필
     .myProfile{
       position: absolute;
       top: 89px;
       left: 0;
       width: 100%;
       display: flex;
-      align-items: center;
-    
-      .myProfilePic{
+      flex-direction: column;
+
+      .myProfileDetail{
+        display: flex;
+        
+        .myProfilePic{
       
-        .myProfilePicCircle{
-          width: 94px;
-          height: 94px;
-          margin-left: 29px;
-          margin-right: 20px;
-          border-radius: 100px;
-          background: #F5F9FF;
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.18);
-          left: 29px;
-          top: 89px;
-          overflow: hidden;
-    
-          img{
-            width: 94px;
-            height: 94px;
+          .myProfilePicCircle{
+            width: 86px;
+            height: 86px;
+            margin-left: 20px;
+            margin-right: 30px;
+            border-radius: 100px;
+            background: #F5F9FF;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+      
+            img{
+              width: 86px;
+              height: 86px;
+            }
+          }
+        }
+      
+        .myProfileTxt{
+          display: flex;
+          flex-direction: column;
+      
+          .myProfileName{
+            width: 200px;
+            display: flex;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 26px;
+          }
+
+          .myLevel{
+            display: flex;
+
+            .myBadge{
+              margin-right: 8px;
+              width: 40px;
+              display: flex;
+              align-items: center;
+              
+              img{
+                width: 40px;
+                height: 40px;
+              }
+            }
+            
+            .myLevelDetail{
+              
+              .myLevelDetailUpper{
+                display: flex;
+                align-items: center;
+                margin-bottom: 4px;
+
+                .myLevelName{
+                  width: 58px;
+                  height: 17px;
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: 17px;
+                  color: #606773;
+                  flex-grow: 1;
+                }
+
+                .myLevelGuide{
+
+                  .levelGuideButton{
+                    width: 15px;
+                    height: 15px;
+                  }
+                }
+              }
+
+              .myLevelGauge{
+
+                .myLevelGaugeWrap{
+                  width: 164px;
+                  height: 14px;
+                  background: #FFFFFF;
+                  border: 1px solid #ECECEC;
+                  border-radius: 8px;
+                  box-sizing: border-box;
+
+                  .myLevelGaugeFill{
+                    background: #8ACEFF;
+                    border-radius: 6px;
+                    height: 10px;
+                    margin: 1px;
+                    
+                  }
+                }
+              }
+            }
           }
         }
       }
-    
-      .myProfileTxt{
+      .myProfileTxtDetail{
         width: 100%;
-    
-        .myProfileTxtTitle{
-          display:flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-right: 20px;
-    
-          .myProfileName{
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 26.06px;
-          }
-        }
-    
-        .myProfileTxtDetail{
-          margin-top: 15px;
+        margin-top: 15px;
+        
+        .myProfileTxtWrap{
           font-size: 14px;
           font-weight: 400;
           line-height: 20px;
+          color: #606773;
+          margin: 0px 20px;
         }
       }
     }
   }
+
 
   .mypageWraper{
     position: relative;
