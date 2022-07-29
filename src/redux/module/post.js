@@ -147,7 +147,6 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
         `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
-        console.log("최신순", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -166,9 +165,7 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
 
         dispatch(arrayGet(newList, paging));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -225,13 +222,11 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (theme === undefined) {
       theme = "";
     }
-    console.log(region, price, theme, nextPage, size);
     await instance
       .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
-        console.log("필터", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -375,7 +370,7 @@ export const addPostDB = (data) => {
       })
       .then((res) => {
         swal("작성 완료!");
-        window.location.assign("/");
+        window.location.assign("/main");
       })
       .catch((error) => {});
   };
@@ -390,9 +385,8 @@ export const modifyPostDB = (data, postId) => {
         },
       })
       .then((res) => {
-        console.log(res);
         window.alert("수정 완료");
-        window.location.assign("/");
+        window.location.assign("/main");
       })
       .catch((error) => {});
   };
@@ -408,7 +402,7 @@ export const deletePostDB = (postId) => {
       })
       .then((res) => {
         dispatch(deletePost(postId));
-        window.location.assign("/");
+        window.location.assign("/main");
       })
       .catch((error) => {});
   };
