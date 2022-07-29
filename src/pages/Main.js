@@ -66,8 +66,6 @@ const Main = () => {
     };
   }, [sortby]);
 
-  console.log(isFilter);
-
   return (
     <>
       <Header />

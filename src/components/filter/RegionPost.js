@@ -17,7 +17,7 @@ const RegionPost = (props) => {
           dispatch(userAction.regionGETDB(region, nextPage, size));
         }}
         nextPage={nextPage}
-        is_next={lastPage}
+        lastPage={lastPage}
         loading={isLoading}
       >
         {posts &&

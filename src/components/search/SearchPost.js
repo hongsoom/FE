@@ -16,7 +16,7 @@ const SearchPost = (props) => {
           dispatch(userAction.keywordGetDB(keyword, nextPage, size));
         }}
         nextPage={nextPage}
-        is_next={lastPage}
+        lastPage={lastPage}
         loading={isLoading}
       >
         {posts &&
