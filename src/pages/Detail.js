@@ -25,9 +25,8 @@ import heartpaint from "../assets/heartpaint.png";
 import bronze from "../assets/bronze.png";
 import silver from "../assets/silver.png";
 import gold from "../assets/gold.png";
-import diamond from "../assets/diamond.png"
-import master from "../assets/master.png"
-
+import diamond from "../assets/diamond.png";
+import master from "../assets/master.png";
 
 // 카카오맵
 const { kakao } = window;
@@ -146,7 +145,7 @@ const Detail = () => {
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   return (
@@ -185,23 +184,17 @@ const Detail = () => {
                 ) : null}
               </div>
               <div className="myBadge">
-                {data&&data.grade === 'BRONZE' ? 
-                  <img src={bronze} alt="브론즈 뱃지"/>
-                  :
-                  data&&data.grade === 'SILVER' ? 
-                  <img src={silver} alt="실버 뱃지"/>
-                  :
-                  data&&data.grade === 'GOLD' ? 
-                  <img src={gold} alt="골드 뱃지"/>
-                  :
-                  data&&data.grade === 'DIAMOND' ? 
-                  <img src={diamond} alt="다이아몬드 뱃지"/>
-                  :
-                  data&&data.grade === 'MASTER' ? 
-                  <img src={master} alt="마스터 뱃지"/>
-                  :
-                  null
-                }
+                {data && data.grade === "BRONZE" ? (
+                  <img src={bronze} alt="브론즈 뱃지" />
+                ) : data && data.grade === "SILVER" ? (
+                  <img src={silver} alt="실버 뱃지" />
+                ) : data && data.grade === "GOLD" ? (
+                  <img src={gold} alt="골드 뱃지" />
+                ) : data && data.grade === "DIAMOND" ? (
+                  <img src={diamond} alt="다이아몬드 뱃지" />
+                ) : data && data.grade === "MASTER" ? (
+                  <img src={master} alt="마스터 뱃지" />
+                ) : null}
               </div>
               <div className="nick">
                 {data && data.nickname && data.nickname}
@@ -305,7 +298,7 @@ const Detail = () => {
             </div>
 
             <div className="commentPlace">
-              <Comment param={param} />
+              <Comment param={param} userId={userInfo.userId} />
             </div>
           </div>
         ) : (
@@ -361,7 +354,7 @@ const Detail = () => {
             </div>
 
             <div className="commentPlace">
-              <Comment param={param} nickname={userInfo.nickname} />
+              <Comment param={param} userId={userInfo.userId} />
             </div>
           </div>
         )}
