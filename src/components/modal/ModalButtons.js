@@ -8,7 +8,7 @@ import PriceModal from '../modal/PriceModal'
 import PlaceModal from "../modal/PlaceModal"
 
 const ModalButtons = (props) =>{
-  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap} = props 
+  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap, list} = props 
 
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 테마모달
@@ -62,7 +62,9 @@ const ModalButtons = (props) =>{
   const closePlaceModal = () => {
     setShowPlaceModal(false)
   }
+  
 
+  
 
   return(
       <div className='modalButtons'>
@@ -132,7 +134,7 @@ const ModalButtons = (props) =>{
         <div className='modalChoiceTitle'>선택 장소 확인</div>
           <div className='places'>
             <PlaceModal setSelect={setSelect} select={select} myMap={myMap}
-            showPlaceModal={showPlaceModal}
+            showPlaceModal={showPlaceModal} list={list} 
             closePlaceModal={closePlaceModal} myInfo={myInfo} setFocus={setFocus}
             />
           </div>    

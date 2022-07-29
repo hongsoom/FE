@@ -101,7 +101,7 @@ const Detail = () => {
       }
     });
   };
-  console.log(data)
+
   // ------------- 수정하기
   const onModifyHandler = () => {
     navigate(`/write/${param}`);
