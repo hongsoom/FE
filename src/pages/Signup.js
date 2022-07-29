@@ -42,7 +42,7 @@ const Signup = () => {
       signupCheck();
       setSignupState(false);
     }
-  }, [status]);
+  }, [signupState]);
 
   const idCheck = (username) => {
     return async function (dispatch) {
