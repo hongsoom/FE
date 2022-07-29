@@ -61,7 +61,7 @@ const logInDB = (username, password) => {
         dispatch(login(status));
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/");
+        window.location.assign("/main");
       }
     } catch (err) {
       const status = err.response.data.statusCode;
@@ -82,7 +82,7 @@ const kakaoLoginDB = (code) => {
         localStorage.setItem("token", token);
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/");
+        window.location.assign("/main");
       }
     } catch (err) {}
   };
@@ -122,7 +122,7 @@ const logOutDB = () => {
   return async function (dispatch) {
     localStorage.removeItem("token");
     dispatch(logOut());
-    window.location.assign("/login");
+    window.location.assign("/");
   };
 };
 
