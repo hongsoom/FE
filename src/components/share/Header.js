@@ -62,7 +62,7 @@ const Header = () => {
                 </>
               ) : (
                 <p className="login-icon">
-                  <a href={"/Login"}>로그인</a>
+                  <a href={"/"}>로그인</a>
                 </p>
               )}
             </div>
