@@ -21,7 +21,7 @@ const FilterButton = (props) => {
   const [price, setPrice] = useState("");
 
   const is_keyword = recommendList ? true : false;
-  const is_price = priceSelect ? true : false;
+  const is_price = price ? true : false;
   const is_listRegion = listRegion ? true : false;
   const is_region = region ? true : false;
 
