@@ -5,7 +5,7 @@ import "../../css/placeModal.scss"
 const { kakao } = window
 
 const PlaceModal = (props) => {
-  const {showPlaceModal, closePlaceModal, myInfo, select, setSelect, setFocus, myMap} = props
+  const {showPlaceModal, closePlaceModal, myInfo, select, setSelect, setFocus, myMap, list} = props
   
   // 선택한 장소 핀찍기
   const panTo= (place) =>{
@@ -23,12 +23,18 @@ const PlaceModal = (props) => {
   });
     marker.setMap(map);
   }
-
+ 
   const onFocusPlaceHandler = (v) => {
     setFocus(v.place_name)
     panTo(v)
     closePlaceModal()
   }
+
+  const checkAllPlaceModal = () => {
+    list(select)
+    closePlaceModal()
+  }
+console.log(select)
   return(
     <div className={showPlaceModal ? 'openModal placeWrap' : 'placeWrap'}>
       {showPlaceModal ?
@@ -50,6 +56,9 @@ const PlaceModal = (props) => {
           </div>
             
             <div className="buttons">
+              <div className="doneButton">
+                <button className="close" onClick={checkAllPlaceModal}>모든 핀 보기</button>
+              </div>
               <div className="doneButton">
                 <button className="close" onClick={closePlaceModal}>확인</button>
               </div>

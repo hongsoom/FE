@@ -23,14 +23,15 @@ import leftArrowBlack from "../../assets/leftArrowBlack.png";
 // 카카오맵
 const { kakao } = window;
 
-const Edit = () => {
+const Edit = (props) => {
+  const {myInfo} = props
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
   const param = useParams().id; //수정할 게시글 번호
   const [loading, setLoading] = useState(false);
   const [editdata, setEditData] = useState([]);
-
+ 
   // -------------- 게시글 한개 데이터 가져오기
   const getData = async (postId) => {
     try {
@@ -204,19 +205,14 @@ const Edit = () => {
   editFormData.append("priceCategory", selectedPrice);
   editFormData.append("places", blob);
 
-  console.log(newImgFile);
-  // formData.append(`${imgUrl[0]}`,)
-  // localStorage.setItem('"token"')
-  // formData.append("imgUrl",imgs)
 
-  for (let key of editFormData.keys()) {
-    console.log(key, ":", editFormData.get(key));
-  }
+  // for (let key of editFormData.keys()) {
+  //   console.log(key, ":", editFormData.get(key));
+  // }
 
   // 검색 목록에서 장소 하나를 선택 클릭
   const onClickHandler = (__place) => {
     setFocus(__place);
-    console.log(__place);
     const searchList_wrap = document.getElementById("searchList_wrap");
     searchList_wrap.style.height = "0px";
   };
@@ -315,19 +311,6 @@ const Edit = () => {
   }
     
 
-  // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
-  useEffect(() => {
-    console.log(
-      "imgUrl" + newImgFile,
-      "title:" + title,
-      "regionCategory:" + selectedRegion,
-      "themeCategory:" + selectedTheme,
-      "content:" + content,
-      "priceCategory:" + selectedPrice,
-      "place:" + select
-    );
-  }, [content, select, selectedPrice, selectedRegion, selectedRegion]);
-
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
@@ -352,6 +335,9 @@ const Edit = () => {
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
+        let bounds = new kakao.maps.LatLngBounds()
+        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x))
+        map.setBounds(bounds)
       }
 
       // 마커찍기 함수
@@ -461,7 +447,7 @@ const Edit = () => {
           </div>
 
           <div className='writeLowerHeader'>
-            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice} select={select} setFocus={setFocus} myMap={myMap}/>
+            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice} select={select} setFocus={setFocus} myMap={myMap} myInfo={myInfo} list={list}/>
           </div>
         </div>
 

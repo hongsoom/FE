@@ -31,7 +31,7 @@ function App() {
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.user.myinfo);
-
+  
   return (
     <div className="App">
       <Routes>
@@ -42,7 +42,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
         <Route path="/write" element={<Write myInfo={myInfo}/>} />
-        <Route path="/write/:id" element={<Write />} />
+        <Route path="/write/:id" element={<Write myInfo={myInfo}/>} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/detail/:id/kakaomap" element={<KakaoTraffic />} />
         <Route path="/filtermodal" element={<FilterModal />} />
