@@ -494,7 +494,7 @@ export default handleActions(
 
     [GET]: (state, action) =>
       produce(state, (draft) => {
-        draft.post = action.payload;
+        draft.contents = [...action.payload.postOne];
       }),
 
     [ADD]: (state, action) => {

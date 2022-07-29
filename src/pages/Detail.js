@@ -49,6 +49,7 @@ const Detail = () => {
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
   const [shareMove, setShareMove] = useState(false);
+  const [loveCount, setLoveCount] = useState(0);
 
   const Id = useSelector((state) => state.post.postId);
   const lovechecked = useSelector((state) => state.post.loveStatus);
@@ -61,6 +62,7 @@ const Detail = () => {
       const response = await instance.get(`api/post/${postId}`);
       const newData = response.data.body;
       setData(newData);
+      setLoveCount(newData.loveCount);
     } catch (error) {
       console.error(error.message);
     }
@@ -120,8 +122,6 @@ const Detail = () => {
     list(data && data.place);
     window.scrollTo(0, 0);
   }, [data]);
-
-  useEffect(() => {}, [lovechecked, bookmarkchecked]);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   const list = (positions) => {

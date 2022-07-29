@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { userAction } from "../../redux/module/post";
+import { clickLoveDB, clickBookmarkDB } from "../../redux/module/post";
 import CategorySlide from "./PostSlide";
 import WebShare from "../share/WebShare";
 import "swiper/css";
@@ -91,9 +91,7 @@ const PostItem = (props) => {
               onClick={webShare}
               className="postItem-shareicon"
             />
-            <button
-              onClick={() => dispatch(userAction.clickBookmarkDB(postId))}
-            >
+            <button onClick={() => dispatch(clickBookmarkDB(postId))}>
               {postId === Id ? (
                 bookmarkStatus === true ? (
                   <img
@@ -161,7 +159,7 @@ const PostItem = (props) => {
             </SwiperSlide>
           </Swiper>
           <div className="postItem-heart">
-            <button onClick={() => dispatch(userAction.clickLoveDB(postId))}>
+            <button onClick={() => dispatch(clickLoveDB(postId))}>
               {postId === Id ? (
                 loveStatus === true ? (
                   <img src={heartFull} alt="heartFull" />
