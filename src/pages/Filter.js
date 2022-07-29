@@ -44,7 +44,7 @@ const Filter = () => {
 
   useEffect(() => {
     loadLatestPost();
-
+    dispatch(userAction.isFilterDB());
     return () => {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());

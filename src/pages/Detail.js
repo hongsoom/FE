@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../css/detail.scss";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import instance from "../shared/Request";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { deletePostDB, clickBookmarkDB, clickLoveDB } from "../redux/module/post";
+import {
+  deletePostDB,
+  clickBookmarkDB,
+  clickLoveDB,
+} from "../redux/module/post";
 import { userAction } from "../redux/module/user";
 
 // 컴포넌트
@@ -28,9 +32,9 @@ import heartFull from "../assets/heartpaint.png";
 import bronze from "../assets/bronze.png";
 import silver from "../assets/silver.png";
 import gold from "../assets/gold.png";
-import diamond from "../assets/diamond.png"
-import master from "../assets/master.png"
-import user from "../assets/user.png"
+import diamond from "../assets/diamond.png";
+import master from "../assets/master.png";
+import user from "../assets/user.png";
 
 // 카카오맵
 const { kakao } = window;
@@ -47,7 +51,8 @@ const Detail = () => {
   const [shareMove, setShareMove] = useState(false);
 
   const Id = useSelector((state) => state.post.postId);
-
+  const lovechecked = useSelector((state) => state.post.loveStatus);
+  const bookmarkchecked = useSelector((state) => state.post.bookmarkStatus);
   // -------------- 게시글 데이터 가져오기
   const getData = async (postId) => {
     try {
@@ -74,11 +79,11 @@ const Detail = () => {
 
   // ---------------------------- 선택 장소 목록 모달 open / close
   const openPlaceModal = () => {
-    setShowPlaceModal(true)
-  }
+    setShowPlaceModal(true);
+  };
   const closePlaceModal = () => {
-    setShowPlaceModal(false)
-  }
+    setShowPlaceModal(false);
+  };
 
   // -------------- 게시글 데이터 삭제하기
   const onDeleteHandler = () => {
@@ -88,20 +93,19 @@ const Detail = () => {
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willDelete) => {
+    }).then((willDelete) => {
       if (willDelete) {
         swal("삭제되었습니다!", {
           icon: "success",
         });
         dispatch(deletePostDB(param));
-        navigate('/main')
+        navigate("/main");
       } else {
         swal("취소되었습니다");
       }
     });
   };
-  console.log(data)
+  console.log(data);
   // ------------- 수정하기
   const onModifyHandler = () => {
     navigate(`/write/${param}`);
@@ -116,6 +120,8 @@ const Detail = () => {
     list(data && data.place);
     window.scrollTo(0, 0);
   }, [data]);
+
+  useEffect(() => {}, [lovechecked, bookmarkchecked]);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   const list = (positions) => {
@@ -217,9 +223,9 @@ const Detail = () => {
               <div className="profilePic">
                 {data && data.userImgUrl ? (
                   <img src={`${data.userImgUrl}`} alt="프로필 이미지" />
-                ) : 
-                ( <img src={user} alt="기본 프로필 이미지"/> )
-                }
+                ) : (
+                  <img src={user} alt="기본 프로필 이미지" />
+                )}
               </div>
               <div className="myBadge">
                 {data && data.grade === "BRONZE" ? (
@@ -257,14 +263,17 @@ const Detail = () => {
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
               {/* 선택한 장소 확인하기 */}
-              <div className='placeButton' onClick={openPlaceModal}>
-                  선택 장소 확인
-                  <div className='places'>
-                    <DetailPlaceModal data={data} myMap={myMap}
-                    showPlaceModal={showPlaceModal} setFocus={setFocus}
+              <div className="placeButton" onClick={openPlaceModal}>
+                선택 장소 확인
+                <div className="places">
+                  <DetailPlaceModal
+                    data={data}
+                    myMap={myMap}
+                    showPlaceModal={showPlaceModal}
+                    setFocus={setFocus}
                     closePlaceModal={closePlaceModal}
-                    />
-                  </div>    
+                  />
+                </div>
               </div>
               <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>
                 길찾기
@@ -349,57 +358,55 @@ const Detail = () => {
         {/* 콘텐츠 */}
         <div className="txtPlace">{data && data.content}</div>
         {shareMove ? (
-            <WebShare
-              webShare={webShare}
-              title={data&&data.title}
-              imgUrl={data&&data.place[0]&&data.place[0].imgUrl[0]}
-              loveCount={data&&data.loaveCount}
-              postId={data&&data.postId}
-              regionCategory={data&&data.regionCategory}
-              priceCategory={data&&data.priceCategory}
-              themeCategory={data&&data.themeCategory}
-            />
-          ) : null}
+          <WebShare
+            webShare={webShare}
+            title={data && data.title}
+            imgUrl={data && data.place[0] && data.place[0].imgUrl[0]}
+            loveCount={data && data.loaveCount}
+            postId={data && data.postId}
+            regionCategory={data && data.regionCategory}
+            priceCategory={data && data.priceCategory}
+            themeCategory={data && data.themeCategory}
+          />
+        ) : null}
         {/* 좋아요 즐겨찾기 버튼 */}
         <div className="heartNbookmarkIcon">
           <div className="iconsWrap">
-            <div className="heartIcon"
-            onClick={() => dispatch(clickLoveDB(param))}
+            <div
+              className="heartIcon"
+              onClick={() => dispatch(clickLoveDB(param))}
             >
               {param === Id ? (
-                data&&data.loveStatus === true ? (
+                lovechecked === true ? (
                   <img src={heartFull} alt="heartFull" />
                 ) : (
                   <img src={heartEmpty} alt="heartEmpty" />
                 )
-              ) : data&&data.loveStatus === true ? (
+              ) : lovechecked === true ? (
                 <img src={heartFull} alt="heartFull" />
               ) : (
                 <img src={heartEmpty} alt="heartEmpty" />
               )}
             </div>
-          <div className="heartNum">{data && data.loveCount}</div>
-            <div className="bookmarkIcon"
-            onClick={() => dispatch(clickBookmarkDB(param))}
+            <div className="heartNum">{data && data.loveCount}</div>
+            <div
+              className="bookmarkIcon"
+              onClick={() => dispatch(clickBookmarkDB(param))}
             >
-              {data && data.bookmarkStatus === false ? (
+              {bookmarkchecked === false ? (
                 <img src={bookmark} alt="즐겨찾기 버튼" />
               ) : (
                 <img src={bookmarkBlue} alt="즐겨찾기 완료" />
               )}
-
             </div>
-            <div className="shareIcon"
-            onClick={webShare}
-            >
+            <div className="shareIcon" onClick={webShare}>
               <img src={shareblack} alt="공유하기 버튼" />
-              
             </div>
-          </div>  
+          </div>
         </div>
 
         <div className="commentPlace">
-          <Comment param={param} nickname={userInfo&&userInfo.nickname} />
+          <Comment param={param} userId={userInfo && userInfo.userId} />
         </div>
       </div>
     </>

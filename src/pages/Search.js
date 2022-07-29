@@ -41,7 +41,7 @@ const Search = () => {
 
   useEffect(() => {
     loadKeywordPost();
-
+    dispatch(userAction.isFilterDB());
     return () => {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());

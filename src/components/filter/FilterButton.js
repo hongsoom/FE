@@ -94,6 +94,8 @@ const FilterButton = (props) => {
           setPriceSelect={setPriceSelect}
           setTheme={setTheme}
           setPrice={setPrice}
+          theme={theme}
+          price={price}
         />
       )}
       <div className="filterbutton-box">
