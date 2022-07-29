@@ -14,6 +14,7 @@ const initialState = {
   list: [],
   isLogin: false,
   status: "",
+  message: "",
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
@@ -36,12 +37,9 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 201) {
-        window.location.assign("/login");
+        window.location.assign("/");
       }
-    } catch (err) {
-      const status = err.response.data.status;
-      dispatch(signUp(status));
-    }
+    } catch (err) {}
   };
 };
 
@@ -57,15 +55,15 @@ const logInDB = (username, password) => {
 
         localStorage.setItem("token", token);
 
-        const status = response.data.statusCode;
-        dispatch(login(status));
+        const message = response.data.message;
+        dispatch(login(message));
       }
       if (localStorage.getItem("token")) {
         window.location.assign("/main");
       }
     } catch (err) {
-      const status = err.response.data.statusCode;
-      dispatch(login(status));
+      const message = err.response.data.message;
+      dispatch(login(message));
     }
   };
 };
@@ -168,7 +166,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
-        draft.status = action.payload.result;
+        draft.message = action.payload.result;
       }),
 
     [IDCHECK]: (state, action) =>
