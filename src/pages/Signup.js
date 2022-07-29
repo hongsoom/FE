@@ -177,7 +177,7 @@ const Signup = () => {
       !/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(password)
     ) {
       setState(false);
-      setMessage("비밀번호는 숫자와 영문자, 특수문자를 혼용하여야 합니다.");
+      setMessage("비밀번호는 숫자와 대소문자, 특수문자를 혼용하여야 합니다.");
       setSignupState(false);
     }
 
