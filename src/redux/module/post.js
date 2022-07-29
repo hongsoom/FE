@@ -164,9 +164,7 @@ const arrayGetDB = (keyword, nextPage, size, sort, desc) => {
 
         dispatch(arrayGet(newList, paging));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -217,21 +215,17 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (region === undefined) {
       region = "";
     }
-
     if (price === undefined) {
       price = "";
     }
-
     if (theme === undefined) {
       theme = "";
     }
-
     await instance
       .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
       )
       .then((response) => {
-        console.log(response);
         const newList = response.data.content;
         const lastpage = response.data.last;
 
@@ -374,7 +368,6 @@ export const addPostDB = (data) => {
         },
       })
       .then((res) => {
-        
       })
       .catch((error) => {});
   };
@@ -389,7 +382,6 @@ export const modifyPostDB = (data, postId) => {
         },
       })
       .then((res) => {
-        
       })
       .catch((error) => {});
   };
@@ -405,7 +397,6 @@ export const deletePostDB = (postId) => {
       })
       .then((res) => {
         dispatch(deletePost(postId));
-        window.location.assign("/");
       })
       .catch((error) => {});
   };

@@ -32,7 +32,6 @@ import diamond from "../assets/diamond.png"
 import master from "../assets/master.png"
 import user from "../assets/user.png"
 
-
 // 카카오맵
 const { kakao } = window;
 
@@ -96,6 +95,7 @@ const Detail = () => {
           icon: "success",
         });
         dispatch(deletePostDB(param));
+        navigate('/main')
       } else {
         swal("취소되었습니다");
       }
@@ -177,7 +177,7 @@ const Detail = () => {
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   const webShare = () => {
@@ -222,23 +222,17 @@ const Detail = () => {
                 }
               </div>
               <div className="myBadge">
-                {data&&data.grade === 'BRONZE' ? 
-                  <img src={bronze} alt="브론즈 뱃지"/>
-                  :
-                  data&&data.grade === 'SILVER' ? 
-                  <img src={silver} alt="실버 뱃지"/>
-                  :
-                  data&&data.grade === 'GOLD' ? 
-                  <img src={gold} alt="골드 뱃지"/>
-                  :
-                  data&&data.grade === 'DIAMOND' ? 
-                  <img src={diamond} alt="다이아몬드 뱃지"/>
-                  :
-                  data&&data.grade === 'MASTER' ? 
-                  <img src={master} alt="마스터 뱃지"/>
-                  :
-                  null
-                }
+                {data && data.grade === "BRONZE" ? (
+                  <img src={bronze} alt="브론즈 뱃지" />
+                ) : data && data.grade === "SILVER" ? (
+                  <img src={silver} alt="실버 뱃지" />
+                ) : data && data.grade === "GOLD" ? (
+                  <img src={gold} alt="골드 뱃지" />
+                ) : data && data.grade === "DIAMOND" ? (
+                  <img src={diamond} alt="다이아몬드 뱃지" />
+                ) : data && data.grade === "MASTER" ? (
+                  <img src={master} alt="마스터 뱃지" />
+                ) : null}
               </div>
               <div className="nick">
                 {data && data.nickname && data.nickname}
@@ -322,7 +316,6 @@ const Detail = () => {
                 })}
             </div>
             {/* 장소마다 바뀌는 부분 끝  */}
-            
           </div>
         ) : (
           <div className="detailSectionWrap">
@@ -385,7 +378,7 @@ const Detail = () => {
                 <img src={heartEmpty} alt="heartEmpty" />
               )}
             </div>
-            <div className="heartNum">{data && data.loveCount}</div>
+          <div className="heartNum">{data && data.loveCount}</div>
             <div className="bookmarkIcon"
             onClick={() => dispatch(clickBookmarkDB(param))}
             >
@@ -394,6 +387,7 @@ const Detail = () => {
               ) : (
                 <img src={bookmarkBlue} alt="즐겨찾기 완료" />
               )}
+
             </div>
             <div className="shareIcon"
             onClick={webShare}

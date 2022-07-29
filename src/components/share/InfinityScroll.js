@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
 const InfinityScroll = (props) => {
-  const { children, callNext, is_next, loading, nextPage } = props;
+  const { children, callNext, lastPage, loading, nextPage } = props;
 
   const handleScroll = (e) => {
-    if (is_next) {
+    if (lastPage === true || nextPage === 0) {
       return;
     }
 

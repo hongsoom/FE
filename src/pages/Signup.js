@@ -40,8 +40,9 @@ const Signup = () => {
   useEffect(() => {
     if (signupState) {
       signupCheck();
+      setSignupState(false);
     }
-  }, [status]);
+  }, [signupState]);
 
   const idCheck = (username) => {
     return async function (dispatch) {
@@ -166,44 +167,24 @@ const Signup = () => {
   };
 
   const signupCheck = () => {
-    if (status === 400) {
-      if (
-        username === "" ||
-        nickname === "" ||
-        password === "" ||
-        passwordCheck === ""
-      ) {
-        setState(false);
-        setMessage("모든 칸을 입력해 주세요.");
-        setSignupState(false);
-      }
+    if (password.length < 8 || password.length > 16) {
+      setState(false);
+      setMessage("비밀번호는 8자리 이상, 16자리 미만입니다.");
+      setSignupState(false);
+    }
 
-      if (password.length < 8 || password.length > 16) {
-        setState(false);
-        setMessage("비밀번호는 8자리 이상, 16자리 미만입니다.");
-        setSignupState(false);
-      }
+    if (
+      !/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(password)
+    ) {
+      setState(false);
+      setMessage("비밀번호는 숫자와 대소문자, 특수문자를 혼용하여야 합니다.");
+      setSignupState(false);
+    }
 
-      let special_pattern = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
-      if (special_pattern.test(password) === true) {
-        setState(false);
-        setMessage("특수문자는 사용할 수 없습니다.");
-        setSignupState(false);
-      }
-
-      let chk_num = password.search(/[0-9]/g);
-      let chk_eng = password.search(/[a-z]/gi);
-      if (chk_num < 0 || chk_eng < 0) {
-        setState(false);
-        setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
-        setSignupState(false);
-      }
-
-      if (password !== passwordCheck) {
-        setState(false);
-        setMessage("비밀번호는 8자리 이상, 16자리 미만입니다.");
-        setSignupState(false);
-      }
+    if (password !== passwordCheck) {
+      setState(false);
+      setMessage("비밀번호가 서로 일치하지 않습니다.");
+      setSignupState(false);
     }
 
     if (status === 201) {
@@ -217,6 +198,15 @@ const Signup = () => {
   const signup = () => {
     dispatch(userAction.signUpDB(username, nickname, password, passwordCheck));
     setSignupState(true);
+  };
+
+  const searchEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(
+        userAction.signUpDB(username, nickname, password, passwordCheck)
+      );
+      setSignupState(true);
+    }
   };
 
   return (
@@ -265,7 +255,7 @@ const Signup = () => {
             <input
               type="Password"
               label="비밀번호"
-              placeholder="비밀번호를 입력해 주세요"
+              placeholder="비밀번호는 숫자와 영문자, 특수문자를 혼용해주세요."
               className="password"
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -275,12 +265,29 @@ const Signup = () => {
               placeholder="비밀번호 확인"
               className="passwordCheck"
               onChange={(e) => setPasswordCheck(e.target.value)}
+              onKeyPress={(e) => searchEnter(e)}
             />
           </div>
           <div className="signup-message">
             <p className={state === false ? "error" : "success"}>{message}</p>
           </div>
-          <button onClick={signup} className="signup-btn">
+          <button
+            onClick={() => {
+              if (
+                username === "" &&
+                nickname === "" &&
+                password === "" &&
+                passwordCheck === ""
+              ) {
+                setState(false);
+                setMessage("모든 칸을 입력해 주세요.");
+                setSignupState(false);
+                return;
+              }
+              signup();
+            }}
+            className="signup-btn"
+          >
             시작하기
           </button>
         </div>

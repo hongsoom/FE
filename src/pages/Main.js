@@ -88,26 +88,25 @@ const Main = () => {
               </div>
             </div>
             <div className="main-latest-love-component">
-              <SelectPost
-                keyword={keyword}
-                sortby={sortby}
-                direction={direction}
-                size={size}
-                posts={posts}
-                nextPage={nextPage}
-                lastPage={lastPage}
-                isLoading={isLoading}
-              />
-              {isFilter && (
-                <>
-                  <FilterPost
-                    size={size}
-                    posts={filtercontents}
-                    nextPage={nextPage}
-                    lastPage={lastPage}
-                    isLoading={isLoading}
-                  />
-                </>
+              {isFilter ? (
+                <FilterPost
+                  size={size}
+                  posts={filtercontents}
+                  nextPage={nextPage}
+                  lastPage={lastPage}
+                  isLoading={isLoading}
+                />
+              ) : (
+                <SelectPost
+                  keyword={keyword}
+                  sortby={sortby}
+                  direction={direction}
+                  size={size}
+                  posts={posts}
+                  nextPage={nextPage}
+                  lastPage={lastPage}
+                  isLoading={isLoading}
+                />
               )}
             </div>
           </div>

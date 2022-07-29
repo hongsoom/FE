@@ -29,7 +29,7 @@ const SelectPost = (props) => {
             );
           }}
           nextPage={nextPage}
-          is_next={lastPage}
+          lastPage={lastPage}
           loading={isLoading}
         >
           {posts &&

@@ -40,7 +40,7 @@ const Header = () => {
                 onClick={onClick}
               />
             )}
-            <div className="header-title" onClick={() => navigate("/")}>
+            <div className="header-title" onClick={() => navigate("/main")}>
               <img src={logoSmail} alt="logoSmail" className="logoSmail-icon" />
               <p>야, 너도 갈래?</p>
             </div>
@@ -62,7 +62,7 @@ const Header = () => {
                 </>
               ) : (
                 <p className="login-icon">
-                  <a href={"/Login"}>로그인</a>
+                  <a href={"/"}>로그인</a>
                 </p>
               )}
             </div>

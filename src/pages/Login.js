@@ -9,31 +9,24 @@ import "../css/login.scss";
 const Login = () => {
   const dispatch = useDispatch();
 
-  const status = useSelector((state) => state.user.status);
+  const messages = useSelector((state) => state.user.message);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [state, setState] = useState(false);
+  const [message, setMessage] = useState(messages);
 
-  const login = () => {
-    if (status === 500) {
-      if (username === "" || password === "") {
-        setMessage("모든 칸을 입력해 주세요.");
-      }
-    }
-
-    if (status === 400) {
-      setMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
-      setState(false);
+  const searchEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(userAction.logInDB(username, password));
     }
   };
 
   useEffect(() => {
-    if (state) {
-      login();
+    setMessage(messages);
+    if (messages === "유효성 검사 실패!") {
+      setMessage("모든 칸을 입력해 주세요.");
     }
-  }, [status]);
+  }, [messages]);
 
   return (
     <>
@@ -58,16 +51,22 @@ const Login = () => {
                 className="login-password"
                 placeholder="비밀번호를 입력해 주세요"
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={(e) => searchEnter(e)}
               />
             </div>
-            <div className="login-message">
+            <div
+              className={
+                message === "로그인에 성공하였습니다."
+                  ? "login-successmessage"
+                  : "login-errormessage"
+              }
+            >
               <p>{message}</p>
             </div>
             <div className="login-button">
               <button
                 onClick={() => {
                   dispatch(userAction.logInDB(username, password));
-                  setState(true);
                 }}
                 className="login-btn"
               >

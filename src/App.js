@@ -37,14 +37,14 @@ function App() {
       <Routes>
         <Route path="/filter/:keyword" element={<Filter />} />
         <Route path="/search/:keyword" element={<Search />} />
-        <Route path="/" element={<Main />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
         <Route path="/write" element={<Write myInfo={myInfo}/>} />
         <Route path="/write/:id" element={<Write />} />
         <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/detail/:id/kakaomap" element={<KakaoTraffic/>}/>
+        <Route path="/detail/:id/kakaomap" element={<KakaoTraffic />} />
         <Route path="/filtermodal" element={<FilterModal />} />
         <Route path="/mypage" element={<MyPage myInfo={myInfo} />} />
         <Route path="/setup" element={<Setup myInfo={myInfo} />} />
