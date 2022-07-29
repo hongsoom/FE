@@ -57,9 +57,6 @@ console.log(select)
             
             <div className="buttons">
               <div className="doneButton">
-                <button className="close" onClick={checkAllPlaceModal}>모든 핀 보기</button>
-              </div>
-              <div className="doneButton">
                 <button className="close" onClick={closePlaceModal}>확인</button>
               </div>
             </div>  
