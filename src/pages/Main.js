@@ -53,6 +53,7 @@ const Main = () => {
 
   useEffect(() => {
     loadfirstPost();
+    dispatch(userAction.isFilterDB());
     return () => {
       dispatch(userAction.clearDB());
     };

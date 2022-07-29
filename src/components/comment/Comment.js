@@ -8,12 +8,11 @@ import {
 import user from "../../assets/user.png";
 import "../../css/comment.scss";
 
-const Comment = ({ param, nickname }) => {
+const Comment = ({ param, userId }) => {
   const dispatch = useDispatch();
   const postId = parseInt(param);
 
   const list = useSelector((state) => state.comment.comments);
-  console.log(nickname);
 
   const [comment, setComment] = useState("");
 
@@ -59,7 +58,7 @@ const Comment = ({ param, nickname }) => {
                 </div>
                 <div className="comment-info">
                   <span>{list.createdAt}</span>
-                  {nickname === list.nickname && (
+                  {userId === list.userId && (
                     <span
                       className="comment-delete"
                       onClick={() => dispatch(deleteCommentDB(list.commentId))}

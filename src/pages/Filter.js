@@ -21,7 +21,7 @@ const Filter = () => {
   const isFilter = useSelector((state) => state.post.isFilter);
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
-  console.log(isFilter);
+
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
@@ -44,7 +44,7 @@ const Filter = () => {
 
   useEffect(() => {
     loadLatestPost();
-
+    dispatch(userAction.isFilterDB());
     return () => {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());

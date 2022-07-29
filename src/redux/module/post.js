@@ -41,6 +41,8 @@ const initialState = {
     theme: "",
     price: "",
   },
+  loveStatus: false,
+  bookmarkStatus: false,
 };
 
 const LOADING = "post/LOADING";
@@ -367,8 +369,7 @@ export const addPostDB = (data) => {
           Authorization: localStorage.getItem("token"),
         },
       })
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((error) => {});
   };
 };
@@ -381,8 +382,7 @@ export const modifyPostDB = (data, postId) => {
           Authorization: localStorage.getItem("token"),
         },
       })
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((error) => {});
   };
 };
@@ -494,7 +494,7 @@ export default handleActions(
 
     [GET]: (state, action) =>
       produce(state, (draft) => {
-        draft.post = action.payload;
+        draft.contents = [...action.payload.postOne];
       }),
 
     [ADD]: (state, action) => {
@@ -570,6 +570,8 @@ export default handleActions(
             }
           });
         }
+        draft.loveStatus = action.payload.lovechecked;
+        draft.postId = action.payload.Id;
       }),
 
     [BOOKMARK]: (state, action) =>
@@ -593,6 +595,8 @@ export default handleActions(
               post.bookmarkStatus = false;
           });
         }
+        draft.bookmarkStatus = action.payload.bookmarkchecked;
+        draft.postId = action.payload.Id;
       }),
 
     [INITPAGING]: (state, action) =>
