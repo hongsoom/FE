@@ -81,8 +81,19 @@
     margin-top: 50px;
     margin-bottom: 10px;
   }
+
+  .login-successmessage {
+    margin: 0 50px 17px;
   
-  .login-message {
+    > p {
+      color: #5BD251;
+      font-size: 12px;
+      line-height: 17px;
+      margin : 0;
+    }
+  }
+  
+  .login-errormessage {
     margin: 0 50px 17px;
   
     > p {

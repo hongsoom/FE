@@ -54,7 +54,13 @@ const Login = () => {
                 onKeyPress={(e) => searchEnter(e)}
               />
             </div>
-            <div className="login-message">
+            <div
+              className={
+                message === "로그인에 성공하였습니다."
+                  ? "login-successmessage"
+                  : "login-errormessage"
+              }
+            >
               <p>{message}</p>
             </div>
             <div className="login-button">
