@@ -10,7 +10,7 @@ const MyLevelGaugeBar = (props) =>{
 
   useEffect(()=>{
     setMinPoint(()=>{
-      if(myInfo&&myInfo.grade === 'NORMAL'){
+      if((myInfo&&myInfo.grade === 'NORMAL') || (myInfo&&myInfo.grade === null)){
         return 0
       } else if(myInfo&&myInfo.grade === 'BRONZE'){
         return 10
@@ -26,7 +26,7 @@ const MyLevelGaugeBar = (props) =>{
       } 
     )
     setGap(()=>{
-      if(myInfo&&myInfo.grade === 'NORMAL'){
+      if((myInfo&&myInfo.grade === 'NORMAL') || (myInfo&&myInfo.grade === null)){
         return 10
       } else if(myInfo&&myInfo.grade === 'BRONZE'){
         return 40
@@ -41,15 +41,25 @@ const MyLevelGaugeBar = (props) =>{
       }
       } 
     )
+     
+  },[myInfo])
+  
+  useEffect(()=>{
     setPercentage(()=>{
       return ((myInfo&&myInfo.totalPoint-minPoint)/gap)*100
-    })  
-  },[myInfo, gap, minPoint])  
+    }) 
+  },[ gap, minPoint, percentage])
 
 
   return(
     <div className="myLevelGauge">
-      <div className="myLevelGaugeWrap">
+      <div className="myLevelGaugeWrap"
+      style={(myInfo&&myInfo.grade === 'NORMAL') || (myInfo&&myInfo.grade === null)?
+      {width:'212px'}
+      :
+      {width:'164px'}
+      }
+      >
         <div className="myLevelGaugeFill"
         style={{width:`${percentage}%`}}
         >

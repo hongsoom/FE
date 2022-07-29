@@ -56,7 +56,7 @@ const MyProfile = (props) => {
                   myInfo&&myInfo.grade === 'GOLD' ? 
                   <img src={gold} alt="골드 뱃지"/>
                   :
-                  myInfo&&myInfo.grade === 'DIA' ? 
+                  myInfo&&myInfo.grade === 'DIAMOND' ? 
                   <img src={diamond} alt="다이아몬드 뱃지"/>
                   :
                   myInfo&&myInfo.grade === 'MASTER' ? 
@@ -65,10 +65,15 @@ const MyProfile = (props) => {
                   null
                 }
               </div>
-              <div className="myLevelDetail">
+              <div className="myLevelDetail"
+              style={(myInfo&&myInfo.grade === 'NORMAL')|| (myInfo&&myInfo.grade === null) ? {marginLeft:"0px"}:{marginLeft:"8px"}}
+              >
                 <div className="myLevelDetailUpper">
                   <div className="myLevelName">
-                  {myInfo&&myInfo.grade === 'BRONZE' ? 
+                  {(myInfo&&myInfo.grade === 'NORMAL') || (myInfo&&myInfo.grade === null) ? 
+                  '장소를 추천하면 뱃지가 생겨요!'
+                  :
+                  myInfo&&myInfo.grade === 'BRONZE' ? 
                   '5등급 브론즈'
                   :
                   myInfo&&myInfo.grade === 'SILVER' ? 
@@ -77,7 +82,7 @@ const MyProfile = (props) => {
                   myInfo&&myInfo.grade === 'GOLD' ? 
                   '3등급 골드'
                   :
-                  myInfo&&myInfo.grade === 'DIA' ? 
+                  myInfo&&myInfo.grade === 'DIAMOND' ? 
                   '2등급 다이아몬드'
                   :
                   myInfo&&myInfo.grade === 'MASTER' ? 

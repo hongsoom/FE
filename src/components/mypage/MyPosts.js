@@ -12,7 +12,6 @@ const MyPosts = (props) => {
       setToggle(e.target.value)
     }
   }
-  console.log(myMarks)
 
   return (
     <div className="myprofilePosts">

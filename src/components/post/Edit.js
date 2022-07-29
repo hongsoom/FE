@@ -266,15 +266,35 @@ const Edit = () => {
       }
     });
   }
-  
-  console.log(select)
-  console.log(imgUrl)
-  console.log(allImgUrl)
 
   // ---------------------------- 작성 완료 버튼
   const onHandlerEdit = () =>{
-    dispatch(modifyPostDB(editFormData, param))
+    if (select.length === 0){
+      swal("장소를 검색하고 선택해주세요!");
+    } else if (selectedRegion.length === 0){
+      swal("지역을 선택해주세요!");
+    } else if (selectedTheme.length === 0){
+      swal("테마를 선택해주세요!");
+    } else if (selectedPrice.length === 0){
+      swal("비용을 선택해주세요!");
+    } else if (title.length === 0){
+      swal("제목을 적어주세요!");
+    }
+    else if (allImgUrl.length === 0 || newImgFile.lenght === 0){
+      swal("사진을 첨부해주세요!");
+    }
+    else if (content.length < 10){
+      swal("내용은 10자 이상 적어주세요!");
+    } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title){
+      swal("수정 완료하시겠습니까?")
+      .then((value) => {
+        swal("수정이 완료되었습니다!");
+        dispatch(modifyPostDB(editFormData, param))
+        navigate('/')
+      })
+    } 
   }
+    
 
   // ---------------------------- 서버로 보낼 데이터 콘솔에 찍어보기
   useEffect(()=>{
@@ -398,15 +418,16 @@ const Edit = () => {
           </div>
 
           <div className='writeLowerHeader'>
-            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice}/>
+            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice} select={select} setFocus={setFocus} myMap={myMap}/>
           </div>
         </div>
-        <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
       </div>
 
 
       {/* 움직이는 부분 */}
       <div className='contentWrap' id="contentWrap">
+
+        <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
         
         {/* 제목 */}
         <div className='writeTitleWrap'>

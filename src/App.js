@@ -41,7 +41,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
-        <Route path="/write" element={<Write />} />
+        <Route path="/write" element={<Write myInfo={myInfo}/>} />
         <Route path="/write/:id" element={<Write />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/detail/:id/kakaomap" element={<KakaoTraffic/>}/>

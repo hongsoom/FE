@@ -1,10 +1,10 @@
-.regionWrap.openModal {
+.placeWrap.openModal {
   display: flex;
   align-items: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
-.regionWrap{
+.placeWrap{
   display: none;
   position: fixed;
   top: 0;
@@ -22,14 +22,14 @@
     right: 0;
     z-index: 0;
 
-    .region_wrap{
+    .place_wrap{
       position: fixed;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       max-height: 80%;
       width: 330px;
-      height: 321px;
+      // height: 321px;
       padding: 18px 24px;
       background:#fff;
       border-radius: 10px;
@@ -50,14 +50,37 @@
           color:#606773;
         }
 
-        .regionsWrap{
+        .placesWrap{
           display: flex;
           flex-wrap: wrap;
           grid-column-gap: 18px;
           grid-row-gap: 14px;
           width: 282px;
+          max-height: 250px;
+          overflow-y: scroll;
 
-          ._regions{
+          .selectedPlaceDetail{
+            padding: 8px;
+            background: #F5F9FF;
+            border-radius: 8px;
+            border: 1px solid #ABCDFF;
+            text-align: left;
+            width: 100%;
+
+            .selectedPlaceName{
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 20px;
+            }
+            .selectedPlaceAddress{
+              color:#606773;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 20px;
+            }
+          }
+
+          ._places{
             width: 82px;
             height: 28px;
             border-radius: 10px;
@@ -76,6 +99,9 @@
               display: none;
             }
           }
+        }
+        .placesWrap::-webkit-scrollbar{
+          display: none;
         }
         .buttons{
           display: flex;

@@ -7,6 +7,7 @@ import { userAction } from '../redux/module/user'
 
 // 아이콘
 import leftArrowBlack from "../assets/leftArrowBlack.png"
+import user from "../assets/user.png"
 
 const Setup = (props) => {
   const dispatch = useDispatch();
@@ -69,9 +70,13 @@ const Setup = (props) => {
 
       <div className='setupContents'>
       <label htmlFor='uploadProfileImg'>
-        <div className='setupProfilePic'
-        style={previewUrl ? {backgroundImage:`url(${previewUrl})`, backgroundSize:'cover', backgroundPosition:'center'}: {background:'#F5F9FF'}}
-        >
+        <div className='setupProfilePic'>
+          {previewUrl?
+          <img src={previewUrl} alt="프로필 이미지"/>
+          :
+          <img src={user} alt="기본 프로필 이미지"/>
+          }
+        
         </div>    
         </label>
         <input type="file" id='uploadProfileImg' name="uploadProfileImg" accept="image/*" 

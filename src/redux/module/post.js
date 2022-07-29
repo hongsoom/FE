@@ -1,7 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../../shared/Request";
-import swal from "sweetalert";
 
 const initialState = {
   title: "",
@@ -311,7 +310,7 @@ const regionGETDB = (region, nextPage, size) => {
   };
 };
 
-const clickLoveDB = (postId) => {
+export const clickLoveDB = (postId) => {
   return async function (dispatch) {
     await instance
       .post(`api/love/${postId}`)
@@ -324,7 +323,7 @@ const clickLoveDB = (postId) => {
   };
 };
 
-const clickBookmarkDB = (postId) => {
+export const clickBookmarkDB = (postId) => {
   return async function (dispatch) {
     await instance
       .post(`api/bookmark/${postId}`)
@@ -375,8 +374,7 @@ export const addPostDB = (data) => {
         },
       })
       .then((res) => {
-        swal("작성 완료!");
-        window.location.assign("/");
+        
       })
       .catch((error) => {});
   };
@@ -391,9 +389,7 @@ export const modifyPostDB = (data, postId) => {
         },
       })
       .then((res) => {
-        console.log(res);
-        window.alert("수정 완료");
-        window.location.assign("/");
+        
       })
       .catch((error) => {});
   };
@@ -626,8 +622,6 @@ export default handleActions(
 const userAction = {
   bookmarkGetDB,
   arrayGetDB,
-  clickLoveDB,
-  clickBookmarkDB,
   clearDB,
   filterGETDB,
   keywordGetDB,

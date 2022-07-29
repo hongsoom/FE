@@ -116,10 +116,8 @@
 
           .myLevel{
             display: flex;
-
+            
             .myBadge{
-              margin-right: 8px;
-              width: 40px;
               display: flex;
               align-items: center;
               
@@ -170,7 +168,7 @@
                     border-radius: 6px;
                     height: 10px;
                     margin: 1px;
-                    
+                    max-width: 100%;
                   }
                 }
               }
@@ -188,6 +186,7 @@
           line-height: 20px;
           color: #606773;
           margin: 0px 20px;
+          
         }
       }
     }
@@ -284,7 +283,7 @@
         grid-template-columns: 1fr 1fr;
         column-gap: 10px;
         row-gap: 7px;
-        padding: 18px 5px;
+        padding: 18px 20px;
 
         .postbox{
           height: 150px;

@@ -1,16 +1,19 @@
 import React, {useState} from 'react'
 import '../../css/post.scss'
+import swal from 'sweetalert';
 
 import ThemeModal from '../modal/ThemeModal'
 import RegionModal from '../modal/RegionModal'
 import PriceModal from '../modal/PriceModal'
+import PlaceModal from "../modal/PlaceModal"
 
 const ModalButtons = (props) =>{
-  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice} = props 
+  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap} = props 
 
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 테마모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
+  const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
 
   // ---------------------------- 지역 모달 open / close
   const openRegionModal = () => {
@@ -47,7 +50,20 @@ const ModalButtons = (props) =>{
     setShowPriceModal(false)
     setPrice('')
   }
-  
+
+  // ---------------------------- 선택 장소 목록 모달 open / close
+  const openPlaceModal = () => {
+    if(select&&select.length !== 0){
+      setShowPlaceModal(true)
+    } else{
+      swal("아직 선택한 장소가 없습니다!");
+    }
+  }
+  const closePlaceModal = () => {
+    setShowPlaceModal(false)
+  }
+
+
   return(
       <div className='modalButtons'>
 
@@ -107,6 +123,17 @@ const ModalButtons = (props) =>{
             <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
             showPriceModal={showPriceModal} cancelPriceModal={cancelPriceModal}
             closePriceModal={closePriceModal}
+            />
+          </div>    
+      </div>
+
+      {/* 선택한 장소 확인하기 */}
+      <div className='placeButton' onClick={openPlaceModal}>
+        <div className='modalChoiceTitle'>선택 장소 확인</div>
+          <div className='places'>
+            <PlaceModal setSelect={setSelect} select={select} myMap={myMap}
+            showPlaceModal={showPlaceModal}
+            closePlaceModal={closePlaceModal} myInfo={myInfo} setFocus={setFocus}
             />
           </div>    
       </div>

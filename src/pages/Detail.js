@@ -1,32 +1,36 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../css/detail.scss";
+import swal from 'sweetalert';
 import instance from "../shared/Request";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { deletePostDB } from "../redux/module/post";
+import { deletePostDB, clickBookmarkDB, clickLoveDB } from "../redux/module/post";
 import { userAction } from "../redux/module/user";
 
 // 컴포넌트
+import DetailPlaceModal from "../components/modal/DetailPlaceModal";
 import Kakaomap from "../components/kakaomap/Kakaomap";
 import DetailImageSlide from "../components/imageSlide/DetailImageSlide";
 import Comment from "../components/comment/Comment";
+import WebShare from "../components/share/WebShare";
 
 // 아이콘
 import leftArrowBlack from "../assets/leftArrowBlack.png";
 import editblack from "../assets/editblack.png";
 import trash from "../assets/trash.png";
-import heartpink from "../assets/heartpink.png";
 import bookmark from "../assets/bookmark.png";
 import shareblack from "../assets/shareblack.png";
 import logosky from "../assets/logosky.png";
 import bookmarkBlue from "../assets/bookmark-blue.png";
-import heartpaint from "../assets/heartpaint.png";
+import heartEmpty from "../assets/heart.png";
+import heartFull from "../assets/heartpaint.png";
 import bronze from "../assets/bronze.png";
 import silver from "../assets/silver.png";
 import gold from "../assets/gold.png";
 import diamond from "../assets/diamond.png"
 import master from "../assets/master.png"
+import user from "../assets/user.png"
 
 
 // 카카오맵
@@ -40,6 +44,10 @@ const Detail = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [focus, setFocus] = useState("");
+  const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
+  const [shareMove, setShareMove] = useState(false);
+
+  const Id = useSelector((state) => state.post.postId);
 
   // -------------- 게시글 데이터 가져오기
   const getData = async (postId) => {
@@ -65,11 +73,35 @@ const Detail = () => {
   }, [dispatch]);
   const userInfo = useSelector((state) => state.user.myinfo);
 
+  // ---------------------------- 선택 장소 목록 모달 open / close
+  const openPlaceModal = () => {
+    setShowPlaceModal(true)
+  }
+  const closePlaceModal = () => {
+    setShowPlaceModal(false)
+  }
+
   // -------------- 게시글 데이터 삭제하기
   const onDeleteHandler = () => {
-    dispatch(deletePostDB(param));
+    swal({
+      title: "삭제하시겠습니까?",
+      text: "삭제시 등급 게이지가 줄어듭니다",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("삭제되었습니다!", {
+          icon: "success",
+        });
+        dispatch(deletePostDB(param));
+      } else {
+        swal("취소되었습니다");
+      }
+    });
   };
-
+  console.log(data)
   // ------------- 수정하기
   const onModifyHandler = () => {
     navigate(`/write/${param}`);
@@ -148,6 +180,10 @@ const Detail = () => {
     navigate("/");
   };
 
+  const webShare = () => {
+    setShareMove(!shareMove);
+  };
+
   return (
     <>
       {/* 헤더 */}
@@ -181,7 +217,9 @@ const Detail = () => {
               <div className="profilePic">
                 {data && data.userImgUrl ? (
                   <img src={`${data.userImgUrl}`} alt="프로필 이미지" />
-                ) : null}
+                ) : 
+                ( <img src={user} alt="기본 프로필 이미지"/> )
+                }
               </div>
               <div className="myBadge">
                 {data&&data.grade === 'BRONZE' ? 
@@ -206,9 +244,6 @@ const Detail = () => {
                 {data && data.nickname && data.nickname}
               </div>
               <div className="profileTags">
-                <div className="regionCategory">
-                  #{data && data.regionCategory}
-                </div>
                 {data &&
                   data.themeCategory.map((v, i) => {
                     return (
@@ -227,19 +262,29 @@ const Detail = () => {
                 🗺 {data && data.regionCategory}
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
+              {/* 선택한 장소 확인하기 */}
+              <div className='placeButton' onClick={openPlaceModal}>
+                  선택 장소 확인
+                  <div className='places'>
+                    <DetailPlaceModal data={data} myMap={myMap}
+                    showPlaceModal={showPlaceModal} setFocus={setFocus}
+                    closePlaceModal={closePlaceModal}
+                    />
+                  </div>    
+              </div>
               <div className="kakaomapButton" onClick={onKakaoTrafficHandler}>
                 길찾기
               </div>
             </div>
           </div>
         </div>
-        <div className="kakaomap">
-          <Kakaomap kakao={kakao} myMap={myMap} />
-        </div>
       </div>
 
       {/* 장소목록 / 사진슬라이드 / 댓글 */}
       <div className="contentsWrap">
+        <div className="kakaomap">
+          <Kakaomap kakao={kakao} myMap={myMap} />
+        </div>
         {focus && focus.length !== 0 ? (
           <div className="detailSectionWrap">
             {/* 핀을 클릭했을 때 */}
@@ -276,36 +321,8 @@ const Detail = () => {
                   );
                 })}
             </div>
-
             {/* 장소마다 바뀌는 부분 끝  */}
-            {/* 콘텐츠 */}
-            <div className="txtPlace">{data && data.content}</div>
-
-            {/* 좋아요 즐겨찾기 버튼 */}
-            <div className="heartNbookmarkIcon">
-              <div className="heartIcon">
-                {data && data.loveStatus === true ? (
-                  <img src={heartpaint} alt="좋아요 버튼" />
-                ) : (
-                  <img src={heartpink} alt="좋아요 버튼" />
-                )}
-              </div>
-              <div className="heartNum">{data && data.loveCount}</div>
-              <div className="bookmarkIcon">
-                {data && data.bookmarkStatus === false ? (
-                  <img src={bookmark} alt="즐겨찾기 버튼" />
-                ) : (
-                  <img src={bookmarkBlue} alt="즐겨찾기 완료" />
-                )}
-              </div>
-              <div className="shareIcon">
-                <img src={shareblack} alt="즐겨찾기 버튼" />
-              </div>
-            </div>
-
-            <div className="commentPlace">
-              <Comment param={param} />
-            </div>
+            
           </div>
         ) : (
           <div className="detailSectionWrap">
@@ -333,37 +350,63 @@ const Detail = () => {
               </div>
             </div>
             {/* 장소마다 바뀌는 부분 끝  */}
-
-            {/* 콘텐츠 */}
-            <div className="txtPlace">{data && data.content}</div>
-
-            {/* 좋아요 즐겨찾기 버튼 */}
-            <div className="heartNbookmarkIcon">
-              <div className="heartIcon">
-                {data && data.loveStatus === true ? (
-                  <img src={heartpaint} alt="좋아요 버튼" />
-                ) : (
-                  <img src={heartpink} alt="좋아요 버튼" />
-                )}
-              </div>
-              <div className="heartNum">{data && data.loveCount}</div>
-              <div className="bookmarkIcon">
-                {data && data.bookmarkStatus === false ? (
-                  <img src={bookmark} alt="즐겨찾기 버튼" />
-                ) : (
-                  <img src={bookmarkBlue} alt="즐겨찾기 완료" />
-                )}
-              </div>
-              <div className="shareIcon">
-                <img src={shareblack} alt="즐겨찾기 버튼" />
-              </div>
-            </div>
-
-            <div className="commentPlace">
-              <Comment param={param} nickname={userInfo.nickname} />
-            </div>
           </div>
         )}
+
+        {/* 콘텐츠 */}
+        <div className="txtPlace">{data && data.content}</div>
+        {shareMove ? (
+            <WebShare
+              webShare={webShare}
+              title={data&&data.title}
+              imgUrl={data&&data.place[0]&&data.place[0].imgUrl[0]}
+              loveCount={data&&data.loaveCount}
+              postId={data&&data.postId}
+              regionCategory={data&&data.regionCategory}
+              priceCategory={data&&data.priceCategory}
+              themeCategory={data&&data.themeCategory}
+            />
+          ) : null}
+        {/* 좋아요 즐겨찾기 버튼 */}
+        <div className="heartNbookmarkIcon">
+          <div className="iconsWrap">
+            <div className="heartIcon"
+            onClick={() => dispatch(clickLoveDB(param))}
+            >
+              {param === Id ? (
+                data&&data.loveStatus === true ? (
+                  <img src={heartFull} alt="heartFull" />
+                ) : (
+                  <img src={heartEmpty} alt="heartEmpty" />
+                )
+              ) : data&&data.loveStatus === true ? (
+                <img src={heartFull} alt="heartFull" />
+              ) : (
+                <img src={heartEmpty} alt="heartEmpty" />
+              )}
+            </div>
+            <div className="heartNum">{data && data.loveCount}</div>
+            <div className="bookmarkIcon"
+            onClick={() => dispatch(clickBookmarkDB(param))}
+            >
+              {data && data.bookmarkStatus === false ? (
+                <img src={bookmark} alt="즐겨찾기 버튼" />
+              ) : (
+                <img src={bookmarkBlue} alt="즐겨찾기 완료" />
+              )}
+            </div>
+            <div className="shareIcon"
+            onClick={webShare}
+            >
+              <img src={shareblack} alt="공유하기 버튼" />
+              
+            </div>
+          </div>  
+        </div>
+
+        <div className="commentPlace">
+          <Comment param={param} nickname={userInfo&&userInfo.nickname} />
+        </div>
       </div>
     </>
   );

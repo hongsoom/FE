@@ -38,6 +38,7 @@ const Mypage = (props) => {
   const myMarks = useSelector((state) => state.post.mybookmarks);
   console.log(myMarks);
   console.log(myPosts);
+  console.log(myInfo)
 
   // ---------------------------------------------------
 

@@ -6,16 +6,16 @@ import Edit from '../components/post/Edit';
 import {useParams} from 'react-router-dom'
 
 
-const Write = () => {
+const Write = (props) => {
   const param = useParams().id;
-
+  const {myInfo} = props
 
   return (
     <div>
       {param ?
-      <Edit/>
+      <Edit myInfo={myInfo}/>
       :
-      <NewPost/>
+      <NewPost myInfo={myInfo}/>
       }      
     </div>
   )
