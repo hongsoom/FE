@@ -34,7 +34,7 @@ const PlaceModal = (props) => {
     list(select)
     closePlaceModal()
   }
-console.log(select)
+
   return(
     <div className={showPlaceModal ? 'openModal placeWrap' : 'placeWrap'}>
       {showPlaceModal ?

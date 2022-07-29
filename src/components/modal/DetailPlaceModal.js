@@ -6,8 +6,7 @@ const { kakao } = window
 
 const DetailPlaceModal = (props) => {
   const {showPlaceModal, closePlaceModal, data, setFocus, myMap} = props
-  console.log(data&&data)
-  
+    
   // 선택한 장소 핀찍기
   const panTo= (place) =>{
     const options = {

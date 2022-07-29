@@ -36,9 +36,7 @@ const Mypage = (props) => {
 
   const myPosts = useSelector((state) => state.post.myposts);
   const myMarks = useSelector((state) => state.post.mybookmarks);
-  console.log(myMarks);
-  console.log(myPosts);
-  console.log(myInfo)
+
 
   // ---------------------------------------------------
 
