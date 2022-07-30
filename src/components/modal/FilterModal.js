@@ -25,12 +25,11 @@ const FilterModal = (props) => {
     setPriceSelect,
     setPrice,
     setTheme,
-    theme,
-    price,
   } = props;
 
   const is_region = region ? true : false;
   const is_list = list ? true : false;
+  const is_keyword = keyword ? true : false;
 
   const themes = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
   const prices = [
@@ -59,146 +58,84 @@ const FilterModal = (props) => {
     }
   };
 
-  const loadFilterPost = (nextPage) => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter) {
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
-      dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
-      dispatch(userAction.isFilterDB());
-      return;
-    }
+  const price_ = checkHasIncode(priceSelect);
+  const theme_ = checkHasIncode(themesetting);
 
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
-      swal({
-        title: "한가지를 꼭 골라주세요!",
-        icon: "warning",
-        closeOnClickOutside: false,
-      });
-      return;
-    }
-
-    const region_ = checkHasIncode(region);
-    const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(themesetting);
-    dispatch(userAction.initPagingDB());
-    dispatch(userAction.clearDB());
-    dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-    dispatch(userAction.isFilterDB());
+  const filterPost = (nextPage) => {
+    errorMessage();
+    initialCondition();
+    filtering();
   };
 
-  const loadMainPost = (nextPage) => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter) {
-      dispatch(userAction.isFilterDB());
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
+  const initialPost = (nextPage) => {
+    cancelCondition();
+    initialCondition();
+  };
+
+  const filtering = () => {
+    if (is_list) {
+      const region_ = checkHasIncode(listRegion);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+      clean();
+    }
+
+    if (is_keyword) {
+      const region_ = checkHasIncode(keyword);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+      setClick(true);
+      clean();
+    }
+
+    if (is_region) {
+      const region_ = checkHasIncode(region);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+      clean();
+    }
+  };
+
+  const initialCondition = () => {
+    if (
+      (themeSelect.length === 0 && isFilter) ||
+      (priceSelect === "" && isFilter) ||
+      is_list
+    ) {
+      clean();
+      setPrice(priceSelect);
+      setTheme(themeSelect);
+      dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
+      onClick();
+    }
+
+    if (
+      (themeSelect.length === 0 && isFilter) ||
+      (priceSelect === "" && isFilter) ||
+      is_keyword
+    ) {
+      clean();
       dispatch(userAction.arrayGetDB(keyword, nextPage, size));
       setClick(false);
-      return;
-    }
-
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
-      swal({
-        title: "한가지를 꼭 골라주세요!",
-        icon: "warning",
-        closeOnClickOutside: false,
-      });
-      return;
-    }
-
-    const region_ = checkHasIncode(keyword);
-    const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(themesetting);
-    dispatch(userAction.initPagingDB());
-    dispatch(userAction.clearDB());
-    dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-    dispatch(userAction.isFilterDB());
-    setClick(true);
-  };
-
-  const loadSearchPost = (nextPage) => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
-      swal({
-        title: "한가지를 꼭 골라주세요!",
-        icon: "warning",
-        closeOnClickOutside: false,
-      });
-      return;
-    }
-
-    if (
-      (themeSelect.length === 0 && priceSelect === "" && isFilter) ||
-      (themeSelect.includes(list) &&
-        themeSelect.length === 1 &&
-        priceSelect === "" &&
-        isFilter)
-    ) {
-      dispatch(userAction.isFilterDB());
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
-      dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
-      setClick(false);
-      return;
-    }
-
-    const region_ = checkHasIncode(listRegion);
-    const price_ = checkHasIncode(priceSelect);
-    const theme_ = checkHasIncode(themesetting);
-    dispatch(userAction.initPagingDB());
-    dispatch(userAction.clearDB());
-    dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-    dispatch(userAction.isFilterDB());
-  };
-
-  const initialFilterPost = (nextPage) => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
-      onClick();
-      return;
-    }
-
-    if (
-      (themeSelect.length !== 0 && isFilter) ||
-      (priceSelect !== "" && isFilter)
-    ) {
       onClick();
     }
 
     if (
-      (themeSelect.length !== 0 && isFilter === false) ||
-      (priceSelect !== "" && isFilter === false)
+      (themeSelect.length === 0 && isFilter) ||
+      (priceSelect === "" && isFilter) ||
+      is_region
     ) {
-      setPriceSelect("");
-      setThemeSelect([]);
-      onClick();
-    }
-
-    if (themeSelect.length === 0 && priceSelect === "") {
+      clean();
       setPrice(priceSelect);
       setTheme(themeSelect);
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
-      dispatch(userAction.isFilterDB());
       dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
       onClick();
     }
   };
 
-  const initialMainPost = (nextPage) => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
-      onClick();
-    }
-
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter) {
-      swal({
-        title: "한가지를 꼭 골라주세요!",
-        icon: "warning",
-        closeOnClickOutside: false,
-      }).then(function () {
-        dispatch(userAction.isFilterDB());
-        dispatch(userAction.initPagingDB());
-        dispatch(userAction.clearDB());
-        dispatch(userAction.arrayGetDB(keyword, nextPage, size));
-        setClick(false);
-      });
+  const cancelCondition = () => {
+    if (
+      (themeSelect.length === 0 && priceSelect === "" && isFilter === false) ||
+      (themeSelect.length !== 0 && isFilter) ||
+      (priceSelect !== "" && isFilter)
+    ) {
       onClick();
     }
 
@@ -210,48 +147,22 @@ const FilterModal = (props) => {
       setThemeSelect([]);
       onClick();
     }
-
-    if (
-      (themeSelect.length !== 0 && isFilter) ||
-      (priceSelect !== "" && isFilter)
-    ) {
-      onClick();
-    }
   };
 
-  const initialSearchPost = (nextPage) => {
-    if (is_list && isFilter === false) {
-      onClick();
-    }
+  const clean = () => {
+    dispatch(userAction.initPagingDB());
+    dispatch(userAction.clearDB());
+    dispatch(userAction.isFilterDB());
+  };
 
-    if (is_list && isFilter) {
-      onClick();
-    }
-
-    if (
-      (themeSelect.length !== theme.length && isFilter === false) ||
-      (priceSelect !== "" && isFilter === false)
-    ) {
-      setPriceSelect("");
-      setThemeSelect([]);
-      onClick();
-    }
-
-    if (
-      (themeSelect.includes(list) &&
-        priceSelect === "" &&
-        themeSelect.length === 1 &&
-        isFilter) ||
-      (themeSelect.length === 0 && isFilter) ||
-      (priceSelect === "" && isFilter)
-    ) {
-      setPrice(priceSelect);
-      setTheme(themeSelect);
-      dispatch(userAction.initPagingDB());
-      dispatch(userAction.clearDB());
-      dispatch(userAction.isFilterDB());
-      dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
-      onClick();
+  const errorMessage = () => {
+    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
+      swal({
+        title: "한가지를 꼭 골라주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      });
+      return;
     }
   };
 
@@ -341,7 +252,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    initialMainPost();
+                    initialPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                   }}
@@ -351,7 +262,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    loadMainPost();
+                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                     onClick();
@@ -366,7 +277,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    initialFilterPost();
+                    initialPost();
                   }}
                 >
                   취소
@@ -374,7 +285,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    loadFilterPost();
+                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                     onClick();
@@ -389,7 +300,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-cancel"
                   onClick={() => {
-                    initialSearchPost();
+                    initialPost();
                   }}
                 >
                   취소
@@ -397,7 +308,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    loadSearchPost();
+                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                     onClick();
