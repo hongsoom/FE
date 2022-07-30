@@ -27,6 +27,7 @@ const initialState = {
   ],
   restroom: "",
   contents: [],
+  postOne: "",
   bookmarkcontents: [],
   filtercontents: [],
   postId: "",
@@ -61,6 +62,7 @@ const ADD = "post/ADD";
 const MODIFY = "post/MODIFY";
 const DELETE = "post/DELETE";
 const CLEAR = "post/CLEAR";
+const POSTCLEAR = "post/POSTCLEAR";
 const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
 
@@ -96,6 +98,7 @@ const clickBookmark = createAction(BOOKMARK, (bookmarkchecked, Id) => ({
   Id,
 }));
 const clearPost = createAction(CLEAR);
+const clearPostOne = createAction(POSTCLEAR);
 const getPostList = createAction(GET, (postList) => ({ postList }));
 const getPost = createAction(GET, (postOne) => ({ postOne }));
 const addPost = createAction(ADD, (post) => ({ post }));
@@ -351,11 +354,18 @@ const clearDB = () => {
   };
 };
 
+export const clearPostDB = () => {
+  return function (dispatch) {
+    dispatch(clearPostOne());
+  };
+};
+
 export const getPostDB = (postId) => {
   return async function (dispatch) {
     try {
       const data = await instance.get(`api/post/${postId}`);
       const newData = data.data.body;
+      console.log(newData);
       dispatch(getPost(newData));
     } catch (error) {}
   };
@@ -496,7 +506,7 @@ export default handleActions(
 
     [GET]: (state, action) =>
       produce(state, (draft) => {
-        draft.contents = [...action.payload.postOne];
+        draft.postOne = action.payload.postOne;
       }),
 
     [ADD]: (state, action) => {
@@ -550,6 +560,10 @@ export default handleActions(
               post.loveCount += 1;
             }
           });
+          if (draft.postOne.postId === parseInt(action.payload.Id)) {
+            draft.postOne.loveStatus = true;
+            draft.postOne.loveCount += 1;
+          }
         } else {
           draft.contents.map((post) => {
             if (post.postId === parseInt(action.payload.Id)) {
@@ -571,8 +585,15 @@ export default handleActions(
               }
             }
           });
+          if (draft.postOne.postId === parseInt(action.payload.Id)) {
+            draft.postOne.loveStatus = false;
+            if (draft.postOne.loveCount < 0) {
+              draft.postOne.loveCount = 0;
+            } else {
+              draft.postOne.loveCount -= 1;
+            }
+          }
         }
-        draft.loveStatus = action.payload.lovechecked;
         draft.postId = action.payload.Id;
       }),
 
@@ -597,7 +618,6 @@ export default handleActions(
               post.bookmarkStatus = false;
           });
         }
-        draft.bookmarkStatus = action.payload.bookmarkchecked;
         draft.postId = action.payload.Id;
       }),
 
@@ -611,6 +631,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.contents = [];
         draft.filtercontents = [];
+      }),
+
+    [POSTCLEAR]: (state, action) =>
+      produce(state, (draft) => {
+        draft.postOne = "";
       }),
   },
   initialState

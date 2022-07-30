@@ -6,7 +6,9 @@ import instance from "../shared/Request";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import {
+  getPostDB,
   deletePostDB,
+  clearPostDB,
   clickBookmarkDB,
   clickLoveDB,
 } from "../redux/module/post";
@@ -42,35 +44,24 @@ const { kakao } = window;
 const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const param = useParams().id;
   const myMap = useRef();
-  const [data, setData] = useState(null);
+
+  const Id = useSelector((state) => state.post.postId);
+  const data = useSelector((state) => state.post.postOne);
+
+  /*   const [data, setData] = useState(posts); */
   const [loading, setLoading] = useState(false);
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
   const [shareMove, setShareMove] = useState(false);
-  const [loveCount, setLoveCount] = useState(0);
-
-  const Id = useSelector((state) => state.post.postId);
-  const lovechecked = useSelector((state) => state.post.loveStatus);
-  const bookmarkchecked = useSelector((state) => state.post.bookmarkStatus);
-  // -------------- 게시글 데이터 가져오기
-  const getData = async (postId) => {
-    try {
-      setData(null);
-      setLoading(true);
-      const response = await instance.get(`api/post/${postId}`);
-      const newData = response.data.body;
-      setData(newData);
-      setLoveCount(newData.loveCount);
-    } catch (error) {
-      console.error(error.message);
-    }
-    setLoading(false);
-  };
 
   useEffect(() => {
-    getData(param);
+    dispatch(getPostDB(param));
+    return () => {
+      dispatch(clearPostDB());
+    };
   }, [param]);
 
   // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
@@ -376,12 +367,12 @@ const Detail = () => {
               onClick={() => dispatch(clickLoveDB(param))}
             >
               {param === Id ? (
-                lovechecked === true ? (
+                data.loveStatus === true ? (
                   <img src={heartFull} alt="heartFull" />
                 ) : (
                   <img src={heartEmpty} alt="heartEmpty" />
                 )
-              ) : lovechecked === true ? (
+              ) : data.loveStatus === true ? (
                 <img src={heartFull} alt="heartFull" />
               ) : (
                 <img src={heartEmpty} alt="heartEmpty" />
@@ -392,7 +383,7 @@ const Detail = () => {
               className="bookmarkIcon"
               onClick={() => dispatch(clickBookmarkDB(param))}
             >
-              {bookmarkchecked === false ? (
+              {data.bookmarkStatus === false ? (
                 <img src={bookmark} alt="즐겨찾기 버튼" />
               ) : (
                 <img src={bookmarkBlue} alt="즐겨찾기 완료" />
