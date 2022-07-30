@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
@@ -7,6 +7,8 @@ import "../../css/regionFilter.scss";
 const RegionFilter = ({ onClick }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [color, setColor] = useState(false);
 
   const area = [
     "서울",
@@ -37,16 +39,18 @@ const RegionFilter = ({ onClick }) => {
         </div>
         <div className="area-list">
           {area.map((region, i) => (
-            <p
+            <button
               onClick={() => {
                 navigate("/filter/" + region);
                 onClick();
+                setColor(!color);
                 dispatch(userAction.initPagingDB());
               }}
+              className={color ? "table_btn_s" : "table_btn_ns"}
               key={i}
             >
               {region}
-            </p>
+            </button>
           ))}
         </div>
       </div>

@@ -8,6 +8,7 @@ const LOGOUT = "logout";
 const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
+const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
 
 const initialState = {
@@ -23,6 +24,7 @@ const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
+const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
@@ -127,7 +129,7 @@ const logOutDB = () => {
 const myInfoDB = () => {
   return async function (dispatch) {
     await instance
-      .get("api/user/", {
+      .get(`api/user`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -140,8 +142,23 @@ const myInfoDB = () => {
   };
 };
 
+const userInfoDB = (userId) => {
+  return async function (dispatch) {
+    await instance
+      .get(`api/user/${userId}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        const data = res.data;
+        dispatch(userInfo(data));
+      })
+      .catch((error) => {});
+  };
+};
+
 const editInfoDB = (data) => {
-  console.log(data);
   return async function (dispatch) {
     await instance
       .put("api/user", data, {
@@ -189,6 +206,11 @@ export default handleActions(
         draft.myinfo = action.payload.myinfo;
       }),
 
+    [USERINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userinfo = action.payload.userinfo;
+      }),
+
     [EDITMYINFO]: (state, action) =>
       produce(state, (draft) => {
         draft.myinfo = {
@@ -208,6 +230,7 @@ const userAction = {
   kakaoLoginDB,
   logOutDB,
   myInfoDB,
+  userInfoDB,
   editInfoDB,
 };
 

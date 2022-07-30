@@ -6,7 +6,8 @@ import MyProfile from "../../components/mypage/MyProfile";
 
 const MyPageHeader = (props) => {
   const dispatch = useDispatch();
-  const { leftArrowBlack, setup, navigate, myInfo } = props;
+  const { leftArrowBlack, setup, navigate, myInfo, userInfo, is_userId } =
+    props;
 
   const onClickLeftArrow = () => {
     navigate("/");
@@ -44,7 +45,7 @@ const MyPageHeader = (props) => {
       </div>
 
       {/* 나의 프로필 */}
-      <MyProfile myInfo={myInfo} />
+      <MyProfile myInfo={myInfo} userInfo={userInfo} is_userId={is_userId} />
     </div>
   );
 };

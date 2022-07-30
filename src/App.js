@@ -44,6 +44,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/detail/:id/kakaomap" element={<KakaoTraffic />} />
         <Route path="/mypage" element={<MyPage myInfo={myInfo} />} />
+        <Route path="/mypage/:userId" element={<MyPage />} />
         <Route path="/setup" element={<Setup myInfo={myInfo} />} />
       </Routes>
     </div>
