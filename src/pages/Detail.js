@@ -51,9 +51,8 @@ const Detail = () => {
   const Id = useSelector((state) => state.post.postId);
   const data = useSelector((state) => state.post.postOne);
 
-  const is_login = localStorage.getItem("token") ? true : false;
+  console.log(data);
 
-  /*   const [data, setData] = useState(posts); */
   const [loading, setLoading] = useState(false);
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
@@ -367,7 +366,13 @@ const Detail = () => {
               className="heartIcon"
               onClick={() => dispatch(clickLoveDB(param))}
             >
-              {param === Id ? (
+              {data.loveStatus === true ? (
+                <img src={heartFull} alt="heartFull" />
+              ) : (
+                <img src={heartEmpty} alt="heartEmpty" />
+              )}
+
+              {/*               {Id === data.postId ? (
                 data.loveStatus === true ? (
                   <img src={heartFull} alt="heartFull" />
                 ) : (
@@ -377,14 +382,20 @@ const Detail = () => {
                 <img src={heartFull} alt="heartFull" />
               ) : (
                 <img src={heartEmpty} alt="heartEmpty" />
-              )}
+              )} */}
             </div>
             <div className="heartNum">{data && data.loveCount}</div>
             <div
               className="bookmarkIcon"
               onClick={() => dispatch(clickBookmarkDB(param))}
             >
-              {data.bookmarkStatus === false ? (
+              {data.postId === Id ? (
+                data.bookmarkStatus === false ? (
+                  <img src={bookmark} alt="즐겨찾기 버튼" />
+                ) : (
+                  <img src={bookmarkBlue} alt="즐겨찾기 완료" />
+                )
+              ) : data.bookmarkStatus === false ? (
                 <img src={bookmark} alt="즐겨찾기 버튼" />
               ) : (
                 <img src={bookmarkBlue} alt="즐겨찾기 완료" />

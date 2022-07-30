@@ -39,6 +39,7 @@ const PostItem = (props) => {
   } = props;
 
   const Id = useSelector((state) => state.post.postId);
+  console.log(nickName, loveStatus);
 
   const is_login = localStorage.getItem("token") ? true : false;
 
