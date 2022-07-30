@@ -8,12 +8,12 @@ import PriceModal from '../modal/PriceModal'
 import PlaceModal from "../modal/PlaceModal"
 
 const ModalButtons = (props) =>{
-  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap, list} = props 
+  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap, list, openPlaceModal, closePlaceModal, showPlaceModal} = props 
 
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 테마모달
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
-  const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
+
 
   // ---------------------------- 지역 모달 open / close
   const openRegionModal = () => {
@@ -50,19 +50,6 @@ const ModalButtons = (props) =>{
     setShowPriceModal(false)
     setPrice('')
   }
-
-  // ---------------------------- 선택 장소 목록 모달 open / close
-  const openPlaceModal = () => {
-    if(select&&select.length !== 0){
-      setShowPlaceModal(true)
-    } else{
-      swal("아직 선택한 장소가 없습니다!");
-    }
-  }
-  const closePlaceModal = () => {
-    setShowPlaceModal(false)
-  }
-  
 
   
 

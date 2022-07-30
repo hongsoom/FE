@@ -41,32 +41,11 @@ const NewPost = (props) => {
   const [selectedTheme, setTheme] = useState([]); // 테마 선택
   const [selectedPrice, setPrice] = useState(""); // 비용 선택
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
+  const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
 
-  const region = [
-    "서울",
-    "대전",
-    "경기",
-    "세종",
-    "인천",
-    "대구",
-    "강원도",
-    "울산",
-    "충청도",
-    "광주",
-    "전라도",
-    "부산",
-    "경상도",
-    "제주도",
-  ];
+  const region = ["서울", "대전", "경기", "세종", "인천", "대구", "강원도", "울산", "충청도", "광주", "전라도", "부산", "경상도", "제주도"];   
   const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
-  const price = [
-    "10만원 이하",
-    "10만원대",
-    "20만원대",
-    "30만원대",
-    "40만원대",
-    "50만원 이상",
-  ];
+  const price = ["10만원 이하", "10만원대", "20만원대", "30만원대", "40만원대", "50만원 이상"];
 
   const onClickLeftArrow = () => {
     navigate("/");
@@ -89,6 +68,18 @@ const NewPost = (props) => {
     setPlace(inputText);
     setInputText("");
   };
+
+  // ---------------------------- 선택 장소 목록 모달 open / close
+  const openPlaceModal = () => {
+    if(select&&select.length !== 0){
+      setShowPlaceModal(true)
+    } else{
+      swal("아직 선택한 장소가 없습니다!");
+    }
+  }
+  const closePlaceModal = () => {
+    setShowPlaceModal(false)
+  }
 
   // ----------------------------- 장소 선택 취소
   const onRemovePlace = (place) => {
@@ -124,7 +115,7 @@ const NewPost = (props) => {
     });
   };
 
-  // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
+  // 첨부이미지 파일들 폼데이터로 담기
   const json = JSON.stringify(select);
   const blob = new Blob([json], { type: "application/json" });
 
@@ -135,13 +126,10 @@ const NewPost = (props) => {
   formData.append("themeCategory", selectedTheme);
   formData.append("priceCategory", selectedPrice);
   formData.append("places", blob);
-  imgs.forEach((v, i) => {
+  imgs&&imgs.forEach((v, i) => {
     formData.append("imgUrl", v);
   });
 
-  // for (let key of formData.keys()) {
-  //   console.log(key, ":", formData.get(key));
-  // }
 
   // ---------------------------- 작성 완료 버튼
   const onHandlerSubmit = () => {
@@ -276,6 +264,9 @@ const NewPost = (props) => {
               selectedRegion={selectedRegion}
               selectedTheme={selectedTheme}
               selectedPrice={selectedPrice}
+              openPlaceModal={openPlaceModal}
+              closePlaceModal={closePlaceModal}
+              showPlaceModal={showPlaceModal}
               myInfo={myInfo}
               select={select}
               setSelect={setSelect}
@@ -310,7 +301,7 @@ const NewPost = (props) => {
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle">
                       <img src={logosky} alt="야너갈 로고" />
-                      장소를 검색해주세요!
+                      최상단 검색창에서 장소를 검색해주세요!
                     </div>
                   </div>
                 </div>
@@ -320,7 +311,6 @@ const NewPost = (props) => {
             {/* 텍스트 입력 */}
             <TextBox setContent={setContent} />
             <button className="writeSubmit" onClick={onHandlerSubmit}>
-              {" "}
               작성 완료하기
             </button>
           </div>
@@ -345,7 +335,7 @@ const NewPost = (props) => {
                       <div className="imgUpload">
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
-                          <div className="imgUploadTitle">
+                          <div className="imgUploadTitle" onClick={openPlaceModal}>
                             <img src={logosky} alt="야너갈 로고" />
                             {l.place_name}
                           </div>
@@ -395,7 +385,7 @@ const NewPost = (props) => {
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" />
+                      <img src={logosky} alt="야너갈 로고" onClick={openPlaceModal}/>
                       {select && select[0] && select[0].place_name}
                     </div>
                     <div
