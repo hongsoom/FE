@@ -2,16 +2,24 @@ import React from "react";
 import "../../css/mypage.scss";
 
 const MyPosts = (props) => {
-  const {toggle, setToggle, myPosts, talkwhite, heartwhite, myMarks, navigate } = props
+  const {
+    toggle,
+    setToggle,
+    myPosts,
+    talkwhite,
+    heartwhite,
+    myMarks,
+    navigate,
+  } = props;
 
-  const onClickToPost = (postId) =>{
-    navigate(`/detail/${postId}`)
-  }
-  const isChecked = (e) =>{
-    if(e.target.checked){
-      setToggle(e.target.value)
+  const onClickToPost = (postId) => {
+    navigate(`/detail/${postId}`);
+  };
+  const isChecked = (e) => {
+    if (e.target.checked) {
+      setToggle(e.target.value);
     }
-  }
+  };
 
   return (
     <div className="myprofilePosts">
@@ -23,7 +31,7 @@ const MyPosts = (props) => {
               ? { borderBottom: "2px solid #8ACEFF", fontWeight: "600" }
               : { borderBottom: "2px solid transparent" }
           }
-          >
+        >
           <input
             type="radio"
             name="myPost"
@@ -41,7 +49,7 @@ const MyPosts = (props) => {
               ? { borderBottom: "2px solid #8ACEFF", fontWeight: "600" }
               : { borderBottom: "2px solid transparent" }
           }
-          >
+        >
           <input
             type="radio"
             name="myPost"
@@ -52,19 +60,19 @@ const MyPosts = (props) => {
           <label htmlFor="myBookmark">즐겨찾기</label>
         </div>
       </div>
-      
-
 
       <div className="postsNmarks">
         {toggle === "myPosts" ? (
           <div className="myPosts">
             <div className="postboxs">
               {myPosts &&
-                myPosts.myposts.map((v, i) => {
+                myPosts.posts.map((v, i) => {
                   return (
                     <div
                       className="postbox"
-                      onClick={()=>{onClickToPost(v.postId)}}
+                      onClick={() => {
+                        onClickToPost(v.postId);
+                      }}
                       key={i}
                       style={{
                         backgroundImage: `url(${v.imgUrl})`,
@@ -98,11 +106,13 @@ const MyPosts = (props) => {
           <div className="myBookmarks" id="myBookmarks">
             <div className="postboxs">
               {myMarks &&
-                myMarks.mybookmarks.content.map((v, i) => {
+                myMarks.posts.content.map((v, i) => {
                   return (
                     <div
                       className="postbox"
-                      onClick={()=>{onClickToPost(v.postId)}}
+                      onClick={() => {
+                        onClickToPost(v.postId);
+                      }}
                       key={i}
                       style={{
                         backgroundImage: `url(${v.imgUrl})`,
@@ -128,7 +138,6 @@ const MyPosts = (props) => {
                         </div>
                       </div>
                     </div>
-
                   );
                 })}
             </div>
@@ -136,7 +145,7 @@ const MyPosts = (props) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MyPosts
+export default MyPosts;

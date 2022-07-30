@@ -65,6 +65,8 @@ const CLEAR = "post/CLEAR";
 const POSTCLEAR = "post/POSTCLEAR";
 const GETMYPOST = "post/GETMYPOST";
 const GETMYBOOKMARK = "post/GETMYBOOKMARK";
+const GETUSERPOST = "post/GETUSERPOST";
+const GETUSERBOOKMARK = "post/GETUSERBOOKMARK";
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
 const isfilter = createAction(ISFILTER, (isfilter) => ({ isfilter }));
@@ -104,9 +106,13 @@ const getPost = createAction(GET, (postOne) => ({ postOne }));
 const addPost = createAction(ADD, (post) => ({ post }));
 const modifyPost = createAction(MODIFY, (post) => ({ post }));
 const deletePost = createAction(DELETE, (id) => ({ id }));
-const getmypost = createAction(GETMYPOST, (myposts) => ({ myposts }));
-const getmybookmark = createAction(GETMYBOOKMARK, (mybookmarks) => ({
-  mybookmarks,
+const getmypost = createAction(GETMYPOST, (posts) => ({ posts }));
+const getmybookmark = createAction(GETMYBOOKMARK, (posts) => ({
+  posts,
+}));
+const getuserpost = createAction(GETMYPOST, (posts) => ({ posts }));
+const getuserbookmark = createAction(GETMYBOOKMARK, (posts) => ({
+  posts,
 }));
 
 const bookmarkGetDB = (keyword, nextPage, size, desc, bookmarkCount) => {
@@ -310,6 +316,7 @@ const regionGETDB = (region, nextPage, size) => {
 };
 
 export const clickLoveDB = (postId) => {
+  console.log(postId);
   return async function (dispatch) {
     await instance
       .post(`api/love/${postId}`)
@@ -425,13 +432,14 @@ export const getMypostDB = (size, page, id, desc) => {
           },
         }
       );
-      const myposts = data.data.content;
-      dispatch(getmypost(myposts));
+      const posts = data.data.content;
+      dispatch(getmypost(posts));
     } catch (error) {}
   };
 };
 
 export const getMybookmarkDB = (size, page, id, desc) => {
+  console.log(size, page, id, desc);
   return async function (dispatch) {
     try {
       const data = await instance.get(
@@ -442,8 +450,42 @@ export const getMybookmarkDB = (size, page, id, desc) => {
           },
         }
       );
-      const newData = data.data;
-      dispatch(getmybookmark(newData));
+      const posts = data.data;
+      dispatch(getmybookmark(posts));
+    } catch (error) {}
+  };
+};
+
+export const getUserpostDB = (userId, size, page, id, desc) => {
+  return async function (dispatch) {
+    try {
+      const data = await instance.get(
+        `api/user/mypost/${userId}?size=${size}&page=${page}&sort=${id},${desc}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      const posts = data.data.content;
+      dispatch(getuserpost(posts));
+    } catch (error) {}
+  };
+};
+
+export const getUserbookmarkDB = (userId, size, page, id, desc) => {
+  return async function (dispatch) {
+    try {
+      const data = await instance.get(
+        `api/user/mybookmark/${userId}?size=${size}&page=${page}&sort=${id},${desc}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      const posts = data.data;
+      dispatch(getuserbookmark(posts));
     } catch (error) {}
   };
 };
@@ -541,6 +583,16 @@ export default handleActions(
       }),
 
     [GETMYBOOKMARK]: (state, action) =>
+      produce(state, (draft) => {
+        draft.mybookmarks = action.payload;
+      }),
+
+    [GETUSERPOST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myposts = action.payload;
+      }),
+
+    [GETUSERBOOKMARK]: (state, action) =>
       produce(state, (draft) => {
         draft.mybookmarks = action.payload;
       }),
