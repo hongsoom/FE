@@ -35,6 +35,13 @@ const Comment = ({ param, userId }) => {
     }
   };
 
+  const commentAddEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(addCommentDB(postId, comment));
+      setComment("");
+    }
+  };
+
   useEffect(() => {
     loadCommnet();
   }, []);
@@ -48,6 +55,7 @@ const Comment = ({ param, userId }) => {
             placeholder="댓글을 입력하세요"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            onKeyPress={(e) => commentAddEnter(e)}
           ></input>
           <button onClick={addcomment}>등록</button>
         </div>
