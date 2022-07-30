@@ -300,8 +300,13 @@ const NewPost = (props) => {
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" />
-                      최상단 검색창에서 장소를 검색해주세요!
+                      <div className="titleTxtWrap">
+                        <img src={logosky} alt="야너갈 로고"/>
+                          최상단 검색창에서 장소를 검색해주세요!
+                      </div>
+                      <div className="clickInfo">
+                        ❗여러 장소를 검색하고 선택할 수 있어요!
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -336,8 +341,13 @@ const NewPost = (props) => {
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
                           <div className="imgUploadTitle" onClick={openPlaceModal}>
-                            <img src={logosky} alt="야너갈 로고" />
-                            {l.place_name}
+                            <div className="titleTxtWrap">
+                              <img src={logosky} alt="야너갈 로고" />
+                              {l.place_name}
+                            </div>
+                            <div className="clickInfo">
+                              ❗여러 장소를 검색하고 선택할 수 있어요!
+                            </div>
                           </div>
                           <div
                             className="removePlaceButton"
@@ -384,9 +394,14 @@ const NewPost = (props) => {
                 <div className="imgUpload">
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
-                    <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" onClick={openPlaceModal}/>
-                      {select && select[0] && select[0].place_name}
+                    <div className="imgUploadTitle" onClick={openPlaceModal}>
+                      <div className="titleTxtWrap">
+                        <img src={logosky} alt="야너갈 로고" />
+                        {select && select[0] && select[0].place_name}
+                      </div>
+                      <div className="clickInfo">
+                        ❗여러 장소를 검색하고 선택할 수 있어요!
+                      </div>
                     </div>
                     <div
                       className="removePlaceButton"

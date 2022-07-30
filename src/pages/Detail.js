@@ -327,7 +327,6 @@ const Detail = () => {
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle" onClick={openPlaceModal}>
-                      
                       <div className="titleTxtWrap">
                         <img src={logosky} alt="야너갈 로고" />
                         {data && data.place[0] && data.place[0].place_name}

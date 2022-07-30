@@ -289,10 +289,26 @@
 
             .imgUploadTitle{
               display:flex;
-              align-items: center;
+              flex-direction: column;
 
-              img{
-                width: 24px;
+              .titleTxtWrap{
+                display:flex;
+                align-items: center;
+
+                img{
+                  width: 24px;
+                }
+              }
+              .clickInfo{
+                margin-left: 20px;
+
+                font : {
+                  weight:400;
+                  size: 12px;
+                }
+                line-height: 20px;
+                color:#606773;
+                opacity: 0.7;
               }
             }
 
