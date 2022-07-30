@@ -72,6 +72,7 @@ const Mypage = (props) => {
         navigate={navigate}
         myInfo={myInfo}
         userInfo={userInfo}
+        is_userId={is_userId}
       />
 
       <div className="mypageWraper">
