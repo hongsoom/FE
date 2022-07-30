@@ -24,14 +24,14 @@ import leftArrowBlack from "../../assets/leftArrowBlack.png";
 const { kakao } = window;
 
 const Edit = (props) => {
-  const {myInfo} = props
+  const { myInfo } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
   const param = useParams().id; //수정할 게시글 번호
   const [loading, setLoading] = useState(false);
   const [editdata, setEditData] = useState([]);
- 
+
   // -------------- 게시글 한개 데이터 가져오기
   const getData = async (postId) => {
     try {
@@ -69,10 +69,31 @@ const Edit = (props) => {
   const [newImgFile, setNewImgFile] = useState([]); // 이미지 모두 파일
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
 
-  const region = ["서울", "대전", "경기", "세종", "인천", "대구", "강원도", "울산", "충청도", "광주", "전라도", "부산", "경상도", "제주도"];   
+  const region = [
+    "서울",
+    "대전",
+    "경기",
+    "세종",
+    "인천",
+    "대구",
+    "강원도",
+    "울산",
+    "충청도",
+    "광주",
+    "전라도",
+    "부산",
+    "경상도",
+    "제주도",
+  ];
   const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
-  const price = ["10만원 이하", "10만원대", "20만원대", "30만원대", "40만원대", "50만원 이상"];
-
+  const price = [
+    "10만원 이하",
+    "10만원대",
+    "20만원대",
+    "30만원대",
+    "40만원대",
+    "50만원 이상",
+  ];
 
   const onClickLeftArrow = () => {
     navigate("/");
@@ -155,15 +176,15 @@ const Edit = (props) => {
 
   // ---------------------------- 선택 장소 목록 모달 open / close
   const openPlaceModal = () => {
-    if(select&&select.length !== 0){
-      setShowPlaceModal(true)
-    } else{
+    if (select && select.length !== 0) {
+      setShowPlaceModal(true);
+    } else {
       swal("아직 선택한 장소가 없습니다!");
     }
-  }
+  };
   const closePlaceModal = () => {
-    setShowPlaceModal(false)
-  }
+    setShowPlaceModal(false);
+  };
 
   const handleSubmit = (e) => {
     if (!inputText.replace(/^\s+|\s+$/g, "")) {
@@ -196,11 +217,6 @@ const Edit = (props) => {
   editFormData.append("themeCategory", selectedTheme);
   editFormData.append("priceCategory", selectedPrice);
   editFormData.append("places", blob);
-
-
-  // for (let key of editFormData.keys()) {
-  //   console.log(key, ":", editFormData.get(key));
-  // }
 
   // 검색 목록에서 장소 하나를 선택 클릭
   const onClickHandler = (__place) => {
@@ -272,36 +288,39 @@ const Edit = (props) => {
         swal("삭제를 취소했습니다");
       }
     });
-  }
+  };
 
   // ---------------------------- 작성 완료 버튼
-  const onHandlerEdit = () =>{
-    if (select.length === 0){
+  const onHandlerEdit = () => {
+    if (select.length === 0) {
       swal("장소를 검색하고 선택해주세요!");
-    } else if (selectedRegion.length === 0){
+    } else if (selectedRegion.length === 0) {
       swal("지역을 선택해주세요!");
-    } else if (selectedTheme.length === 0){
+    } else if (selectedTheme.length === 0) {
       swal("테마를 선택해주세요!");
-    } else if (selectedPrice.length === 0){
+    } else if (selectedPrice.length === 0) {
       swal("비용을 선택해주세요!");
-    } else if (title.length === 0){
+    } else if (title.length === 0) {
       swal("제목을 적어주세요!");
-    }
-    else if (allImgUrl.length === 0 || newImgFile.lenght === 0){
+    } else if (allImgUrl.length === 0 || newImgFile.lenght === 0) {
       swal("사진을 첨부해주세요!");
-    }
-    else if (content.length < 10){
+    } else if (content.length < 10) {
       swal("내용은 10자 이상 적어주세요!");
-    } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title){
-      swal("수정 완료하시겠습니까?")
-      .then((value) => {
+    } else if (
+      selectedRegion.length !== 0 &&
+      selectedTheme.length !== 0 &&
+      selectedPrice.length !== 0 &&
+      select &&
+      content.length >= 10 &&
+      title
+    ) {
+      swal("수정 완료하시겠습니까?").then((value) => {
         swal("수정이 완료되었습니다!");
-        dispatch(modifyPostDB(editFormData, param))
-        navigate('/main')
-      })
-    } 
-  }
-    
+        dispatch(modifyPostDB(editFormData, param));
+        navigate("/main");
+      });
+    }
+  };
 
   // ---------------------------- 선택된 장소만 마커 찍어주기
 
@@ -327,9 +346,9 @@ const Edit = (props) => {
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
-        let bounds = new kakao.maps.LatLngBounds()
-        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x))
-        map.setBounds(bounds)
+        let bounds = new kakao.maps.LatLngBounds();
+        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x));
+        map.setBounds(bounds);
       }
 
       // 마커찍기 함수
@@ -438,21 +457,39 @@ const Edit = (props) => {
             </div>
           </div>
 
-          <div className='writeLowerHeader'>
-            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice} select={select} setFocus={setFocus} myMap={myMap} myInfo={myInfo} list={list}
+          <div className="writeLowerHeader">
+            <ModalButtons
+              region={region}
+              theme={theme}
+              price={price}
+              setRegion={setRegion}
+              setTheme={setTheme}
+              setPrice={setPrice}
+              selectedRegion={selectedRegion}
+              selectedTheme={selectedTheme}
+              selectedPrice={selectedPrice}
+              select={select}
+              setFocus={setFocus}
+              myMap={myMap}
+              myInfo={myInfo}
+              list={list}
               openPlaceModal={openPlaceModal}
               closePlaceModal={closePlaceModal}
-              showPlaceModal={showPlaceModal}/>
+              showPlaceModal={showPlaceModal}
+            />
           </div>
         </div>
-
       </div>
 
       {/* 움직이는 부분 */}
-      <div className='contentWrap' id="contentWrap">
+      <div className="contentWrap" id="contentWrap">
+        <Kakaomap
+          kakao={kakao}
+          myMap={myMap}
+          setPlaces={setPlaces}
+          place={place}
+        />
 
-        <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
-        
         {/* 제목 */}
         <div className="writeTitleWrap">
           <input
@@ -515,7 +552,10 @@ const Edit = (props) => {
                       <div className="imgUpload">
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
-                          <div className="imgUploadTitle" onClick={openPlaceModal}>
+                          <div
+                            className="imgUploadTitle"
+                            onClick={openPlaceModal}
+                          >
                             <img src={logosky} alt="야너갈 로고" />
                             {l.place_name}
                           </div>

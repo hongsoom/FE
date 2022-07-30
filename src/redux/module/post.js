@@ -262,9 +262,7 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
 
         dispatch(filterGET(newList, paging, category));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -316,7 +314,6 @@ const regionGETDB = (region, nextPage, size) => {
 };
 
 export const clickLoveDB = (postId) => {
-  console.log(postId);
   return async function (dispatch) {
     await instance
       .post(`api/love/${postId}`)
@@ -372,7 +369,6 @@ export const getPostDB = (postId) => {
     try {
       const data = await instance.get(`api/post/${postId}`);
       const newData = data.data.body;
-      console.log(newData);
       dispatch(getPost(newData));
     } catch (error) {}
   };
@@ -439,7 +435,6 @@ export const getMypostDB = (size, page, id, desc) => {
 };
 
 export const getMybookmarkDB = (size, page, id, desc) => {
-  console.log(size, page, id, desc);
   return async function (dispatch) {
     try {
       const data = await instance.get(
