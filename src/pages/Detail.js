@@ -50,7 +50,6 @@ const Detail = () => {
   const Id = useSelector((state) => state.post.postId);
   const data = useSelector((state) => state.post.postOne);
 
-  const [loading, setLoading] = useState(false);
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
   const [shareMove, setShareMove] = useState(false);
@@ -60,7 +59,7 @@ const Detail = () => {
     return () => {
       dispatch(clearPostDB());
     };
-  }, [param]);
+  }, [dispatch, param]);
 
   // 로그인한 사람과 글쓴이가 일치하는지 여부 확인
   useEffect(() => {
@@ -107,9 +106,9 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    list(data && data.place);
+    list(data.place);
     window.scrollTo(0, 0);
-  }, []);
+  }, [data]);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   const list = (positions) => {
@@ -296,8 +295,13 @@ const Detail = () => {
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
                           <div className="imgUploadTitle" onClick={openPlaceModal}>
-                            <img src={logosky} alt="야너갈 로고" />
-                            {l.place_name}
+                            <div className="titleTxtWrap">
+                              <img src={logosky} alt="야너갈 로고" />
+                              {l.place_name}
+                            </div>
+                            <div className="clickInfo">
+                                클릭시 모든 장소를 확인할 수 있어요!
+                            </div>
                           </div>
                         </div>
                         <DetailImageSlide
@@ -374,18 +378,6 @@ const Detail = () => {
               ) : (
                 <img src={heartEmpty} alt="heartEmpty" />
               )}
-
-              {/*               {Id === data.postId ? (
-                data.loveStatus === true ? (
-                  <img src={heartFull} alt="heartFull" />
-                ) : (
-                  <img src={heartEmpty} alt="heartEmpty" />
-                )
-              ) : data.loveStatus === true ? (
-                <img src={heartFull} alt="heartFull" />
-              ) : (
-                <img src={heartEmpty} alt="heartEmpty" />
-              )} */}
             </div>
             <div className="heartNum">{data && data.loveCount}</div>
             <div
