@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { clickLoveDB, clickBookmarkDB } from "../../redux/module/post";
@@ -22,12 +23,14 @@ import silver from "../../assets/silver.png";
 
 const PostItem = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     userImgUrl,
     nickName,
     title,
     imgUrl,
+    userId,
     grade,
     regionCategory,
     themeCategory,
@@ -39,7 +42,6 @@ const PostItem = (props) => {
   } = props;
 
   const Id = useSelector((state) => state.post.postId);
-  console.log(nickName, loveStatus);
 
   const is_login = localStorage.getItem("token") ? true : false;
 
@@ -56,6 +58,10 @@ const PostItem = (props) => {
       closeOnClickOutside: false,
     });
     return;
+  };
+
+  const userInfo = () => {
+    navigate(`/mypage/${userId}`);
   };
 
   return (
@@ -76,9 +82,9 @@ const PostItem = (props) => {
         <div className="postItem-title">
           <div className="postItem-user">
             {userImgUrl ? (
-              <img src={userImgUrl} alt="profile" />
+              <img src={userImgUrl} alt="profile" onClick={userInfo} />
             ) : (
-              <img src={user} alt="default-profile" />
+              <img src={user} alt="default-profile" onClick={userInfo} />
             )}
             {grade === "BRONZE" && (
               <img src={bronze} alt="grade" className="postItem-grade" />
@@ -95,7 +101,7 @@ const PostItem = (props) => {
             {grade === "GOLD" && (
               <img src={gold} alt="grade" className="postItem-grade" />
             )}
-            <p>{nickName}</p>
+            <p onClick={userInfo}>{nickName}</p>
           </div>
           <div className="postItem-click">
             <img
