@@ -144,9 +144,15 @@ const PostItem = (props) => {
             )}
           </div>
         </div>
-        <Link to={`/detail/${postId}`}>
-          <CategorySlide image={imgUrl} title={title} />
-        </Link>
+        {is_login ? (
+          <Link to={`/detail/${postId}`}>
+            <CategorySlide image={imgUrl} title={title} />
+          </Link>
+        ) : (
+          <div onClick={errorMessage}>
+            <CategorySlide image={imgUrl} title={title} />
+          </div>
+        )}
         <div className="postItem-category">
           <Swiper
             className="postItem-categorybutton"
