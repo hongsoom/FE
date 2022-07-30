@@ -123,23 +123,10 @@
   .postItem-area-button-content, .postItem-theme-button-content, .postItem-price-button-content {
     width: 70px !important;
     height: 28px !important;
-    margin-right: 15px !important;
+    margin-right: 20px !important;
   }
   
-  .postItem-area-button-content > button {
-    width: 75px;
-    height: 28px;
-    background-color: #8ACEFF;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    border: 1px solid #8ACEFF;
-    font-size: 14px;
-    line-height: 20px;
-    cursor: pointer;
-    color: #F5F9FF;
-    text-align: center;
-  }
-
+  .postItem-area-button-content > button,
   .postItem-theme-button-content > button {
     width: 80px;
     height: 28px;
@@ -147,7 +134,7 @@
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: 1px solid #8ACEFF;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     cursor: pointer;
     color: #F5F9FF;
@@ -155,13 +142,13 @@
   }
 
   .postItem-price-button-content > button {
-    width: 100px;
+    width: 90px;
     height: 28px;
     background-color: #8ACEFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: 1px solid #8ACEFF;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     cursor: pointer;
     color: #F5F9FF;
