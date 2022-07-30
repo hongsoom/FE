@@ -608,6 +608,9 @@ export default handleActions(
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = true;
           });
+          if (draft.postOne.postId === parseInt(action.payload.Id)) {
+            draft.postOne.bookmarkStatus = true;
+          }
         } else {
           draft.contents.map((post) => {
             if (post.postId === parseInt(action.payload.Id))
@@ -617,6 +620,9 @@ export default handleActions(
             if (post.postId === parseInt(action.payload.Id))
               post.bookmarkStatus = false;
           });
+          if (draft.postOne.postId === parseInt(action.payload.Id)) {
+            draft.postOne.bookmarkStatus = false;
+          }
         }
         draft.postId = action.payload.Id;
       }),

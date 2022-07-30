@@ -114,7 +114,7 @@ const Detail = () => {
   useEffect(() => {
     list(data && data.place);
     window.scrollTo(0, 0);
-  }, [data]);
+  }, []);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   const list = (positions) => {
