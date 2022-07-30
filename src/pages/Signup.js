@@ -187,11 +187,9 @@ const Signup = () => {
       setSignupState(false);
     }
 
-    if (status === 201) {
-      if (password === passwordCheck) {
-        setState(true);
-        setMessage("비밀번호가 일치합니다.");
-      }
+    if (password === passwordCheck) {
+      setState(true);
+      setMessage("비밀번호가 일치합니다.");
     }
   };
 
