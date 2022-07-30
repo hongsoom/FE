@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import "../../css/regionFilter.scss";
+import close from "../../assets/close 2.png";
 
 const RegionFilter = ({ onClick }) => {
   const navigate = useNavigate();
@@ -34,8 +35,13 @@ const RegionFilter = ({ onClick }) => {
   return (
     <div className="regionfilter-container">
       <div className="regionfilter-content">
-        <div className="regionfilter-title">
-          <p>어디로 떠나볼까요?</p>
+        <div className="regionfilter-haader">
+          <div className="regionfilter-title">
+            <p>어디로 떠나볼까요?</p>
+          </div>
+          <div className="regionfilter-close">
+            <img src={close} alt="close" onClick={onClick} />
+          </div>
         </div>
         <div className="area-list">
           {area.map((region, i) => (

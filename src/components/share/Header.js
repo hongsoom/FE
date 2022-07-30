@@ -6,7 +6,6 @@ import categoryMenu from "../../assets/categoryMenu.png";
 import write from "../../assets/write.png";
 import mypage from "../../assets/mypage.png";
 import logoSmail from "../../assets/logo-smail.png";
-import close from "../../assets/close.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,21 +24,12 @@ const Header = () => {
       <div className="header-container">
         <div className="header-content">
           <div className="header-image">
-            {viewCategory ? (
-              <img
-                src={close}
-                alt="close"
-                className="close-icon"
-                onClick={onClick}
-              />
-            ) : (
-              <img
-                src={categoryMenu}
-                alt="categoryMenu"
-                className="categoryMenu-icon"
-                onClick={onClick}
-              />
-            )}
+            <img
+              src={categoryMenu}
+              alt="categoryMenu"
+              className="categoryMenu-icon"
+              onClick={onClick}
+            />
             <div className="header-title" onClick={() => navigate("/")}>
               <img src={logoSmail} alt="logoSmail" className="logoSmail-icon" />
               <p>야, 너도 갈래?</p>
