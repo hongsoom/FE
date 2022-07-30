@@ -370,7 +370,7 @@ export const addPostDB = (data) => {
         },
       })
       .then((res) => {
-        window.location.assign("/main");
+        window.location.assign("/");
       })
       .catch((error) => {});
   };

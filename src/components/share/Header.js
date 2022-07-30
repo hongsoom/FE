@@ -40,7 +40,7 @@ const Header = () => {
                 onClick={onClick}
               />
             )}
-            <div className="header-title" onClick={() => navigate("/main")}>
+            <div className="header-title" onClick={() => navigate("/")}>
               <img src={logoSmail} alt="logoSmail" className="logoSmail-icon" />
               <p>야, 너도 갈래?</p>
             </div>

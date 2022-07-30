@@ -101,7 +101,7 @@ const Detail = () => {
           icon: "success",
         });
         dispatch(deletePostDB(param));
-        navigate("/main");
+        navigate("/");
       } else {
         swal("취소되었습니다");
       }

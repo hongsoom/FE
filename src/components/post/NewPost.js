@@ -69,7 +69,7 @@ const NewPost = (props) => {
   ];
 
   const onClickLeftArrow = () => {
-    navigate("/main");
+    navigate("/");
   };
 
   // ---------------------------- 검색 창
