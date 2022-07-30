@@ -369,7 +369,9 @@ export const addPostDB = (data) => {
           Authorization: localStorage.getItem("token"),
         },
       })
-      .then((res) => {})
+      .then((res) => {
+        window.location.assign("/main");
+      })
       .catch((error) => {});
   };
 };

@@ -25,7 +25,7 @@ import leftArrowBlack from "../../assets/leftArrowBlack.png";
 const { kakao } = window;
 
 const NewPost = (props) => {
-  const {myInfo} = props
+  const { myInfo } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
@@ -159,14 +159,19 @@ const NewPost = (props) => {
       swal("사진을 첨부해주세요!");
     } else if (content.length < 10) {
       swal("내용은 10자 이상 적어주세요!");
-    } else if (selectedRegion.length !== 0 && selectedTheme.length !== 0 && selectedPrice.length !== 0 && select && content.length >= 10 && title && imgs.length !== 0){
-      swal("작성 완료하시겠습니까?")
-      .then((value) => {
+    } else if (
+      selectedRegion.length !== 0 &&
+      selectedTheme.length !== 0 &&
+      selectedPrice.length !== 0 &&
+      select &&
+      content.length >= 10 &&
+      title &&
+      imgs.length !== 0
+    ) {
+      swal("작성 완료하시겠습니까?").then((value) => {
         swal("작성이 완료되었습니다!");
-        dispatch(addPostDB(formData))
-        navigate('/main')
-      });      
-
+        dispatch(addPostDB(formData));
+      });
     }
   };
 
@@ -260,16 +265,35 @@ const NewPost = (props) => {
             />
           </div>
 
-          <div className='writeLowerHeader'>
-            <ModalButtons region={region} theme={theme} price={price} setRegion={setRegion} setTheme={setTheme} setPrice={setPrice} selectedRegion={selectedRegion} selectedTheme={selectedTheme} selectedPrice={selectedPrice} myInfo={myInfo} select={select} setSelect={setSelect} setFocus={setFocus} myMap={myMap}/>
+          <div className="writeLowerHeader">
+            <ModalButtons
+              region={region}
+              theme={theme}
+              price={price}
+              setRegion={setRegion}
+              setTheme={setTheme}
+              setPrice={setPrice}
+              selectedRegion={selectedRegion}
+              selectedTheme={selectedTheme}
+              selectedPrice={selectedPrice}
+              myInfo={myInfo}
+              select={select}
+              setSelect={setSelect}
+              setFocus={setFocus}
+              myMap={myMap}
+            />
           </div>
         </div>
       </div>
 
       {/* 움직이는 부분 */}
-      <div className='contentWrap'>
-        <Kakaomap kakao={kakao} myMap={myMap} setPlaces={setPlaces} place={place}/>
-        
+      <div className="contentWrap">
+        <Kakaomap
+          kakao={kakao}
+          myMap={myMap}
+          setPlaces={setPlaces}
+          place={place}
+        />
 
         {/* 제목 */}
         <Title setTitle={setTitle} />
