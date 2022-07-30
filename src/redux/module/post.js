@@ -439,7 +439,6 @@ export const getMypostDB = (size, page, id, desc) => {
 };
 
 export const getMybookmarkDB = (size, page, id, desc) => {
-  console.log(size, page, id, desc);
   return async function (dispatch) {
     try {
       const data = await instance.get(

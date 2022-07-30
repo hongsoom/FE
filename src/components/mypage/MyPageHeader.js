@@ -9,6 +9,8 @@ const MyPageHeader = (props) => {
   const { leftArrowBlack, setup, navigate, myInfo, userInfo, is_userId } =
     props;
 
+  console.log(userInfo);
+
   const onClickLeftArrow = () => {
     navigate("/");
   };
@@ -26,24 +28,25 @@ const MyPageHeader = (props) => {
           </div>
           <div className="myPageTitle">마이페이지</div>
         </div>
-        <div className="mypageHeaderRight">
-          <div className="myProfileLogout">
-            <button
-              className="logout-btn"
-              onClick={() => dispatch(userAction.logOutDB())}
-            >
-              로그아웃
-            </button>
+        {userInfo.mine ? (
+          <div className="mypageHeaderRight">
+            <div className="myProfileLogout">
+              <button
+                className="logout-btn"
+                onClick={() => dispatch(userAction.logOutDB())}
+              >
+                로그아웃
+              </button>
+            </div>
+            <img
+              src={setup}
+              className="setup"
+              alt="환경설정"
+              onClick={onClickSetup}
+            />
           </div>
-          <img
-            src={setup}
-            className="setup"
-            alt="환경설정"
-            onClick={onClickSetup}
-          />
-        </div>
+        ) : null}
       </div>
-
       {/* 나의 프로필 */}
       <MyProfile myInfo={myInfo} userInfo={userInfo} is_userId={is_userId} />
     </div>
