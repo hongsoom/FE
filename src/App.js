@@ -25,13 +25,12 @@ function App() {
     }
   }
 
-  // 나의 정보 가져오기
   useEffect(() => {
     dispatch(userAction.myInfoDB());
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.user.myinfo);
-  
+
   return (
     <div className="App">
       <Routes>
@@ -41,8 +40,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
-        <Route path="/write" element={<Write myInfo={myInfo}/>} />
-        <Route path="/write/:id" element={<Write myInfo={myInfo}/>} />
+        <Route path="/write" element={<Write myInfo={myInfo} />} />
+        <Route path="/write/:id" element={<Write myInfo={myInfo} />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/detail/:id/kakaomap" element={<KakaoTraffic />} />
         <Route path="/filtermodal" element={<FilterModal />} />
