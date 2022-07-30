@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { clickLoveDB, clickBookmarkDB } from "../../redux/module/post";
 import CategorySlide from "./PostSlide";
 import WebShare from "../share/WebShare";
+import swal from "sweetalert";
 import "swiper/css";
 import "../../css/postItem.scss";
 import user from "../../assets/user.png";
@@ -39,10 +40,21 @@ const PostItem = (props) => {
 
   const Id = useSelector((state) => state.post.postId);
 
+  const is_login = localStorage.getItem("token") ? true : false;
+
   const [shareMove, setShareMove] = useState(false);
 
   const webShare = () => {
     setShareMove(!shareMove);
+  };
+
+  const errorMessage = () => {
+    swal({
+      title: "로그인을 해주세요!",
+      icon: "error",
+      closeOnClickOutside: false,
+    });
+    return;
   };
 
   return (
@@ -91,9 +103,23 @@ const PostItem = (props) => {
               onClick={webShare}
               className="postItem-shareicon"
             />
-            <button onClick={() => dispatch(clickBookmarkDB(postId))}>
-              {postId === Id ? (
-                bookmarkStatus === true ? (
+            {is_login ? (
+              <button onClick={() => dispatch(clickBookmarkDB(postId))}>
+                {postId === Id ? (
+                  bookmarkStatus === true ? (
+                    <img
+                      src={bookmarkBlue}
+                      alt="bookmarkBlue"
+                      className="postItem-bookmarkicon"
+                    />
+                  ) : (
+                    <img
+                      src={bookmarkEmpty}
+                      alt="bookmarkEmpty"
+                      className="postItem-bookmarkicon"
+                    />
+                  )
+                ) : bookmarkStatus === true ? (
                   <img
                     src={bookmarkBlue}
                     alt="bookmarkBlue"
@@ -105,21 +131,17 @@ const PostItem = (props) => {
                     alt="bookmarkEmpty"
                     className="postItem-bookmarkicon"
                   />
-                )
-              ) : bookmarkStatus === true ? (
-                <img
-                  src={bookmarkBlue}
-                  alt="bookmarkBlue"
-                  className="postItem-bookmarkicon"
-                />
-              ) : (
+                )}
+              </button>
+            ) : (
+              <button onClick={errorMessage}>
                 <img
                   src={bookmarkEmpty}
                   alt="bookmarkEmpty"
                   className="postItem-bookmarkicon"
                 />
-              )}
-            </button>
+              </button>
+            )}
           </div>
         </div>
         <Link to={`/detail/${postId}`}>
@@ -159,20 +181,25 @@ const PostItem = (props) => {
             </SwiperSlide>
           </Swiper>
           <div className="postItem-heart">
-            <button onClick={() => dispatch(clickLoveDB(postId))}>
-              {postId === Id ? (
-                loveStatus === true ? (
+            {is_login ? (
+              <button onClick={() => dispatch(clickLoveDB(postId))}>
+                {postId === Id ? (
+                  loveStatus === true ? (
+                    <img src={heartFull} alt="heartFull" />
+                  ) : (
+                    <img src={heartEmpty} alt="heartEmpty" />
+                  )
+                ) : loveStatus === true ? (
                   <img src={heartFull} alt="heartFull" />
                 ) : (
                   <img src={heartEmpty} alt="heartEmpty" />
-                )
-              ) : loveStatus === true ? (
-                <img src={heartFull} alt="heartFull" />
-              ) : (
+                )}
+              </button>
+            ) : (
+              <button onClick={errorMessage}>
                 <img src={heartEmpty} alt="heartEmpty" />
-              )}
-            </button>
-
+              </button>
+            )}
             <p>{loveCount}</p>
           </div>
         </div>

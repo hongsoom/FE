@@ -182,7 +182,7 @@ const Detail = () => {
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
-    navigate("/main");
+    navigate("/");
   };
 
   const webShare = () => {

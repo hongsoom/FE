@@ -37,7 +37,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 201) {
-        window.location.assign("/");
+        window.location.assign("/login");
       }
     } catch (err) {}
   };
@@ -59,7 +59,7 @@ const logInDB = (username, password) => {
         dispatch(login(message));
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/main");
+        window.location.assign("/");
       }
     } catch (err) {
       const message = err.response.data.message;
@@ -80,7 +80,7 @@ const kakaoLoginDB = (code) => {
         localStorage.setItem("token", token);
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/main");
+        window.location.assign("/");
       }
     } catch (err) {}
   };
