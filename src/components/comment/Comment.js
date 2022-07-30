@@ -5,6 +5,7 @@ import {
   addCommentDB,
   deleteCommentDB,
 } from "../../redux/module/comment";
+import swal from "sweetalert";
 import user from "../../assets/user.png";
 import "../../css/comment.scss";
 
@@ -21,8 +22,17 @@ const Comment = ({ param, userId }) => {
   };
 
   const addcomment = () => {
-    dispatch(addCommentDB(postId, comment));
-    setComment("");
+    if (comment === "") {
+      swal({
+        title: "댓글을 입력해주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      });
+      return;
+    } else {
+      dispatch(addCommentDB(postId, comment));
+      setComment("");
+    }
   };
 
   useEffect(() => {
