@@ -16,9 +16,7 @@ import diamond from "../../assets/diamond.png";
 import master from "../../assets/master.png";
 
 const MyProfile = (props) => {
-  const { myInfo, userInfo } = props;
-
-  const is_userInfo = userInfo ? true : false;
+  const { myInfo, userInfo, is_userId } = props;
 
   const [showLevelGuideModal, setShowLevelGuideModal] = useState(false); // 레벨가이드 모달
 
@@ -32,7 +30,7 @@ const MyProfile = (props) => {
 
   return (
     <>
-      {is_userInfo ? (
+      {is_userId ? (
         <>
           <div className="myProfile">
             <div className="myProfileDetail">
