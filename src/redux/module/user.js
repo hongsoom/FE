@@ -135,7 +135,6 @@ const myInfoDB = () => {
         },
       })
       .then((res) => {
-        console.log("내 유저", res);
         const data = res.data;
         dispatch(myInfo(data));
       })
@@ -152,7 +151,6 @@ const userInfoDB = (userId) => {
         },
       })
       .then((res) => {
-        console.log("다른 유저", res);
         const data = res.data;
         dispatch(userInfo(data));
       })

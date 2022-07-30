@@ -9,8 +9,6 @@ const MyPageHeader = (props) => {
   const { leftArrowBlack, setup, navigate, myInfo, userInfo, is_userId } =
     props;
 
-  console.log(userInfo);
-
   const onClickLeftArrow = () => {
     navigate("/");
   };

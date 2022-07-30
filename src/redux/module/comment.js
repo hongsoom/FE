@@ -34,7 +34,6 @@ export const getCommentDB = (postId) => {
 };
 
 export const addCommentDB = (postId, comment) => {
-  console.log(postId, comment);
   return async function (dispatch) {
     await instance
       .post(`api/comment/${postId}`, {
