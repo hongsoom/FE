@@ -14,7 +14,6 @@ const Setup = (props) => {
   const navigate = useNavigate();
 
   const {myInfo} = props
-  console.log(myInfo)
   const [userImg, setUserImg] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
   const [previewUrl, setPreviewUrl] = useState(myInfo&&myInfo.userImgUrl? myInfo.userImgUrl : null);
   const [introduce, setIntroduce] = useState(myInfo&&myInfo.userInfo? myInfo.userInfo : '');

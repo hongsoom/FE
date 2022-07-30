@@ -34,7 +34,7 @@ const PlaceModal = (props) => {
     list(select)
     closePlaceModal()
   }
-console.log(select)
+
   return(
     <div className={showPlaceModal ? 'openModal placeWrap' : 'placeWrap'}>
       {showPlaceModal ?
@@ -56,9 +56,6 @@ console.log(select)
           </div>
             
             <div className="buttons">
-              <div className="doneButton">
-                <button className="close" onClick={checkAllPlaceModal}>모든 핀 보기</button>
-              </div>
               <div className="doneButton">
                 <button className="close" onClick={closePlaceModal}>확인</button>
               </div>

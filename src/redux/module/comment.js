@@ -25,7 +25,6 @@ export const getCommentDB = (postId) => {
     await instance
       .get(`api/post/${postId}`)
       .then((response) => {
-        console.log(response);
         const commentList = response.data.body.comments;
 
         dispatch(getComment(commentList));

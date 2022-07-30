@@ -17,7 +17,7 @@ import DetailPlaceModal from "../components/modal/DetailPlaceModal";
 import Kakaomap from "../components/kakaomap/Kakaomap";
 import DetailImageSlide from "../components/imageSlide/DetailImageSlide";
 import Comment from "../components/comment/Comment";
-import WebShare from "../components/share/WebShare";
+import DetailWebShare from "../components/share/DetailWebShare";
 
 // 아이콘
 import leftArrowBlack from "../assets/leftArrowBlack.png";
@@ -357,7 +357,7 @@ const Detail = () => {
         {/* 콘텐츠 */}
         <div className="txtPlace">{data && data.content}</div>
         {shareMove ? (
-          <WebShare
+          <DetailWebShare
             webShare={webShare}
             title={data && data.title}
             imgUrl={data && data.place[0] && data.place[0].imgUrl[0]}
