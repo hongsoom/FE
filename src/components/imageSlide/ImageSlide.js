@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../css/imageSlide.scss';
 
+// 라이브러리
+import imageCompression from 'browser-image-compression';
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 
 // 컴포넌트
 import AddButton from "./AddButton"
 
-const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, imgs, l, j,setFocus, focus}) => {
+const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, setImgs, imgs, l, j, setFocus, focus}) => {
   SwiperCore.use([Navigation]);
-  const [img, setImg] = useState(0)
  
-  // ------------------- 업로드 이미지 url로 바꿔서 미리보기 띄우기
-  const loadImg = (e, index) => {
+ const loadImg = async (e, index) => {
     const file = e.target.files[0];
-    // imgs라는 배열 안에 첨부파일 모두 넣음
-    imgs.push(file)
-    const Url = URL.createObjectURL(file)
-    // imgs라는 배열 안에 선택한 장소와 해당 첨부이미지넣음
-    imgUrl[index].imgUrl.push(Url)
-    setImg(Url)
-    // select 배열 안의 imgCount가 imgUrl 배열 안의 이미지url 갯수
-    select[index].imgCount = imgUrl[index].imgUrl.length
+
+    const options = {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 400,
+    }
+    try{
+      const compressedImage = await imageCompression(file, options);
+    
+      // imgs라는 배열 안에 첨부파일 모두 넣음
+      await setImgs((pre)=>{
+        const imgList = [...pre]
+        imgList.push(compressedImage)
+        return imgList
+      })
+      
+      const Url = URL.createObjectURL(compressedImage)
+      imgUrl[index].imgUrl.push(Url)
+      select[index].imgCount = imgUrl[index].imgUrl.length
+      
+    } catch (error) {
+
+    }
   }  
 
   return (

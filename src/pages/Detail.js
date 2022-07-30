@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../css/detail.scss";
 import swal from "sweetalert";
-import instance from "../shared/Request";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
@@ -296,7 +295,7 @@ const Detail = () => {
                       <div className="imgUpload">
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
-                          <div className="imgUploadTitle">
+                          <div className="imgUploadTitle" onClick={openPlaceModal}>
                             <img src={logosky} alt="야너갈 로고" />
                             {l.place_name}
                           </div>
@@ -323,9 +322,15 @@ const Detail = () => {
                 <div className="imgUpload">
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
-                    <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" />
-                      {data && data.place[0] && data.place[0].place_name}
+                    <div className="imgUploadTitle" onClick={openPlaceModal}>
+                      
+                      <div className="titleTxtWrap">
+                        <img src={logosky} alt="야너갈 로고" />
+                        {data && data.place[0] && data.place[0].place_name}
+                      </div>
+                      <div className="clickInfo">
+                          클릭시 모든 장소를 확인할 수 있어요!
+                      </div>
                     </div>
                   </div>
                   {/* 사진업로드 */}

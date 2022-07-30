@@ -1,55 +1,40 @@
 import React, { useState } from 'react';
 import '../../css/editImageSlide.scss';
 
-import swal from 'sweetalert';
+// 라이브러리
+import imageCompression from 'browser-image-compression';
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import closewhite from '../../assets/closewhite.png'
-
 const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setNewImgFile, newImgFile, l, j, setAllImgUrl, allImgUrl, focus}) => {
-
-  const [place, setPlace] = useState();
-  const [img, setImg] = useState('')
-
-  console.log(allImgUrl)
   
   // ------------------- 업로드 이미지 url로 바꿔서 미리보기 띄우기
-  const editLoadImg = (e, index) => {
+  const editLoadImg = async (e, index) => {
     const file = e.target.files[0];
-    setNewImgFile((pre)=>{
-      const imgList = [...pre]
-      imgList.push(file)
-      return imgList
-    })
-    const Url = URL.createObjectURL(file)
-    imgUrl[index].imgUrl.push(Url)
-    allImgUrl[index].imgUrl.push(Url)
-    setImg(Url)
-    select[index].imgCount = imgUrl[index].imgUrl.length
+
+    const options = {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 400,
+    }
+    try{
+      const compressedImage = await imageCompression(file, options);
+    
+      // imgs라는 배열 안에 첨부파일 모두 넣음
+      await setNewImgFile((pre)=>{
+        const imgList = [...pre]
+        imgList.push(compressedImage)
+        return imgList
+      })
+      
+      const Url = URL.createObjectURL(compressedImage)
+      imgUrl[index].imgUrl.push(Url)
+      allImgUrl[index].imgUrl.push(Url)
+      select[index].imgCount = imgUrl[index].imgUrl.length
+      
+    } catch (error) {
+
+    }
   }
  
-
-  // ------------------- 사진 삭제하기
-  const onRemoveHandler = (j,index) =>{
-    swal({
-      title: "사진을 삭제할까요?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        swal('사진이 삭제되었습니다', {
-          icon: "success",
-        });
-        
-        
-      } else {
-        swal("삭제를 취소했습니다");
-      }
-    });
-  }
-
 
   return (
     <>
@@ -126,15 +111,14 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         </Swiper>
       </div>
 
-      <div className='addButton' key={j}>
-        <label htmlFor={`place_name_${j}`}>
+      
+        <label className='addButton' htmlFor={`place_name_${j}`}>
           <div><b>{select&&select[0]&&select[0].place_name}</b> 사진 추가하기</div>
-        </label>
         <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
         onChange={(e)=>{editLoadImg(e, j)}}
         style={{display:'none'}}
         />
-      </div> 
+      </label>
       </>
       }
         

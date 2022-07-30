@@ -11,7 +11,7 @@ const Title = (props) => {
 
   return(
     <div className='writeTitleWrap'>
-      <input type="text" onChange={onTitleHandler} maxlength='18' placeholder="제목을 입력해주세요"/>
+      <input type="text" onChange={onTitleHandler} maxLength='18' placeholder="제목을 입력해주세요"/>
     </div>
   )
 }

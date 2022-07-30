@@ -11,8 +11,6 @@ const DetailImageSlide = (props) => {
   const { data, focus, l, j } = props;
   SwiperCore.use([Navigation]);
 
-  const [place, setPlace] = useState("");
-
   return (
     <>
       {focus && focus.length !== 0 ? (

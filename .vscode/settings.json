@@ -1,0 +1,4 @@
+{
+  "eslint.lintTask.enable": true,
+  "javascript.validate.enable": false,  
+}

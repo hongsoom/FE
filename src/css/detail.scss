@@ -261,9 +261,26 @@
   
               .imgUploadTitle{
                 display:flex;
-                align-items: center;
-                img{
-                  width: 24px;
+                flex-direction: column;
+
+                .titleTxtWrap{
+                  display:flex;
+                  align-items: center;
+
+                  img{
+                    width: 24px;
+                  }
+                }
+                .clickInfo{
+                  margin-left: 24px;
+
+                  font : {
+                    weight:400;
+                    size: 12px;
+                  }
+                  line-height: 20px;
+                  color:#606773;
+                  opacity: 0.7;
                 }
               }
             }
@@ -275,10 +292,13 @@
       width: 343px;
       background: #FFFFFF;
       border-radius: 8px;
-      font-weight: 400;
-      font-size: 14px;
       line-height: 20px;
       margin: 21px 0px;
+
+      font : {
+        weight: 400;
+        size: 14px;
+      }
     }
     .heartNbookmarkIcon{
       display: flex;
@@ -302,11 +322,14 @@
         }
       
         .heartNum{
-          font-weight: 400;
-          font-size: 16px;
           color: #606773;
           height: 23px;
           margin-right: 10px;
+
+          font : {
+            weight: 400;
+            size: 16px;
+          }
         }
       
         .bookmarkIcon{
