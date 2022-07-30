@@ -1,6 +1,6 @@
 .regionfilter-container {
     position: relative;
-    width: 375px;
+    width: 340px;
     margin: 0 auto;
   }
   
@@ -35,8 +35,9 @@
   .area-list {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     flex-wrap: wrap;
-    margin: 0 47px;
+    margin: 0 20px;
   
     > button {
       font-family: 'Noto Sans KR';
@@ -49,7 +50,7 @@
       color: #333333;
       line-height: 20px;
       margin: 10px;
-      font-size: 12px;
+      font-size: 13px;
       border: 1px solid #F5F9FF;
       background-color: #F5F9FF;
     }

@@ -26,7 +26,7 @@ const MyPageHeader = (props) => {
           </div>
           <div className="myPageTitle">마이페이지</div>
         </div>
-        {userInfo.mine ? (
+        {userInfo && userInfo.mine ? (
           <div className="mypageHeaderRight">
             <div className="myProfileLogout">
               <button
