@@ -24,7 +24,11 @@ const MyPageHeader = (props) => {
           <div className="leftArrowBlack" onClick={onClickLeftArrow}>
             <img src={leftArrowBlack} alt="leftArrow" />
           </div>
+          {(userInfo && userInfo.mine) || (myInfo && myInfo.mine) ?
           <div className="myPageTitle">마이페이지</div>
+          :
+          <div className="myPageTitle">{userInfo&&userInfo.nickname}님의 페이지</div>
+          }
         </div>
         {(userInfo && userInfo.mine) || (myInfo && myInfo.mine) ? (
           <div className="mypageHeaderRight">

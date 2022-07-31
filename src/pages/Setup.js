@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/setup.scss";
+import imageCompression from 'browser-image-compression';
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -29,11 +30,26 @@ const Setup = (props) => {
   const [nickNameNotice, setNickNameNotice] = useState();
 
   // 첨부 프로필 이미지 '파일은 setUserImg에, blob url은 setPreviewUrl에 담음'
-  const loadProfilImg = (e) => {
+  const loadProfilImg = async (e) => {
     const file = e.target.files[0];
-    setUserImg(file);
-    const Url = URL.createObjectURL(file);
+
+    const options = {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 400,
+    }
+    try{
+      const compressedImage = await imageCompression(file, options);
+      const resultFile = new File([compressedImage], compressedImage.name, {
+        type: compressedImage.type,
+      });
+      
+    setUserImg(resultFile);
+    const Url = URL.createObjectURL(compressedImage);
     setPreviewUrl(Url);
+
+    } catch (error) {
+
+    }
   };
 
   // 서버에 저장할 내용 폼데이터로 만들기
@@ -47,6 +63,14 @@ const Setup = (props) => {
     navigate("/mypage");
   };
 
+  // 새로고침할 경우, 마이페이지로 이동
+  useEffect(()=>{
+    if(!myNickname){
+      navigate(`/mypage`);
+      return;
+    }
+  },[])
+
   // ----------------- 서버로 저장 버튼
   const onSaveHandler = () => {
     if (myNickname.length < 2 || myNickname.length > 8) {
@@ -55,6 +79,7 @@ const Setup = (props) => {
       dispatch(userAction.editInfoDB(formData));
     }
   };
+  console.log(myNickname, userImg, introduce)
 
   return (
     <div className="setupWrap">

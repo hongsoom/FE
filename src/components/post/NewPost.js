@@ -174,6 +174,7 @@ const NewPost = (props) => {
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
   const list = (positions) => {
     if (positions.length !== 0) {
+      let bounds = new kakao.maps.LatLngBounds()
       const options = {
         center: new kakao.maps.LatLng(
           positions[positions.length - 1].y,
@@ -193,7 +194,10 @@ const NewPost = (props) => {
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
+        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x))
       }
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정
+      map.setBounds(bounds)
 
       // 마커찍기 함수
       function displayMarker(_place, i) {
@@ -266,12 +270,14 @@ const NewPost = (props) => {
               selectedPrice={selectedPrice}
               openPlaceModal={openPlaceModal}
               closePlaceModal={closePlaceModal}
+              setShowPlaceModal={setShowPlaceModal}
               showPlaceModal={showPlaceModal}
               myInfo={myInfo}
               select={select}
               setSelect={setSelect}
               setFocus={setFocus}
               myMap={myMap}
+              list={list}
             />
           </div>
         </div>

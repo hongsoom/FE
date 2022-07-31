@@ -19,7 +19,7 @@ const Kakaomap = (props) => {
       }
       const map = new kakao.maps.Map(myMap.current, options)
   
-    const ps = new kakao.maps.services.Places()
+      const ps = new kakao.maps.services.Places()
   
       // 키워드 검색
       // place: 유저가 입력한 검색키워드

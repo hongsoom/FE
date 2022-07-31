@@ -17,11 +17,14 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
     }
     try{
       const compressedImage = await imageCompression(file, options);
+      const resultFile = new File([compressedImage], compressedImage.name, {
+        type: compressedImage.type,
+      });
     
       // imgs라는 배열 안에 첨부파일 모두 넣음
       await setNewImgFile((pre)=>{
         const imgList = [...pre]
-        imgList.push(compressedImage)
+        imgList.push(resultFile)
         return imgList
       })
       

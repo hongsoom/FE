@@ -327,6 +327,7 @@ const Edit = (props) => {
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
   const list = (positions) => {
     if (positions.length !== 0) {
+      let bounds = new kakao.maps.LatLngBounds();
       const options = {
         center: new kakao.maps.LatLng(
           positions[positions.length - 1].y,
@@ -346,10 +347,10 @@ const Edit = (props) => {
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
-        let bounds = new kakao.maps.LatLngBounds();
         bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x));
-        map.setBounds(bounds);
+        
       }
+      map.setBounds(bounds);
 
       // 마커찍기 함수
       function displayMarker(_place, i) {
@@ -475,6 +476,7 @@ const Edit = (props) => {
               list={list}
               openPlaceModal={openPlaceModal}
               closePlaceModal={closePlaceModal}
+              setShowPlaceModal={setShowPlaceModal}
               showPlaceModal={showPlaceModal}
             />
           </div>
@@ -511,8 +513,13 @@ const Edit = (props) => {
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle">
-                      <img src={logosky} alt="야너갈 로고" />
-                      장소를 검색해주세요!
+                      <div className="titleTxtWrap">
+                        <img src={logosky} alt="야너갈 로고"/>
+                          최상단 검색창에서 장소를 검색해주세요!
+                      </div>
+                      <div className="clickInfo">
+                        ❗여러 장소를 검색하고 선택할 수 있어요!
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -556,8 +563,13 @@ const Edit = (props) => {
                             className="imgUploadTitle"
                             onClick={openPlaceModal}
                           >
-                            <img src={logosky} alt="야너갈 로고" />
-                            {l.place_name}
+                            <div className="titleTxtWrap">
+                              <img src={logosky} alt="야너갈 로고" />
+                              {l.place_name}
+                            </div>
+                            <div className="clickInfo">
+                              ❗여러 장소를 검색하고 선택할 수 있어요!
+                            </div>
                           </div>
                           <div
                             className="removePlaceButton"
@@ -613,8 +625,13 @@ const Edit = (props) => {
                   {/* 사진업로드하는 장소 이름 */}
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle" onClick={openPlaceModal}>
-                      <img src={logosky} alt="야너갈 로고" />
-                      {select && select[0] && select[0].place_name}
+                      <div className="titleTxtWrap">
+                        <img src={logosky} alt="야너갈 로고" />
+                        {select && select[0] && select[0].place_name}
+                      </div>
+                      <div className="clickInfo">
+                        ❗여러 장소를 검색하고 선택할 수 있어요!
+                      </div>
                     </div>
                     <div
                       className="removePlaceButton"
