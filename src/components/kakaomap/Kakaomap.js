@@ -5,20 +5,27 @@ import '../../css/kakaomap.scss'
 
 const Kakaomap = (props) => {
   const {kakao, myMap, setPlaces, place} = props
-  
-  useEffect(()=>{
 
+  useEffect(()=>{
     // 지도에 검색하고 결과 나오게 하기
-      // infowindow: 장소별 세부사항 보여주는 말풍선
-      var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
-  
-      // 지도가 찍어주는 위치 
+    const options = {
+      center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+      level: 4,
+    }
+    const map = new kakao.maps.Map(myMap.current, options)
+    
+    return()=> {
+      // 지도에 검색하고 결과 나오게 하기
       const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
         level: 4,
       }
-      const map = new kakao.maps.Map(myMap.current, options)
-
+    }
+  },[])
+  
+  useEffect(()=>{
+  
+      const map = myMap.current
       const ps = new kakao.maps.services.Places()
   
       // 키워드 검색
@@ -28,17 +35,7 @@ const Kakaomap = (props) => {
       // 검색이 완료됐을 때 호출되는 콜백함수
       function placesSearchCB(data, status, pagination) {
         // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-          let bounds = new kakao.maps.LatLngBounds()
-  
-          // 검색으로 나온 목록을 for문 돌려서 지도에 마커로 찍기
-          for (let i = 0; i < data.length; i++) {
-            displayMarker(data[i])
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
-          }
-          // 검색된 장소 위치를 기준으로 지도 범위를 재설정
-          map.setBounds(bounds)
-  
+        if (status === kakao.maps.services.Status.OK) { 
           // 검색된 목록들의 하단에 페이지 번호(1,2,3..)를 보여주는 displayPagination() 추가
           displayPagination(pagination)
           // 검색된 목록(data)을 places 상태값 배열에 추가
@@ -48,7 +45,7 @@ const Kakaomap = (props) => {
         else if (status === kakao.maps.services.Status.ZERO_RESULT) {
           swal('검색 결과가 존재하지 않습니다.');
           return;
-      }
+        }
       }
   
       // 검색결과 목록 하단에 페이지 번호 표시
@@ -88,6 +85,9 @@ const Kakaomap = (props) => {
           map: map,
           position: new kakao.maps.LatLng(_place.y, _place.x),
         })
+
+        // infowindow: 장소별 세부사항 보여주는 말풍선
+        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
         // 마커 클릭시 장소 상세 말풍선 나오기
         kakao.maps.event.addListener(marker, 'click', function () {
           infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name + '</div>')

@@ -108,22 +108,23 @@ const Detail = () => {
   useEffect(() => {
     list(data.place);
     window.scrollTo(0, 0);
-    
   }, [data]);
+
+  useEffect(()=>{
+
+  },[])
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   function list(positions) {
     if (positions && positions.length !== 0) {
-      let bounds = new kakao.maps.LatLngBounds();
       const options = {
         center: new kakao.maps.LatLng(
           positions[positions.length - 1].y,
           positions[positions.length - 1].x
         ),
-        level: 7,
+        level: 8,
       };
       const map = new kakao.maps.Map(myMap.current, options);
-
 
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성
@@ -135,9 +136,8 @@ const Detail = () => {
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
-        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x));
       }
-      map.setBounds(bounds);
+
       // 마커찍기 함수
       function displayMarker(_place, i) {
         let marker = new kakao.maps.Marker({
@@ -180,7 +180,6 @@ const Detail = () => {
   const webShare = () => {
     setShareMove(!shareMove);
   };
-
 
   return (
     <div className="detailTotalWrap">

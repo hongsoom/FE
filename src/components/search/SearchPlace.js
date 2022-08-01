@@ -10,10 +10,10 @@ const SearchPlace = (props) => {
     search,
     setSelect,
     select,
-    setFocus,
     list,
     setImgUrl,
     setAllImgUrl,
+    onClickHandler
   } = props;
 
   // 검색 창
@@ -34,12 +34,6 @@ const SearchPlace = (props) => {
     setInputText("");
   };
 
-  // 검색 목록에서 장소 하나를 선택 클릭
-  const onClickHandler = (__place) => {
-    setFocus(__place);
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "0px";
-  };
 
   // 장소 선택하기
   const onSelectPlace = (e, i, item, place_name) => {
@@ -115,9 +109,12 @@ const SearchPlace = (props) => {
                     id={item.id}
                     checked={select.includes(item) ? true : false}
                     onChange={(e) => {
-                      onClickHandler(item.place_name);
-                      const place_name = item.place_name;
-                      onSelectPlace(e, i, item, place_name);
+                      if(e.target.clicked){
+                        onClickHandler(item.place_name);
+                        const place_name = item.place_name;
+                        onSelectPlace(e, i, item, place_name);
+                      }
+                
                     }}
                     style={{ display: "none" }}
                   />

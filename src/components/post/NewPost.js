@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "../../css/post.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -51,7 +51,7 @@ const NewPost = (props) => {
     navigate("/");
   };
 
-  // ---------------------------- 검색 창
+  // 검색 창
   const onChange = (e) => {
     setInputText(e.target.value);
   };
@@ -69,7 +69,7 @@ const NewPost = (props) => {
     setInputText("");
   };
 
-  // ---------------------------- 선택 장소 목록 모달 open / close
+  // 선택 장소 목록 모달 open / close
   const openPlaceModal = () => {
     if(select&&select.length !== 0){
       setShowPlaceModal(true)
@@ -81,7 +81,7 @@ const NewPost = (props) => {
     setShowPlaceModal(false)
   }
 
-  // ----------------------------- 장소 선택 취소
+  // 장소 선택 취소
   const onRemovePlace = (place) => {
     swal({
       title: "이 장소를 삭제할까요?",
@@ -131,7 +131,7 @@ const NewPost = (props) => {
   });
 
 
-  // ---------------------------- 작성 완료 버튼
+  // 작성 완료 버튼
   const onHandlerSubmit = () => {
     if (select.length === 0) {
       swal("장소를 검색하고 선택해주세요!");
@@ -162,15 +162,16 @@ const NewPost = (props) => {
       });
     }
   };
-
+  
+  // 핀을 클릭하면 핀 포커스
   const onClickHandler = (__place) => {
     setFocus(__place);
     const searchList_wrap = document.getElementById("searchList_wrap");
     searchList_wrap.style.height = "0px";
+    searchList_wrap.scrollTo(0,0)
   };
 
-  // ---------------------------- 선택된 장소만 마커 찍어주기
-
+  // 선택된 장소만 마커 찍어주기
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
   const list = (positions) => {
     if (positions.length !== 0) {

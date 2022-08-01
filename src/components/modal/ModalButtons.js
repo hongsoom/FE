@@ -138,7 +138,7 @@ const ModalButtons = (props) =>{
         <div className='modalChoiceTitle'>선택 장소 확인</div>
           <div className='places'>
             <PlaceModal setSelect={setSelect} select={select} myMap={myMap}
-            showPlaceModal={showPlaceModal} checkAllFin={checkAllFin}
+            showPlaceModal={showPlaceModal} checkAllFin={checkAllFin} list={list}
             closePlaceModal={closePlaceModal} myInfo={myInfo} setFocus={setFocus}
             />
           </div>    
