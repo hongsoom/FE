@@ -183,6 +183,8 @@ const keywordGetDB = (keyword, nextPage, size) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
+    let sort = "id";
+    let desc = "desc";
     if (nextPage === undefined) {
       page = 0;
     } else {
@@ -190,7 +192,9 @@ const keywordGetDB = (keyword, nextPage, size) => {
     }
 
     await instance
-      .get(`api/posts?keyword=${keyword}&page=${page}&size=${size}`)
+      .get(
+        `api/posts?keyword=${keyword}&page=${page}&size=${size}&sort=${sort},${desc}`
+      )
       .then((response) => {
         const newList = response.data.content;
         const lastpage = response.data.last;
@@ -218,6 +222,8 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
   return async function (dispatch) {
     dispatch(loading(true));
     let page;
+    let sort = "id";
+    let desc = "desc";
     if (nextPage === undefined) {
       page = 0;
     } else {
@@ -232,14 +238,15 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (theme === undefined) {
       theme = "";
     }
+    console.log(region, price, theme, nextPage, size);
     await instance
       .get(
-        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
         const newList = response.data.content;
         const lastpage = response.data.last;
-
+        console.log(response);
         let paging = {};
         if (lastpage) {
           paging = {
@@ -272,7 +279,8 @@ const regionGETDB = (region, nextPage, size) => {
     let page;
     let price;
     let theme;
-
+    let sort = "id";
+    let desc = "desc";
     if (nextPage === undefined) {
       page = 0;
     } else {
@@ -288,7 +296,7 @@ const regionGETDB = (region, nextPage, size) => {
 
     await instance
       .get(
-        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}`
+        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
         const newList = response.data.content;

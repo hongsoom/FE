@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/module/post";
 import swal from "sweetalert";
 import "../../css/filterModal.scss";
+import reset from "../../assets/reset.png";
 
 const size = 5;
 
@@ -25,11 +26,13 @@ const FilterModal = (props) => {
     setPriceSelect,
     setPrice,
     setTheme,
+    theme,
+    price,
   } = props;
 
   const is_region = region ? true : false;
   const is_list = list ? true : false;
-  const is_keyword = keyword ? true : false;
+  const is_keyword = keyword === "" ? true : false;
 
   const themes = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
   const prices = [
@@ -42,6 +45,7 @@ const FilterModal = (props) => {
   ];
 
   const [themesetting, setThemeSetting] = useState("");
+  const backgroundRef = useRef(null);
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -60,56 +64,63 @@ const FilterModal = (props) => {
 
   const price_ = checkHasIncode(priceSelect);
   const theme_ = checkHasIncode(themesetting);
+  console.log("priceSelect", priceSelect);
 
   const filterPost = (nextPage) => {
     errorMessage();
-    initialCondition();
     filtering();
-  };
-
-  const initialPost = (nextPage) => {
-    cancelCondition();
     initialCondition();
   };
 
-  const filtering = () => {
-    if (is_list) {
-      const region_ = checkHasIncode(listRegion);
-      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-      clean();
-    }
-
-    if (is_keyword) {
-      const region_ = checkHasIncode(keyword);
-      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-      setClick(true);
-      clean();
-    }
-
-    if (is_region) {
-      const region_ = checkHasIncode(region);
-      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-      clean();
-    }
+  const initialPost = () => {
+    cancelCondition();
   };
 
-  const initialCondition = () => {
+  const filtering = (nextPage) => {
     if (
-      (themeSelect.length === 0 && isFilter) ||
-      (priceSelect === "" && isFilter) ||
-      is_list
+      (themeSelect.length !== 0 && is_list) ||
+      (priceSelect !== "" && is_list)
     ) {
       clean();
-      setPrice(priceSelect);
-      setTheme(themeSelect);
+      console.log("priceSelect", priceSelect);
+      console.log("themesetting", themesetting);
+      const region_ = checkHasIncode(listRegion);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    }
+
+    if (
+      (themeSelect.length !== 0 && is_keyword) ||
+      (priceSelect !== "" && is_keyword)
+    ) {
+      clean();
+      setClick(true);
+      const region_ = checkHasIncode(keyword);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    }
+
+    if (
+      (themeSelect.length !== 0 && is_region) ||
+      (priceSelect !== "" && is_region)
+    ) {
+      clean();
+      const region_ = checkHasIncode(region);
+      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
+    }
+  };
+
+  const initialCondition = (nextPage) => {
+    if (
+      (themeSelect.length === 0 && isFilter && is_list) ||
+      (priceSelect === "" && isFilter && is_list)
+    ) {
+      clean();
       dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
       onClick();
     }
 
     if (
-      (themeSelect.length === 0 && isFilter) ||
-      (priceSelect === "" && isFilter) ||
-      is_keyword
+      (themeSelect.length === 0 && isFilter && is_keyword) ||
+      (priceSelect === "" && isFilter && is_keyword)
     ) {
       clean();
       dispatch(userAction.arrayGetDB(keyword, nextPage, size));
@@ -118,13 +129,10 @@ const FilterModal = (props) => {
     }
 
     if (
-      (themeSelect.length === 0 && isFilter) ||
-      (priceSelect === "" && isFilter) ||
-      is_region
+      (themeSelect.length === 0 && isFilter && is_region) ||
+      (priceSelect === "" && isFilter && is_region)
     ) {
       clean();
-      setPrice(priceSelect);
-      setTheme(themeSelect);
       dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
       onClick();
     }
@@ -134,7 +142,8 @@ const FilterModal = (props) => {
     if (
       (themeSelect.length === 0 && priceSelect === "" && isFilter === false) ||
       (themeSelect.length !== 0 && isFilter) ||
-      (priceSelect !== "" && isFilter)
+      (priceSelect !== "" && isFilter) ||
+      (theme.includes(list) && isFilter === false)
     ) {
       onClick();
     }
@@ -146,6 +155,24 @@ const FilterModal = (props) => {
       setPriceSelect("");
       setThemeSelect([]);
       onClick();
+    }
+
+    if (
+      (theme.includes(list) && isFilter === false) ||
+      (price.includes(list) && isFilter === false)
+    ) {
+      setPriceSelect(list);
+      setThemeSelect([list]);
+      onClick();
+    }
+
+    if (themeSelect.length === 0 && priceSelect === "" && isFilter) {
+      swal({
+        title: "선택 완료를 눌러주세요!",
+        icon: "warning",
+        closeOnClickOutside: false,
+      });
+      return;
     }
   };
 
@@ -166,6 +193,21 @@ const FilterModal = (props) => {
     }
   };
 
+  const filterReset = () => {
+    setPriceSelect("");
+    setThemeSelect([]);
+    if (theme.includes(list) || price.includes(list)) {
+      setPriceSelect(list);
+      setThemeSelect([list]);
+    }
+  };
+
+  const handleClickBackground = (e) => {
+    if (e.target === backgroundRef.current) {
+      onClick();
+    }
+  };
+
   useEffect(() => {
     if (themeSelect.length > 0) {
       setThemeSetting(themeSelect.toString());
@@ -180,14 +222,23 @@ const FilterModal = (props) => {
     }
   }, [themeSelect, priceSelect]);
 
+  console.log(isFilter);
+
   return (
     <>
       <div className="filtermodal-box">
         <div className="filtermodal-container">
-          <div className="filtermodal-content">
+          <div
+            className="filtermodal-content"
+            ref={backgroundRef}
+            onClick={handleClickBackground}
+          >
             <div className="filtermodal-theme">
               <div className="filtermodal-themetitle">
-                <p>테마</p>
+                <p className="filtermodal-themes">테마</p>
+                <p className="filtermodal-reset" onClick={filterReset}>
+                  필터 초기화 <img src={reset} alt="reset" />
+                </p>
               </div>
               <div className="filtermodal-themebutton">
                 {themes.map((theme, i) => {
@@ -247,7 +298,7 @@ const FilterModal = (props) => {
                 })}
               </div>
             </div>
-            {keyword === "" && (
+            {is_keyword && (
               <div className="filtermodal-filterbutton">
                 <button
                   className="filtermodal-cancel"
@@ -285,9 +336,9 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
+                    filterPost();
                     onClick();
                   }}
                 >
@@ -308,9 +359,9 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
+                    filterPost();
                     onClick();
                   }}
                 >
