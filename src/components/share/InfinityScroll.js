@@ -12,7 +12,6 @@ const InfinityScroll = (props) => {
       window.innerHeight + e.target.documentElement.scrollTop + 1 >
       e.target.documentElement.scrollHeight
     ) {
-      e.preventDefault();
       callNext();
     }
 
@@ -20,6 +19,7 @@ const InfinityScroll = (props) => {
       window.innerHeight >
       e.target.documentElement.scrollHeight - e.target.documentElement.scrollTop
     ) {
+      e.preventDefault();
       return;
     }
   };
