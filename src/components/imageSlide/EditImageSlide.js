@@ -75,7 +75,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
       <div className='addButton' key={j}
       >
         <label htmlFor={`place_name_${j}`}>
-          <div><b>{l.place_name}</b> 사진 추가하기</div>
+          <div>{l.place_name} 사진 추가하기 📸</div>
         </label>
         <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
         onChange={(e)=>{editLoadImg(e, j)}}
@@ -116,7 +116,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
 
       
         <label className='addButton' htmlFor={`place_name_${j}`}>
-          <div><b>{select&&select[0]&&select[0].place_name}</b> 사진 추가하기</div>
+          <div>{select&&select[0]&&select[0].place_name} 사진 추가하기 📸</div>
         <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
         onChange={(e)=>{editLoadImg(e, j)}}
         style={{display:'none'}}

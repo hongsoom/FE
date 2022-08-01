@@ -6,7 +6,7 @@ const AddButton = (props) =>{
 
   return(
       <label className='addButton' htmlFor={`place_name_${j}`}>
-        <div><b>{l.place_name}</b> 사진 추가하기</div>
+        <div>{l.place_name} 사진 추가하기 📸</div>
       <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
       onChange={(e)=>{loadImg(e, j)}}
       />

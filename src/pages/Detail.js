@@ -108,11 +108,13 @@ const Detail = () => {
   useEffect(() => {
     list(data.place);
     window.scrollTo(0, 0);
+    
   }, [data]);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
-  const list = (positions) => {
+  function list(positions) {
     if (positions && positions.length !== 0) {
+      let bounds = new kakao.maps.LatLngBounds();
       const options = {
         center: new kakao.maps.LatLng(
           positions[positions.length - 1].y,
@@ -122,18 +124,20 @@ const Detail = () => {
       };
       const map = new kakao.maps.Map(myMap.current, options);
 
+
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성
         var marker = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
+          map: map,
           position: new kakao.maps.LatLng(positions[i].y, positions[i].x),
           // position: positions[i].latlng, // 마커를 표시할 위치
-          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          title: positions[i].title,
           place_name: positions[i].place_name,
         });
         displayMarker(positions[i], i);
+        bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x));
       }
-
+      map.setBounds(bounds);
       // 마커찍기 함수
       function displayMarker(_place, i) {
         let marker = new kakao.maps.Marker({
@@ -149,11 +153,11 @@ const Detail = () => {
           });
           infowindow.setContent(
             '<div style="display:flex;justify-content:center;"><div style="padding-left:15px;padding-right:15px;height:100px;font-size:12px;display:flex;flex-direction:column;justify-content:center;">' +
-              _place.place_name +
-              "<br/>" +
-              _place.phone +
-              "<br/>" +
-              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
+            _place.place_name +
+            "<br/>" +
+            _place.phone +
+            "<br/>" +
+            `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
@@ -166,7 +170,7 @@ const Detail = () => {
       };
       const map = new kakao.maps.Map(myMap.current, options);
     }
-  };
+  }
 
   // 메인으로 돌아가기 버튼
   const onClickLeftArrow = () => {
@@ -177,8 +181,9 @@ const Detail = () => {
     setShareMove(!shareMove);
   };
 
+
   return (
-    <>
+    <div className="detailTotalWrap">
       <div className="detailHeader">
         <div className="detailHeaderWrap">
           <div className="detailUpperHeader">
@@ -250,7 +255,7 @@ const Detail = () => {
               <div className="priceButton">💸 {data && data.priceCategory}</div>
               {/* 선택한 장소 확인하기 */}
               <div className="placeButton" onClick={()=>{list(data&&data.place)}}>
-                모든 핀 보기
+                핀 한눈에 보기
                 <div className="places">
                   <DetailPlaceModal
                     data={data}
@@ -271,9 +276,7 @@ const Detail = () => {
 
       {/* 장소목록 / 사진슬라이드 / 댓글 */}
       <div className="contentsWrap">
-        <div className="kakaomap">
-          <Kakaomap kakao={kakao} myMap={myMap} />
-        </div>
+        <Kakaomap kakao={kakao} myMap={myMap} />
         {focus && focus.length !== 0 ? (
           <div className="detailSectionWrap">
             {/* 핀을 클릭했을 때 */}
@@ -405,7 +408,7 @@ const Detail = () => {
           <Comment param={param} userId={userInfo && userInfo.userId} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

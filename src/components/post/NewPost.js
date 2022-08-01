@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../../css/post.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -184,7 +184,7 @@ const NewPost = (props) => {
       };
       const map = new kakao.maps.Map(myMap.current, options);
 
-      for (var i = 0; i < positions.length; i++) {
+        for (var i = 0; i < positions.length; i++) {
         // 마커를 생성
         var marker = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
@@ -234,7 +234,7 @@ const NewPost = (props) => {
   };
 
   return (
-    <>
+    <div className="writeTotalWrap">
       {/* 헤더 */}
       <div className="writeHeader">
         <div className="writeHeaderWrap">
@@ -441,7 +441,7 @@ const NewPost = (props) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

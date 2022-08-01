@@ -18,15 +18,12 @@ const Kakaomap = (props) => {
         level: 4,
       }
       const map = new kakao.maps.Map(myMap.current, options)
-  
+
       const ps = new kakao.maps.services.Places()
   
       // 키워드 검색
       // place: 유저가 입력한 검색키워드
       ps.keywordSearch(place, placesSearchCB)
-  
-  
-  
       
       // 검색이 완료됐을 때 호출되는 콜백함수
       function placesSearchCB(data, status, pagination) {
@@ -97,10 +94,12 @@ const Kakaomap = (props) => {
           infowindow.open(map, marker)
         })
       }
-  
-  
-  },[place])
+      
+  },[kakao.maps.InfoWindow, kakao.maps.LatLng, kakao.maps.LatLngBounds, kakao.maps.Map, kakao.maps.Marker, kakao.maps.event, kakao.maps.services.Places, kakao.maps.services.Status.OK, kakao.maps.services.Status.ZERO_RESULT, myMap, place, setPlaces])
 
+  
+
+ 
   return(
     <div className='writeMapWrap' ref={myMap}>
     </div>

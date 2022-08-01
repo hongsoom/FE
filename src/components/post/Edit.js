@@ -337,6 +337,8 @@ const Edit = (props) => {
       };
       const map = new kakao.maps.Map(myMap.current, options);
 
+
+
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성
         var marker = new kakao.maps.Marker({
@@ -375,6 +377,8 @@ const Edit = (props) => {
           setFocus(_place.place_name);
         });
       }
+
+      
     } else {
       const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
@@ -385,7 +389,7 @@ const Edit = (props) => {
   };
 
   return (
-    <>
+    <div className="writeTotalWrap">
       {/* 헤더 */}
       <div className="writeHeader">
         <div className="writeHeaderWrap">
@@ -675,7 +679,7 @@ const Edit = (props) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -45,7 +45,7 @@ const Header = () => {
                   />
                   <img
                     src={mypage}
-                    alt="마이페이지"
+                    alt="마이페이지로 이동하기"
                     className="mypage-icon"
                     onClick={() => navigate("/mypage")}
                   />
