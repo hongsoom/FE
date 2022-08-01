@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/setup.scss";
-import imageCompression from 'browser-image-compression';
+import imageCompression from "browser-image-compression";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -36,20 +36,17 @@ const Setup = (props) => {
     const options = {
       maxSizeMb: 1,
       maxWidthOrHeight: 400,
-    }
-    try{
+    };
+    try {
       const compressedImage = await imageCompression(file, options);
       const resultFile = new File([compressedImage], compressedImage.name, {
         type: compressedImage.type,
       });
-      
-    setUserImg(resultFile);
-    const Url = URL.createObjectURL(compressedImage);
-    setPreviewUrl(Url);
 
-    } catch (error) {
-
-    }
+      setUserImg(resultFile);
+      const Url = URL.createObjectURL(compressedImage);
+      setPreviewUrl(Url);
+    } catch (error) {}
   };
 
   // 서버에 저장할 내용 폼데이터로 만들기
@@ -64,12 +61,12 @@ const Setup = (props) => {
   };
 
   // 새로고침할 경우, 마이페이지로 이동
-  useEffect(()=>{
-    if(!myNickname){
+  useEffect(() => {
+    if (!myNickname) {
       navigate(`/mypage`);
       return;
     }
-  },[])
+  }, []);
 
   // ----------------- 서버로 저장 버튼
   const onSaveHandler = () => {
@@ -79,7 +76,6 @@ const Setup = (props) => {
       dispatch(userAction.editInfoDB(formData));
     }
   };
-  console.log(myNickname, userImg, introduce)
 
   return (
     <div className="setupWrap">

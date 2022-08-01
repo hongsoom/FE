@@ -238,7 +238,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
     if (theme === undefined) {
       theme = "";
     }
-    console.log(region, price, theme, nextPage, size);
     await instance
       .get(
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}&sort=${sort},${desc}`
@@ -246,7 +245,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
       .then((response) => {
         const newList = response.data.content;
         const lastpage = response.data.last;
-        console.log(response);
         let paging = {};
         if (lastpage) {
           paging = {

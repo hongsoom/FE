@@ -64,7 +64,6 @@ const FilterModal = (props) => {
 
   const price_ = checkHasIncode(priceSelect);
   const theme_ = checkHasIncode(themesetting);
-  console.log("priceSelect", priceSelect);
 
   const filterPost = (nextPage) => {
     errorMessage();
@@ -82,8 +81,6 @@ const FilterModal = (props) => {
       (priceSelect !== "" && is_list)
     ) {
       clean();
-      console.log("priceSelect", priceSelect);
-      console.log("themesetting", themesetting);
       const region_ = checkHasIncode(listRegion);
       dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
     }
@@ -225,8 +222,6 @@ const FilterModal = (props) => {
       setPriceSelect("");
     }
   }, [themeSelect, priceSelect]);
-
-  console.log(isFilter);
 
   return (
     <>
