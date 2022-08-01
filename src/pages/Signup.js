@@ -190,6 +190,7 @@ const Signup = () => {
     if (password === passwordCheck) {
       setState(true);
       setMessage("비밀번호가 일치합니다.");
+      setSignupState(false);
     }
   };
 
