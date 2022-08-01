@@ -3,6 +3,8 @@
     margin-right: auto;
     position: relative;
     overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     list-style: none;
     padding: 0;
     z-index: 1;

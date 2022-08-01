@@ -12,6 +12,7 @@ const InfinityScroll = (props) => {
       window.innerHeight + e.target.documentElement.scrollTop + 1 >
       e.target.documentElement.scrollHeight
     ) {
+      e.preventDefault();
       callNext();
     }
   };
@@ -22,10 +23,8 @@ const InfinityScroll = (props) => {
     }
 
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("touchmove", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("touchmove", handleScroll);
     };
   }, [nextPage]);
 

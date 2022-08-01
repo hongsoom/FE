@@ -230,7 +230,7 @@ const FilterModal = (props) => {
           <div
             className="filtermodal-content"
             ref={backgroundRef}
-            onClick={handleClickBackground}
+            onClick={(e) => handleClickBackground(e)}
           >
             <div className="filtermodal-theme">
               <div className="filtermodal-themetitle">
