@@ -184,6 +184,8 @@ const NewPost = (props) => {
       };
       const map = new kakao.maps.Map(myMap.current, options);
 
+
+
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성
         var marker = new kakao.maps.Marker({
@@ -234,7 +236,7 @@ const NewPost = (props) => {
   };
 
   return (
-    <>
+    <div className="writeTotalWrap">
       {/* 헤더 */}
       <div className="writeHeader">
         <div className="writeHeaderWrap">
@@ -441,7 +443,7 @@ const NewPost = (props) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

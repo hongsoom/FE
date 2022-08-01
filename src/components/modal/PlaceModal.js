@@ -53,7 +53,7 @@ const PlaceModal = (props) => {
             
             <div className="buttons">
               <div className="doneButton">
-                <button className="close checkAll" onClick={checkAllFin}>모든 핀 보기</button>
+                <button className="close checkAll" onClick={checkAllFin}>핀 한눈에 보기</button>
               </div>
               <div className="doneButton">
                 <button className="close" onClick={closePlaceModal}>확인</button>

@@ -1,3 +1,10 @@
+.writeTotalWrap{
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* 헤더 */
 .writeHeader{
   position: fixed;
@@ -24,7 +31,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
+      width: 100vw;
 
       .writePreIcon{
         width: 8.43px;
@@ -217,9 +224,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   overflow-y: auto;
-  width: 100vw;
-  background: #fff;
+  width: 375px;
 
   /* 제목 */
   .writeTitleWrap{
@@ -261,7 +268,7 @@
     width: 343px;
 
     .sectionPerPlace{
-      width: 100vw;
+      width: 343px;
 
       .sectionPerPlaceWrap{
         display: flex;

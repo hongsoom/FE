@@ -1,3 +1,20 @@
+.infoNoPicWrap{
+  background: #F5F9FF;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+
+  .linkToMore{
+    color:#606773;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
 .detailImageContainerPerPlaceWrap{
     display: flex;
     align-items: center;

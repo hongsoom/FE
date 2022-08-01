@@ -1,3 +1,9 @@
+.detailTotalWrap{
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 /* 헤더 */
 .detailHeader{
     position: fixed;
@@ -220,14 +226,8 @@
     align-items: center;
     justify-content: center;
     overflow-y: auto;
-    width: 100vw;
-
-    .kakaomap{
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-    }
-  
+    width: 343px;
+    
     .detailSectionWrap{
       margin-top: 15px;
       display: flex;
@@ -235,7 +235,7 @@
       width: 343px;
   
       .sectionPerPlace{
-        width: 100vw;
+        width: 343px;
         z-index: 0;
   
         .sectionPerPlaceWrap{
