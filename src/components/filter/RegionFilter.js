@@ -9,8 +9,6 @@ const RegionFilter = ({ onClick }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [color, setColor] = useState(false);
-
   const area = [
     "서울",
     "경기",
@@ -46,14 +44,13 @@ const RegionFilter = ({ onClick }) => {
         <div className="area-list">
           {area.map((region, i) => (
             <button
+              key={i}
               onClick={() => {
-                navigate("/filter/" + region);
                 onClick();
-                setColor(!color);
+                navigate("/filter/" + region);
                 dispatch(userAction.initPagingDB());
               }}
-              className={color ? "table_btn_s" : "table_btn_ns"}
-              key={i}
+              className="table_btn_ns"
             >
               {region}
             </button>
