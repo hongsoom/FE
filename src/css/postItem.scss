@@ -5,6 +5,7 @@
     overflow: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
     list-style: none;
     padding: 0;
     z-index: 1;
