@@ -31,8 +31,9 @@
     }
   
     .filterbutton-region, .filterbutton-theme {
-      width: 75px;
+      width: 80px;
       height: 28px;
+      font-size: 12px;
       background-color: #FFFFFF;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
@@ -43,6 +44,7 @@
     }
     .filterbutton-price {
       height: 28px;
+      font-size: 12px;
       background-color: #FFFFFF;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
