@@ -95,11 +95,9 @@ const Kakaomap = (props) => {
         })
       }
       
-      return() =>{
+  },[kakao.maps.InfoWindow, kakao.maps.LatLng, kakao.maps.LatLngBounds, kakao.maps.Map, kakao.maps.Marker, kakao.maps.event, kakao.maps.services.Places, kakao.maps.services.Status.OK, kakao.maps.services.Status.ZERO_RESULT, myMap, place, setPlaces])
 
-      }
   
-  },[place])
 
  
   return(

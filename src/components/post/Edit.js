@@ -389,7 +389,7 @@ const Edit = (props) => {
   };
 
   return (
-    <>
+    <div className="writeTotalWrap">
       {/* 헤더 */}
       <div className="writeHeader">
         <div className="writeHeaderWrap">
@@ -679,7 +679,7 @@ const Edit = (props) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
