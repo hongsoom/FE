@@ -26,12 +26,12 @@ const Header = () => {
           <div className="header-image">
             <img
               src={categoryMenu}
-              alt="categoryMenu"
+              alt="카테고리 보기"
               className="categoryMenu-icon"
               onClick={onClick}
             />
             <div className="header-title" onClick={() => navigate("/")}>
-              <img src={logoSmail} alt="logoSmail" className="logoSmail-icon" />
+              <img src={logoSmail} alt="야너갈 로고" className="logoSmail-icon" />
               <p>야, 너도 갈래?</p>
             </div>
             <div className="header-icon">
@@ -39,13 +39,13 @@ const Header = () => {
                 <>
                   <img
                     src={write}
-                    alt="write"
+                    alt="게시글 작성하기"
                     className="write-icon"
                     onClick={() => navigate("/write")}
                   />
                   <img
                     src={mypage}
-                    alt="mypage"
+                    alt="마이페이지"
                     className="mypage-icon"
                     onClick={() => navigate("/mypage")}
                   />
