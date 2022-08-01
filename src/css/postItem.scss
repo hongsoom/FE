@@ -3,8 +3,10 @@
     margin-right: auto;
     position: relative;
     overflow: hidden;
+    touch-action: none;
     -ms-overflow-style: none;
     list-style: none;
+    -webkit-overflow-scrolling : touch;
     padding: 0;
     z-index: 1;
   }
@@ -21,6 +23,8 @@
     margin: 12px auto;
     overflow-y: scroll;
     -ms-overflow-style: none;
+    touch-action: none;
+    -webkit-overflow-scrolling : touch;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -35,6 +39,8 @@
     border-radius: 8px;
     overflow-y: scroll;
     -ms-overflow-style: none;
+    touch-action: none;
+    -webkit-overflow-scrolling : touch;
   }
   
   .postItem-title, .postItem-category {
