@@ -254,7 +254,7 @@ const Signup = () => {
             <input
               type="Password"
               label="비밀번호"
-              placeholder="비밀번호는 숫자와 대소문자, 특수문자를 혼용해주세요."
+              placeholder="숫자와 대소문자, 특수문자를 혼용해주세요."
               className="password"
               onChange={(e) => setPassword(e.target.value)}
             />
