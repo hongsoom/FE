@@ -26,14 +26,14 @@ export const getCommentDB = (postId) => {
       .get(`api/post/${postId}`)
       .then((response) => {
         const commentList = response.data.body.comments;
-
+        commentList.reverse();
         dispatch(getComment(commentList));
       })
       .catch((error) => {});
   };
 };
 
-export const addCommentDB = (postId, comment) => {
+export const addCommentDB = (postId, comment, date) => {
   return async function (dispatch) {
     await instance
       .post(`api/comment/${postId}`, {
@@ -44,6 +44,7 @@ export const addCommentDB = (postId, comment) => {
           .get(`api/post/${postId}`)
           .then((response) => {
             const commentList = response.data.body.comments;
+            commentList.reverse();
             dispatch(addComment(commentList));
           })
           .catch((error) => {});
