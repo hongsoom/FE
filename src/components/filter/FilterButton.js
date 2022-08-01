@@ -16,12 +16,12 @@ const FilterButton = (props) => {
   const [themeSelect, setThemeSelect] = useState([]);
   const [priceSelect, setPriceSelect] = useState("");
   const [modal, setModal] = useState(false);
-  const [click, setClick] = useState(false);
   const [theme, setTheme] = useState([]);
   const [price, setPrice] = useState("");
 
-  const is_keyword = recommendList ? true : false;
+  const is_keyword = keyword === "" ? true : false;
   const is_price = price ? true : false;
+  const is_theme = theme.length !== 0 ? true : false;
   const is_list = list ? true : false;
   const is_region = region ? true : false;
 
@@ -80,7 +80,6 @@ const FilterButton = (props) => {
     <>
       {modal && (
         <FilterModal
-          setClick={setClick}
           onClick={onClick}
           list={list}
           region={region}
@@ -97,21 +96,21 @@ const FilterButton = (props) => {
         />
       )}
       <div className="filterbutton-box">
-        {is_keyword === true ? (
+        {is_keyword ? (
           <>
             <div className="filterbutton-container">
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
-                  {click ? (
+                  {is_price || is_theme ? (
                     <>
                       {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}
                         </button>
                       ))}
-                      {is_price ? (
+                      {is_price && (
                         <button className="filterbutton-price">#{price}</button>
-                      ) : null}
+                      )}
                     </>
                   ) : (
                     <>
@@ -170,9 +169,9 @@ const FilterButton = (props) => {
                           #{list}
                         </button>
                       ))}
-                      {is_price ? (
+                      {is_price && (
                         <button className="filterbutton-price">#{price}</button>
-                      ) : null}
+                      )}
                     </>
                   )}
                 </div>

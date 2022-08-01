@@ -15,7 +15,6 @@ const FilterModal = (props) => {
 
   const {
     onClick,
-    setClick,
     keyword,
     region,
     list,
@@ -90,7 +89,6 @@ const FilterModal = (props) => {
       (priceSelect !== "" && is_keyword)
     ) {
       clean();
-      setClick(true);
       const region_ = checkHasIncode(keyword);
       dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
     }
@@ -121,7 +119,6 @@ const FilterModal = (props) => {
     ) {
       clean();
       dispatch(userAction.arrayGetDB(keyword, nextPage, size));
-      setClick(false);
       onClick();
     }
 
@@ -191,16 +188,18 @@ const FilterModal = (props) => {
   };
 
   const filterReset = () => {
-    setPriceSelect("");
-    setThemeSelect([]);
     if (theme.includes(list)) {
       setPriceSelect("");
       setThemeSelect([list]);
     }
+
     if (price.includes(list)) {
       setPriceSelect(list);
-      setThemeSelect();
+      setThemeSelect([]);
     }
+
+    setPriceSelect("");
+    setThemeSelect([]);
   };
 
   const handleClickBackground = (e) => {
@@ -303,8 +302,6 @@ const FilterModal = (props) => {
                   className="filtermodal-cancel"
                   onClick={() => {
                     initialPost();
-                    setPrice(priceSelect);
-                    setTheme(themeSelect);
                   }}
                 >
                   취소
@@ -312,9 +309,9 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    filterPost();
                     setPrice(priceSelect);
                     setTheme(themeSelect);
+                    filterPost();
                     onClick();
                   }}
                 >
