@@ -15,6 +15,13 @@ const InfinityScroll = (props) => {
       e.preventDefault();
       callNext();
     }
+
+    if (
+      window.innerHeight >
+      e.target.documentElement.scrollHeight - e.target.documentElement.scrollTop
+    ) {
+      return;
+    }
   };
 
   useEffect(() => {
