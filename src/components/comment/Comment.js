@@ -42,6 +42,23 @@ const Comment = ({ param, userId }) => {
     }
   };
 
+  const deletecomment = (commentId) => {
+    swal({
+      title: "댓글을 삭제하시겠습니까?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((result) => {
+      if (result) {
+        swal("승인이 완료되었습니다.", { icon: "success" }).then(function () {
+          dispatch(deleteCommentDB(commentId));
+        });
+      } else {
+        return;
+      }
+    });
+  };
+
   useEffect(() => {
     loadCommnet();
   }, []);
@@ -79,7 +96,7 @@ const Comment = ({ param, userId }) => {
                   {userId === list.userId && (
                     <span
                       className="comment-delete"
-                      onClick={() => dispatch(deleteCommentDB(list.commentId))}
+                      onClick={() => deletecomment(list.commentId)}
                     >
                       삭제
                     </span>
