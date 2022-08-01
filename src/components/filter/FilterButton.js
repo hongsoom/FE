@@ -157,7 +157,9 @@ const FilterButton = (props) => {
                           className={
                             list === price || theme.includes(list)
                               ? "filterbutton-none"
-                              : "filterbutton-region"
+                              : list === listRegion
+                              ? "filterbutton-region"
+                              : "filterbutton-keyword"
                           }
                         >
                           #{list}

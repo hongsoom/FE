@@ -29,6 +29,19 @@
     .filterbutton-none {
       display: none;
     }
+
+    .filterbutton-keyword {
+      width: auto;
+      height: 28px;
+      font-size: 12px;
+      background-color: #FFFFFF;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 6px;
+      border: 1px solid #FFFFFF;
+      color: #333333;
+      cursor: pointer;
+    }
   
     .filterbutton-region, .filterbutton-theme {
       width: 80px;
@@ -43,6 +56,7 @@
       cursor: pointer;
     }
     .filterbutton-price {
+      width: auto;
       height: 28px;
       font-size: 12px;
       background-color: #FFFFFF;
