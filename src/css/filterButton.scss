@@ -25,6 +25,10 @@
   .filterbutton-button {
     display: flex;
     flex-wrap: wrap;
+
+    .filterbutton-none {
+      display: none;
+    }
   
     .filterbutton-region, .filterbutton-theme {
       width: 75px;

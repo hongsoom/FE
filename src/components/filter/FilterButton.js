@@ -22,55 +22,53 @@ const FilterButton = (props) => {
 
   const is_keyword = recommendList ? true : false;
   const is_price = price ? true : false;
-  const is_listRegion = listRegion ? true : false;
+  const is_list = list ? true : false;
   const is_region = region ? true : false;
 
   useEffect(() => {
-    if (list) {
-      setListRegion("");
-      setThemeSelect([]);
-      setPriceSelect("");
-      if (
-        list === "서울" ||
-        list === "경기" ||
-        list === "인천" ||
-        list === "강원도" ||
-        list === "충청도" ||
-        list === "전라도" ||
-        list === "경상도" ||
-        list === "대전" ||
-        list === "세종" ||
-        list === "대구" ||
-        list === "울산" ||
-        list === "광주" ||
-        list === "부산" ||
-        list === "제주도"
-      ) {
-        setListRegion(list);
-      }
+    setListRegion("");
+    setThemeSelect([]);
+    setPriceSelect("");
+    if (
+      list === "서울" ||
+      list === "경기" ||
+      list === "인천" ||
+      list === "강원도" ||
+      list === "충청도" ||
+      list === "전라도" ||
+      list === "경상도" ||
+      list === "대전" ||
+      list === "세종" ||
+      list === "대구" ||
+      list === "울산" ||
+      list === "광주" ||
+      list === "부산" ||
+      list === "제주도"
+    ) {
+      setListRegion(list);
+    }
 
-      if (
-        list === "힐링" ||
-        list === "맛집" ||
-        list === "애견동반" ||
-        list === "액티비티" ||
-        list === "호캉스"
-      ) {
-        setThemeSelect([list]);
-        setTheme([list]);
-      }
+    if (
+      list === "힐링" ||
+      list === "맛집" ||
+      list === "애견동반" ||
+      list === "액티비티" ||
+      list === "호캉스"
+    ) {
+      setThemeSelect([list]);
+      setTheme([list]);
+    }
 
-      if (
-        list === "10만원 이하" ||
-        list === "10만원" ||
-        list === "20만원" ||
-        list === "30만원" ||
-        list === "40만원" ||
-        list === "50만원 이상"
-      ) {
-        setPriceSelect(list);
-        setPrice(list);
-      }
+    if (
+      list === "10만원 이하" ||
+      list === "10만원" ||
+      list === "20만원" ||
+      list === "30만원" ||
+      list === "40만원" ||
+      list === "50만원 이상"
+    ) {
+      setPriceSelect(list);
+      setPrice(list);
     }
   }, [list]);
 
@@ -154,11 +152,17 @@ const FilterButton = (props) => {
                     </>
                   ) : (
                     <>
-                      {is_listRegion ? (
-                        <button className="filterbutton-region">
-                          #{listRegion}
+                      {is_list && (
+                        <button
+                          className={
+                            list === price || theme.includes(list)
+                              ? "filterbutton-none"
+                              : "filterbutton-region"
+                          }
+                        >
+                          #{list}
                         </button>
-                      ) : null}
+                      )}
                       {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}

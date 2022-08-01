@@ -24,8 +24,6 @@ const FilterPost = (props) => {
         closeOnClickOutside: false,
       });
       return;
-    } else {
-      return;
     }
   };
 
