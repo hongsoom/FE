@@ -196,9 +196,13 @@ const FilterModal = (props) => {
   const filterReset = () => {
     setPriceSelect("");
     setThemeSelect([]);
-    if (theme.includes(list) || price.includes(list)) {
-      setPriceSelect(list);
+    if (theme.includes(list)) {
+      setPriceSelect("");
       setThemeSelect([list]);
+    }
+    if (price.includes(list)) {
+      setPriceSelect(list);
+      setThemeSelect();
     }
   };
 
