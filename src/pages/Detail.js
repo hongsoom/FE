@@ -249,8 +249,8 @@ const Detail = () => {
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
               {/* 선택한 장소 확인하기 */}
-              <div className="placeButton" onClick={openPlaceModal}>
-                선택 장소 확인
+              <div className="placeButton" onClick={()=>{list(data&&data.place)}}>
+                모든 핀 보기
                 <div className="places">
                   <DetailPlaceModal
                     data={data}

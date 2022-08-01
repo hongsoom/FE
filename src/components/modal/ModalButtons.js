@@ -8,7 +8,7 @@ import PriceModal from '../modal/PriceModal'
 import PlaceModal from "../modal/PlaceModal"
 
 const ModalButtons = (props) =>{
-  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap, list, openPlaceModal, closePlaceModal, showPlaceModal} = props 
+  const {region, theme, price, setRegion, setTheme, setPrice, selectedRegion, selectedTheme, selectedPrice, setSelect, select, myInfo, setFocus, myMap, list, openPlaceModal, closePlaceModal, setShowPlaceModal, showPlaceModal} = props 
 
   const [showPriceModal, setShowPriceModal] = useState(false); // 비용모달
   const [showThemeModal, setShowThemeModal] = useState(false); // 테마모달
@@ -21,6 +21,7 @@ const ModalButtons = (props) =>{
   }
   const closeRegionModal = () => {
     setShowRegionModal(false)
+    checkSelected()
   }
   const cancelRegionModal = () =>{
     setShowRegionModal(false)
@@ -33,6 +34,7 @@ const ModalButtons = (props) =>{
   }
   const closeThemeModal = () => {
     setShowThemeModal(false)
+    checkSelected()
   }
   const cancelThemeModal = () =>{
     setShowThemeModal(false)
@@ -45,13 +47,28 @@ const ModalButtons = (props) =>{
   }
   const closePriceModal = () => {
     setShowPriceModal(false)
+    checkSelected()
   }
   const cancelPriceModal = () =>{
     setShowPriceModal(false)
     setPrice('')
   }
 
-  
+
+  const checkSelected = () => {
+    if(selectedRegion.length === 0){
+      setShowRegionModal(true)
+    } else if(selectedTheme.length === 0){
+      setShowThemeModal(true)
+    } else if(selectedPrice.length === 0){
+      setShowPriceModal(true)
+    }
+  }
+  const checkAllFin = () =>{
+    setShowPlaceModal(false)
+    list(select)
+  }
+
 
   return(
       <div className='modalButtons'>
@@ -67,7 +84,7 @@ const ModalButtons = (props) =>{
           <div className='regions'>
             <RegionModal region={region} selectedRegion={selectedRegion} setRegion={setRegion}
             showRegionModal={showRegionModal} cancelRegionModal={cancelRegionModal}
-            closeRegionModal={closeRegionModal}
+            closeRegionModal={closeRegionModal} checkSelected={checkSelected}
             />
           </div>  
         </div>
@@ -95,7 +112,7 @@ const ModalButtons = (props) =>{
         <div className='themes'>
             <ThemeModal theme={theme} selectedTheme={selectedTheme} setTheme={setTheme}
             showThemeModal={showThemeModal} cancelThemeModal={cancelThemeModal}
-            closeThemeModal={closeThemeModal}
+            closeThemeModal={closeThemeModal} checkSelected={checkSelected}
             />
         </div>    
       </div>
@@ -111,7 +128,7 @@ const ModalButtons = (props) =>{
           <div className='prices'>
             <PriceModal price={price} selectedPrice={selectedPrice} setPrice={setPrice}
             showPriceModal={showPriceModal} cancelPriceModal={cancelPriceModal}
-            closePriceModal={closePriceModal}
+            closePriceModal={closePriceModal} checkSelected={checkSelected}
             />
           </div>    
       </div>
@@ -121,7 +138,7 @@ const ModalButtons = (props) =>{
         <div className='modalChoiceTitle'>선택 장소 확인</div>
           <div className='places'>
             <PlaceModal setSelect={setSelect} select={select} myMap={myMap}
-            showPlaceModal={showPlaceModal} list={list} 
+            showPlaceModal={showPlaceModal} checkAllFin={checkAllFin}
             closePlaceModal={closePlaceModal} myInfo={myInfo} setFocus={setFocus}
             />
           </div>    
