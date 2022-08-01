@@ -6,7 +6,7 @@
     touch-action: none;
     -ms-overflow-style: none;
     list-style: none;
-    -webkit-overflow-scrolling : touch;
+    -webkit-overflow-scrolling : auto;
     padding: 0;
     z-index: 1;
   }
@@ -24,7 +24,7 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     touch-action: none;
-    -webkit-overflow-scrolling : touch;
+    -webkit-overflow-scrolling : auto;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -40,7 +40,7 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     touch-action: none;
-    -webkit-overflow-scrolling : touch;
+    -webkit-overflow-scrolling : auto;
   }
   
   .postItem-title, .postItem-category {
