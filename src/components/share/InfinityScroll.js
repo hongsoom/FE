@@ -9,30 +9,11 @@ const InfinityScroll = (props) => {
       return;
     }
 
-    console.log("window.innerHeight", window.innerHeight);
-    console.log(
-      "e.target.documentElement.scrollHeight",
-      e.target.documentElement.scrollHeight
-    );
-    console.log(
-      " e.target.documentElement.scrollTop",
-      e.target.documentElement.scrollTop
-    );
-    console.log("window.scrollY", window.scrollY);
-
     if (
       window.innerHeight + window.scrollY >
       e.target.documentElement.scrollHeight - 10
     ) {
       callNext();
-    }
-
-    if (
-      window.innerHeight <
-      e.target.documentElement.scrollHeight - e.target.documentElement.scrollTop
-    ) {
-      e.preventDefault();
-      return;
     }
   }, 1000);
 
