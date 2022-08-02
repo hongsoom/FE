@@ -72,35 +72,35 @@ const Main = () => {
       <Header />
       <SearchWrite />
       <FilterButton recommendList={recommendList} keyword={keyword} />
-      <div className="main-container">
-        <div className="main-content">
-          <div className="main-bookmarktitle">
-            <p>핫 플레이스🔥</p>
-          </div>
-          <BookmarkPost bookmarkcontents={bookmarkcontents} />
-          <div className="main-latest-love-container">
-            <div className="main-latest-love-content">
-              <div className="main-latest-love-title">
-                <img src={smaillogo} alt="smaillogo" />
-                <p>다른 회원님의 경로를 확인해보세요</p>
-              </div>
-              <div className="main-latest-love-select">
-                <select onChange={(e) => onChangeSort(e)}>
-                  <option value="id">최신순</option>
-                  <option value="loveCount">인기순</option>
-                </select>
-              </div>
+      {isFilter ? (
+        <FilterPost
+          size={size}
+          posts={filtercontents}
+          nextPage={nextPage}
+          lastPage={lastPage}
+          isLoading={isLoading}
+        />
+      ) : (
+        <div className="main-container">
+          <div className="main-content">
+            <div className="main-bookmarktitle">
+              <p>핫 플레이스🔥</p>
             </div>
-            <div className="main-latest-love-component">
-              {isFilter ? (
-                <FilterPost
-                  size={size}
-                  posts={filtercontents}
-                  nextPage={nextPage}
-                  lastPage={lastPage}
-                  isLoading={isLoading}
-                />
-              ) : (
+            <BookmarkPost bookmarkcontents={bookmarkcontents} />
+            <div className="main-latest-love-container">
+              <div className="main-latest-love-content">
+                <div className="main-latest-love-title">
+                  <img src={smaillogo} alt="smaillogo" />
+                  <p>다른 회원님의 경로를 확인해보세요</p>
+                </div>
+                <div className="main-latest-love-select">
+                  <select onChange={(e) => onChangeSort(e)}>
+                    <option value="id">최신순</option>
+                    <option value="loveCount">인기순</option>
+                  </select>
+                </div>
+              </div>
+              <div className="main-latest-love-component">
                 <SelectPost
                   keyword={keyword}
                   sortby={sortby}
@@ -111,11 +111,11 @@ const Main = () => {
                   lastPage={lastPage}
                   isLoading={isLoading}
                 />
-              )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <div
         className="research"
         onClick={() =>
