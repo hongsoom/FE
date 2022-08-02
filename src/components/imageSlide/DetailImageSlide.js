@@ -2,7 +2,6 @@ import React from "react";
 import "../../css/detailImageSlide.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
-import AddPicSign from "../../assets/AddPicSign.png";
 
 const DetailImageSlide = (props) => {
   const { data, j } = props;

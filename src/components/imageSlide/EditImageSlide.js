@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../css/editImageSlide.scss';
 
 // 라이브러리
 import imageCompression from 'browser-image-compression';
 import { Swiper, SwiperSlide } from "swiper/react";
 
+// 컴포넌트
+import AddButton from "./AddButton"
+
 const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setNewImgFile, newImgFile, l, j, setAllImgUrl, allImgUrl, focus}) => {
   
-  // ------------------- 업로드 이미지 url로 바꿔서 미리보기 띄우기
+  // 업로드 이미지 url로 바꿔서 미리보기 띄우기
   const editLoadImg = async (e, index) => {
     const file = e.target.files[0];
 
@@ -71,17 +74,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         )}
         </Swiper>
       </div>
-
-      <div className='addButton' key={j}
-      >
-        <label htmlFor={`place_name_${j}`}>
-          <div>{l.place_name} 사진 추가하기 📸</div>
-        </label>
-        <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
-        onChange={(e)=>{editLoadImg(e, j)}}
-        style={{display:'none'}}
-        />
-      </div> 
+      <AddButton j={j} l={l} loadImg={editLoadImg}/> 
       </>
       :
       <>
@@ -101,7 +94,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
               slidesPerView: 1
           }}}>
         
-        {editdata&&allImgUrl&&allImgUrl[j]&&allImgUrl[j].imgUrl.map((list, index) => 
+        {editdata&&allImgUrl&&allImgUrl[0]&&allImgUrl[0].imgUrl.map((list, index) => 
         <SwiperSlide 
           style={{
             width : "343px",
@@ -113,15 +106,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         )}
         </Swiper>
       </div>
-
-      
-        <label className='addButton' htmlFor={`place_name_${j}`}>
-          <div>{select&&select[0]&&select[0].place_name} 사진 추가하기 📸</div>
-        <input type="file" id={`place_name_${j}`} name="uploadImg" accept="image/*" 
-        onChange={(e)=>{editLoadImg(e, j)}}
-        style={{display:'none'}}
-        />
-      </label>
+      <AddButton j={0} l={l} loadImg={editLoadImg}/> 
       </>
       }
         

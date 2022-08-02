@@ -73,7 +73,6 @@ const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, setImgs, imgs, l, j, 
         )}
         </Swiper>
       </div>
-
       <AddButton j={j} l={l} loadImg={loadImg}/> 
     </>
 
@@ -106,9 +105,7 @@ const ImageSlide = ({setSelect, select, setImgUrl, imgUrl, setImgs, imgs, l, j, 
       )}
       </Swiper>
     </div>
-
     <AddButton j={j} l={l} loadImg={loadImg}/>    
-    
   </>
   }
 </>

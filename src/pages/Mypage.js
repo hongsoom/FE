@@ -40,7 +40,7 @@ const Mypage = (props) => {
 
   const is_userId = userId !== undefined ? true : false;
 
-  // ----------------- 나의 )정보 / 나의 게시글 가져오기
+  // ----------------- 나의 정보 / 나의 게시글 가져오기
   useEffect(() => {
     if (is_userId) {
       dispatch(getUserpostDB(userId, size, page, id, direction));
@@ -49,15 +49,15 @@ const Mypage = (props) => {
       dispatch(getMypostDB(size, page, id, direction));
       dispatch(getMybookmarkDB(size, page, id, direction));
     }
-  }, [dispatch]);
+  }, [direction, dispatch, id, is_userId, page, size, userId]);
 
-  // ---------------------------------------------------
+  // --------------------------------
 
   useEffect(() => {
     if (is_userId) {
       dispatch(userAction.userInfoDB(userId));
     }
-  }, [userId]);
+  }, [userId, dispatch, is_userId]);
 
   const onWriteHandler = () => {
     navigate("/write");
