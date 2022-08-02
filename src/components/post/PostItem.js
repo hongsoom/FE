@@ -82,9 +82,17 @@ const PostItem = (props) => {
         <div className="postItem-title">
           <div className="postItem-user">
             {userImgUrl ? (
-              <img src={userImgUrl} alt="profile" onClick={userInfo} />
+              <img
+                src={userImgUrl}
+                alt="profile"
+                onClick={() => (is_login ? userInfo() : errorMessage())}
+              />
             ) : (
-              <img src={user} alt="default-profile" onClick={userInfo} />
+              <img
+                src={user}
+                alt="default-profile"
+                onClick={() => (is_login ? userInfo() : errorMessage())}
+              />
             )}
             {grade === "BRONZE" && (
               <img src={bronze} alt="grade" className="postItem-grade" />
@@ -101,7 +109,11 @@ const PostItem = (props) => {
             {grade === "GOLD" && (
               <img src={gold} alt="grade" className="postItem-grade" />
             )}
-            <p onClick={userInfo}>{nickName}</p>
+            {is_login ? (
+              <p onClick={userInfo}>{nickName}</p>
+            ) : (
+              <p onClick={errorMessage}>{nickName}</p>
+            )}
           </div>
           <div className="postItem-click">
             <img
