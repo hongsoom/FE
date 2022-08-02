@@ -104,7 +104,7 @@ const Detail = () => {
     } else {
       const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-        level: 4,
+        level: 5,
       };
       const map = new kakao.maps.Map(myMap.current, options);
     }
