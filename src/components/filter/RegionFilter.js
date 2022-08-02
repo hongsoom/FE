@@ -31,7 +31,7 @@ const RegionFilter = ({ onClick }) => {
   }, []);
 
   return (
-    <div className="regionfilter-container">
+    <div className="regionfilter-container" onClick={onClick}>
       <div className="regionfilter-content">
         <div className="regionfilter-haader">
           <div className="regionfilter-title">

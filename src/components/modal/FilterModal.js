@@ -224,7 +224,7 @@ const FilterModal = (props) => {
 
   return (
     <>
-      <div className="filtermodal-box">
+      <div className="filtermodal-box" onClick={onClick}>
         <div className="filtermodal-container">
           <div
             className="filtermodal-content"

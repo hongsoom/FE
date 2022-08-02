@@ -7,7 +7,7 @@ import { getPostDB, clearPostDB } from "../redux/module/post";
 import { userAction } from "../redux/module/user";
 
 // 컴포넌트
-import DetailHeader from "../components/post/DetailHeader"
+import DetailHeader from "../components/post/DetailHeader";
 import Kakaomap from "../components/kakaomap/Kakaomap";
 import Comment from "../components/comment/Comment";
 import DetailSectionPerPlace from "../components/post/DetailSectionPerPlace";
@@ -39,9 +39,9 @@ const Detail = () => {
   }, [dispatch]);
   const userInfo = useSelector((state) => state.user.myinfo);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
 
   useEffect(() => {
     list(data.place);
@@ -91,11 +91,11 @@ const Detail = () => {
           });
           infowindow.setContent(
             '<div style="padding:5px;font-size:12px;">' +
-            _place.place_name +
-            "<br/>" +
-            _place.phone +
-            "<br/>" +
-            `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div>`
+              _place.place_name +
+              "<br/>" +
+              _place.phone +
+              "<br/>" +
+              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
@@ -117,12 +117,17 @@ const Detail = () => {
       <div className="contentsWrap">
         {/* 카카오맵 / 제목 / 사진슬라이드 */}
         <Kakaomap kakao={kakao} myMap={myMap} />
-        <DetailSectionPerPlace data={data} logosky={logosky} focus={focus} openPlaceModal={openPlaceModal}/>
+        <DetailSectionPerPlace
+          data={data}
+          logosky={logosky}
+          focus={focus}
+          openPlaceModal={openPlaceModal}
+        />
 
         {/* 콘텐츠 */}
         <div className="txtPlace">{data && data.content}</div>
         {/* 좋아요 북마크 공유하기 */}
-        <DetailHeartMarkShare data={data} param={param}/>
+        <DetailHeartMarkShare data={data} param={param} />
 
         {/* 댓글 */}
         <div className="commentPlace">
