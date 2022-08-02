@@ -5,8 +5,7 @@ import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
 // 컴포넌트
-import SearchPlace from "../post/SearchPlace";
-import ModalButtons from "../modal/ModalButtons";
+import PostHeader from "./PostHeader";
 import Kakaomap from "../kakaomap/Kakaomap";
 import Title from "../post/Title";
 import ImageSlide from "../imageSlide/ImageSlide";
@@ -16,10 +15,9 @@ import TextBox from "./TextBox";
 import { addPostDB } from "../../redux/module/post";
 
 // 아이콘
-import search from "../../assets/search.png";
 import logosky from "../../assets/logosky.png";
 import trashwhite from "../../assets/trashwhite.png";
-import leftArrowBlack from "../../assets/leftArrowBlack.png";
+
 
 // 카카오맵
 const { kakao } = window;
@@ -43,18 +41,6 @@ const NewPost = (props) => {
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
 
-  const region = ["서울", "대전", "경기", "세종", "인천", "대구", "강원도", "울산", "충청도", "광주", "전라도", "부산", "경상도", "제주도"];   
-  const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
-  const price = ["10만원 이하", "10만원대", "20만원대", "30만원대", "40만원대", "50만원 이상"];
-
-  const onClickLeftArrow = () => {
-    navigate("/");
-  };
-
-  // 검색 창
-  const onChange = (e) => {
-    setInputText(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     const searchList_wrap = document.getElementById("searchList_wrap");
@@ -237,53 +223,31 @@ const NewPost = (props) => {
   return (
     <div className="writeTotalWrap">
       {/* 헤더 */}
-      <div className="writeHeader">
-        <div className="writeHeaderWrap">
-          <div className="writeUpperHeader">
-            <div className="writePreIcon" onClick={onClickLeftArrow}>
-              <img src={leftArrowBlack} alt="홈으로 이동" />
-            </div>
-            <SearchPlace
-              search={search}
-              Places={Places}
-              onChange={onChange}
-              handleSubmit={handleSubmit}
-              inputText={inputText}
-              onClickHandler={onClickHandler}
-              setSelect={setSelect}
-              select={select}
-              setImgUrl={setImgUrl}
-              list={list}
-              setFocus={setFocus}
-            />
-          </div>
-
-          <div className="writeLowerHeader">
-            <ModalButtons
-              region={region}
-              theme={theme}
-              price={price}
-              setRegion={setRegion}
-              setTheme={setTheme}
-              setPrice={setPrice}
-              selectedRegion={selectedRegion}
-              selectedTheme={selectedTheme}
-              selectedPrice={selectedPrice}
-              openPlaceModal={openPlaceModal}
-              closePlaceModal={closePlaceModal}
-              setShowPlaceModal={setShowPlaceModal}
-              showPlaceModal={showPlaceModal}
-              myInfo={myInfo}
-              select={select}
-              setSelect={setSelect}
-              setFocus={setFocus}
-              myMap={myMap}
-              list={list}
-            />
-          </div>
-        </div>
-      </div>
-
+      <PostHeader 
+        setRegion={setRegion}
+        setTheme={setTheme}
+        setPrice={setPrice}
+        selectedRegion={selectedRegion}
+        selectedTheme={selectedTheme}
+        selectedPrice={selectedPrice}
+        openPlaceModal={openPlaceModal}
+        closePlaceModal={closePlaceModal}
+        setShowPlaceModal={setShowPlaceModal}
+        showPlaceModal={showPlaceModal}
+        myInfo={myInfo}
+        setInputText={setInputText}
+        inputText={inputText}
+        select={select}
+        setSelect={setSelect}
+        setFocus={setFocus}
+        myMap={myMap}
+        list={list}
+        Places={Places}
+        handleSubmit={handleSubmit}
+        onClickHandler={onClickHandler}
+        setImgUrl={setImgUrl}
+        />
+        
       {/* 움직이는 부분 */}
       <div className="contentWrap">
         <Kakaomap

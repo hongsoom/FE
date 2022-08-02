@@ -5,7 +5,7 @@ import "../../css/placeModal.scss"
 const { kakao } = window
 
 const PlaceModal = (props) => {
-  const {showPlaceModal, closePlaceModal, myInfo, select, setFocus, myMap, checkAllFin} = props
+  const {showPlaceModal, closePlaceModal, data, myInfo, select, setFocus, myMap, checkAllFin} = props
   
   // 선택한 장소 핀찍기
   const panTo= (place, list) =>{
@@ -24,6 +24,7 @@ const PlaceModal = (props) => {
     marker.setMap(map);
 
     for (var i = 0; i < list.length; i++) {
+      let bounds = new kakao.maps.LatLngBounds()
       // 마커를 생성
       const marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
@@ -32,6 +33,8 @@ const PlaceModal = (props) => {
         title: list[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
         place_name: list[i].place_name,
       });
+      bounds.extend(new kakao.maps.LatLng(list[i].y, list[i].x))
+      map.setBounds(bounds)
 
       kakao.maps.event.addListener(marker, "click", function () {
         var infowindow = new kakao.maps.InfoWindow({
@@ -54,10 +57,13 @@ const PlaceModal = (props) => {
  
   const onFocusPlaceHandler = (v) => {
     setFocus(v.place_name)
-    panTo(v, select)
+    if(data){
+      panTo(v, data.place)
+    } else {
+      panTo(v, select)
+    }
     closePlaceModal()
   }
-
 
   return(
     <div className={showPlaceModal ? 'openModal placeWrap' : 'placeWrap'}>
@@ -65,6 +71,24 @@ const PlaceModal = (props) => {
       <div className='background' onClick={closePlaceModal}>
         <div className='place_wrap' onClick={e => e.stopPropagation()}>
           <section>
+            {data&&data ?
+            <>
+            <div className="modalTitle">{data&&data.nickname}님의 추천 장소</div>
+            <div className="placesWrap">
+            {data&&data.place.map((v,i)=>{
+              return(
+                <div className="selectedPlaceDetail" key={i}
+                onClick={()=>{onFocusPlaceHandler(v)}}
+                >
+                  <div className="selectedPlaceName">📍{v.place_name}</div>
+                  <div className="selectedPlaceAddress">{v.address_name}</div>
+                </div>  
+              )
+            })}
+            </div>
+            </>
+            :
+            <>
             <div className="modalTitle">{myInfo&&myInfo.nickname}님이 선택한 장소</div>
             <div className="placesWrap">
             {select&&select.map((v,i)=>{
@@ -77,8 +101,9 @@ const PlaceModal = (props) => {
                 </div>  
               )
             })}
-          </div>
-            
+            </div>
+            </>
+            }
             <div className="buttons">
               <div className="doneButton">
                 <button className="close checkAll" onClick={checkAllFin}>핀 한눈에 보기</button>

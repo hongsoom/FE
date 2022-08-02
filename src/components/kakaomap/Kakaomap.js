@@ -7,16 +7,14 @@ const Kakaomap = (props) => {
   const {kakao, myMap, setPlaces, place} = props
 
   useEffect(()=>{
-    // 지도에 검색하고 결과 나오게 하기
-    const options = {
+    const option = {
       center: new kakao.maps.LatLng(37.5666805, 126.9784147),
       level: 4,
     }
-    const map = new kakao.maps.Map(myMap.current, options)
+    const map = new kakao.maps.Map(myMap.current, option)
     
     return()=> {
-      // 지도에 검색하고 결과 나오게 하기
-      const options = {
+      const option = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
         level: 4,
       }

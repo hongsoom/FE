@@ -51,11 +51,10 @@ const MyLevelGaugeBar = (props) => {
     setPercentage(() => {
       return ((myInfo && myInfo.totalPoint - minPoint) / gap) * 100;
     });
-  }, [gap, minPoint, percentage]);
+  }, [gap, minPoint, percentage, myInfo]);
 
   return (
     <div className="myLevelGauge">
-      {}
       <div
         className="myLevelGaugeWrap"
         style={
