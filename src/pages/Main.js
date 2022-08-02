@@ -74,6 +74,9 @@ const Main = () => {
       <FilterButton recommendList={recommendList} keyword={keyword} />
       <div className="main-container">
         <div className="main-content">
+          <div className="main-bookmarktitle">
+            <p>핫 플레이스🔥</p>
+          </div>
           <BookmarkPost bookmarkcontents={bookmarkcontents} />
           <div className="main-latest-love-container">
             <div className="main-latest-love-content">

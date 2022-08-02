@@ -1,7 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PostItem from "../post/PostItem";
-import "../../css/postItem.scss";
 
 const BookmarkPost = (props) => {
   const { bookmarkcontents } = props;
@@ -24,11 +23,11 @@ const BookmarkPost = (props) => {
       {bookmarkcontents &&
         bookmarkcontents.map((list, i) => {
           return (
-            <div className="bookmarkpost-content" key={i}>
-              <SwiperSlide key={i}>
+            <SwiperSlide key={i}>
+              <div className="bookmarkpost-content" key={i}>
                 <PostItem key={i} {...list} />
-              </SwiperSlide>
-            </div>
+              </div>
+            </SwiperSlide>
           );
         })}
     </Swiper>

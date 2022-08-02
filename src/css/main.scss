@@ -42,6 +42,21 @@
   .main-content {
     margin: 0 20px;
   }
+
+  .main-bookmarktitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    p {
+      margin : 0;
+      font-family: 'Happiness-Sans-Title';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 23px;
+    }
+  }
   
   .main-recommend, .main-category {
     width: 335px;

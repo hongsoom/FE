@@ -23,13 +23,21 @@
     }
   }
   
-  .postItem-content,
-  .bookmarkpost-content {
+  .postItem-content {
     width: 100%;
     position: relative;
     margin-bottom: 18px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+  }
+
+  .bookmarkpost-content  {
+    width: 100%;
+    position: relative;
+    margin-bottom: 18px;
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
   
   .postItem-title, .postItem-category {
