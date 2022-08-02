@@ -9,7 +9,7 @@ import search from "../../assets/search.png";
 import leftArrowBlack from "../../assets/leftArrowBlack.png";
 
 const PostHeader = (props) => {
-  const {myInfo, setInputText, inputText, Places, handleSubmit, onClickHandler, setSelect, select, setImgUrl, list, setFocus, myMap, setPrice, setRegion, setTheme, selectedRegion, selectedTheme, selectedPrice, openPlaceModal, closePlaceModal, setShowPlaceModal, showPlaceModal} = props
+  const {myInfo, setInputText, inputText, Places, handleSubmit, onClickHandler, setSelect, select, setImgUrl, list, setFocus, myMap, setPrice, setRegion, setTheme, selectedRegion, selectedTheme, selectedPrice, openPlaceModal, closePlaceModal, setShowPlaceModal, showPlaceModal, param, setAllImgUrl} = props
   const navigate = useNavigate();
 
   const region = ["서울", "대전", "경기", "세종", "인천", "대구", "강원도", "울산", "충청도", "광주", "전라도", "부산", "경상도", "제주도"];   
@@ -44,6 +44,8 @@ const PostHeader = (props) => {
             setImgUrl={setImgUrl}
             list={list}
             setFocus={setFocus}
+            param={param}
+            setAllImgUrl={setAllImgUrl}
           />
         </div>
 

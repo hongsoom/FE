@@ -112,7 +112,7 @@ const Detail = () => {
 
   return (
     <div className="detailTotalWrap">
-      <DetailHeader myMap={myMap} openPlaceModal={openPlaceModal} setFocus={setFocus} setShowPlaceModal={setShowPlaceModal} showPlaceModal={showPlaceModal} data={data} list={list}/>
+      <DetailHeader myMap={myMap} openPlaceModal={openPlaceModal} setFocus={setFocus} setShowPlaceModal={setShowPlaceModal} showPlaceModal={showPlaceModal} data={data} list={list} userInfo={userInfo}/>
       
       <div className="contentsWrap">
         {/* 카카오맵 / 제목 / 사진슬라이드 */}

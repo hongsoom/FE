@@ -283,12 +283,6 @@ const NewPost = (props) => {
                 </div>
               </div>
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
         ) : focus && focus.length !== 0 ? (
           <div className="sectionWrap">
@@ -347,13 +341,6 @@ const NewPost = (props) => {
                   );
                 })}
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
         ) : (
           <div className="sectionWrap">
@@ -397,14 +384,13 @@ const NewPost = (props) => {
                 </div>
               </div>
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
-        )}
+          )}
+        {/* 텍스트 입력 */}
+        <TextBox setContent={setContent} />
+        <button className="writeSubmit" onClick={onHandlerSubmit}>
+          작성 완료하기
+        </button>
       </div>
     </div>
   );
