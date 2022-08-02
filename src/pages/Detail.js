@@ -107,12 +107,11 @@ const Detail = () => {
 
   useEffect(() => {
     list(data.place);
-    window.scrollTo(0, 0);
   }, [data]);
 
-  useEffect(()=>{
-
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   function list(positions) {
@@ -153,11 +152,11 @@ const Detail = () => {
           });
           infowindow.setContent(
             '<div style="display:flex;justify-content:center;"><div style="padding-left:15px;padding-right:15px;height:100px;font-size:12px;display:flex;flex-direction:column;justify-content:center;">' +
-            _place.place_name +
-            "<br/>" +
-            _place.phone +
-            "<br/>" +
-            `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
+              _place.place_name +
+              "<br/>" +
+              _place.phone +
+              "<br/>" +
+              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
@@ -253,7 +252,12 @@ const Detail = () => {
               </div>
               <div className="priceButton">💸 {data && data.priceCategory}</div>
               {/* 선택한 장소 확인하기 */}
-              <div className="placeButton" onClick={()=>{list(data&&data.place)}}>
+              <div
+                className="placeButton"
+                onClick={() => {
+                  list(data && data.place);
+                }}
+              >
                 핀 한눈에 보기
                 <div className="places">
                   <DetailPlaceModal
@@ -296,13 +300,16 @@ const Detail = () => {
                       <div className="imgUpload">
                         {/* 사진업로드하는 장소 이름 */}
                         <div className="imgUploadHeader">
-                          <div className="imgUploadTitle" onClick={openPlaceModal}>
+                          <div
+                            className="imgUploadTitle"
+                            onClick={openPlaceModal}
+                          >
                             <div className="titleTxtWrap">
                               <img src={logosky} alt="야너갈 로고" />
                               {l.place_name}
                             </div>
                             <div className="clickInfo">
-                                클릭시 모든 장소를 확인할 수 있어요!
+                              클릭시 모든 장소를 확인할 수 있어요!
                             </div>
                           </div>
                         </div>
@@ -334,7 +341,7 @@ const Detail = () => {
                         {data && data.place[0] && data.place[0].place_name}
                       </div>
                       <div className="clickInfo">
-                          클릭시 모든 장소를 확인할 수 있어요!
+                        클릭시 모든 장소를 확인할 수 있어요!
                       </div>
                     </div>
                   </div>
