@@ -115,7 +115,7 @@ const Detail = () => {
       <DetailHeader myMap={myMap} openPlaceModal={openPlaceModal} setFocus={setFocus} setShowPlaceModal={setShowPlaceModal} showPlaceModal={showPlaceModal} data={data} list={list}/>
       
       <div className="contentsWrap">
-        {/* 카카오맵 / 사진슬라이드 */}
+        {/* 카카오맵 / 제목 / 사진슬라이드 */}
         <Kakaomap kakao={kakao} myMap={myMap} />
         <DetailSectionPerPlace data={data} logosky={logosky} focus={focus} openPlaceModal={openPlaceModal}/>
 
