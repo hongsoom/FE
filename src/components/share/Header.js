@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../redux/module/post";
 import "../../css/header.scss";
 import info from "../../assets/info.png";
 import write from "../../assets/write.png";
@@ -8,7 +10,7 @@ import logoSmail from "../../assets/logo-smail.png";
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const is_login = localStorage.getItem("token") ? true : false;
 
   return (
@@ -17,7 +19,13 @@ const Header = () => {
         <div className="header-content">
           <div className="header-image">
             <img src={info} alt="홈페이지 정보" className="categoryMenu-icon" />
-            <div className="header-title" onClick={() => navigate("/")}>
+            <div
+              className="header-title"
+              onClick={() => {
+                dispatch(userAction.isFilterDB());
+                navigate("/");
+              }}
+            >
               <img
                 src={logoSmail}
                 alt="야너갈 로고"

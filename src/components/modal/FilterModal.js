@@ -156,6 +156,7 @@ const FilterModal = (props) => {
     ) {
       clean();
       navigate("/");
+      return;
     }
   };
 
