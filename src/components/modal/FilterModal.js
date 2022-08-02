@@ -202,12 +202,6 @@ const FilterModal = (props) => {
     setThemeSelect([]);
   };
 
-  const handleClickBackground = (e) => {
-    if (e.target === backgroundRef.current) {
-      onClick();
-    }
-  };
-
   useEffect(() => {
     if (themeSelect.length > 0) {
       setThemeSetting(themeSelect.toString());
@@ -222,15 +216,29 @@ const FilterModal = (props) => {
     }
   }, [themeSelect, priceSelect]);
 
+  const modalClick = useRef();
+
+  const handlePayModalOff = (e) => {
+    const clicked = e.target;
+    console.log(clicked);
+    console.log(modalClick.current);
+
+    if (clicked === modalClick.current) {
+      onClick();
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
-      <div className="filtermodal-box" onClick={onClick}>
+      <div
+        className="filtermodal-box"
+        ref={modalClick}
+        onClick={(e) => handlePayModalOff(e)}
+      >
         <div className="filtermodal-container">
-          <div
-            className="filtermodal-content"
-            ref={backgroundRef}
-            onClick={(e) => handleClickBackground(e)}
-          >
+          <div className="filtermodal-content">
             <div className="filtermodal-theme">
               <div className="filtermodal-themetitle">
                 <p className="filtermodal-themes">테마</p>
