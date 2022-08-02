@@ -153,15 +153,14 @@ const NewPost = (props) => {
   const onClickHandler = (__place) => {
     setFocus(__place);
     const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "0px";
     searchList_wrap.scrollTo(0,0)
+    setPlaces([])
   };
 
   // 선택된 장소만 마커 찍어주기
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
   const list = (positions) => {
     if (positions.length !== 0) {
-      let bounds = new kakao.maps.LatLngBounds()
       const options = {
         center: new kakao.maps.LatLng(
           positions[positions.length - 1].y,
@@ -172,6 +171,7 @@ const NewPost = (props) => {
       const map = new kakao.maps.Map(myMap.current, options);
 
         for (var i = 0; i < positions.length; i++) {
+          let bounds = new kakao.maps.LatLngBounds()
         // 마커를 생성
         var marker = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
@@ -182,9 +182,10 @@ const NewPost = (props) => {
         });
         displayMarker(positions[i], i);
         bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x))
+        map.setBounds(bounds)
       }
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정
-      map.setBounds(bounds)
+      
 
       // 마커찍기 함수
       function displayMarker(_place, i) {
@@ -283,12 +284,6 @@ const NewPost = (props) => {
                 </div>
               </div>
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
         ) : focus && focus.length !== 0 ? (
           <div className="sectionWrap">
@@ -347,13 +342,6 @@ const NewPost = (props) => {
                   );
                 })}
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
         ) : (
           <div className="sectionWrap">
@@ -397,14 +385,13 @@ const NewPost = (props) => {
                 </div>
               </div>
             </div>
-
-            {/* 텍스트 입력 */}
-            <TextBox setContent={setContent} />
-            <button className="writeSubmit" onClick={onHandlerSubmit}>
-              작성 완료하기
-            </button>
           </div>
-        )}
+          )}
+        {/* 텍스트 입력 */}
+        <TextBox setContent={setContent} />
+        <button className="writeSubmit" onClick={onHandlerSubmit}>
+          작성 완료하기
+        </button>
       </div>
     </div>
   );

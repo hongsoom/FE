@@ -2,7 +2,32 @@ import React from 'react'
 import '../../css/post.scss'
 
 const SearchPlace = (props) => {
-  const {search, Places, onChange, handleSubmit, inputText,onClickHandler, setSelect, select, setImgUrl, list, setFocus} = props
+  const {search, Places, onChange, handleSubmit, inputText,onClickHandler, setSelect, select, setImgUrl, list, setFocus, param, setAllImgUrl} = props
+
+  // 장소 선택하기
+  const onSelectPlace = (e, i, item, place_name) => {
+    if (e.target.checked) {
+      setSelect((pre) => {
+        const selectList = [...pre];
+        const newData = { ...Places[i], imgCount: 0 };
+        selectList.push(newData);
+        list(selectList);
+        return selectList;
+      });
+      setImgUrl((pre) => {
+        const imgUrlList = [...pre];
+        const newData = { place_name: place_name, imgUrl: [] };
+        imgUrlList.push(newData);
+        return imgUrlList;
+      });
+      setAllImgUrl((pre) => {
+        const imgUrlList = [...pre];
+        const newData = { place_name: place_name, imgUrl: [] };
+        imgUrlList.push(newData);
+        return imgUrlList;
+      });
+    }
+  };
 
   return(
         <div className='writeSearchNresult'>
@@ -37,6 +62,14 @@ const SearchPlace = (props) => {
                     )}
                     <span>{item.phone}</span>
                   </div>
+                  {param&& param.length !== 0 ?
+                  <div className='select'>
+                  <input type="checkbox" value={item.id} id={item.id}
+                  onChange={(e)=>{ onClickHandler(item.place_name)
+                    onSelectPlace(e, i, item, item.place_name)
+                  }} style={{display:'none'}}/>
+                  </div>
+                  :
                   <div className='select'>
                     <input type="checkbox" value={item.id} id={item.id}
                     onChange={(e)=>{ onClickHandler(item.place_name)
@@ -74,6 +107,8 @@ const SearchPlace = (props) => {
                       }
                     }} style={{display:'none'}}/>
                   </div>
+                  }
+                  
                 </div>
               </label>
               ))}

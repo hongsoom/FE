@@ -18,8 +18,8 @@ const SearchPlace = (props) => {
 
   // 검색 창
   const onChange = (e) => {
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "220px";
+    // const searchList_wrap = document.getElementById("searchList_wrap");
+    // searchList_wrap.style.height = "220px";
 
     setInputText(e.target.value);
   };
@@ -78,11 +78,6 @@ const SearchPlace = (props) => {
       <div
         className="searchList_wrap"
         id="searchList_wrap"
-        style={
-          Places && Places.length !== 0
-            ? { height: "220px" }
-            : { height: "0px", border: "none" }
-        }
       >
         <div id="result-list">
           {Places.map((item, i) => (

@@ -104,7 +104,7 @@ const Detail = () => {
     } else {
       const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-        level: 4,
+        level: 5,
       };
       const map = new kakao.maps.Map(myMap.current, options);
     }
@@ -112,16 +112,8 @@ const Detail = () => {
 
   return (
     <div className="detailTotalWrap">
-      <DetailHeader
-        myMap={myMap}
-        openPlaceModal={openPlaceModal}
-        setFocus={setFocus}
-        setShowPlaceModal={setShowPlaceModal}
-        showPlaceModal={showPlaceModal}
-        data={data}
-        list={list}
-      />
-
+      <DetailHeader myMap={myMap} openPlaceModal={openPlaceModal} setFocus={setFocus} setShowPlaceModal={setShowPlaceModal} showPlaceModal={showPlaceModal} data={data} list={list} userInfo={userInfo}/>
+      
       <div className="contentsWrap">
         {/* 카카오맵 / 제목 / 사진슬라이드 */}
         <Kakaomap kakao={kakao} myMap={myMap} />
