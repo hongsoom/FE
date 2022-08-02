@@ -1,15 +1,20 @@
 .filtermodal-box {
     margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
   }
   
   .filtermodal-container {
-    position: relative;
+    position: absolute;
+    top: 18%;
+    left: 50%;
   }
   
   .filtermodal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, 0);
     margin-top: 50px;
     width: 336px;
@@ -19,6 +24,7 @@
     border-radius: 8px;
     z-index: 2;
   }
+
   .filtermodal-themetitle {
     display: flex;
     flex-direction: row;
