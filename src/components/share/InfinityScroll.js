@@ -3,20 +3,31 @@ import React, { useEffect } from "react";
 const InfinityScroll = (props) => {
   const { children, callNext, lastPage, loading, nextPage } = props;
 
-  const handleScroll = (e) => {
+  const _onScroll = (e) => {
     if (lastPage === true || nextPage === 0) {
       return;
     }
 
-    if (
-      window.innerHeight + e.target.documentElement.scrollTop + 1 >
+    console.log("window.innerHeight", window.innerHeight);
+    console.log(
+      "e.target.documentElement.scrollHeight",
       e.target.documentElement.scrollHeight
+    );
+    console.log(
+      " e.target.documentElement.scrollTop",
+      e.target.documentElement.scrollTop
+    );
+    console.log("window.scrollY", window.scrollY);
+
+    if (
+      window.innerHeight + window.scrollY >
+      e.target.documentElement.scrollHeight - 10
     ) {
       callNext();
     }
 
     if (
-      window.innerHeight >
+      window.innerHeight <
       e.target.documentElement.scrollHeight - e.target.documentElement.scrollTop
     ) {
       e.preventDefault();
@@ -24,14 +35,18 @@ const InfinityScroll = (props) => {
     }
   };
 
+  const onScroll = React.useCallback(_onScroll, [loading]);
+
   useEffect(() => {
     if (loading) {
       return;
     }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("touchmove", onScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
     };
   }, [nextPage]);
 

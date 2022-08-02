@@ -69,13 +69,6 @@ const Main = () => {
 
   return (
     <>
-      <div className="research"
-      onClick={()=>window.open('https://docs.google.com/forms/d/e/1FAIpQLSeRcT-OSoAsJlNOHGr6I5Pe6Jl9g2uRqtwb7wPj5Rp_uDNwEg/viewform','_blank')}
-      >
-        <div className="researchTxt">
-        🧋커피받으러 가기
-        </div>
-      </div>
       <Header />
       <SearchWrite />
       <FilterButton recommendList={recommendList} keyword={keyword} />
@@ -119,6 +112,17 @@ const Main = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div
+        className="research"
+        onClick={() =>
+          window.open(
+            "https://docs.google.com/forms/d/e/1FAIpQLSeRcT-OSoAsJlNOHGr6I5Pe6Jl9g2uRqtwb7wPj5Rp_uDNwEg/viewform",
+            "_blank"
+          )
+        }
+      >
+        <div className="researchTxt">🧋커피받으러 가기</div>
       </div>
     </>
   );
