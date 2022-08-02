@@ -49,6 +49,7 @@ const Detail = () => {
 
   const Id = useSelector((state) => state.post.postId);
   const data = useSelector((state) => state.post.postOne);
+  console.log(data);
 
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
