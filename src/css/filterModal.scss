@@ -10,7 +10,7 @@
   
   .filtermodal-container {
     position: absolute;
-    top: 18%;
+    top: 15%;
     left: 50%;
   }
   
@@ -18,23 +18,23 @@
     transform: translate(-50%, 0);
     margin-top: 50px;
     width: 336px;
-    height: 360px;
+    height: 600px;
     background-color: white;
     box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.12);
     border-radius: 8px;
     z-index: 2;
   }
 
-  .filtermodal-themetitle {
+  .filtermodal-regiontitle {
     display: flex;
     flex-direction: row;
   }
 
-  .filtermodal-themetitle, .filtermodal-pricetitle {
+  .filtermodal-regiontitle, .filtermodal-themetitle, .filtermodal-pricetitle {
     padding: 18px;
   }
   
-  .filtermodal-themes, .filtermodal-pricetitle > p {
+  .filtermodal-regions, .filtermodal-themetitle > p, .filtermodal-pricetitle > p {
     font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 700;
@@ -62,13 +62,13 @@
     }
   }
   
-  .filtermodal-themebutton, .filtermodal-pricebutton {
+  .filtermodal-regionbutton, .filtermodal-themebutton, .filtermodal-pricebutton {
     margin: 0 20px;
     display: flex;
     flex-wrap: wrap;
   }
   
-  .filtermodal-main-category-theme > button, .filtermodal-main-category-price > button, .filtermodal-filterbutton > button {
+  .filtermodal-main-category-region > button, .filtermodal-main-category-theme > button, .filtermodal-main-category-price > button, .filtermodal-filterbutton > button {
     border: none;
     font-family: "Noto Sans KR";
     font-style: normal;
@@ -76,7 +76,7 @@
     cursor: pointer;
   }
   
-  .filtermodal-main-category-theme > button, .filtermodal-main-category-price > button {
+  .filtermodal-main-category-region > button, .filtermodal-main-category-theme > button, .filtermodal-main-category-price > button {
     width: 85px;
     height: 28px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);

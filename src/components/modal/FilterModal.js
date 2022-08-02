@@ -33,6 +33,22 @@ const FilterModal = (props) => {
   const is_list = list ? true : false;
   const is_keyword = keyword === "" ? true : false;
 
+  const areas = [
+    "서울",
+    "경기",
+    "인천",
+    "강원도",
+    "충청도",
+    "전라도",
+    "경상도",
+    "대전",
+    "세종",
+    "대구",
+    "울산",
+    "광주",
+    "부산",
+    "제주도",
+  ];
   const themes = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
   const prices = [
     "10만원 이하",
@@ -44,7 +60,18 @@ const FilterModal = (props) => {
   ];
 
   const [themesetting, setThemeSetting] = useState("");
-  const backgroundRef = useRef(null);
+
+  const modalClick = useRef();
+
+  const handlePayModalOff = (e) => {
+    const clicked = e.target;
+
+    if (clicked === modalClick.current) {
+      onClick();
+    } else {
+      return;
+    }
+  };
 
   const checkHasIncode = (value) => {
     const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -216,20 +243,6 @@ const FilterModal = (props) => {
     }
   }, [themeSelect, priceSelect]);
 
-  const modalClick = useRef();
-
-  const handlePayModalOff = (e) => {
-    const clicked = e.target;
-    console.log(clicked);
-    console.log(modalClick.current);
-
-    if (clicked === modalClick.current) {
-      onClick();
-    } else {
-      return;
-    }
-  };
-
   return (
     <>
       <div
@@ -239,12 +252,40 @@ const FilterModal = (props) => {
       >
         <div className="filtermodal-container">
           <div className="filtermodal-content">
-            <div className="filtermodal-theme">
-              <div className="filtermodal-themetitle">
-                <p className="filtermodal-themes">테마</p>
+            <div className="filtermodal-region">
+              <div className="filtermodal-regiontitle">
+                <p className="filtermodal-regions">지역</p>
                 <p className="filtermodal-reset" onClick={filterReset}>
                   필터 초기화 <img src={reset} alt="reset" />
                 </p>
+              </div>
+              <div className="filtermodal-regionbutton">
+                {areas.map((region, i) => {
+                  return (
+                    <div className="filtermodal-main-category-region" key={i}>
+                      <button
+                        key={i}
+                        onClick={() => {
+                          !priceSelect.includes(region)
+                            ? setPriceSelect(region)
+                            : setPriceSelect("");
+                        }}
+                        className={
+                          priceSelect.includes(region)
+                            ? "table_btn_s"
+                            : "table_btn_ns"
+                        }
+                      >
+                        {region}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="filtermodal-theme">
+              <div className="filtermodal-themetitle">
+                <p>테마</p>
               </div>
               <div className="filtermodal-themebutton">
                 {themes.map((theme, i) => {
