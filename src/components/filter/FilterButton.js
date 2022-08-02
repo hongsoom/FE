@@ -13,6 +13,7 @@ const FilterButton = (props) => {
   const { recommendList, keyword, region, list } = props;
 
   const [listRegion, setListRegion] = useState("");
+  const [regionSelect, setRegionSelect] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
   const [priceSelect, setPriceSelect] = useState("");
   const [modal, setModal] = useState(false);
