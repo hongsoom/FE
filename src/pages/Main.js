@@ -15,7 +15,7 @@ const size = 5;
 const Main = () => {
   const dispatch = useDispatch();
 
-  const recommendList = ["서울", "호캉스", "힐링"];
+  const recommendList = ["서울", "호캉스", "10만원대"];
 
   const posts = useSelector((state) => state.post.contents);
   const bookmarkcontents = useSelector((state) => state.post.bookmarkcontents);
@@ -84,7 +84,7 @@ const Main = () => {
         <div className="main-container">
           <div className="main-content">
             <div className="main-bookmarktitle">
-              <p>핫 플레이스🔥</p>
+              <p>요새 핫한 플레이스🔥</p>
             </div>
             <BookmarkPost bookmarkcontents={bookmarkcontents} />
             <div className="main-latest-love-container">

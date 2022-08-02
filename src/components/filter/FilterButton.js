@@ -10,24 +10,23 @@ const FilterButton = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { recommendList, keyword, region, list } = props;
+  const { recommendList, keyword, list } = props;
 
-  const [listRegion, setListRegion] = useState("");
   const [regionSelect, setRegionSelect] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
   const [priceSelect, setPriceSelect] = useState("");
   const [modal, setModal] = useState(false);
+  const [region, setRegion] = useState("");
   const [theme, setTheme] = useState([]);
   const [price, setPrice] = useState("");
 
   const is_keyword = keyword === "" ? true : false;
+  const is_region = region ? true : false;
   const is_price = price ? true : false;
   const is_theme = theme.length !== 0 ? true : false;
-  const is_list = list ? true : false;
-  const is_region = region ? true : false;
 
   useEffect(() => {
-    setListRegion("");
+    setRegionSelect("");
     setThemeSelect([]);
     setPriceSelect("");
     if (
@@ -46,7 +45,8 @@ const FilterButton = (props) => {
       list === "부산" ||
       list === "제주도"
     ) {
-      setListRegion(list);
+      setRegionSelect(list);
+      setRegion(list);
     }
 
     if (
@@ -62,10 +62,10 @@ const FilterButton = (props) => {
 
     if (
       list === "10만원 이하" ||
-      list === "10만원" ||
-      list === "20만원" ||
-      list === "30만원" ||
-      list === "40만원" ||
+      list === "10만원대" ||
+      list === "20만원대" ||
+      list === "30만원대" ||
+      list === "40만원대" ||
       list === "50만원 이상"
     ) {
       setPriceSelect(list);
@@ -83,15 +83,17 @@ const FilterButton = (props) => {
         <FilterModal
           onClick={onClick}
           list={list}
-          region={region}
           keyword={keyword}
-          listRegion={listRegion}
+          regionSelect={regionSelect}
+          setRegionSelect={setRegionSelect}
           themeSelect={themeSelect}
           setThemeSelect={setThemeSelect}
           priceSelect={priceSelect}
           setPriceSelect={setPriceSelect}
+          setRegion={setRegion}
           setTheme={setTheme}
           setPrice={setPrice}
+          region={region}
           theme={theme}
           price={price}
         />
@@ -102,8 +104,13 @@ const FilterButton = (props) => {
             <div className="filterbutton-container">
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
-                  {is_price || is_theme ? (
+                  {is_region || is_price || is_theme ? (
                     <>
+                      {is_region && (
+                        <button className="filterbutton-region">
+                          #{region}
+                        </button>
+                      )}
                       {theme.map((list, i) => (
                         <button key={i} className="filterbutton-theme">
                           #{list}
@@ -138,43 +145,19 @@ const FilterButton = (props) => {
             <div className="filterbutton-container">
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
-                  {is_region ? (
-                    <>
+                  <>
+                    {is_region && (
                       <button className="filterbutton-region">#{region}</button>
-                      {theme.map((list, i) => (
-                        <button key={i} className="filterbutton-theme">
-                          #{list}
-                        </button>
-                      ))}
-                      {is_price ? (
-                        <button className="filterbutton-price">#{price}</button>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      {is_list && (
-                        <button
-                          className={
-                            list === price || theme.includes(list)
-                              ? "filterbutton-none"
-                              : list === listRegion
-                              ? "filterbutton-region"
-                              : "filterbutton-keyword"
-                          }
-                        >
-                          #{list}
-                        </button>
-                      )}
-                      {theme.map((list, i) => (
-                        <button key={i} className="filterbutton-theme">
-                          #{list}
-                        </button>
-                      ))}
-                      {is_price && (
-                        <button className="filterbutton-price">#{price}</button>
-                      )}
-                    </>
-                  )}
+                    )}
+                    {theme.map((list, i) => (
+                      <button key={i} className="filterbutton-theme">
+                        #{list}
+                      </button>
+                    ))}
+                    {is_price && (
+                      <button className="filterbutton-price">#{price}</button>
+                    )}
+                  </>
                 </div>
               </div>
             </div>

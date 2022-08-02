@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "./redux/module/user";
 import MyPage from "./pages/Mypage";
 import Setup from "./pages/Setup";
-import Filter from "./pages/Filter";
 import Write from "./pages/Write";
 import Search from "./pages/Search";
 import Main from "./pages/Main";
@@ -33,7 +32,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/filter/:keyword" element={<Filter />} />
         <Route path="/search/:keyword" element={<Search />} />
         <Route path="/" element={<Main />} />
         <Route path="/signup" element={<Signup />} />

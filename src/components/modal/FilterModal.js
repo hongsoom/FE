@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userAction } from "../../redux/module/post";
 import swal from "sweetalert";
 import "../../css/filterModal.scss";
 import reset from "../../assets/reset.png";
+import { Navigate } from "react-router-dom";
 
 const size = 5;
 
 const FilterModal = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const nextPage = useSelector((state) => state.post.paging?.next);
   const isFilter = useSelector((state) => state.post.isFilter);
@@ -16,20 +19,21 @@ const FilterModal = (props) => {
   const {
     onClick,
     keyword,
-    region,
     list,
-    listRegion,
+    regionSelect,
     themeSelect,
     priceSelect,
+    setRegionSelect,
     setThemeSelect,
     setPriceSelect,
+    setRegion,
     setPrice,
     setTheme,
+    region,
     theme,
     price,
   } = props;
 
-  const is_region = region ? true : false;
   const is_list = list ? true : false;
   const is_keyword = keyword === "" ? true : false;
 
@@ -88,6 +92,7 @@ const FilterModal = (props) => {
     }
   };
 
+  const region_ = checkHasIncode(regionSelect);
   const price_ = checkHasIncode(priceSelect);
   const theme_ = checkHasIncode(themesetting);
 
@@ -103,65 +108,64 @@ const FilterModal = (props) => {
 
   const filtering = (nextPage) => {
     if (
+      (regionSelect !== "" && is_list) ||
       (themeSelect.length !== 0 && is_list) ||
       (priceSelect !== "" && is_list)
     ) {
       clean();
-      const region_ = checkHasIncode(listRegion);
       dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
     }
 
     if (
+      (regionSelect !== "" && is_keyword) ||
       (themeSelect.length !== 0 && is_keyword) ||
       (priceSelect !== "" && is_keyword)
     ) {
       clean();
-      const region_ = checkHasIncode(keyword);
-      dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
-    }
-
-    if (
-      (themeSelect.length !== 0 && is_region) ||
-      (priceSelect !== "" && is_region)
-    ) {
-      clean();
-      const region_ = checkHasIncode(region);
       dispatch(userAction.filterGETDB(region_, price_, theme_, nextPage, size));
     }
   };
 
   const initialCondition = (nextPage) => {
     if (
-      (themeSelect.length === 0 && isFilter && is_list) ||
-      (priceSelect === "" && isFilter && is_list)
+      (region.includes(list) && isFilter && is_list) ||
+      (theme.includes(list) && isFilter && is_list) ||
+      (price.includes(list) && isFilter && is_list)
     ) {
       clean();
       dispatch(userAction.keywordGetDB(checkHasIncode(list), nextPage, size));
       onClick();
+      return;
     }
 
     if (
+      (regionSelect === "" && isFilter && is_keyword) ||
       (themeSelect.length === 0 && isFilter && is_keyword) ||
       (priceSelect === "" && isFilter && is_keyword)
     ) {
       clean();
       dispatch(userAction.arrayGetDB(keyword, nextPage, size));
       onClick();
+      return;
     }
 
     if (
-      (themeSelect.length === 0 && isFilter && is_region) ||
-      (priceSelect === "" && isFilter && is_region)
+      (regionSelect === "" && isFilter) ||
+      (themeSelect.length === 0 && isFilter) ||
+      (priceSelect === "" && isFilter)
     ) {
       clean();
-      dispatch(userAction.regionGETDB(checkHasIncode(region), nextPage, size));
-      onClick();
+      navigate("/");
     }
   };
 
   const cancelCondition = () => {
     if (
-      (themeSelect.length === 0 && priceSelect === "" && isFilter === false) ||
+      (regionSelect === "" &&
+        themeSelect.length === 0 &&
+        priceSelect === "" &&
+        isFilter === false) ||
+      (regionSelect !== "" && isFilter) ||
       (themeSelect.length !== 0 && isFilter) ||
       (priceSelect !== "" && isFilter) ||
       (theme.includes(list) && isFilter === false)
@@ -170,24 +174,33 @@ const FilterModal = (props) => {
     }
 
     if (
+      (regionSelect !== "" && isFilter === false) ||
       (themeSelect.length !== 0 && isFilter === false) ||
       (priceSelect !== "" && isFilter === false)
     ) {
+      setRegionSelect("");
       setPriceSelect("");
       setThemeSelect([]);
       onClick();
     }
 
     if (
+      (region.includes(list) && isFilter === false) ||
       (theme.includes(list) && isFilter === false) ||
       (price.includes(list) && isFilter === false)
     ) {
+      setRegionSelect(list);
       setPriceSelect(list);
       setThemeSelect([list]);
       onClick();
     }
 
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter) {
+    if (
+      regionSelect === "" &&
+      themeSelect.length === 0 &&
+      priceSelect === "" &&
+      isFilter
+    ) {
       swal({
         title: "선택 완료를 눌러주세요!",
         icon: "warning",
@@ -204,7 +217,12 @@ const FilterModal = (props) => {
   };
 
   const errorMessage = () => {
-    if (themeSelect.length === 0 && priceSelect === "" && isFilter === false) {
+    if (
+      regionSelect === "" &&
+      themeSelect.length === 0 &&
+      priceSelect === "" &&
+      isFilter === false
+    ) {
       swal({
         title: "한가지를 꼭 골라주세요!",
         icon: "warning",
@@ -215,16 +233,28 @@ const FilterModal = (props) => {
   };
 
   const filterReset = () => {
-    if (theme.includes(list)) {
+    if (region.includes(list) && list) {
+      setRegionSelect(list);
+      setPriceSelect("");
+      setThemeSelect([]);
+      return;
+    }
+
+    if (theme.includes(list) && list) {
+      setRegionSelect("");
       setPriceSelect("");
       setThemeSelect([list]);
+      return;
     }
 
-    if (price.includes(list)) {
+    if (price.includes(list) && list) {
+      setRegionSelect("");
       setPriceSelect(list);
       setThemeSelect([]);
+      return;
     }
 
+    setRegionSelect("");
     setPriceSelect("");
     setThemeSelect([]);
   };
@@ -266,15 +296,16 @@ const FilterModal = (props) => {
                       <button
                         key={i}
                         onClick={() => {
-                          !priceSelect.includes(region)
-                            ? setPriceSelect(region)
-                            : setPriceSelect("");
+                          !regionSelect.includes(region)
+                            ? setRegionSelect(region)
+                            : setRegionSelect("");
                         }}
                         className={
-                          priceSelect.includes(region)
+                          regionSelect.includes(region)
                             ? "table_btn_s"
                             : "table_btn_ns"
                         }
+                        disabled={region === list ? true : false}
                       >
                         {region}
                       </button>
@@ -337,6 +368,7 @@ const FilterModal = (props) => {
                             ? "table_btn_s"
                             : "table_btn_ns"
                         }
+                        disabled={price === list ? true : false}
                       >
                         {price}
                       </button>
@@ -358,29 +390,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
-                    setPrice(priceSelect);
-                    setTheme(themeSelect);
-                    filterPost();
-                    onClick();
-                  }}
-                >
-                  선택 완료
-                </button>
-              </div>
-            )}
-            {is_region && (
-              <div className="filtermodal-filterbutton">
-                <button
-                  className="filtermodal-cancel"
-                  onClick={() => {
-                    initialPost();
-                  }}
-                >
-                  취소
-                </button>
-                <button
-                  className="filtermodal-search"
-                  onClick={() => {
+                    setRegion(regionSelect);
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                     filterPost();
@@ -404,6 +414,7 @@ const FilterModal = (props) => {
                 <button
                   className="filtermodal-search"
                   onClick={() => {
+                    setRegion(regionSelect);
                     setPrice(priceSelect);
                     setTheme(themeSelect);
                     filterPost();

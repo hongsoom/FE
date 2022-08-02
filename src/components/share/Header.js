@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import RegionFilter from "../filter/RegionFilter";
 import "../../css/header.scss";
 import info from "../../assets/info.png";
 import write from "../../assets/write.png";

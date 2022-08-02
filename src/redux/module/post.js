@@ -37,7 +37,6 @@ const initialState = {
   },
   restroom: "",
   contents: [],
-  postOne: "",
   bookmarkcontents: [],
   filtercontents: [],
   postId: "",
@@ -57,7 +56,6 @@ const initialState = {
 const LOADING = "post/LOADING";
 const ISFILTER = "post/ISFILTER";
 const KEYWORDGET = "post/KEYWORDGET";
-const REGIONGET = "post/REGIONGET";
 const ARRAYGET = "post/ARRAYGET";
 const BOOKMARKGET = "post/BOOKMARKGET";
 const FILTERGET = "post/FILTERGET";
@@ -94,10 +92,6 @@ const filterGET = createAction(FILTERGET, (newList, paging, category) => ({
   newList,
   paging,
   category,
-}));
-const regionGET = createAction(REGIONGET, (newList, paging) => ({
-  newList,
-  paging,
 }));
 const clickLove = createAction(LOVE, (lovechecked, Id) => ({
   lovechecked,
@@ -274,54 +268,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         };
 
         dispatch(filterGET(newList, paging, category));
-      })
-      .catch((error) => {});
-  };
-};
-
-const regionGETDB = (region, nextPage, size) => {
-  return async function (dispatch) {
-    dispatch(loading(true));
-    let page;
-    let price;
-    let theme;
-    let sort = "id";
-    let desc = "desc";
-    if (nextPage === undefined) {
-      page = 0;
-    } else {
-      page = nextPage;
-    }
-    if (price === undefined) {
-      price = "";
-    }
-
-    if (theme === undefined) {
-      theme = "";
-    }
-
-    await instance
-      .get(
-        `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}&sort=${sort},${desc}`
-      )
-      .then((response) => {
-        const newList = response.data.content;
-        const lastpage = response.data.last;
-
-        let paging = {};
-        if (lastpage) {
-          paging = {
-            next: 0,
-            last: lastpage,
-          };
-        } else {
-          paging = {
-            next: page + 1,
-            last: lastpage,
-          };
-        }
-
-        dispatch(regionGET(newList, paging));
       })
       .catch((error) => {});
   };
@@ -542,13 +488,6 @@ export default handleActions(
         draft.isFilter = true;
       }),
 
-    [REGIONGET]: (state, action) =>
-      produce(state, (draft) => {
-        draft.contents = [...state.contents, ...action.payload.newList];
-        draft.paging = action.payload.paging;
-        draft.isLoading = false;
-      }),
-
     [GETLIST]: (state, action) => {
       return {
         posts: action.payload,
@@ -721,7 +660,6 @@ const userAction = {
   getMypostDB,
   getMybookmarkDB,
   initPagingDB,
-  regionGETDB,
   isFilterDB,
 };
 
