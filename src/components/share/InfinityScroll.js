@@ -25,10 +25,8 @@ const InfinityScroll = (props) => {
     }
 
     window.addEventListener("scroll", onScroll);
-    window.addEventListener("touchmove", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
     };
   }, [nextPage]);
 
