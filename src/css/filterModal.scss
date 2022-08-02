@@ -10,9 +10,18 @@
   
   .filtermodal-container {
     position: absolute;
-    top: 15%;
+    top: 14%;
     left: 50%;
     margin-top: 60px;
+    @media screen and (min-height: 740px) and  (max-height: 900px){
+      top: 15%;
+    }
+    @media screen and (min-height: 350px) and (max-height: 500px){
+      top: 20%;
+    }
+    @media screen and (min-height: 500px) and (max-height: 740px){
+      top: 18%;
+    }
   }
   
   .filtermodal-content {
