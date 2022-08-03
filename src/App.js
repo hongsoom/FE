@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "./redux/module/user";
 import MyPage from "./pages/Mypage";
+import About from "./pages/About";
 import Setup from "./pages/Setup";
 import Write from "./pages/Write";
 import Search from "./pages/Search";
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route path="/search/:keyword" element={<Search />} />
         <Route path="/" element={<Main />} />
+        <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<KakaoSocial />} />
