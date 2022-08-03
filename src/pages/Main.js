@@ -67,11 +67,19 @@ const Main = () => {
     };
   }, [sortby, isFilter]);
 
+  console.log(isFilter);
+  console.log(filtercontents);
+
   return (
     <>
       <Header />
       <SearchWrite />
-      <FilterButton recommendList={recommendList} keyword={keyword} />
+      <FilterButton
+        recommendList={recommendList}
+        keyword={keyword}
+        filtercontents={filtercontents}
+        isFilter={isFilter}
+      />
       {isFilter === true ? (
         <FilterPost
           size={size}

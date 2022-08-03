@@ -10,7 +10,7 @@ const FilterButton = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { recommendList, keyword, list } = props;
+  const { recommendList, keyword, list, filtercontents, isFilter } = props;
 
   const [regionSelect, setRegionSelect] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
@@ -72,6 +72,14 @@ const FilterButton = (props) => {
       setPrice(list);
     }
   }, [list]);
+
+  useEffect(() => {
+    if (filtercontents.length === 0 && is_keyword && isFilter === false) {
+      setRegion("");
+      setTheme([]);
+      setPrice("");
+    }
+  }, [isFilter]);
 
   const onClick = () => {
     setModal(!modal);
