@@ -14,7 +14,7 @@ const WebShare = ({
   priceCategory,
   regionCategory,
 }) => {
-  const url = `http://yaneogal.site/detail/${postId}`;
+  const url = `https://yaneogal.site/detail/${postId}`;
 
   const clip = (url) => {
     navigator.clipboard.writeText(url);

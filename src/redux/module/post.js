@@ -245,7 +245,6 @@ const filterGETDB = (region, price, theme, nextPage, size) => {
         `api/posts/filter?region=${region}&price=${price}&theme=${theme}&page=${page}&size=${size}&sort=${sort},${desc}`
       )
       .then((response) => {
-        console.log("필터", response);
         const newList = response.data.content;
         const lastpage = response.data.last;
         let paging = {};

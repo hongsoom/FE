@@ -72,14 +72,6 @@ const FilterButton = (props) => {
       setPrice(list);
     }
   }, [list]);
-  /* 
-  useEffect(() => {
-    if (is_filtercontents && is_keyword && isFilter === false) {
-      setRegion("");
-      setTheme([]);
-      setPrice("");
-    }
-  }, [isFilter]); */
 
   const onClick = () => {
     setModal(!modal);
@@ -154,18 +146,23 @@ const FilterButton = (props) => {
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
                   <>
-                    <button
-                      className={
-                        list === price || theme.includes(list)
-                          ? "filterbutton-none"
-                          : list === region
-                          ? "filterbutton-region"
-                          : "filterbutton-keyword"
-                      }
-                    >
-                      #{list}
-                    </button>
-
+                    {list === price ||
+                    theme.includes(list) ||
+                    list === region ? (
+                      <button
+                        className={
+                          list === price || theme.includes(list)
+                            ? "filterbutton-none"
+                            : list === region
+                            ? "filterbutton-region"
+                            : "filterbutton-keyword"
+                        }
+                      >
+                        #{list}
+                      </button>
+                    ) : (
+                      <button className="filterbutton-region">#{region}</button>
+                    )}
                     {theme.map((list, i) => (
                       <button key={i} className="filterbutton-theme">
                         #{list}
