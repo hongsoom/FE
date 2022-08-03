@@ -7,12 +7,12 @@ on:
 
 jobs:
   deploy:
+    runs-on: ubuntu-18.04
     env:
       CI: false
       REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
       REACT_APP_REST_API_KEY: ${{ secrets.REACT_APP_REST_API_KEY }}
       REACT_APP_SERVER_BASE_URL: ${{ secrets.REACT_APP_SERVER_BASE_URL }}
-    runs-on: ubuntu-18.04
     steps:
       - name: Checkout source code
         uses: actions/checkout@develop
