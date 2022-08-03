@@ -146,9 +146,18 @@ const FilterButton = (props) => {
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
                   <>
-                    {is_region && (
-                      <button className="filterbutton-region">#{region}</button>
-                    )}
+                    <button
+                      className={
+                        list === price || theme.includes(list)
+                          ? "filterbutton-none"
+                          : list === region
+                          ? "filterbutton-region"
+                          : "filterbutton-keyword"
+                      }
+                    >
+                      #{list}
+                    </button>
+
                     {theme.map((list, i) => (
                       <button key={i} className="filterbutton-theme">
                         #{list}

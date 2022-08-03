@@ -5,7 +5,6 @@ import { userAction } from "../../redux/module/post";
 import swal from "sweetalert";
 import "../../css/filterModal.scss";
 import reset from "../../assets/reset.png";
-import { Navigate } from "react-router-dom";
 
 const size = 5;
 
