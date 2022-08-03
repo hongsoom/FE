@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     env:
       CI: false
       REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
