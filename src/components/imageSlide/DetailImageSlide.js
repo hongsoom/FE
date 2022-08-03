@@ -9,7 +9,7 @@ const DetailImageSlide = (props) => {
   
   return (
     <>
-      {data && data.place[j] && data.place[j].imgUrl&&data.place[j].imgUrl.length === 0 ? (
+      {data && data.place && data.place[j] && data.place[j].imgUrl&&data.place[j].imgUrl.length === 0 ? (
         <div className="infoNoPicWrap">
           <div
             className="linkToMore"

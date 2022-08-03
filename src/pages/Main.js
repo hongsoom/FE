@@ -73,8 +73,6 @@ const Main = () => {
     }
   }, [isFilter]);
 
-  console.log(isFilter);
-  console.log(filtercontents);
 
   return (
     <>
