@@ -72,14 +72,14 @@ const FilterButton = (props) => {
       setPrice(list);
     }
   }, [list]);
-
+  /* 
   useEffect(() => {
-    if (filtercontents.length === 0 && is_keyword && isFilter === false) {
+    if (is_filtercontents && is_keyword && isFilter === false) {
       setRegion("");
       setTheme([]);
       setPrice("");
     }
-  }, [isFilter]);
+  }, [isFilter]); */
 
   const onClick = () => {
     setModal(!modal);

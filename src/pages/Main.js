@@ -65,7 +65,13 @@ const Main = () => {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
-  }, [sortby, isFilter]);
+  }, [sortby]);
+
+  useEffect(() => {
+    if (isFilter) {
+      onSortPost();
+    }
+  }, [isFilter]);
 
   console.log(isFilter);
   console.log(filtercontents);
