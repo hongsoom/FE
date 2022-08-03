@@ -1,31 +1,28 @@
 name: main
-
 on:
   push:
     branches:
-      - develop
-
+      - master
 jobs:
-  bulid:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-18.04
     env:
       CI: false
       REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
       REACT_APP_REST_API_KEY: ${{ secrets.REACT_APP_REST_API_KEY }}
       REACT_APP_SERVER_BASE_URL: ${{ secrets.REACT_APP_SERVER_BASE_URL }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
+      - name: Checkout source code.
+        uses: actions/checkout@master
 
       - name: Cache node modules
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-
       - name: Install Dependencies
         run: yarn
 
@@ -33,13 +30,11 @@ jobs:
         run: yarn build
 
       - name: Deploy
-        with:
-          publish_dir: ./build
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp \
-            —recursive \
-            —region ap-northeast-2 \
-            build s3://yaneogal.site
+            --recursive \
+            --region ap-northeast-2 \
+            build s3://ribborn.kr
