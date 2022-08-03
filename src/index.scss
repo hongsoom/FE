@@ -1,13 +1,5 @@
-
-$sky_color: #8ACEFF;
-$ligt_sky_color: #E4EFFF;
-$sub_white_color: #F5F9FF;
-$black_color: #333;
-$gray_color: #606773;
-
 * {
   box-sizing: border-box;
-  color: #333;
   font-family: 'Noto Sans KR';
 }
 
@@ -21,7 +13,7 @@ code {
 
 a{
   text-decoration: none;
-  color: $black_color;
+  color: #333;
 }
 @font-face {
   font-family: 'Noto Sans CJK KR';

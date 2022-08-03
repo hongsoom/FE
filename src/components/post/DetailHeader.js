@@ -16,8 +16,7 @@ import diamond from "../../assets/diamond.png";
 import master from "../../assets/master.png";
 import user from "../../assets/user.png";
 
-import PlaceModal from "../../components/modal/PlaceModal";
-
+import PlaceModal from '../modal/PlaceModal'
 
 const DetailHeader = (props) =>{
   const {data, userInfo, showPlaceModal, setShowPlaceModal, list, openPlaceModal, myMap, setFocus} = props
@@ -44,11 +43,6 @@ const DetailHeader = (props) =>{
     setShowPlaceModal(false);
   };
 
-  const checkAllFin = () =>{
-    setShowPlaceModal(false)
-    list(data.place)
-  }
-
   // -------------- 게시글 데이터 삭제하기
   const onDeleteHandler = () => {
     swal({
@@ -69,6 +63,12 @@ const DetailHeader = (props) =>{
       }
     });
   };
+
+  const checkAllFin = () =>{
+    setShowPlaceModal(false)
+    console.log(list)
+    list(data.place)
+  }
 
   return(
     <div className="detailHeader">

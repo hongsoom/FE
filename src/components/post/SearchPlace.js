@@ -44,7 +44,8 @@ const SearchPlace = (props) => {
           </form>
 
           {/* 검색목록*/}
-          <div className='searchList_wrap' id='searchList_wrap' style={Places&&Places.length ? {height:'220px'}: {height:'0px', border:'none'}}>
+          <div className='searchList_wrap' id='searchList_wrap'
+          style={Places&&Places.length ? {height:'220px'}: {height:'0px', border:'none'}}>
             <div id="result-list">
               {Places.map((item, i) => (
                 <label htmlFor={item.id} key={i}>

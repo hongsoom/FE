@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../../css/mypage.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 
 // 컴포넌트
 import LevelGuideModal from "../modal/LevelGuideModal";
@@ -8,7 +10,6 @@ import UserLevelGaugeBar from "./UserLevelGaugeBar";
 
 // 아이콘
 import user from "../../assets/user.png";
-import levelGuide from "../../assets/levelGuide.png";
 import bronze from "../../assets/bronze.png";
 import silver from "../../assets/silver.png";
 import gold from "../../assets/gold.png";
@@ -98,11 +99,7 @@ const MyProfile = (props) => {
                           closeLevelGuideModal={closeLevelGuideModal}
                           showLevelGuideModal={showLevelGuideModal}
                         />
-                        <img
-                          className="levelGuideButton"
-                          src={levelGuide}
-                          alt="레벨 가이드 버튼"
-                        />
+                        <FontAwesomeIcon icon={faCircleQuestion} className="levelGuideButton"/>
                       </div>
                     </div>
                     <UserLevelGaugeBar userInfo={userInfo} />
@@ -183,11 +180,7 @@ const MyProfile = (props) => {
                           closeLevelGuideModal={closeLevelGuideModal}
                           showLevelGuideModal={showLevelGuideModal}
                         />
-                        <img
-                          className="levelGuideButton"
-                          src={levelGuide}
-                          alt="레벨 가이드 버튼"
-                        />
+                        <FontAwesomeIcon icon={faCircleQuestion} className="levelGuideButton"/>
                       </div>
                     </div>
                     <MyLevelGaugeBar myInfo={myInfo} />

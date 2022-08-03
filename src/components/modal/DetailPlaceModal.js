@@ -4,9 +4,9 @@ import "../../css/placeModal.scss"
 // 카카오맵
 const { kakao } = window
 
-const PlaceModal = (props) => {
-  const {showPlaceModal, closePlaceModal, myInfo, select, setFocus, myMap, checkAllFin} = props
-  
+const DetailPlaceModal = (props) => {
+  const {showPlaceModal, closePlaceModal, data, setFocus, myMap} = props
+
   // 선택한 장소 핀찍기
   const panTo= (place, list) =>{
     const options = {
@@ -14,7 +14,6 @@ const PlaceModal = (props) => {
       level: 4,
     }
     const map = new kakao.maps.Map(myMap&&myMap.current, options)
-
     const markerPosition  = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(markerPosition);   
     
@@ -42,31 +41,31 @@ const PlaceModal = (props) => {
           '<div style="padding:5px;font-size:12px;"> <b>' +
             place.place_name +
             "</b> <br/>" +
-            place.phone +
+            place.address_name +
             "<br/>" +
-            `<a href=${place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
+            place.phone +
+            "</div>"
         );
         infowindow.open(map, marker);
       });
     }
   }
- 
+
   const onFocusPlaceHandler = (v) => {
     setFocus(v.place_name)
-    panTo(v, select)
+    panTo(v, data.place)
     closePlaceModal()
   }
-
-
+  
   return(
     <div className={showPlaceModal ? 'openModal placeWrap' : 'placeWrap'}>
       {showPlaceModal ?
       <div className='background' onClick={closePlaceModal}>
         <div className='place_wrap' onClick={e => e.stopPropagation()}>
           <section>
-            <div className="modalTitle">{myInfo&&myInfo.nickname}님이 선택한 장소</div>
+            <div className="modalTitle">{data&&data.nickname}님의 추천 장소</div>
             <div className="placesWrap">
-            {select&&select.map((v,i)=>{
+            {data&&data.place.map((v,i)=>{
               return(
                 <div className="selectedPlaceDetail" key={i}
                 onClick={()=>{onFocusPlaceHandler(v)}}
@@ -78,15 +77,15 @@ const PlaceModal = (props) => {
             })}
           </div>
             
-          <div className="buttons">
-            <div className="doneButton">
-              <button className="close" onClick={closePlaceModal}>확인</button>
-            </div>
-          </div>  
+            <div className="buttons">
+              <div className="doneButton">
+                <button className="close" onClick={closePlaceModal}>확인</button>
+              </div>
+            </div>  
           </section>
       </div>
       </div> : null}
     </div>
   )
 }
-export default PlaceModal
+export default DetailPlaceModal

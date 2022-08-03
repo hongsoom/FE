@@ -6,10 +6,10 @@ import SwiperCore, { Navigation } from "swiper";
 const DetailImageSlide = (props) => {
   const { data, j } = props;
   SwiperCore.use([Navigation]);
-
+  
   return (
     <>
-      {data && data.place[j] && data.place[j].imgUrl.length === 0 ? (
+      {data && data.place[j] && data.place[j].imgUrl&&data.place[j].imgUrl.length === 0 ? (
         <div className="infoNoPicWrap">
           <div
             className="linkToMore"

@@ -1,5 +1,7 @@
 import React from 'react'
 import '../../css/levelGuideModal.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 
 import closeCircle from '../../assets/closeCircle.png'
 import bronze from "../../assets/bronze.png";
@@ -18,8 +20,8 @@ const LevelGuideModal = (props) => {
       <div className='background' onClick={closeLevelGuideModal}>
         <div className='levelGuide_wrap' onClick={e => e.stopPropagation()}>
           <section>
-            <div className="closeButton">
-              <img src={closeCircle} alt="레벨가이드 팝업 나가기 버튼" onClick={closeLevelGuideModal}/>
+            <div className="closeButton" onClick={closeLevelGuideModal}>
+              <FontAwesomeIcon icon={faCircleXmark} className="levelGuideClose"/>
             </div>
             <div className="likeInfo">
               <div className="likeInfoTitle">

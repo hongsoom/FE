@@ -4,17 +4,17 @@ import '../../css/kakaomap.scss'
 
 
 const Kakaomap = (props) => {
-  const {kakao, myMap, setPlaces, place} = props
+  const {kakao, myMap, setPlaces, place, setSearchedPlaces, searchedPlaces} = props
 
   useEffect(()=>{
-    const option = {
+    const options = {
       center: new kakao.maps.LatLng(37.5666805, 126.9784147),
       level: 4,
     }
-    const map = new kakao.maps.Map(myMap.current, option)
+    const map = new kakao.maps.Map(myMap.current, options)
     
     return()=> {
-      const option = {
+      const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
         level: 4,
       }
@@ -22,10 +22,9 @@ const Kakaomap = (props) => {
   },[])
   
   useEffect(()=>{
-  
-      const map = myMap.current
+    
       const ps = new kakao.maps.services.Places()
-  
+      
       // 키워드 검색
       // place: 유저가 입력한 검색키워드
       ps.keywordSearch(place, placesSearchCB)
@@ -36,8 +35,11 @@ const Kakaomap = (props) => {
         if (status === kakao.maps.services.Status.OK) { 
           // 검색된 목록들의 하단에 페이지 번호(1,2,3..)를 보여주는 displayPagination() 추가
           displayPagination(pagination)
+          setSearchedPlaces(true)
+          console.log(searchedPlaces)
           // 검색된 목록(data)을 places 상태값 배열에 추가
           setPlaces(data)
+          
         }
         // 검색 결과가 없을 경우
         else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -76,27 +78,10 @@ const Kakaomap = (props) => {
           fragment.appendChild(el)
         }
         paginationEl.appendChild(fragment)
-      }
-      // 마커찍기 함수
-      function displayMarker(_place) {
-        let marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(_place.y, _place.x),
-        })
-
-        // infowindow: 장소별 세부사항 보여주는 말풍선
-        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
-        // 마커 클릭시 장소 상세 말풍선 나오기
-        kakao.maps.event.addListener(marker, 'click', function () {
-          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + _place.place_name + '</div>')
-          infowindow.open(map, marker)
-        })
-      }
+      }      
       
   },[kakao.maps.InfoWindow, kakao.maps.LatLng, kakao.maps.LatLngBounds, kakao.maps.Map, kakao.maps.Marker, kakao.maps.event, kakao.maps.services.Places, kakao.maps.services.Status.OK, kakao.maps.services.Status.ZERO_RESULT, myMap, place, setPlaces])
-
-  
-
+ 
  
   return(
     <div className='writeMapWrap' ref={myMap}>

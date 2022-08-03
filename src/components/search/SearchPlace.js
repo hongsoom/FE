@@ -13,7 +13,10 @@ const SearchPlace = (props) => {
     list,
     setImgUrl,
     setAllImgUrl,
-    onClickHandler
+    onClickHandler,
+    searchedPlaces,
+    setSearchedPlaces,
+    handleSubmit
   } = props;
 
   // 검색 창
@@ -24,15 +27,15 @@ const SearchPlace = (props) => {
     setInputText(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    if (!inputText.replace(/^\s+|\s+$/g, "")) {
-      alert("키워드를 입력해주세요");
-      return false;
-    }
-    e.preventDefault();
-    setPlace(inputText);
-    setInputText("");
-  };
+  // const handleSubmit = (e) => {
+  //   if (!inputText.replace(/^\s+|\s+$/g, "")) {
+  //     alert("키워드를 입력해주세요");
+  //     return false;
+  //   }
+  //   e.preventDefault();
+  //   setPlace(inputText);
+  //   setInputText("");
+  // };
 
 
   // 장소 선택하기
@@ -108,6 +111,8 @@ const SearchPlace = (props) => {
                         onClickHandler(item.place_name);
                         const place_name = item.place_name;
                         onSelectPlace(e, i, item, place_name);
+                        setSearchedPlaces(false)
+                        console.log(searchedPlaces)
                       }
                 
                     }}

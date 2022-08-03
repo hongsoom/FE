@@ -25,8 +25,6 @@ const Main = () => {
   const nextPage = useSelector((state) => state.post.paging?.next);
   const lastPage = useSelector((state) => state.post.paging?.last);
 
-  console.log(isFilter);
-
   const [keyword, setKeyword] = useState("");
   const [direction, setDirection] = useState("desc");
   const [bookmarkCount, setBookmarkCount] = useState("bookmarkCount");

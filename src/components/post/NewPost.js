@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import "../../css/post.scss";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
@@ -25,7 +24,6 @@ const { kakao } = window;
 const NewPost = (props) => {
   const { myInfo } = props;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const myMap = useRef(); // 카카오맵 화면 ref
   const [place, setPlace] = useState(""); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]); // 검색 결과 배열에 담아줌
@@ -40,12 +38,9 @@ const NewPost = (props) => {
   const [selectedPrice, setPrice] = useState(""); // 비용 선택
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
-
+  const [searchedPlaces, setSearchedPlaces] = useState(false)
 
   const handleSubmit = (e) => {
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "220px";
-
     if (!inputText.replace(/^\s+|\s+$/g, "")) {
       swal("키워드를 입력해주세요!");
       return false;
@@ -152,9 +147,10 @@ const NewPost = (props) => {
   // 핀을 클릭하면 핀 포커스
   const onClickHandler = (__place) => {
     setFocus(__place);
+    setPlaces([])
     const searchList_wrap = document.getElementById("searchList_wrap");
     searchList_wrap.scrollTo(0,0)
-    setPlaces([])
+    
   };
 
   // 선택된 장소만 마커 찍어주기
@@ -203,10 +199,7 @@ const NewPost = (props) => {
             '<div style="padding:5px;font-size:12px;"> <b>' +
               _place.place_name +
               "</b> <br/>" +
-              _place.address_name +
-              "<br/>" +
-              _place.phone +
-              "</div>"
+              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
@@ -247,6 +240,8 @@ const NewPost = (props) => {
         handleSubmit={handleSubmit}
         onClickHandler={onClickHandler}
         setImgUrl={setImgUrl}
+        searchedPlaces={searchedPlaces}
+        setSearchedPlaces={setSearchedPlaces}
         />
         
       {/* 움직이는 부분 */}
@@ -256,6 +251,8 @@ const NewPost = (props) => {
           myMap={myMap}
           setPlaces={setPlaces}
           place={place}
+          setSearchedPlaces={setSearchedPlaces}
+          searchedPlaces={searchedPlaces}
         />
 
         {/* 제목 */}

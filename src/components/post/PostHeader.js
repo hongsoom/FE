@@ -9,9 +9,9 @@ import search from "../../assets/search.png";
 import leftArrowBlack from "../../assets/leftArrowBlack.png";
 
 const PostHeader = (props) => {
-  const {myInfo, setInputText, inputText, Places, handleSubmit, onClickHandler, setSelect, select, setImgUrl, list, setFocus, myMap, setPrice, setRegion, setTheme, selectedRegion, selectedTheme, selectedPrice, openPlaceModal, closePlaceModal, setShowPlaceModal, showPlaceModal, param, setAllImgUrl} = props
+  const {myInfo, setSearchedPlaces, searchedPlaces, setInputText, inputText, handleSubmit, Places, onClickHandler, setSelect, select, setImgUrl, list, setFocus, myMap, setPrice, setRegion, setTheme, selectedRegion, selectedTheme, selectedPrice, openPlaceModal, closePlaceModal, setShowPlaceModal, showPlaceModal, param, setAllImgUrl } = props
   const navigate = useNavigate();
-
+  
   const region = ["서울", "대전", "경기", "세종", "인천", "대구", "강원도", "울산", "충청도", "광주", "전라도", "부산", "경상도", "제주도"];   
   const theme = ["힐링", "맛집", "애견동반", "액티비티", "호캉스"];
   const price = ["10만원 이하", "10만원대", "20만원대", "30만원대", "40만원대", "50만원 이상"];
@@ -24,7 +24,7 @@ const PostHeader = (props) => {
   const onChange = (e) => {
     setInputText(e.target.value);
   };
-  
+
   return(
     <div className="writeHeader">
       <div className="writeHeaderWrap">
@@ -35,8 +35,7 @@ const PostHeader = (props) => {
           <SearchPlace
             search={search}
             Places={Places}
-            onChange={onChange}
-            handleSubmit={handleSubmit}
+            setInputText={setInputText}
             inputText={inputText}
             onClickHandler={onClickHandler}
             setSelect={setSelect}
@@ -46,6 +45,10 @@ const PostHeader = (props) => {
             setFocus={setFocus}
             param={param}
             setAllImgUrl={setAllImgUrl}
+            onChange={onChange}
+            handleSubmit={handleSubmit}
+            searchedPlaces={searchedPlaces}
+            setSearchedPlaces={setSearchedPlaces}
           />
         </div>
 

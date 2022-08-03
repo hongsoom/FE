@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import '../../css/post.scss'
-import swal from 'sweetalert';
 
 import ThemeModal from '../modal/ThemeModal'
 import RegionModal from '../modal/RegionModal'
