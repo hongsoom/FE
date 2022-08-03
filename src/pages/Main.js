@@ -73,7 +73,6 @@ const Main = () => {
     }
   }, [isFilter]);
 
-
   return (
     <>
       <Header />
@@ -96,7 +95,7 @@ const Main = () => {
         <div className="main-container">
           <div className="main-content">
             <div className="main-bookmarktitle">
-              <p>요새 핫한 플레이스🔥</p>
+              <p>🔥요새 핫한 플레이스🔥</p>
             </div>
             <BookmarkPost bookmarkcontents={bookmarkcontents} />
             <div className="main-latest-love-container">
