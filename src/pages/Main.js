@@ -65,14 +65,14 @@ const Main = () => {
       dispatch(userAction.initPagingDB());
       dispatch(userAction.clearDB());
     };
-  }, [sortby]);
+  }, [sortby, isFilter]);
 
   return (
     <>
       <Header />
       <SearchWrite />
       <FilterButton recommendList={recommendList} keyword={keyword} />
-      {isFilter ? (
+      {isFilter === true ? (
         <FilterPost
           size={size}
           posts={filtercontents}
