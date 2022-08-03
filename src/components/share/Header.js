@@ -18,7 +18,14 @@ const Header = () => {
       <div className="header-container">
         <div className="header-content">
           <div className="header-image">
-            <img src={info} alt="홈페이지 정보" className="categoryMenu-icon" />
+            <img
+              src={info}
+              alt="홈페이지 정보"
+              className="categoryMenu-icon"
+              onClick={() => {
+                navigate("/about");
+              }}
+            />
             <div
               className="header-title"
               onClick={() => {

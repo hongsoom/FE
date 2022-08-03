@@ -10,7 +10,7 @@ const FilterButton = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { recommendList, keyword, list } = props;
+  const { recommendList, keyword, list, filtercontents, isFilter } = props;
 
   const [regionSelect, setRegionSelect] = useState("");
   const [themeSelect, setThemeSelect] = useState([]);
@@ -146,7 +146,21 @@ const FilterButton = (props) => {
               <div className="filterbutton-content">
                 <div className="filterbutton-button">
                   <>
-                    {is_region && (
+                    {list === price ||
+                    theme.includes(list) ||
+                    list === region ? (
+                      <button
+                        className={
+                          list === price || theme.includes(list)
+                            ? "filterbutton-none"
+                            : list === region
+                            ? "filterbutton-region"
+                            : "filterbutton-keyword"
+                        }
+                      >
+                        #{list}
+                      </button>
+                    ) : (
                       <button className="filterbutton-region">#{region}</button>
                     )}
                     {theme.map((list, i) => (

@@ -67,12 +67,26 @@ const Main = () => {
     };
   }, [sortby]);
 
+  useEffect(() => {
+    if (isFilter) {
+      onSortPost();
+    }
+  }, [isFilter]);
+
+  console.log(isFilter);
+  console.log(filtercontents);
+
   return (
     <>
       <Header />
       <SearchWrite />
-      <FilterButton recommendList={recommendList} keyword={keyword} />
-      {isFilter ? (
+      <FilterButton
+        recommendList={recommendList}
+        keyword={keyword}
+        filtercontents={filtercontents}
+        isFilter={isFilter}
+      />
+      {isFilter === true ? (
         <FilterPost
           size={size}
           posts={filtercontents}
@@ -125,7 +139,7 @@ const Main = () => {
           )
         }
       >
-        <div className="researchTxt">🧋커피받으러 가기</div>
+        <div className="researchTxt">☕커피받으러 가기</div>
       </div>
     </>
   );
