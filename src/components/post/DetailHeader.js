@@ -16,7 +16,7 @@ import diamond from "../../assets/diamond.png";
 import master from "../../assets/master.png";
 import user from "../../assets/user.png";
 
-import PlaceModal from '../modal/PlaceModal'
+import DetailPlaceModal from "../../components/modal/DetailPlaceModal"
 
 const DetailHeader = (props) =>{
   const {data, userInfo, showPlaceModal, setShowPlaceModal, list, openPlaceModal, myMap, setFocus} = props
@@ -66,7 +66,6 @@ const DetailHeader = (props) =>{
 
   const checkAllFin = () =>{
     setShowPlaceModal(false)
-    console.log(list)
     list(data.place)
   }
 
@@ -144,7 +143,7 @@ const DetailHeader = (props) =>{
             <div className="placeButton" onClick={openPlaceModal}>
               🔎 장소 리스트
               <div className="places">
-                <PlaceModal
+                <DetailPlaceModal
                   data={data}
                   myMap={myMap}
                   showPlaceModal={showPlaceModal}

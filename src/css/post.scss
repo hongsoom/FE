@@ -35,9 +35,10 @@
 
       .writePreIcon{
         width: 8.43px;
-        margin-right: 8.91px;
-        margin-left: 5px;
-
+        margin: {
+          right: 8.91px;
+          left: 5px;
+        }
         img{
           width: 8.43px;
         }
@@ -51,10 +52,12 @@
           width: 317px;
           border: 1px solid #E4EFFF;
           border-radius: 8px;
-          box-sizing: border-box;
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
           background: #FFF;
           display:flex;
+          box: {
+            sizing: border-box;
+            shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+          }
         
           input{
             width: 317px;
@@ -64,9 +67,11 @@
             outline: none;
             border: none;
             background: transparent;
-            font-weight: 400;
-            font-size: 14px;
             line-height: 20px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
           }
           input::placeholder{
             color: #B6DCFF;
@@ -76,11 +81,12 @@
           button{
             position: absolute;
             top: 25%;
-            right: 20px;
-            width: 20px;
-            height: 20px;
-            background:transparent;
+            right: 10px;
+            width: 30px;
+            height: 25px;
+            background: transparent;
             border: none;
+            display:flex;
 
             img{
               width: 15.65px;
@@ -140,9 +146,11 @@
             align-items: center;
             width: 100%;
             color: #F5F9FF;
-            font-weight: 700;
-            font-size: 12px;
             line-height: 17px;
+            font: {
+              weight: 700;
+              size: 12px;
+            }
           }
         }
         .priceButton{
@@ -162,9 +170,11 @@
             align-items: center;
             width: 100%;
             color: #F5F9FF;
-            font-weight: 700;
-            font-size: 11px;
             line-height: 17px;
+            font: {
+              weight: 700;
+              size: 11px;
+            }
           }
         }
         .themeButton{
@@ -184,9 +194,11 @@
             align-items: center;
             width: 100%;
             color: #F5F9FF;
-            font-weight: 700;
-            font-size: 12px;
             line-height: 17px;
+            font: {
+              weight: 700;
+              size: 12px;
+            }
           }
         }
         .placeButton{
@@ -205,9 +217,11 @@
             align-items: center;
             width: 100%;
             color: #8ACEFF;
-            font-weight: 700;
-            font-size: 12px;
             line-height: 17px;
+            font: {
+              weight: 700;
+              size: 12px;
+            }
           }
         }
       }
@@ -245,20 +259,24 @@
       text-align: left;
       border: 1px solid transparent;
       background: transparent;
-      font-weight: 400;
-      font-size: 14px;
       line-height: 20px;
       padding: 10px;
       display: flex;
       align-items: center;
       outline: none;
+      font: {
+        weight: 400;
+        size: 14px;
+      }
     }
     input::placeholder{
       color: #606773;
       opacity: 0.3;
-      font-weight: 400;
-      font-size: 14px;
       line-height: 20px;
+      font: {
+        weight: 400;
+        size: 14px;
+      }
     }
   }
 
@@ -290,9 +308,11 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
-            font-weight: 700;
-            font-size: 14px;
             line-height: 20px;
+            font: {
+              weight: 700;
+              size: 14px;
+            }
 
             .imgUploadTitle{
               display:flex;
@@ -326,12 +346,14 @@
               box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
               border-radius: 8px;
               color: #F5F9FF;
-              font-weight: 400;
-              font-size: 12px;
               line-height: 17px;
               display:flex;
               align-items: center;
               justify-content: center;
+              font: {
+                weight: 400;
+                size: 12px;
+              }
             
               img{
                 width: 16.67px;
@@ -349,14 +371,18 @@
     display: flex;
     flex-direction: column;
     width: 343px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
     line-height: 20px;
     border: 1px solid #ECECEC;
-    border-left: transparent;
-    border-right: transparent;
     color: #333;
+    border: {
+      left: transparent;
+      right: transparent;
+    }
+    font: {
+      weight: 400;
+      size: 14px;
+      style: normal;
+    }
 
     textarea{
       width: 100%;
@@ -369,9 +395,11 @@
     textarea::placeholder{
       color: #606773;
       opacity: 0.3;
-      font-weight: 400;
-      font-size: 14px;
       line-height: 20px;
+      font: {
+        weight: 400;
+        size: 14px;
+      }
     }
   }
 
@@ -385,9 +413,11 @@
     margin-top: 16px;
     border: 1px solid transparent;
     cursor: pointer;
-    font-weight: 400;
-    font-size: 14px;
     line-height: 20px;
+    font: {
+      weight: 400;
+      size: 14px;
+    }
   }
 }
 

@@ -35,8 +35,6 @@ const Kakaomap = (props) => {
         if (status === kakao.maps.services.Status.OK) { 
           // 검색된 목록들의 하단에 페이지 번호(1,2,3..)를 보여주는 displayPagination() 추가
           displayPagination(pagination)
-          setSearchedPlaces(true)
-          console.log(searchedPlaces)
           // 검색된 목록(data)을 places 상태값 배열에 추가
           setPlaces(data)
           
