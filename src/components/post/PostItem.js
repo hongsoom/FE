@@ -43,7 +43,7 @@ const PostItem = (props) => {
 
   const Id = useSelector((state) => state.post.postId);
 
-  const is_login = localStorage.getItem("token") ? true : false;
+  const is_login = sessionStorage.getItem("token") ? true : false;
 
   const [shareMove, setShareMove] = useState(false);
 

@@ -39,7 +39,7 @@ const Mypage = (props) => {
   const myMarks = useSelector((state) => state.post.mybookmarks);
 
   const is_userId = userId !== undefined ? true : false;
-  const is_login = localStorage.getItem("token") ? true : false;
+  const is_login = sessionStorage.getItem("token") ? true : false;
 
   // ----------------- 나의 정보 / 나의 게시글 가져오기
   useEffect(() => {

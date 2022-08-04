@@ -55,12 +55,12 @@ const logInDB = (username, password) => {
       if (response.status === 201) {
         const token = response.headers.authorization;
 
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
 
         const message = response.data.message;
         dispatch(login(message));
       }
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("token")) {
         window.location.assign("/");
       }
     } catch (err) {
@@ -79,9 +79,9 @@ const kakaoLoginDB = (code) => {
       if (response.status === 201) {
         const token = response.headers.authorization;
 
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
       }
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("token")) {
         window.location.assign("/");
       }
     } catch (err) {}
@@ -120,7 +120,7 @@ const nicknameCheckDB = (nickname) => {
 
 const logOutDB = () => {
   return async function (dispatch) {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     dispatch(logOut());
     window.location.assign("/");
   };
@@ -131,7 +131,7 @@ const myInfoDB = () => {
     await instance
       .get(`api/user`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -147,7 +147,7 @@ const userInfoDB = (userId) => {
     await instance
       .get(`api/user/${userId}`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -163,7 +163,7 @@ const editInfoDB = (data) => {
     await instance
       .put("api/user", data, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {

@@ -11,7 +11,7 @@ import logoSmail from "../../assets/logo-smail.png";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const is_login = localStorage.getItem("token") ? true : false;
+  const is_login = sessionStorage.getItem("token") ? true : false;
 
   return (
     <>

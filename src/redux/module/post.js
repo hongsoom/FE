@@ -339,7 +339,7 @@ export const addPostDB = (data) => {
     await instance
       .post("api/post", data, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -354,7 +354,7 @@ export const modifyPostDB = (data, postId) => {
     await instance
       .put(`api/post/${postId}`, data, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {})
@@ -367,7 +367,7 @@ export const deletePostDB = (postId) => {
     instance
       .delete(`api/post/${postId}`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -384,7 +384,7 @@ export const getMypostDB = (size, page, id, desc) => {
         `api/user/mypost?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: sessionStorage.getItem("token"),
           },
         }
       );
@@ -401,7 +401,7 @@ export const getMybookmarkDB = (size, page, id, desc) => {
         `api/user/mybookmark?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: sessionStorage.getItem("token"),
           },
         }
       );
@@ -418,7 +418,7 @@ export const getUserpostDB = (userId, size, page, id, desc) => {
         `api/user/mypost/${userId}?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: sessionStorage.getItem("token"),
           },
         }
       );
@@ -435,7 +435,7 @@ export const getUserbookmarkDB = (userId, size, page, id, desc) => {
         `api/user/mybookmark/${userId}?size=${size}&page=${page}&sort=${id},${desc}`,
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: sessionStorage.getItem("token"),
           },
         }
       );
