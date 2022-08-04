@@ -110,10 +110,11 @@
         margin: 0 auto;
 
         .arrivalTitle{
-          font-weight: 700;
-          font-size: 16px;
           line-height: 23px;
-  
+          font: {
+            weight: 700;
+            size: 16px;
+          }
         }
         .arrivalListBox{
           width: 335px;
@@ -121,13 +122,17 @@
           border: 1px solid #ABCDFF;
           border-radius: 8px;
           padding: 6px 12px;
-          margin-top: 2px;
-          margin-bottom: 33px;
+          margin: {
+            top: 2px;
+            bottom: 33px;
+          }
   
           .arrivalList{
-            font-weight: 400;
-            font-size: 14px;
             line-height: 20px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
 
             .arrivalItem{
               
