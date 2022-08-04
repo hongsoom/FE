@@ -28,6 +28,13 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "REACT_REACT_APP_KAKAO_KEY=$REACT_REACT_APP_KAKAO_KEY" >> .env.production
+          echo "REACT_APP_REST_API_KEY=$REACT_APP_REST_API_KEY" >> .env.production
+        env:
+          REACT_REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
+          REACT_APP_REST_API_KEY: ${{ secrets.APP_REST_API_KEY }}
 
       - name: Install Dependencies
         run: yarn
@@ -36,6 +43,9 @@ jobs:
         run: yarn build
         env:
           CI: "" # 경고를 에러로 보지 않게 함
+          env:
+            REACT_REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
+            REACT_APP_REST_API_KEY: ${{ secrets.APP_REST_API_KEY }}
 
       - name: Deploy S3 # Upload build file to S3
         run: |
