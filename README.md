@@ -1,5 +1,6 @@
 ## 🏖 프로젝트 소개
 `'야, 너도 갈래?'`는 인상 깊었던 여행코스, 일상에서 추천하고 싶었던 장소를 공유하는 서비스입니다.<br/>
+
 ➡ ['야, 너도 갈래? 바로가기](http://www.yaneogal.site)  
 <br/>
 
@@ -7,11 +8,6 @@
 2022/06/ ~ 2022/08/05
 
 ![](https://user-images.githubusercontent.com/105188620/181587809-cb324016-bc39-4ae0-ba8b-5f3aa99072fc.jpeg)
-<br/>
-
-## 📖 서비스 아키텍쳐
-
-
 <br/>
 
 ## 🔧 주요 기능
@@ -79,19 +75,43 @@
 | Redux | 상태 관리 | 4.2.0 |	예측 가능한 데이터 플로우를 그릴 수 있다는 장점이 있고 전역으로 상태관리를 할 수 있는 라이브러리로 리덕스를 선택했습니다.|
 | Redux-actions | 액션 관리	| 2.6.5 | 리덕스 사용 시 createAction과 handleActions 함수를 이용하기 위해 선택했습니다. |
 | Redux-thunk | 리덕스 미들웨어 | 2.4.1 | 리액트에서 비동기 작업을 처리할 때 사용하기 위해 선택했습니다.|
+| React-router-dom | 라우터 | 6.3.0 | 리액트에서 페이지 이동을 위해 선택했습니다.|
 | Axios | API 통신 | 0.27.2 |	비동기로 HTTP통신을 하기 위해 브라우저 호환성이 높은 AXIOS를 사용했습니다. |
 | Immer | 불변성 유지 | 9.0.15 | 구조가 복잡한 객체라도 간결한 코드로 불변성을 유지하며 상태를 업데이트하기 위해 사용했습니다. |
 | swiper | 슬라이드 | 8.3.0 | 슬라이드가 부드러우며 다양한 UI를 지원하고 있기에 선택했습니다.|
 | Sweetalert | Alert창 | 2.1.2 | 기본 알럿 창을 커스텀하여 사용하기 위해 선택했습니다.|
 | browser-image-compression | 이미지 압축 | 2.0.0 | 이미지 용량에 따른 랜더링이 지연되어 이미지를 압축 하기 위해 선택했습니다. |
-| lodash | 자바스크립트 용 유틸리티 |  4.17.21 | 동일 이벤트가 반복적으로 시행되는 경우 이벤트의 실제 반복 주기와 상관없이 임의로 설정한 일정 시간 간격으로 콜백 함수의 실행을 하는 throttle 기능을 사용하기 위해 선택했습니다. |
+| lodash | 데이터 구조 |  4.17.21 | 동일 이벤트가 반복적으로 시행되는 경우 이벤트의 실제 반복 주기와 상관없이 임의로 설정한 일정 시간 간격으로 콜백 함수의 실행을 하는 throttle 기능을 사용하기 위해 선택했습니다. |
 | sass | CSS in JS | 1.53.0 | CSS는 규모가 커질수록 코드가 복잡해지고, 유지보수가 불편해 지는 단점을 보완하기 위해 선택했습니다. |
+
+<br/>
 
 ## 👭 프론트엔드 팀원 소개
 |이름|깃허브 주소|담당|
 |---|---|---|
 |김수정|https://github.com/soojeongkimkr||
 |홍수민|https://github.com/hongsoom||
+
+<br/>
+
+## ⚓️ Links
+**Project homepage** : https://www.yaneogal.site/
+
+**Repository** : https://github.com/hanghae99-final-6
+
+**프론트엔드 깃허브 주소** : https://github.com/hanghae99-final-6/FE
+
+**백엔드 깃허브 주소** : https://github.com/hanghae99-final-6/BE
+
+<br/>
+
+## 📖 서비스 아키텍쳐
+![](https://velog.velcdn.com/images/hongsoom/post/92befbec-cc10-48c3-ba34-fb6411a312c2/image.png)
+
+<br/>
+
+## 🎥사이트 데모
+
 
 
 
