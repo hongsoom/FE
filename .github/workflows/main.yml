@@ -15,7 +15,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout source code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@develop
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -26,8 +26,8 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
-      - name: yarn install
-        run: yarn install
+      - name: Install Dependencies
+        run: yarn
 
       - name: Build
         run: yarn build
@@ -40,4 +40,7 @@ jobs:
           REACT_REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
           REACT_APP_REST_API_KEY: ${{ secrets.APP_REST_API_KEY }}
         run: |
-          aws s3 cp --recursive --region us-west-2 build s3://yaneogal.site
+          aws s3 cp \
+            --recursive \
+            --region us-west-2 \
+            build s3://yaneogal.site
