@@ -6,8 +6,8 @@ const TextBox = (props) => {
 
   // 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
-    const text = e.target.value;
-    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+    const text_ = e.target.value;
+    const text = text_.replaceAll(/(\n|\r\n)/g, "<br>");
     setContent(text);
   };
 
