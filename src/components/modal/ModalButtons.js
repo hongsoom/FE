@@ -53,7 +53,7 @@ const ModalButtons = (props) =>{
     setPrice('')
   }
 
-
+  // 지역 테마 비용 한번에 선택하도록
   const checkSelected = () => {
     if(selectedRegion.length === 0){
       setShowRegionModal(true)

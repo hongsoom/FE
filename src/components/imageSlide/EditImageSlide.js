@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // 컴포넌트
 import AddButton from "./AddButton"
 
-const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImgUrl, setNewImgFile, newImgFile, l, j, setAllImgUrl, allImgUrl, focus}) => {
+const EditImageSlide = ({editdata, select, setSelect, imgUrl, setImgUrl, setNewImgFile, newImgFile, l, j, setAllImgUrl, allImgUrl, focus}) => {
   
   // 업로드 이미지 url로 바꿔서 미리보기 띄우기
   const editLoadImg = async (e, index) => {
@@ -31,7 +31,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         return imgList
       })
       
-      const Url = URL.createObjectURL(compressedImage)
+      const Url = URL.createObjectURL(resultFile)
       imgUrl[index].imgUrl.push(Url)
       allImgUrl[index].imgUrl.push(Url)
       select[index].imgCount = imgUrl[index].imgUrl.length
@@ -40,7 +40,8 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
 
     }
   }
- 
+  console.log(newImgFile)
+  console.log(allImgUrl)
 
   return (
     <>
@@ -74,7 +75,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         )}
         </Swiper>
       </div>
-      <AddButton j={j} l={l} loadImg={editLoadImg}/> 
+      <AddButton j={j} l={l} editLoadImg={editLoadImg}/> 
       </>
       :
       <>
@@ -106,7 +107,7 @@ const EditImageSlide = ({editdata, setImgFile, select, setSelect, imgUrl, setImg
         )}
         </Swiper>
       </div>
-      <AddButton j={0} l={l} loadImg={editLoadImg}/> 
+      <AddButton j={0} l={l} editLoadImg={editLoadImg}/> 
       </>
       }
         

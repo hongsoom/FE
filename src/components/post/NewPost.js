@@ -38,8 +38,7 @@ const NewPost = (props) => {
   const [selectedPrice, setPrice] = useState(""); // 비용 선택
   const [imgs, setImgs] = useState([]); // 이미지 모두 파일
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
-  const [searchedPlaces, setSearchedPlaces] = useState(false)
-
+ 
   const handleSubmit = (e) => {
     if (!inputText.replace(/^\s+|\s+$/g, "")) {
       swal("키워드를 입력해주세요!");
@@ -240,8 +239,6 @@ const NewPost = (props) => {
         handleSubmit={handleSubmit}
         onClickHandler={onClickHandler}
         setImgUrl={setImgUrl}
-        searchedPlaces={searchedPlaces}
-        setSearchedPlaces={setSearchedPlaces}
         />
         
       {/* 움직이는 부분 */}
@@ -251,8 +248,6 @@ const NewPost = (props) => {
           myMap={myMap}
           setPlaces={setPlaces}
           place={place}
-          setSearchedPlaces={setSearchedPlaces}
-          searchedPlaces={searchedPlaces}
         />
 
         {/* 제목 */}

@@ -6,18 +6,18 @@ import instance from "../../shared/Request";
 import swal from "sweetalert";
 
 // 컴포넌트
-import ModalButtons from "../modal/ModalButtons";
+import PostHeader from "./PostHeader";
 import Kakaomap from "../kakaomap/Kakaomap";
 import EditImageSlide from "../imageSlide/EditImageSlide";
 // 라우터
 import { useNavigate, useParams } from "react-router-dom";
 // 아이콘
-import search from "../../assets/search.png";
 import logosky from "../../assets/logosky.png";
 import trashwhite from "../../assets/trashwhite.png";
-import leftArrowBlack from "../../assets/leftArrowBlack.png";
+
 // 카카오맵
 const { kakao } = window;
+
 const Edit = (props) => {
   const { myInfo } = props;
   const dispatch = useDispatch();
@@ -26,7 +26,8 @@ const Edit = (props) => {
   const param = useParams().id; //수정할 게시글 번호
   const [loading, setLoading] = useState(false);
   const [editdata, setEditData] = useState([]);
-  // -------------- 게시글 한개 데이터 가져오기
+
+  // 게시글 한개 데이터 가져오기
   const getData = async (postId) => {
     try {
       setEditData(null);
@@ -39,9 +40,11 @@ const Edit = (props) => {
     }
     setLoading(false);
   };
+
   useEffect(() => {
     getData(param);
   }, [param]);
+
   const [place, setPlace] = useState(""); // 카카오맵 장소들
   const [Places, setPlaces] = useState([]); // 검색 결과 배열에 담아줌
   const [title, setTitle] = useState(editdata && editdata.title); // 글 제목
@@ -85,9 +88,11 @@ const Edit = (props) => {
     "40만원대",
     "50만원 이상",
   ];
+
   const onClickLeftArrow = () => {
     navigate("/");
   };
+
   useEffect(() => {
     if (editdata && editdata.place) {
       editdata &&
@@ -136,6 +141,7 @@ const Edit = (props) => {
     }
     window.scrollTo(0, 0);
   }, [dispatch, editdata]);
+
   useEffect(() => {
     setTitle(editdata && editdata.title);
     setContent(editdata && editdata.content);
@@ -149,15 +155,13 @@ const Edit = (props) => {
         });
     }
   }, [dispatch, editdata]);
-  // ---------------------------- 제목 가져오기
+
+  // 제목 가져오기
   const onTitleHandler = (e) => {
     setTitle(e.currentTarget.value);
   };
-  // ---------------------------- 검색 창
-  const onChange = (e) => {
-    setInputText(e.target.value);
-  };
-  // ---------------------------- 선택 장소 목록 모달 open / close
+
+  // 선택 장소 목록 모달 open / close
   const openPlaceModal = () => {
     if (select && select.length !== 0) {
       setShowPlaceModal(true);
@@ -165,9 +169,11 @@ const Edit = (props) => {
       swal("아직 선택한 장소가 없습니다!");
     }
   };
+
   const closePlaceModal = () => {
     setShowPlaceModal(false);
   };
+
   const handleSubmit = (e) => {
     if (!inputText.replace(/^\s+|\s+$/g, "")) {
       alert("키워드를 입력해주세요");
@@ -176,14 +182,14 @@ const Edit = (props) => {
     e.preventDefault();
     setPlace(inputText);
     setInputText("");
-    const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "220px";
   };
-  // ---------------------------- 적힌 콘텐트 텍스트 가져오기
+
+  // 적힌 콘텐트 텍스트 가져오기
   const onContentHandler = (e) => {
     setContent(e.target.value);
   };
-  // ---------------------------- 첨부이미지 파일들 폼데이터로 담기
+
+  // 첨부이미지 파일들 폼데이터로 담기
   const json = JSON.stringify(select);
   const blob = new Blob([json], { type: "application/json" });
   const editFormData = new FormData();
@@ -196,37 +202,16 @@ const Edit = (props) => {
   editFormData.append("themeCategory", selectedTheme);
   editFormData.append("priceCategory", selectedPrice);
   editFormData.append("places", blob);
+  
   // 검색 목록에서 장소 하나를 선택 클릭
   const onClickHandler = (__place) => {
     setFocus(__place);
+    setPlaces([])
     const searchList_wrap = document.getElementById("searchList_wrap");
-    searchList_wrap.style.height = "0px";
+    searchList_wrap.scrollTo(0,0)
   };
-  // ---------------------------- 장소 선택하기
-  const onSelectPlace = (e, i, item, place_name) => {
-    if (e.target.checked) {
-      setSelect((pre) => {
-        const selectList = [...pre];
-        const newData = { ...Places[i], imgCount: 0 };
-        selectList.push(newData);
-        list(selectList);
-        return selectList;
-      });
-      setImgUrl((pre) => {
-        const imgUrlList = [...pre];
-        const newData = { place_name: place_name, imgUrl: [] };
-        imgUrlList.push(newData);
-        return imgUrlList;
-      });
-      setAllImgUrl((pre) => {
-        const imgUrlList = [...pre];
-        const newData = { place_name: place_name, imgUrl: [] };
-        imgUrlList.push(newData);
-        return imgUrlList;
-      });
-    }
-  };
-  // ----------------------------- 장소 선택 취소
+
+  // 장소 선택 취소
   const onRemovePlace = (place) => {
     swal({
       title: "이 장소를 삭제할까요?",
@@ -265,7 +250,8 @@ const Edit = (props) => {
       }
     });
   };
-  // ---------------------------- 작성 완료 버튼
+
+  // 작성 완료 버튼
   const onHandlerEdit = () => {
     if (select.length === 0) {
       swal("장소를 검색하고 선택해주세요!");
@@ -296,7 +282,8 @@ const Edit = (props) => {
       });
     }
   };
-  // ---------------------------- 선택된 장소만 마커 찍어주기
+
+  // 선택된 장소만 마커 찍어주기
   // 선택된 장소 목록이 들어있는 select 상태배열을 list 함수에 넣어줬다.
   const list = (positions) => {
     if (positions.length !== 0) {
@@ -356,98 +343,30 @@ const Edit = (props) => {
   return (
     <div className="writeTotalWrap">
       {/* 헤더 */}
-      <div className="writeHeader">
-        <div className="writeHeaderWrap">
-          <div className="writeUpperHeader">
-            <div className="writePreIcon" onClick={onClickLeftArrow}>
-              <img src={leftArrowBlack} alt="홈으로 이동" />
-            </div>
-            <div className="writeSearchNresult">
-              {/* 검색창 */}
-              <form className="inputForm" onSubmit={handleSubmit}>
-                <input
-                  placeholder="위치를 검색해주세요"
-                  onChange={onChange}
-                  value={inputText}
-                />
-                <button type="submit">
-                  <img src={search} alt="검색 아이콘" />
-                </button>
-              </form>
-              {/* 검색목록*/}
-              <div
-                className="searchList_wrap"
-                id="searchList_wrap"
-                style={
-                  Places && Places.length !== 0
-                    ? { height: "220px" }
-                    : { height: "0px", border: "none" }
-                }
-              >
-                <div id="result-list">
-                  {Places.map((item, i) => (
-                    <label htmlFor={item.id} key={i}>
-                      <div style={{ marginTop: "20px" }}>
-                        <span>{i + 1}</span>
-                        <div>
-                          <h3>{item.place_name}</h3>
-                          {item.road_address_name ? (
-                            <div>
-                              <span>{item.road_address_name}</span>
-                              <br />
-                              <span>{item.address_name}</span>
-                            </div>
-                          ) : (
-                            <span>{item.address_name}</span>
-                          )}
-                          <span>{item.phone}</span>
-                        </div>
-                        <div className="select">
-                          <input
-                            type="checkbox"
-                            value={item.id}
-                            id={item.id}
-                            checked={select.includes(item) ? true : false}
-                            onChange={(e) => {
-                              onClickHandler(item.place_name);
-                              const place_name = item.place_name;
-                              onSelectPlace(e, i, item, place_name);
-                            }}
-                            style={{ display: "none" }}
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-                  <div id="pagination"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="writeLowerHeader">
-            <ModalButtons
-              region={region}
-              theme={theme}
-              price={price}
-              setRegion={setRegion}
-              setTheme={setTheme}
-              setPrice={setPrice}
-              selectedRegion={selectedRegion}
-              selectedTheme={selectedTheme}
-              selectedPrice={selectedPrice}
-              select={select}
-              setFocus={setFocus}
-              myMap={myMap}
-              myInfo={myInfo}
-              list={list}
-              openPlaceModal={openPlaceModal}
-              closePlaceModal={closePlaceModal}
-              setShowPlaceModal={setShowPlaceModal}
-              showPlaceModal={showPlaceModal}
-            />
-          </div>
-        </div>
-      </div>
+      <PostHeader 
+        setRegion={setRegion}
+        setTheme={setTheme}
+        setPrice={setPrice}
+        selectedRegion={selectedRegion}
+        selectedTheme={selectedTheme}
+        selectedPrice={selectedPrice}
+        openPlaceModal={openPlaceModal}
+        closePlaceModal={closePlaceModal}
+        setShowPlaceModal={setShowPlaceModal}
+        showPlaceModal={showPlaceModal}
+        myInfo={myInfo}
+        setInputText={setInputText}
+        inputText={inputText}
+        select={select}
+        setSelect={setSelect}
+        setFocus={setFocus}
+        myMap={myMap}
+        list={list}
+        Places={Places}
+        handleSubmit={handleSubmit}
+        onClickHandler={onClickHandler}
+        setImgUrl={setImgUrl}
+        />
       {/* 움직이는 부분 */}
       <div className="contentWrap" id="contentWrap">
         <Kakaomap
@@ -615,7 +534,6 @@ const Edit = (props) => {
                     allImgUrl={allImgUrl}
                     setAllImgUrl={setAllImgUrl}
                     focus={focus}
-                    // style={newImgFile.length !== 0 ? {display:"block"}:{display:"none"}}
                   />
                 </div>
               </div>
