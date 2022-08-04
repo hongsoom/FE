@@ -41,6 +41,12 @@
 마이페이지에서 게이지바로 실시간 나의 레벨 상황을 확인할 수 있어요
 </div>
 </details>
+<details>
+<summary>좋아요 북마크 공유하기</summary>
+<div markdown="1">
+좋아요 북마크 공유하기 내용
+</div>
+</details>
 
 <br/>
 
