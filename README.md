@@ -18,32 +18,37 @@
 <details>
 <summary>키워드로 게시글 검색하기</summary>
 <div markdown="1">
+<br/>
 키워드로 게시글 검색하기 내용
 </div>
 </details>
 <details>
 <summary>필터로 게시글 찾기</summary>
 <div markdown="1">
+<br/>
 필터로 게시글 찾기 내용
 </div>
 </details>
 <details>
 <summary>원하는 여러 장소를 카카오맵 핀으로 보여주기</summary>
 <div markdown="1">
-키워드로 장소를 검색하고, 선택한 장소를 카카오맵에 핀으로 꽂아요!
+<br/>
+키워드로 장소를 검색하고, 선택한 장소를 카카오맵에 핀으로 꽂아요! <br/>
 핀을 클릭하면 장소 상세 내역을 확인할 수 있고, 카카오맵으로 연동되어 길찾기 및 카카오맵 유저들의 생생한 후기를 확인할 수 있어요
 </div>
 </details>
 <details>
 <summary>서비스를 이용할 때마다 회원등급 레벨업!</summary>
 <div markdown="1">
-댓글을 달거나 게시글을 작성하면 나만의 회원등급이 레벨업돼요!
+<br/>
+댓글을 달거나 게시글을 작성하면 나만의 회원등급이 레벨업돼요! <br/>
 마이페이지에서 게이지바로 실시간 나의 레벨 상황을 확인할 수 있어요
 </div>
 </details>
 <details>
 <summary>좋아요 북마크 공유하기</summary>
 <div markdown="1">
+<br/>
 좋아요 북마크 공유하기 내용
 </div>
 </details>
