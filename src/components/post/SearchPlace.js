@@ -20,12 +20,22 @@ const SearchPlace = (props) => {
         imgUrlList.push(newData);
         return imgUrlList;
       });
-      setAllImgUrl((pre) => {
-        const imgUrlList = [...pre];
-        const newData = { place_name: place_name, imgUrl: [] };
-        imgUrlList.push(newData);
-        return imgUrlList;
-      });
+    }
+    else{
+      setFocus(select[0]&&select[0].place_name)
+      setSelect((pre)=>{
+        const selectList = pre.filter((v,i)=>{
+          return item.place_name !== v.place_name
+        })
+        list(selectList)
+        return selectList
+      })
+      setImgUrl((pre)=>{
+        const imgUrlList = pre.filter((v,i)=>{
+          return item.place_name !== v.place_name
+        })
+        return imgUrlList
+      })
     }
   };
 
@@ -63,53 +73,12 @@ const SearchPlace = (props) => {
                     )}
                     <span>{item.phone}</span>
                   </div>
-                  {param&& param.length !== 0 ?
                   <div className='select'>
                   <input type="checkbox" value={item.id} id={item.id}
                   onChange={(e)=>{ onClickHandler(item.place_name)
                     onSelectPlace(e, i, item, item.place_name)
                   }} style={{display:'none'}}/>
                   </div>
-                  :
-                  <div className='select'>
-                    <input type="checkbox" value={item.id} id={item.id}
-                    onChange={(e)=>{ onClickHandler(item.place_name)
-                      if(e.target.checked){
-                        setSelect((pre)=>{
-                          const selectList = [...pre]
-                          const newData = {...Places[i], imgCount:""}
-                          selectList.push(newData)
-                          list(selectList)
-                          return selectList
-                        })
-                        setImgUrl((pre)=>{
-                          const imgUrlList = [...pre]
-                          const newData = {place_name:item.place_name, imgUrl:[]}
-                          imgUrlList.push(newData)
-                          return imgUrlList
-                        })
-
-                      }
-                      else{
-                        setFocus(select[0]&&select[0].place_name)
-                        setSelect((pre)=>{
-                          const selectList = pre.filter((v,i)=>{
-                            return item.place_name !== v.place_name
-                          })
-                          list(selectList)
-                          return selectList
-                        })
-                        setImgUrl((pre)=>{
-                          const imgUrlList = pre.filter((v,i)=>{
-                            return item.place_name !== v.place_name
-                          })
-                          return imgUrlList
-                        })
-                      }
-                    }} style={{display:'none'}}/>
-                  </div>
-                  }
-                  
                 </div>
               </label>
               ))}

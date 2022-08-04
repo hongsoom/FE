@@ -4,7 +4,7 @@ import "../../css/post.scss"
 const Title = (props) => {
   const {setTitle, param, editdata} = props
 
-  // ---------------------------- 제목 가져오기
+  // 제목 가져오기
   const onTitleHandler = (e) => {
     setTitle(e.currentTarget.value);
   };
