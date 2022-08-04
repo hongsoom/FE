@@ -292,7 +292,7 @@ const Edit = (props) => {
       swal("수정 완료하시겠습니까?").then((value) => {
         swal("수정이 완료되었습니다!");
         dispatch(modifyPostDB(editFormData, param));
-        navigate("/main");
+        navigate("/");
       });
     }
   };
@@ -321,7 +321,6 @@ const Edit = (props) => {
         });
         displayMarker(positions[i], i);
         bounds.extend(new kakao.maps.LatLng(positions[i].y, positions[i].x));
-        
       }
       map.setBounds(bounds);
       // 마커찍기 함수
@@ -346,7 +345,6 @@ const Edit = (props) => {
           setFocus(_place.place_name);
         });
       }
-      
     } else {
       const options = {
         center: new kakao.maps.LatLng(37.5666805, 126.9784147),
@@ -479,8 +477,8 @@ const Edit = (props) => {
                   <div className="imgUploadHeader">
                     <div className="imgUploadTitle">
                       <div className="titleTxtWrap">
-                        <img src={logosky} alt="야너갈 로고"/>
-                          최상단 검색창에서 장소를 검색해주세요!
+                        <img src={logosky} alt="야너갈 로고" />
+                        최상단 검색창에서 장소를 검색해주세요!
                       </div>
                       <div className="clickInfo">
                         ❗여러 장소를 검색하고 선택할 수 있어요!
