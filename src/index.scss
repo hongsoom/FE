@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR';
+}
+
+body {
+  margin: 0;
+}
+
+code {
+  
+}
+
+a{
+  text-decoration: none;
+  color: #333;
+}
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url("styles/fonts/NotoSansKR-Light.woff2") format('woff2'),
+  url("styles/fonts/NotoSansKR-Light.woff") format('woff'),
+  url("styles/fonts/NotoSansKR-Light.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: normal;
+  src: url("styles/fonts/NotoSansKR-Regular.woff2") format('woff2'),
+  url("styles/fonts/NotoSansKR-Regular.woff") format('woff'),
+  url("styles/fonts/NotoSansKR-Regular.otf") format('truetype')
+}
+
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: 500;
+  src: url("styles/fonts/NotoSansKR-Medium.woff2") format('woff2'),
+  url("styles/fonts/NotoSansKR-Medium.woff") format('woff'),
+  url("styles/fonts/NotoSansKR-Medium.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: bold;
+  src: url("styles/fonts/NotoSansKR-Bold.woff2") format('woff2'),
+  url("styles/fonts/NotoSansKR-Bold.woff") format('woff'),
+  url("styles/fonts/NotoSansKR-Bold.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Happiness-Sans-Title';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Title.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,34 @@
+.infoNoPicWrap{
+  background: #F5F9FF;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+
+  .linkToMore{
+    color:#606773;
+    line-height: 20px;
+    font: {
+      weight: 400;
+      size: 14px;
+    }
+  }
+}
+
+.detailImageContainerPerPlaceWrap{
+    display: flex;
+    align-items: center;
+    .detail_categoryslide-imagecontent{
+      width:343px;
+      height:256px;
+      position: relative;
+      img {  
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  

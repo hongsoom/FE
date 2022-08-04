@@ -1,0 +1,445 @@
+.mypageWrap{
+  position: relative;
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  max-width: 375px;
+  background: #fff;
+  
+  .mypageHeader{
+    width: 100vw;
+    height: 227px;
+    background-color: #fff;
+
+    .mypageHeaderItemsWrap{
+      position: fixed;
+      width: 100vw;
+      max-width: 375px;
+      height: 75px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      padding-top: 39px;
+      z-index: 1;
+
+      .mypageHeaderLeft{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        margin-left: 28.67px;
+
+        .leftArrowBlack{
+          left: 29px;
+          width: 8.43px;
+          margin-right: 20.91px;
+  
+          img{
+            width: 8.43px;
+          }
+        }
+  
+        .myPageTitle{
+          line-height: 26px;
+          font: {
+            family: 'Noto Sans KR';
+            style: normal;
+            size: 18px;
+            weight: 400;
+          }
+        }
+      }
+
+      .mypageHeaderRight{
+        display: flex;
+        align-items: center;
+        margin-right: 21.6px;
+
+        .myProfileLogout{
+          line-height: 17.38px;
+          font: {
+            size: 12px;
+            weight: 400;
+          }
+        }
+
+        .logout-btn {
+          border: none;
+          background-color: transparent;
+          color: #606773;
+          cursor: pointer;
+        }
+
+        .setup{
+          margin-left: 16px;
+          width: 18.4px;
+          height: 21.5px;
+        }
+      }    
+    }
+
+    
+    // 마이페이지 프로필
+    .myProfile{
+      position: absolute;
+      top: 85px;
+      left: 0;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+
+      .myProfileDetail{
+        display: flex;
+        
+        .myProfilePic{
+      
+          .myProfilePicCircle{
+            width: 86px;
+            height: 86px;
+            border-radius: 100px;
+            background: #F5F9FF;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+            margin: {
+              left: 20px;
+              right: 30px;
+            }
+            img{
+              width: 86px;
+              height: 86px;
+            }
+          }
+        }
+      
+        .myProfileTxt{
+          display: flex;
+          flex-direction: column;
+      
+          .myProfileName{
+            width: 200px;
+            display: flex;
+            margin-bottom: 20px;
+            line-height: 26px;
+            font: {
+              weight: 700;
+              size: 18px;
+            }
+          }
+
+          .myLevel{
+            display: flex;
+            
+            .myBadge{
+              display: flex;
+              align-items: center;
+              
+              img{
+                width: 40px;
+                height: 40px;
+              }
+            }
+            
+            .myLevelDetail{
+              
+              .myLevelDetailUpper{
+                display: flex;
+                align-items: center;
+                margin-bottom: 4px;
+
+                .myLevelName{
+                  width: 58px;
+                  height: 17px;
+                  line-height: 17px;
+                  color: #606773;
+                  flex-grow: 1;
+                  font: {
+                    weight: 400;
+                    size: 12px;
+                  }
+                }
+
+                .myLevelGuide{
+
+                  .levelGuideButton{
+                    width: 15px;
+                    height: 15px;
+                    color: #8ACEFF;
+                  }
+                }
+              }
+
+              .myLevelGauge{
+
+                .myLevelGaugeWrap{
+                  width: 164px;
+                  height: 14px;
+                  background: #FFFFFF;
+                  border: 1px solid #ECECEC;
+                  border-radius: 8px;
+                  box-sizing: border-box;
+
+                  .myLevelGaugeFill{
+                    background: #8ACEFF;
+                    border-radius: 6px;
+                    height: 10px;
+                    margin: 1px;
+                    max-width: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .myProfileTxtDetail{
+        width: 100%;
+        margin-top: 15px;
+        
+        .myProfileTxtWrap{
+          line-height: 20px;
+          color: #606773;
+          margin: 0px 20px;
+          font: {
+            size: 14px;
+            weight: 400;
+          }
+          
+        }
+      }
+    }
+  }
+
+  .mypageWraper{
+    position: relative;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+  .mypageWraper::-webkit-scrollbar {
+    display: none;
+  } 
+  .writeContainer {
+    position: absolute;
+    left: 300px;
+    bottom: 80px;
+    z-index: 1;
+  }
+
+  .writeButtonWrap{
+    position: fixed;
+  }
+  
+  .writeButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    width: 48px;
+    height: 48px;
+    background: #8ACEFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+  
+  .writeButton img{
+    width: 17.97px;
+  }
+}
+
+
+
+
+
+/* 게시글 */
+.myprofilePosts{
+  width: 100%;
+
+  .myprofilePostsTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+    font: {
+      size: 14px;
+      weight: 400;
+    }
+
+    .myPostsTitle{
+      width: 50%;
+      padding: 10px 0;
+      display:flex;
+      justify-content: center;
+      box-sizing: border-box;
+
+      input{
+        display: none;
+      }
+    }
+    .myBookmarkTitle{
+      width: 50%;
+      padding: 10px 0;
+      display:flex;
+      justify-content: center;
+      box-sizing: border-box;
+
+      input{
+        display: none;
+      }
+    }
+  }
+
+  .postsNmarks{
+    position:relative;
+
+    .myPosts{
+      position:absolute;
+      width: 100%;
+      background:#fff;
+
+      .postboxs{
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        row-gap: 7px;
+        padding: 18px 20px;
+
+        .postbox{
+          height: 150px;
+          background: #F5F5F5;
+          border-radius: 8px;
+          overflow: hidden;
+
+          .txtArea{
+            background: rgba(96, 103, 115, 0.8);
+            border-radius: 0px 0px 8px 8px;
+            margin-top:104px;
+            padding: 6px;
+          
+            .postBoxTitle{
+              height: 14px;
+              line-height: 14px;
+              display: flex;  -webkit-overflow-scrolling: touch;
+              color: #FFF;
+              margin-bottom: 8px;
+              overflow-x: scroll;
+              font: {
+                weight: 600;
+                size: 11px;
+              }
+            }
+            .postBoxTitle::-webkit-scrollbar{
+              display: none;
+            }
+          
+            .myPostDetail{
+              display:flex;  
+          
+              .myPostTag{
+                line-height: 14px;
+                display: flex;
+                color: #FFF;
+                font: {
+                  weight: 400;
+                  size: 10px;
+                }
+                div{
+                  color: #FFF;
+                  margin-right: 5px;
+                }
+              }
+          
+              .myPostIcons{
+                line-height: 14px;
+                margin-left:auto;
+                color: #fff;
+                font: {
+                  weight: 400;
+                  size: 10px;
+                }
+              
+                img{
+                  width: 8.33px;
+                  margin-right: 3px;
+                } 
+              }
+            }
+          }
+          
+          
+        }
+      }
+    }
+
+    .myBookmarks{
+      position:absolute;
+      width: 100%;
+      background: #fff;
+
+      .postboxs{
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        row-gap: 7px;
+        padding: 18px 20px;        
+
+        .postbox{
+          height: 150px;
+          background: #F5F5F5;
+          border-radius: 8px;
+          overflow: hidden;
+
+          .txtArea{
+            background: rgba(96, 103, 115, 0.8);
+            border-radius: 0px 0px 8px 8px;
+            margin-top:104px;
+            padding: 6px;
+          
+            .postBoxTitle{
+              line-height: 14px;
+              display: flex;
+              color: #FFF;
+              margin-bottom: 8px;
+              font: {
+                weight: 600;
+                size: 11px;
+              }
+            }
+          
+            .myPostDetail{
+              display:flex;  
+          
+              .myPostTag{
+                line-height: 14px;
+                display: flex;
+                color: #FFF;
+                font: {
+                  weight: 400;
+                  size: 10px;
+                }
+          
+                div{
+                  color: #FFF;
+                  margin-right: 5px;
+                }
+              }
+          
+              .myPostIcons{
+                line-height: 14px;
+                margin-left:auto;
+                color: #fff;
+                font: {
+                  weight: 400;
+                  size: 10px;
+                }
+                img{
+                  width: 8.33px;
+                  margin-right: 3px;
+                } 
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,266 @@
+.levelGuideWrap.openModal{
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+
+}
+.levelGuideWrap{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  .background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+
+    .levelGuide_wrap{
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-height: 80%;
+      width: 335px;
+      height: 327px;
+      padding: 24px 0px;
+      background:#fff;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+
+      section{
+        margin: 0 auto;
+        border-radius: 12px;
+        background-color: #fff;
+
+        .closeButton{
+          position: absolute;
+          top: 11.5px;
+          right: 11.5px;
+
+          .levelGuideClose{
+            width: 15px;
+            height: 15px;
+            color: #333;
+          }
+        }
+        .likeInfo{
+          display: flex;
+          margin-left: 30px;
+
+          .likeInfoTitle{
+            margin-right: 16px;
+            line-height: 20px;
+            width: 39px;
+            text-align: left;
+            font: {
+              weight: 700;
+              size: 14px;
+            }
+          }
+          .likeInfoDetail{
+
+            div{
+              height: 20px;
+              line-height: 20px;
+              margin-bottom: 6px;
+              font: {
+                weight: 400;
+                size: 14px;
+              }
+            }
+          }
+        }
+        .postInfo{
+          display: flex;
+          margin: {
+            top: 14px;
+            left: 30px;
+          }
+
+          .postInfoTitle{
+            margin-right: 16px;
+            line-height: 20px;
+            width: 42px;
+            text-align: left;
+            font: {
+              weight: 700;
+              size: 14px;
+            }
+          }
+          .postInfoDetail{
+            text-align: left;
+
+            div{
+              height: 20px;
+              line-height: 20px;
+              margin-bottom: 6px;
+              font: {
+                weight: 400;
+                size: 14px;
+              }
+            }
+            .subInfo{
+              color: #C1C5CC;
+            }
+          }
+        }
+        .levelPointInfo{
+          margin-top: 4px;
+          display: flex;
+          justify-content: center;
+          text-align: left;
+          column-gap: 18px;
+
+          .levelPoints{
+            display: flex;
+            flex-direction: column;
+            color: #8ACEFF;
+            line-height: 20px;
+            margin-top: 10px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
+
+            .levelPointsUpper{
+              color: #8ACEFF;
+              line-height: 20px;
+              margin-bottom: 10px;
+              width: 93px;
+              font: {
+                weight: 400;
+                size: 14px;
+              }
+            }
+          }
+        }
+        .levelBadgeGuide{
+          width: 335px;
+          height: 134px;
+          margin-top: 13px;
+          background: #F5F9FF;
+          display: flex;
+          justify-content: center;
+
+          .levelBadgeGuideWrap{
+            display: flex;
+            column-gap: 24px;
+            margin-top: 21.03px;
+            
+            .bronzeWrap{
+              .bronzeBadge{
+                img{
+                  width: 40px;
+                }
+              }
+              .bronzeBadgeName{
+                line-height: 20px;
+                font: {
+                  weight: 400;
+                  size: 14px;
+                }
+              }
+            }
+            .silverWrap{
+
+              .silverBadge{
+                
+                img{
+                  width: 40px;
+                }
+              }
+              .silverBadgeName{
+                line-height: 20px;
+                font: {
+                  weight: 400;
+                  size: 14px;
+                }
+              }
+            }
+            .goldWrap{
+
+              .goldBadge{
+                
+                img{
+                  width: 40px;
+                }
+              }
+              .goldBadgeName{
+                line-height: 20px;
+                font: {
+                  weight: 400;
+                  size: 14px;
+                }
+              }
+            }
+            .diamondWrap{
+
+              .diamondBadge{
+                
+                img{
+                  width: 40px;
+                }
+              }
+              .diamondBadgeName{
+                line-height: 20px;
+                font: {
+                  weight: 400;
+                  size: 14px;
+                }
+              }
+            }
+            .masterWrap{
+
+              .masterBadge{
+                
+                img{
+                  width: 40px;
+                }
+              }
+              .masterBadgeName{
+                line-height: 20px;
+                font: {
+                  weight: 400;
+                  size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes modal-show {
+  from {
+      opacity: 0;
+      margin-top: -50px;
+  }
+
+  to {
+      opacity: 1;
+      margin-top: 0;
+  }
+}
+
+@keyframes modal-bg-show {
+  from {
+      opacity: 0;
+  }
+
+  to {
+      opacity: 1;
+  }
+}

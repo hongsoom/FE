@@ -1,0 +1,185 @@
+.kakaoTraffic{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: #E4EFFF;  
+  
+    .trafficHeader{
+      position: fixed;
+      width: 335px;
+      top: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .preIcon{
+        width: 8.43px;
+        
+        img{
+          width: 8.43px;
+          height: 13.79px;
+          
+        }
+      }
+      .title{
+        width: 240px;
+        height: 26px;
+        line-height: 26px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        font: {
+          weight: 400;
+          size: 18px;
+        }
+      }
+    }
+  
+    .kakaoContentWrap{
+      position: absolute;
+      top: 100px;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .departure{
+        width: 335px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+  
+        .departureTitle{
+          line-height: 23px;
+          font: {
+            weight: 700;
+            size: 16px;
+          }
+        }
+  
+        .departureListBox{
+          width: 335px;
+          background: #F5F9FF;
+          border: 1px solid #ABCDFF;
+          border-radius: 8px;
+          padding: 6px 12px;
+          margin: {
+            top: 2px;
+            bottom: 33px;
+          }
+  
+          .departureList{
+            line-height: 20px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
+
+            .departureItem{
+              
+              label{
+                display: flex;
+                align-items: center;
+
+                img{
+                  width: 18px;
+                  height: 18px;
+                  margin-right: 6px;
+                }
+
+                div{
+                  display:flex;
+                  align-items: center;
+                  height: 25px;
+                }
+              }
+              input{
+                display: none;
+              }
+            }
+          }
+        }
+      }
+      .arrival{
+        width: 335px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+
+        .arrivalTitle{
+          line-height: 23px;
+          font: {
+            weight: 700;
+            size: 16px;
+          }
+        }
+        .arrivalListBox{
+          width: 335px;
+          background: #F5F9FF;
+          border: 1px solid #ABCDFF;
+          border-radius: 8px;
+          padding: 6px 12px;
+          margin: {
+            top: 2px;
+            bottom: 33px;
+          }
+  
+          .arrivalList{
+            line-height: 20px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
+
+            .arrivalItem{
+              
+              label{
+                display: flex;
+                align-items: center;
+
+                img{
+                  width: 18px;
+                  height: 18px;
+                  margin-right: 6px;
+                }
+
+                div{
+                  display:flex;
+                  align-items: center;
+                  height: 25px;
+                }
+              }
+              input{
+                display: none;
+              }
+            }
+  
+          }
+        }
+      }
+  
+      .searchButton{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+
+        .searchButtonWrap{
+          background: #8ACEFF;
+          border-radius: 8px;
+          width: 335px;
+          height: 40px;
+          display:flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+
+  
+
+  
+
+}

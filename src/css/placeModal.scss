@@ -1,0 +1,189 @@
+.placeWrap.openModal {
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+}
+.placeWrap{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  .background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+
+    .place_wrap{
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-height: 80%;
+      width: 330px;
+      padding: 18px 24px;
+      background:#fff;
+      border-radius: 10px;
+      text-align: center;
+
+      section {
+        max-width: 560px;
+        margin: 0 auto;
+        border-radius: 12px;
+        background-color: #fff;
+        color: #333;
+
+        .modalTitle{
+          line-height: 23px;
+          text-align: left;
+          margin-bottom: 18px;
+          color:#606773;
+          font: {
+            weight: 700;
+            size: 16px;
+          }
+        }
+
+        .placesWrap{
+          display: flex;
+          flex-wrap: wrap;
+          grid-column-gap: 18px;
+          grid-row-gap: 14px;
+          width: 282px;
+          max-height: 250px;
+          overflow-y: scroll;
+
+          .selectedPlaceDetail{
+            padding: 8px;
+            background: #F5F9FF;
+            border-radius: 8px;
+            border: 1px solid #ABCDFF;
+            text-align: left;
+            width: 100%;
+
+            .selectedPlaceName{
+              line-height: 20px;
+              font: {
+                weight: 400;
+                size: 14px;
+              }
+            }
+            .selectedPlaceAddress{
+              color:#606773;
+              line-height: 20px;
+              font: {
+                weight: 400;
+                size: 12px;
+              }
+            }
+          }
+
+          ._places{
+            width: 82px;
+            height: 28px;
+            border-radius: 10px;
+            display:flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            background: #F5F9FF;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            line-height: 20px;
+            font: {
+              weight: 400;
+              size: 14px;
+            }
+          
+            input{
+              display: none;
+            }
+          }
+        }
+        .placesWrap::-webkit-scrollbar{
+          display: none;
+        }
+        .buttons{
+          display: flex;
+          justify-content: center;
+          .doneButton{
+            width: 282px;
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+
+            .close{
+              width: 100%;
+              height: 36px;
+              background: #8ACEFF;
+              border-radius: 8px;
+              color: #F5F9FF;
+              line-height: 20px;
+              border: none;
+              font: {
+                weight: 700;
+                size: 14px;
+              }
+            }
+            .checkAll{
+              margin-right: 7px;
+            }
+          }
+  
+          .cancelButton{
+            width: 138px;
+            display: flex;
+            justify-content: center;
+            margin: {
+              top: 16px;
+              right: 6px;
+            }
+            .cancel{
+              width: 258px;
+              height: 36px;
+              background: #FF8686;
+              border-radius: 8px;
+              color: #F5F9FF;
+              line-height: 20px;
+              border: none;
+              font: {
+                weight: 700;
+                size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes modal-show {
+  from {
+      opacity: 0;
+      margin-top: -50px;
+  }
+
+  to {
+      opacity: 1;
+      margin-top: 0;
+  }
+}
+
+@keyframes modal-bg-show {
+  from {
+      opacity: 0;
+  }
+
+  to {
+      opacity: 1;
+  }
+}
