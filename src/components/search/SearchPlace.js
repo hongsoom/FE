@@ -5,7 +5,6 @@ const SearchPlace = (props) => {
   const {
     setInputText,
     inputText,
-    setPlace,
     Places,
     search,
     setSelect,
@@ -21,22 +20,8 @@ const SearchPlace = (props) => {
 
   // 검색 창
   const onChange = (e) => {
-    // const searchList_wrap = document.getElementById("searchList_wrap");
-    // searchList_wrap.style.height = "220px";
-
     setInputText(e.target.value);
   };
-
-  // const handleSubmit = (e) => {
-  //   if (!inputText.replace(/^\s+|\s+$/g, "")) {
-  //     alert("키워드를 입력해주세요");
-  //     return false;
-  //   }
-  //   e.preventDefault();
-  //   setPlace(inputText);
-  //   setInputText("");
-  // };
-
 
   // 장소 선택하기
   const onSelectPlace = (e, i, item, place_name) => {

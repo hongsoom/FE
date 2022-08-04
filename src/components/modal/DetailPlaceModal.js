@@ -31,7 +31,7 @@ const DetailPlaceModal = (props) => {
         title: list[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
         place_name: list[i].place_name,
       });
-
+      const onePlace = list[i]
       kakao.maps.event.addListener(marker, "click", function () {
         var infowindow = new kakao.maps.InfoWindow({
           zIndex: 1,
@@ -39,12 +39,12 @@ const DetailPlaceModal = (props) => {
         });
         infowindow.setContent(
           '<div style="padding:5px;font-size:12px;"> <b>' +
-            place.place_name +
-            "</b> <br/>" +
-            place.address_name +
-            "<br/>" +
-            place.phone +
-            "</div>"
+          onePlace.place_name +
+          "</b> <br/>" +
+          onePlace.address_name +
+          "<br/>" +
+            onePlace.phone +
+          "</div>"
         );
         infowindow.open(map, marker);
       });
