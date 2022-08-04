@@ -158,10 +158,10 @@ const FilterButton = (props) => {
                             : "filterbutton-keyword"
                         }
                       >
-                        #{list}
+                        #{region}
                       </button>
                     ) : (
-                      <button className="filterbutton-region">#{region}</button>
+                      <button className="filterbutton-region">#{list}</button>
                     )}
                     {theme.map((list, i) => (
                       <button key={i} className="filterbutton-theme">
