@@ -14,7 +14,7 @@ const ModalButtons = (props) =>{
   const [showRegionModal, setShowRegionModal] = useState(false); // 지역모달
 
 
-  // ---------------------------- 지역 모달 open / close
+  // 지역 모달 open / close / cancel
   const openRegionModal = () => {
     setShowRegionModal(true)
   }
@@ -27,7 +27,7 @@ const ModalButtons = (props) =>{
     setRegion('')
   }
 
-  // ---------------------------- 테마 모달 open / close
+  // 테마 모달 open / close / cancel
   const openThemeModal = () => {
     setShowThemeModal(true)
   }
@@ -40,7 +40,7 @@ const ModalButtons = (props) =>{
     setTheme([])
   }
       
-  // ---------------------------- 비용 모달 open / close
+  // 비용 모달 open / close / cancel
   const openPriceModal = () => {
     setShowPriceModal(true)
   }
@@ -53,7 +53,7 @@ const ModalButtons = (props) =>{
     setPrice('')
   }
 
-
+  // 지역 테마 비용 한번에 선택하도록
   const checkSelected = () => {
     if(selectedRegion.length === 0){
       setShowRegionModal(true)

@@ -22,7 +22,6 @@ const TextBox = (props) => {
       ) : (
         <textarea
           placeholder="내용을 작성해주세요"
-          defaultValue={editdata && editdata.content}
           onChange={onContentHandler}
         />
       )}

@@ -3,7 +3,6 @@ import "../../css/post.scss";
 
 const SearchPlace = (props) => {
   const {
-    setInputText,
     inputText,
     Places,
     search,
@@ -15,13 +14,9 @@ const SearchPlace = (props) => {
     onClickHandler,
     searchedPlaces,
     setSearchedPlaces,
-    handleSubmit
+    handleSubmit,
+    onChange
   } = props;
-
-  // 검색 창
-  const onChange = (e) => {
-    setInputText(e.target.value);
-  };
 
   // 장소 선택하기
   const onSelectPlace = (e, i, item, place_name) => {
