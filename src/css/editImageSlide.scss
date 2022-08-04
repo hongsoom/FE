@@ -21,14 +21,18 @@
   height: 40px;
   background: #E4EFFF;
   border-radius: 8px;
-  font-weight: 400;
-  font-size: 14px;
   line-height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 8px;
-  margin-bottom: 14px;
+  font: {
+    weight: 400;
+    size: 14px;
+  }
+  margin: {
+    top: 8px;
+    bottom: 14px;
+  }
 }
 .imgRemoveButton{
   position: absolute;

@@ -33,8 +33,10 @@
   
         .preIcon{
           width: 8.43px;
-          margin-right: 30.91px;
-          margin-left: 5px;
+          margin: {
+            right: 30.91px;
+            left: 5px;
+          }
   
           img{
             width: 8.43px;
@@ -42,14 +44,16 @@
         }
   
         .title{
-          font-size: 15px;
-          font-weight: 400;
           width: 240px;
           height: 26px;
           text-align: center;
           display:flex;
           justify-content: center;
           align-items: center;
+          font: {
+            size: 15px;
+            weight: 400;
+          }
         }
   
         .icons{
@@ -115,8 +119,10 @@
       .myBadge{
         width: 20px;
         height: 20px;
-        margin-right: 6px;
-        margin-top: 1.5px;
+        margin: {
+          right: 6px;
+          top: 1.5px;
+        }
         
         img{
           width: 20px;
@@ -124,9 +130,11 @@
         }
       }
       .nick{
-        font-weight: 400;
-        font-size: 14px;
         line-height: 20px;
+        font: {
+          weight: 400;
+          size: 14px;
+        }
       }
   
       .profileTags{
@@ -135,9 +143,11 @@
         align-items: center;
         justify-content: right;
         margin-right: 18px;
-        font-weight: 400;
-        font-size: 14px;
         line-height: 20px;
+        font: {
+          weight: 400;
+          size: 14px;
+        }
       
         .regionCategory{
           margin-right: 4px;
@@ -157,40 +167,22 @@
     display: flex;
     justify-content: center;
     width: 100vw;
-    font-weight: 700;
-    font-size: 12px;
     line-height: 17px;
     margin-bottom: 12px;
+
+    font: {
+      weight: 700;
+      size: 12px;
+    }
+    
   
     .modalButtons{
       width: 343px;
       display: flex;
   
-      .regionButton{
-        margin-right: 5px;
-        width: 110px;
-        height: 38px;
-        background: #8ACEFF;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-        border-radius: 8px;
-        color: #F5F9FF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .priceButton{
-        margin-right: 5px;
-        width: 110px;
-        height: 38px;
-        background: #8ACEFF;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-        border-radius: 8px;
-        color: #F5F9FF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .placeButton{
+      .regionButton,
+      .priceButton,
+      .placeButton {
         margin-right: 5px;
         width: 110px;
         height: 38px;
@@ -218,8 +210,6 @@
   
   
   .contentsWrap{
-    margin-top: 190px;
-    margin-bottom: 30px;
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -227,6 +217,11 @@
     justify-content: center;
     overflow-y: auto;
     width: 343px;
+
+    margin: {
+      top: 190px;
+      bottom: 30px;
+    }
     
     .detailSectionWrap{
       margin-top: 15px;
@@ -258,9 +253,11 @@
               align-items: center;
               justify-content: space-between;
               margin-bottom: 12px;
-              font-weight: 700;
-              font-size: 14px;
               line-height: 20px;
+              font: {
+                weight: 700;
+                size: 14px;
+              }
   
               .imgUploadTitle{
                 display:flex;
