@@ -29,6 +29,9 @@ const FilterButton = (props) => {
     setRegionSelect("");
     setThemeSelect([]);
     setPriceSelect("");
+    setRegion("");
+    setTheme([]);
+    setPrice("");
     if (
       list === "서울" ||
       list === "경기" ||
@@ -155,13 +158,13 @@ const FilterButton = (props) => {
                             ? "filterbutton-none"
                             : list === region
                             ? "filterbutton-region"
-                            : "filterbutton-keyword"
+                            : "filterbutton-none"
                         }
                       >
                         #{region}
                       </button>
                     ) : (
-                      <button className="filterbutton-region">#{list}</button>
+                      <button className="filterbutton-keyword">#{list}</button>
                     )}
                     {theme.map((list, i) => (
                       <button key={i} className="filterbutton-theme">
