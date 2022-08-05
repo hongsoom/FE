@@ -141,7 +141,7 @@ const DetailHeader = (props) =>{
             <div className="priceButton">💸 {data && data.priceCategory}</div>
             {/* 선택한 장소 확인하기 */}
             <div className="placeButton" onClick={openPlaceModal}>
-              🔎 장소 리스트
+              장소 리스트
               <div className="places">
                 <DetailPlaceModal
                   data={data}
