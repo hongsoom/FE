@@ -41,10 +41,7 @@ const DetailPlaceModal = (props) => {
           '<div style="padding:5px;font-size:12px;"> <b>' +
           onePlace.place_name +
           "</b> <br/>" +
-          onePlace.address_name +
-          "<br/>" +
-            onePlace.phone +
-          "</div>"
+          `<a href=${onePlace.place_url} style="color:blue;" target="_blank">자세히 알아보기</a></div></div>`
         );
         infowindow.open(map, marker);
         setFocus(onePlace.place_name)
