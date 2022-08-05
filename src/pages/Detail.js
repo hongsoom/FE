@@ -12,12 +12,10 @@ import { userAction } from "../redux/module/user";
 // 컴포넌트
 import DetailHeader from "../components/post/DetailHeader";
 import Kakaomap from "../components/kakaomap/Kakaomap";
-import DetailImageSlide from "../components/imageSlide/DetailImageSlide";
 import Comment from "../components/comment/Comment";
 import DetailHeartMarkShare from "../components/post/DetailHeartMarkShare";
 
 // 아이콘
-import logosky from "../assets/logosky.png";
 import DetailSectionPerPlace from "../components/post/DetailSectionPerPlace";
 
 // 카카오맵

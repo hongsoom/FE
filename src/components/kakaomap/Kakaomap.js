@@ -4,7 +4,7 @@ import '../../css/kakaomap.scss'
 
 
 const Kakaomap = (props) => {
-  const {kakao, myMap, setPlaces, place, setSearchedPlaces, searchedPlaces} = props
+  const {kakao, myMap, setPlaces, place } = props
 
   useEffect(()=>{
     const options = {

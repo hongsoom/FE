@@ -47,6 +47,7 @@ const DetailPlaceModal = (props) => {
           "</div>"
         );
         infowindow.open(map, marker);
+        setFocus(onePlace.place_name)
       });
     }
   }

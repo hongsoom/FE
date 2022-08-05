@@ -3,7 +3,6 @@ import '../../css/levelGuideModal.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 
-import closeCircle from '../../assets/closeCircle.png'
 import bronze from "../../assets/bronze.png";
 import silver from "../../assets/silver.png";
 import gold from "../../assets/gold.png";
