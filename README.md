@@ -89,8 +89,8 @@
 ## 👭 프론트엔드 팀원 소개
 |이름|깃허브 주소|담당|
 |---|---|---|
-|김수정|https://github.com/soojeongkimkr||
-|홍수민|https://github.com/hongsoom||
+|김수정|https://github.com/soojeongkimkr|카카오맵 / 게시글CRUD / 회원정보CRUD / 회원등급 |
+|홍수민|https://github.com/hongsoom|회원가입,로그인 / 게시글검색 / 필터링검색 / 좋아요,북마크,공유하기,댓글|
 
 <br/>
 
