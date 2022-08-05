@@ -70,8 +70,8 @@ const Setup = (props) => {
 
   // ----------------- 서버로 저장 버튼
   const onSaveHandler = () => {
-    if (myNickname.length < 2 || myNickname.length > 8) {
-      setNickNameNotice("닉네임은 2자리 이상, 8자리 미만입니다");
+    if (myNickname.length < 2 || myNickname.length > 6) {
+      setNickNameNotice("닉네임은 2자리 이상, 6자리 미만입니다");
     } else {
       dispatch(userAction.editInfoDB(formData));
     }

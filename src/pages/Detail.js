@@ -3,10 +3,7 @@ import "../css/detail.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  getPostDB,
-  clearPostDB,
-} from "../redux/module/post";
+import { getPostDB, clearPostDB } from "../redux/module/post";
 import { userAction } from "../redux/module/user";
 
 // 컴포넌트
@@ -120,16 +117,39 @@ const Detail = () => {
 
   return (
     <div className="detailTotalWrap">
-      <DetailHeader data={data} userInfo={userInfo} showPlaceModal={showPlaceModal} setShowPlaceModal={setShowPlaceModal} list={list} openPlaceModal={openPlaceModal} myMap={myMap} setFocus={setFocus}/>
+      <DetailHeader
+        data={data}
+        userInfo={userInfo}
+        showPlaceModal={showPlaceModal}
+        setShowPlaceModal={setShowPlaceModal}
+        list={list}
+        openPlaceModal={openPlaceModal}
+        myMap={myMap}
+        setFocus={setFocus}
+      />
 
       {/* 장소목록 / 사진슬라이드 / 댓글 */}
       <div className="contentsWrap">
         <Kakaomap kakao={kakao} myMap={myMap} />
-        <DetailSectionPerPlace data={data} focus={focus} openPlaceModal={openPlaceModal}/>
+        <DetailSectionPerPlace
+          data={data}
+          focus={focus}
+          openPlaceModal={openPlaceModal}
+        />
 
         {/* 콘텐츠 */}
-        <pre className="txtPlace">{data && data.content}</pre>
-        <DetailHeartMarkShare data={data} param={param}/>
+        <pre className="txtPlace">
+          {data &&
+            data.content.split("<br>").map((line) => {
+              return (
+                <span>
+                  {line}
+                  <br />
+                </span>
+              );
+            })}
+        </pre>
+        <DetailHeartMarkShare data={data} param={param} />
 
         <div className="commentPlace">
           <Comment param={param} userId={userInfo && userInfo.userId} />
