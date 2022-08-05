@@ -15,14 +15,14 @@
 <summary>키워드로 게시글 검색하기</summary>
 <div markdown="1">
 <br/>
-키워드로 게시글 검색하기 내용
+원하는 게시글을 키워드 검색으로 찾을 수 있어요!
 </div>
 </details>
 <details>
 <summary>필터로 게시글 찾기</summary>
 <div markdown="1">
 <br/>
-필터로 게시글 찾기 내용
+필터로 지역/비용/테마 별 게시글을 찾을 수 있어요!
 </div>
 </details>
 <details>
@@ -45,7 +45,7 @@
 <summary>좋아요 북마크 공유하기</summary>
 <div markdown="1">
 <br/>
-좋아요 북마크 공유하기 내용
+저장하고 싶은 게시글은 북마크해두면 마이페이지에서 언제든 다시 볼 수 있어요!
 </div>
 </details>
 
