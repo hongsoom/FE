@@ -108,6 +108,38 @@
 ## 📖 서비스 아키텍쳐
 ![](https://velog.velcdn.com/images/hongsoom/post/92befbec-cc10-48c3-ba34-fb6411a312c2/image.png)
 
+
+## 🔥 트러블 슈팅
+<details>
+<summary>이미지 용량에 따른 랜더링 시간 지연</summary>
+
+<br/>
+
+- browser-image-compression 라이브러리로 이미지를 압축한 후 서버로 전달
+- 669KB 이미지가 154KB로 압축되어 전달됨
+<img src="https://velog.velcdn.com/images/hongsoom/post/eb1ff74f-65e1-4510-a8a3-20436b3df7eb/image.png"/>
+</details>
+
+<details>
+<summary>카카오맵 : 키워드로 장소 검색을 할 때마다 기본 위치의 맵이 계속해서 렌더링되는 문제</summary>
+
+<br/>
+
+- 기본 위치 맵은 게시글 작성하기 페이지에 들어갔을 때 처음 한번만 뜨도록 useEffect 빈 의존성 배열로 넣어줌
+<img src="https://velog.velcdn.com/images/hongsoom/post/b58b59f9-3881-48c0-affb-95708eef2c34/image.png"/>
+</details>
+
+<details>
+<summary>무한스크롤 : 이벤트가 반복 실행(여러번 요청) 되는 문제</summary>
+
+<br/>
+
+- lodash 라이브러리를 사용해 동일 이벤트가 반복적으로 시행되는 경우 이벤트의 실제 반복 주기와 상관없이 임의로 설정한 일정 시간 간격(밀리세컨드)으로 콜백 함수의 실행을 하는 throttle 기능을 사용
+- 불필요한 서버 리퀘스트를 막을 수 있고, 동시에 필요 없는 렌더링 또한 막을 수 있어 컴포넌트의 성능 개선에 도움을 줌
+<img src="https://velog.velcdn.com/images/hongsoom/post/8ae4ef94-1557-4def-8c7a-1cfcfe767dc1/image.png"/>
+</details>
+
+
 <br/>
 
 ## 🎥사이트 데모
