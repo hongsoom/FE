@@ -57,6 +57,8 @@ const Detail = () => {
     window.scrollTo(0, 0);
   }, []);
 
+
+
   // 선택된 장소 목록이 들어있는 data.place 배열을 list 함수에 넣어준다.
   function list(positions) {
     if (positions && positions.length !== 0) {
@@ -95,12 +97,11 @@ const Detail = () => {
             removable: true,
           });
           infowindow.setContent(
-            '<div style="display:flex;justify-content:center;"><div style="padding-left:15px;padding-right:15px;height:100px;font-size:12px;display:flex;flex-direction:column;justify-content:center;">' +
-              _place.place_name +
-              "<br/>" +
-              _place.phone +
-              "<br/>" +
-              `<a href=${_place.place_url} style="color:blue" target="_blank">자세히 알아보기</a></div></div>`
+            '<div style="padding:5px;font-size:12px;position:relative">' + 
+              '<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;">' + _place.place_name + '</span>' + '<br/>'+
+              '<span style="position:absolute">' + _place.phone + '</span>' + '<br/>'+
+              `${_place.address_name}`+ '<br/>'+
+              `<a href=${_place.place_url} style="color:blue;" target="_blank">자세히 알아보기</a>`+'</div>'
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
@@ -114,6 +115,9 @@ const Detail = () => {
       const map = new kakao.maps.Map(myMap.current, options);
     }
   }
+
+  
+   
 
   return (
     <div className="detailTotalWrap">
@@ -140,9 +144,9 @@ const Detail = () => {
         {/* 콘텐츠 */}
         <pre className="txtPlace">
           {data &&
-            data.content.split("<br>").map((line) => {
+            data.content.split("<br>").map((line,i) => {
               return (
-                <span>
+                <span key={i}>
                   {line}
                   <br />
                 </span>

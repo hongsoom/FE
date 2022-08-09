@@ -15,7 +15,7 @@
     "immer": "^9.0.15",
     "lodash": "^4.17.21",
     "node-sass": "^7.0.1",
-    "react": "^18.2.0",
+    "react": "^",
     "react-dom": "^18.2.0",
     "react-easy-swipe": "^0.0.22",
     "react-redux": "^8.0.2",
