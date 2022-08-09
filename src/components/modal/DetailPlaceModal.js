@@ -38,9 +38,10 @@ const DetailPlaceModal = (props) => {
           removable: true,
         });
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;"> <b>' +
-          onePlace.place_name +
-          "</b> <br/>" +
+          '<div style="padding:5px;font-size:12px;">' +
+          '<div style="white-space:nowrap;font-weight:500;">' + onePlace.place_name + '</div>' +
+          '<div style="white-space:nowrap;">' + onePlace.address_name + '</div>' +
+          '<div style="white-space:nowrap;">Tel: ' + onePlace.phone + '</div>' +
           `<a href=${onePlace.place_url} style="color:blue;" target="_blank">자세히 알아보기</a></div></div>`
         );
         infowindow.open(map, marker);

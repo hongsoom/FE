@@ -95,11 +95,11 @@ const Detail = () => {
             removable: true,
           });
           infowindow.setContent(
-            '<div style="padding:5px;font-size:12px;position:relative">' + 
-              '<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;">' + _place.place_name + '</span>' + '<br/>'+
-              '<span style="position:absolute">' + _place.phone + '</span>' + '<br/>'+
-              `${_place.address_name}`+ '<br/>'+
-              `<a href=${_place.place_url} style="color:blue;" target="_blank">자세히 알아보기</a>`+'</div>'
+            '<div style="padding:5px;font-size:12px;">' + 
+              '<span style="white-space:nowrap;font-weight:500;">' + _place.place_name + '</span> <br/>'+
+              '<span>Tel: ' + _place.phone + '</span> <br/>'+
+              `${_place.address_name} <br/>`+
+              `<a href=${_place.place_url} style="color:blue;" target="_blank">자세히 알아보기</a> </div>`
           );
           infowindow.open(map, marker);
           setFocus(_place.place_name);
