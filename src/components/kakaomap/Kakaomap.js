@@ -85,11 +85,6 @@ const Kakaomap = (props) => {
   function onGeolocation(){
     // GeoLocation
     if (navigator.geolocation) {
-      const options = {
-        center: new kakao.maps.LatLng(37.5666805, 126.9784147),
-        level: 4,
-      };
-      const map = new kakao.maps.Map(myMap.current, options);
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function(position) {
           
@@ -114,6 +109,11 @@ const Kakaomap = (props) => {
     
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
+      const options = {
+        center: new kakao.maps.LatLng(37.5666805, 126.9784147),
+        level: 4,
+      };
+      const map = new kakao.maps.Map(myMap.current, options);
     
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({  
@@ -136,7 +136,7 @@ const Kakaomap = (props) => {
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);      
     }    
-    }
+  }
  
   return(
     <div className='writeMapWrap' ref={myMap}>

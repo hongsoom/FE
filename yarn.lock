@@ -8142,10 +8142,10 @@ react-scripts@^5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@^:
+  version "18.3.0-next-e61fd91f5-20220630"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.0-next-e61fd91f5-20220630.tgz#4a73056d8245c8d80796a91415948899e4f3f535"
+  integrity sha512-jzDW0AfVj6COXrcNDXam4WD4HohcvmQxevczVc3C6TOcobaf+wdjwON0/nIVI+Twx/LO+1SsbwRBSFYdnnK3xA==
   dependencies:
     loose-envify "^1.1.0"
 
