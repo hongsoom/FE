@@ -4,7 +4,7 @@ import '../../css/kakaomap.scss'
 
 
 const Kakaomap = (props) => {
-  const {kakao, myMap, setPlaces, place, onGeolocation } = props
+  const {kakao, myMap, setPlaces, place } = props
 
   useEffect(()=>{
     const options = {
@@ -80,13 +80,9 @@ const Kakaomap = (props) => {
       
   },[kakao.maps.InfoWindow, kakao.maps.LatLng, kakao.maps.LatLngBounds, kakao.maps.Map, kakao.maps.Marker, kakao.maps.event, kakao.maps.services.Places, kakao.maps.services.Status.OK, kakao.maps.services.Status.ZERO_RESULT, myMap, place, setPlaces])
  
-
-
-  
  
   return(
     <div className='writeMapWrap' ref={myMap}>
-      <div className='geolocation' onClick={onGeolocation} style={{position:'absolute',bottom:'10px',right:'10px',background:'#8ACEFF', width:'50px', height:'50px',borderRadius:'100px', zIndex:'99'}}></div>
     </div>
   )
 }

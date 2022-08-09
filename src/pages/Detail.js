@@ -24,12 +24,10 @@ const Detail = () => {
   const param = useParams().id;
   const myMap = useRef();
 
-  const Id = useSelector((state) => state.post.postId);
   const data = useSelector((state) => state.post.postOne);
 
   const [focus, setFocus] = useState("");
   const [showPlaceModal, setShowPlaceModal] = useState(false); // 지역모달
-  const [shareMove, setShareMove] = useState(false);
 
   useEffect(() => {
     dispatch(getPostDB(param));
